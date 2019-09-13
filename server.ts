@@ -7,7 +7,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import fetch from 'node-fetch';
 
-import Article from './dist/components/news/Article';
+import Article from './src/components/news/Article';
 
 import { getConfigValue } from './src/utils/ssmConfig';
 
