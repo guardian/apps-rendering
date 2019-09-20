@@ -24,6 +24,7 @@ interface AssetTypeData {
     credit: string;
     width: number;
     height: number;
+    isMaster?: boolean
 }
 
 interface HeaderImageProps {
@@ -33,14 +34,15 @@ interface HeaderImageProps {
 const HeaderImage = ({ assets }: HeaderImageProps) => {
     if (!assets) return null;
 
-    const { file, typeData: {caption, credit, altText} } = assets[0];
+    const assetsWithoutMaster = assets.filter(({ typeData: {isMaster} }) => !isMaster);
+    const [{ file, typeData: {caption, credit, altText} }] = assets;
     // TODO: use fastly images
     return (
         <div css={headerImageStyles}>
             <picture>
                 {
-                    assets.map(({ file, typeData }, index) => {
-                        return index + 1 === assets.length
+                    assetsWithoutMaster.map(({ file, typeData }, index) => {
+                        return index + 1 === assetsWithoutMaster.length
                             ? <source srcSet={file} media={`(max-width: ${typeData.width}px), (min-width: ${typeData.width}px)`} key={index}/>
                             : <source srcSet={file} media={`(max-width: ${typeData.width}px)`} key={index}/>
                     })
