@@ -31,11 +31,13 @@ app.get('/*', (req, res) => {
             }
 
             const articleId = req.params[0] || 'cities/2019/sep/13/reclaimed-lakes-and-giant-airports-how-mexico-city-might-have-looked';
+            const json = req.query.json;
 
             getConfigValue<string>("capi.key")
               .then(key => fetch(capiEndpoint(articleId, key), {}))
               .then(resp => resp.json())
-              .then(capi => res.send(generateArticleHtml(capi, data)))
+              .then(capi => generateArticleHtml(capi, data))
+              .then(html => json ? res.send({ html }) : res.send(html))
               .catch(error => res.send(`<pre>${error}</pre>`))
           })
     } catch (e) {
@@ -43,11 +45,11 @@ app.get('/*', (req, res) => {
     }
 });
 
-const generateArticleHtml = (capi: Capi, data: string): string => {
+const generateArticleHtml = (capi: Capi, data: string): Promise<string> => {
     const { type, fields, elements, tags, atoms } = capi.response.content;
 
-    if (fields.displayHint === 'immersive') return `Immersive displayHint is not yet supported`;
-    if (atoms) return `Atoms not yet supported`;
+    if (fields.displayHint === 'immersive') return Promise.resolve(`Immersive displayHint is not yet supported`);
+    if (atoms) return Promise.resolve(`Atoms not yet supported`);
 
     const ArticleComponent = getArticleComponent(type);
     const mainImages = elements.filter(elem => elem.relation === 'main' && elem.type === 'image');
@@ -63,10 +65,12 @@ const generateArticleHtml = (capi: Capi, data: string): string => {
 
     const body = renderToString(React.createElement(ArticleComponent, articleProps));
 
-    return data.replace(
+    return Promise.resolve(
+      data.replace(
         '<div id="root"></div>',
         `<div id="root">${body}</div>`
       )
+    );
 }
 
 const getArticleComponent = (type: String): React.FunctionComponent<{}> => {
