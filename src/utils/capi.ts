@@ -10,7 +10,7 @@ const isFeature = (tags: Array<{ id: string }>): boolean =>
     tags.some(tag => tag.id === 'tone/features');
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any 
-function parseCapi(capiResponse: string): Result<string, any> {
+function parseCapiWithThisVerboseFunctionForParsingCapiToBeHonestImNotSureAboutThisNameAnywayShouldntItBeParseCapiRESPONSE(capiResponse: string): Result<string, any> {
     try {
         return new Ok(JSON.parse(capiResponse));
     } catch (_) {
