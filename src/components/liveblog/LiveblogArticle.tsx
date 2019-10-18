@@ -45,6 +45,7 @@ const HeaderImageStyles = (pillarStyles: PillarStyles): SerializedStyles => css`
 `;
 
 interface LiveblogArticleProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     capi: any;
     isLive: boolean;
 }
@@ -67,14 +68,25 @@ function LiveblogArticle({ capi }: LiveblogArticleProps): Reader<Env, JSX.Elemen
                 contributors,
             }).andThen(byline =>
                 LiveblogBody({ bodyElements, pillarStyles }).map(body =>
+                    // This is not an iterator, ESLint is confused
+                    // eslint-disable-next-line react/jsx-key
                     <main css={LiveblogArticleStyles}>
                         <div css={BorderStyles}>
                             <LiveblogSeries series={series} pillarStyles={pillarStyles}/>
-                            <LiveblogHeadline headline={fields.headline} pillarStyles={pillarStyles}/>
-                            <LiveblogStandfirst standfirst={fields.standfirst} pillarStyles={pillarStyles}/>
+                            <LiveblogHeadline
+                                headline={fields.headline}
+                                pillarStyles={pillarStyles}
+                            />
+                            <LiveblogStandfirst
+                                standfirst={fields.standfirst}
+                                pillarStyles={pillarStyles}
+                            />
                             { byline }
                             { headerImage }
-                            <LiveblogKeyEvents bodyElements={bodyElements} pillarStyles={pillarStyles}/>
+                            <LiveblogKeyEvents
+                                bodyElements={bodyElements}
+                                pillarStyles={pillarStyles}
+                            />
                             { body }
                             <Tags tags={tags} background={palette.neutral[93]}/>
                         </div>

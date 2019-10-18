@@ -59,6 +59,8 @@ interface ArticleBodyProps {
 
 const ArticleBody = ({ bodyElements, pillarStyles }: ArticleBodyProps): Reader<Env, JSX.Element> =>
     render(bodyElements).map(rendered =>
+        // This is not an iterator, ESLint is confused
+        // eslint-disable-next-line react/jsx-key
         <article css={[ArticleBodyStyles(pillarStyles), ArticleBodyDarkStyles(pillarStyles)]}>
             { rendered.html }
         </article>

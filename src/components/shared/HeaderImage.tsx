@@ -44,7 +44,10 @@ const HeaderImage = ({ className, image }: HeaderImageProps): Reader<Env, JSX.El
             <div css={[className, headerImageStyles]}>
                 <figure>
                     { imageElement(imageTypeData.alt, assets, imageSalt) }
-                    <HeaderImageCaption caption={imageTypeData.caption} credit={imageTypeData.credit}/>
+                    <HeaderImageCaption
+                        caption={imageTypeData.caption}
+                        credit={imageTypeData.credit}
+                    />
                 </figure>
             </div>
         );

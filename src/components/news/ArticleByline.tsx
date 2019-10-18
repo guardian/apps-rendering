@@ -66,6 +66,8 @@ const ArticleByline = ({
     contributors,
 }: ArticleBylineProps): Reader<Env, JSX.Element> =>
     Avatar({ contributors, bgColour: pillarStyles.inverted }).map(avatar =>
+        // This is not an iterator, ESLint is confused
+        // eslint-disable-next-line react/jsx-key
         <div css={[ArticleBylineStyles(pillarStyles), ArticleBylineDarkStyles(pillarStyles)]}>
             <div css={sidePadding}>
                 { avatar }

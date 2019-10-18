@@ -45,6 +45,7 @@ const HeaderImageStyles = css`
     }
 `;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Article({ capi }: { capi: any }): Reader<Env, JSX.Element> {
 
     const { type, fields, tags, webPublicationDate, pillarId, blocks } = capi;
@@ -64,6 +65,8 @@ function Article({ capi }: { capi: any }): Reader<Env, JSX.Element> {
                 contributors,
             }).andThen(byline =>
                 ArticleBody({ pillarStyles, bodyElements }).map(body =>
+                    // This is not an iterator, ESLint is confused
+                    // eslint-disable-next-line react/jsx-key
                     <main css={[MainStyles, MainDarkStyles]}>
                     <div css={BorderStyles}>
                         { headerImage }

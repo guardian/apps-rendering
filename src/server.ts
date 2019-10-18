@@ -44,6 +44,11 @@ function checkForUnsupportedContent(capi: any): Result<string, any> {
 
 }
 
+function Unimplemented(props: { contentType: string }): JSX.Element {
+  return React.createElement('p', null, `${props.contentType} not implemented yet`)
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getArticleComponent = (capi: any): Reader<Env, React.ReactElement> => {
     switch (capi.type) {
       case 'article':
@@ -51,10 +56,11 @@ const getArticleComponent = (capi: any): Reader<Env, React.ReactElement> => {
       case 'liveblog':
         return LiveblogArticle({ capi, isLive: true });
       default:
-        return new Reader(() => React.createElement('p', null, `${capi.type} not implemented yet`));
+        return new Reader((): JSX.Element => Unimplemented({ contentType: capi.type }));
     }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const generateArticleHtml = (data: string, capi: any): Reader<Env, string> =>
     getArticleComponent(capi)
       .map(renderToString)

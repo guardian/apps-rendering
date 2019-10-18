@@ -62,6 +62,8 @@ function LiveblogByline({
     const pillarStyles = getPillarStyles(pillarId);
 
     return Avatar({ contributors, bgColour: pillarStyles.featureHeadline }).map(avatar =>
+        // This is not an iterator, ESLint is confused
+        // eslint-disable-next-line react/jsx-key
         <div css={[LiveblogBylineStyles(pillarStyles)]}>
             <Keyline pillar={pillarId} type={'liveblog'}/>
             <LeftColumn>
