@@ -1,5 +1,5 @@
 import React from 'react';
-import { textSans, PillarStyles, PillarId } from '../../styles';
+import { textSans, PillarStyles, PillarId, getPillarStyles } from 'styles';
 
 import { Keyline } from '../shared/Keyline';
 
@@ -9,6 +9,8 @@ import { Contributor } from '../../types/Capi';
 import { formatDate } from 'utils/date';
 import Avatar from 'components/shared/Avatar';
 import LeftColumn from 'components/shared/LeftColumn';
+import { Env } from 'server';
+import { Reader } from 'types/Reader';
 
 const LiveblogBylineStyles = ({ liveblogBackground }: PillarStyles): SerializedStyles => css`
     background: ${liveblogBackground};
@@ -46,31 +48,24 @@ const LiveblogBylineStyles = ({ liveblogBackground }: PillarStyles): SerializedS
 
 interface LiveblogBylineProps {
     byline: string;
-    pillarStyles: PillarStyles;
     publicationDate: string;
     contributors: Contributor[];
     pillarId: PillarId;
-    imageSalt: string;
 }
 
-const LiveblogByline = ({
+function LiveblogByline({
     byline,
-    pillarStyles,
     publicationDate,
     contributors,
     pillarId,
-    imageSalt
-}: LiveblogBylineProps): JSX.Element => {
-    
-    return (
+}: LiveblogBylineProps): Reader<Env, JSX.Element> {
+    const pillarStyles = getPillarStyles(pillarId);
+
+    return Avatar({ contributors, bgColour: pillarStyles.featureHeadline }).map(avatar =>
         <div css={[LiveblogBylineStyles(pillarStyles)]}>
             <Keyline pillar={pillarId} type={'liveblog'}/>
             <LeftColumn>
-                <Avatar
-                    contributors={contributors}
-                    bgColour={pillarStyles.featureHeadline}
-                    imageSalt={imageSalt}
-                />
+                { avatar }
                 <div className="author">
                     <address dangerouslySetInnerHTML={{__html: byline}}></address>
                     <time className="date">{ formatDate(new Date(publicationDate)) }</time>
@@ -78,7 +73,7 @@ const LiveblogByline = ({
                 </div>
             </LeftColumn>
         </div>
-    )
+    );
 }
 
 export default LiveblogByline;

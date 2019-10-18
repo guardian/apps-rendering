@@ -5,6 +5,8 @@ import jsdom from 'jsdom';
 
 import { Result, Err, fromUnsafe } from './types/Result';
 import { imageBlock } from './components/blocks/image';
+import { Env } from 'server';
+import { Reader } from 'types/Reader';
 
 
 // ----- Setup ----- //
@@ -117,34 +119,28 @@ function reactFromElement(element: any, imageSalt: string): Result<string, React
         default:
             return new Err(`Unexpected element type: ${element.type}`);
     }
-
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any 
-function elementsToReact(elements: any, imageSalt: string): ParsedReact {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any 
-    const elementToReact = ({ errors, nodes }: ParsedReact, element: any): ParsedReact =>
+const elementsToReact = (elements: any): Reader<Env, ParsedReact> =>
+    Reader.asks(({ imageSalt }) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any 
+        const elementToReact = ({ errors, nodes }: ParsedReact, element: any): ParsedReact =>
+
         reactFromElement(element, imageSalt).either(
             error => ({ errors: [ ...errors, error ], nodes }),
             node => ({ errors, nodes: [ ...nodes, node ] }),
         );
 
-    return elements.reduce(elementToReact, { errors: [], nodes: [] });
-
-}
+        return elements.reduce(elementToReact, { errors: [], nodes: [] });
+    })
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function render(bodyElements: any, imageSalt: string): Rendered {
-
-    const reactNodes = elementsToReact(bodyElements, imageSalt);
-    const main = h('article', null, ...reactNodes.nodes);
-
-    return {
-        errors: reactNodes.errors,
-        html: main,
-    };
-
-}
+const render = (bodyElements: any): Reader<Env, Rendered> =>
+    elementsToReact(bodyElements).map(({ nodes, errors }) => ({
+        errors,
+        html: h('article', null, ...nodes),
+    }));
 
 
 // ----- Exports ----- //

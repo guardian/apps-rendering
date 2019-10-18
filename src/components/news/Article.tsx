@@ -7,31 +7,16 @@ import ArticleStandfirst from './ArticleStandfirst';
 import ArticleByline from './ArticleByline';
 import ArticleBody from './ArticleBody';
 import Tags from '../shared/Tags';
-import { Option } from 'types/Option';
-import { Series, Contributor } from '../../types/Capi';
-import { Tag, Block, BlockElement } from 'types/capi-thrift-models';
-import { PillarId, PillarStyles, darkModeCss, articleWidthStyles } from '../../styles';
+import { Tag } from 'types/capi-thrift-models';
+import { darkModeCss, articleWidthStyles, getPillarStyles } from 'styles';
 import { palette, wide } from '@guardian/src-foundations';
 import { css } from '@emotion/core';
 import { Keyline } from 'components/shared/Keyline';
-
-export interface ArticleProps {
-    headline: string;
-    standfirst: string;
-    bylineHtml: string;
-    webPublicationDate: string;
-    body: string;
-    tags: Tag[];
-    feature: boolean;
-    pillarId: PillarId;
-    mainImage: Option<BlockElement>;
-    starRating?: string;
-    pillarStyles: PillarStyles;
-    contributors: Contributor[];
-    series: Series;
-    bodyElements: Block[];
-    imageSalt: string;
-}
+import { Reader } from 'types/Reader';
+import { Env } from 'server';
+import { isFeature } from 'utils/capi';
+import { fromNullable } from 'types/Option';
+import { isImage } from 'components/blocks/image';
 
 const MainStyles = css`
     background: ${palette.neutral[97]};
@@ -60,56 +45,53 @@ const HeaderImageStyles = css`
     }
 `;
 
-const Article = ({
-    headline,
-    standfirst,
-    bylineHtml,
-    webPublicationDate,
-    pillarId,
-    tags,
-    feature,
-    mainImage,
-    starRating,
-    bodyElements,
-    pillarStyles,
-    contributors,
-    series,
-    imageSalt,
-}: ArticleProps): JSX.Element =>
-    <main css={[MainStyles, MainDarkStyles]}>
-        <div css={BorderStyles}>
-            <HeaderImage image={mainImage} imageSalt={imageSalt} className={HeaderImageStyles}/>
-            <div css={articleWidthStyles}>
-                <ArticleSeries series={series} pillarStyles={pillarStyles}/>
-                <ArticleHeadline
-                    headline={headline}
-                    feature={feature}
-                    rating={starRating}
-                    pillarStyles={pillarStyles}
-                />
-                <ArticleStandfirst
-                    standfirst={standfirst}
-                    feature={feature}
-                    pillarStyles={pillarStyles}
-                />
-            </div>
-            <Keyline pillar={pillarId} type={'article'}/>
-            <div css={articleWidthStyles}>
-                <ArticleByline
-                    byline={bylineHtml}
-                    pillarStyles={pillarStyles}
-                    publicationDate={webPublicationDate}
-                    contributors={contributors}
-                    imageSalt={imageSalt}
-                />
-                <ArticleBody
-                    pillarStyles={pillarStyles}
-                    bodyElements={bodyElements}
-                    imageSalt={imageSalt}
-                />
-                <Tags tags={tags}/>
-            </div>
-        </div>
-    </main>
+function Article({ capi }: { capi: any }): Reader<Env, JSX.Element> {
+
+    const { type, fields, tags, webPublicationDate, pillarId, blocks } = capi;
+    const [series] = tags.filter((tag: Tag) => tag.type === 'series');
+    const feature = isFeature(tags) || 'starRating' in fields;
+    const pillarStyles = getPillarStyles(pillarId);
+    const contributors = tags.filter((tag: Tag) => tag.type === 'contributor');
+    const bodyElements = type === 'liveblog' ? blocks.body : blocks.body[0].elements;
+    const mainImage = fromNullable(blocks.main.elements.filter(isImage)[0]);
+
+    return HeaderImage({ image: mainImage, className: HeaderImageStyles })
+        .andThen(headerImage =>
+            ArticleByline({
+                byline: fields.bylineHtml,
+                pillarStyles,
+                publicationDate: webPublicationDate,
+                contributors,
+            }).andThen(byline =>
+                ArticleBody({ pillarStyles, bodyElements }).map(body =>
+                    <main css={[MainStyles, MainDarkStyles]}>
+                    <div css={BorderStyles}>
+                        { headerImage }
+                        <div css={articleWidthStyles}>
+                            <ArticleSeries series={series} pillarStyles={pillarStyles}/>
+                            <ArticleHeadline
+                                headline={fields.headline}
+                                feature={feature}
+                                rating={fields.starRating}
+                                pillarStyles={pillarStyles}
+                            />
+                            <ArticleStandfirst
+                                standfirst={fields.standfirst}
+                                feature={feature}
+                                pillarStyles={pillarStyles}
+                            />
+                        </div>
+                        <Keyline pillar={pillarId} type={'article'}/>
+                        <div css={articleWidthStyles}>
+                            { byline }
+                            { body }
+                            <Tags tags={tags}/>
+                        </div>
+                    </div>
+                </main>
+                )    
+            )
+        );    
+}
 
 export default Article;

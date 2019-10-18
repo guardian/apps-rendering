@@ -6,6 +6,8 @@ import { render } from 'renderBlocks';
 import { Block } from 'types/capi-thrift-models';
 
 import { css, SerializedStyles } from '@emotion/core'
+import { Reader } from 'types/Reader';
+import { Env } from 'server';
 
 const LiveBodyStyles = (pillarStyles: PillarStyles): SerializedStyles => css`
     .rich-link,
@@ -25,33 +27,32 @@ const LiveBodyStyles = (pillarStyles: PillarStyles): SerializedStyles => css`
 interface LiveblogBodyProps {
     pillarStyles: PillarStyles;
     bodyElements: Block[];
-    imageSalt: string;
 }
 
-const LiveblogBody= ({ pillarStyles, bodyElements, imageSalt }: LiveblogBodyProps): JSX.Element => {
+const LiveblogBody= ({ pillarStyles, bodyElements }: LiveblogBodyProps): Reader<Env, JSX.Element> => {
     const initialBlocks = bodyElements.slice(0, 7);
     const LoadMore = ({ total }: { total: number }): JSX.Element | null => total > 10
         ? <LiveblogLoadMore pillarStyles={pillarStyles}/> 
         : null;
 
     return (
-        <article css={LiveBodyStyles(pillarStyles)}>
-            {
-                initialBlocks.map((block: Block) => {
-                    return <LiveblogBlock
+        Reader.asks(env =>
+            <article css={LiveBodyStyles(pillarStyles)}>
+                { initialBlocks.map((block: Block) =>
+                    <LiveblogBlock
                         key={block.id}
                         pillarStyles={pillarStyles} 
                         highlighted={!!block.attributes.keyEvent}
                         title={block.title}
                         firstPublishedDate={block.firstPublishedDate}
-                        lastModifiedDate={block.lastModifiedDate}>
-                            <>{render(block.elements, imageSalt).html}</>
-                        </LiveblogBlock>
-                })
-            }
-            <LoadMore total={bodyElements.length}/>
-        </article>
-    )
+                        lastModifiedDate={block.lastModifiedDate}
+                    >
+                        <>{render(block.elements).run(env).html}</>
+                    </LiveblogBlock>
+                ) }
+                <LoadMore total={bodyElements.length}/>
+            </article>
+    ))
 }
 
 export default LiveblogBody;

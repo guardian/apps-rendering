@@ -4,6 +4,8 @@ import { sidePadding, PillarStyles, darkModeCss, commonArticleStyles } from '../
 import { palette } from '@guardian/src-foundations'
 import { render } from "../../renderBlocks";
 import { Block } from 'types/capi-thrift-models';
+import { Env } from 'server';
+import { Reader } from 'types/Reader';
 
 const ArticleBodyStyles = (pillarStyles: PillarStyles): SerializedStyles => css`
     .rich-link,
@@ -53,12 +55,14 @@ const ArticleBodyDarkStyles = ({ inverted }: PillarStyles): SerializedStyles => 
 interface ArticleBodyProps {
     pillarStyles: PillarStyles;
     bodyElements: Block[];
-    imageSalt: string;
 }
 
-const ArticleBody = ({ bodyElements, pillarStyles, imageSalt }: ArticleBodyProps): JSX.Element =>
-    <article css={[ArticleBodyStyles(pillarStyles), ArticleBodyDarkStyles(pillarStyles)]}>
-        {render(bodyElements, imageSalt).html}
-    </article>
+const ArticleBody = ({ bodyElements, pillarStyles }: ArticleBodyProps): Reader<Env, JSX.Element> =>
+    render(bodyElements).map(rendered =>
+        <article css={[ArticleBodyStyles(pillarStyles), ArticleBodyDarkStyles(pillarStyles)]}>
+            { rendered.html }
+        </article>
+    );
+    
 
 export default ArticleBody;

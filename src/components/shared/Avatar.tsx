@@ -5,6 +5,8 @@ import { Contributor } from 'types/Capi';
 import { isSingleContributor } from 'utils/capi';
 import { css, SerializedStyles } from '@emotion/core';
 import { transformUrl } from 'utils/Asset';
+import { Reader } from 'types/Reader';
+import { Env } from 'server';
 
 // ----- Styles ----- //
 
@@ -33,25 +35,23 @@ const AvatarStyles = (bgColour: string): SerializedStyles => css`
 interface AvatarProps {
     contributors: Contributor[];
     bgColour: string;
-    imageSalt: string;
 }
 
-function Avatar({ contributors, bgColour, imageSalt }: AvatarProps): JSX.Element | null {
+const Avatar = ({ contributors, bgColour }: AvatarProps): Reader<Env, JSX.Element | null> =>
+    Reader.asks(({ imageSalt }) => {
+        const [contributor] = contributors;
 
-    const [contributor] = contributors;
-
-    if (isSingleContributor(contributors) && contributor.bylineLargeImageUrl) {
-        const imgSrc = transformUrl(imageSalt, contributor.bylineLargeImageUrl, imageWidth*3);
-        return (
-            <div css={AvatarStyles(bgColour)}>
-                <img src={imgSrc} alt={contributor.webTitle}/>
-            </div>
-        );
-    }
-    
-    return null;
-
-}
+        if (isSingleContributor(contributors) && contributor.bylineLargeImageUrl) {
+            const imgSrc = transformUrl(imageSalt, contributor.bylineLargeImageUrl, imageWidth*3);
+            return (
+                <div css={AvatarStyles(bgColour)}>
+                    <img src={imgSrc} alt={contributor.webTitle}/>
+                </div>
+            );
+        }
+        
+        return null;
+    });
 
 
 // ----- Exports ----- //

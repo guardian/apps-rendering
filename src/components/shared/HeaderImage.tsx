@@ -7,6 +7,8 @@ import { imageElement } from 'components/blocks/image';
 import { wide } from '@guardian/src-foundations';
 import { wideContentWidth } from 'styles';
 import { Option } from 'types/Option';
+import { Reader } from 'types/Reader';
+import { Env } from 'server';
 
 const headerImageStyles = css`
     figure {
@@ -31,26 +33,24 @@ const headerImageStyles = css`
 
 interface HeaderImageProps {
     image: Option<BlockElement>;
-    imageSalt: string;
     className?: SerializedStyles | null;
 }
 
-const HeaderImage = ({ className, image, imageSalt }: HeaderImageProps): JSX.Element | null => {
+const HeaderImage = ({ className, image }: HeaderImageProps): Reader<Env, JSX.Element | null> =>
+    Reader.asks(({ imageSalt }) => {
+        const headerImage: Option<JSX.Element | null> = image.map(({ imageTypeData, assets }) =>
+            // This is not an iterator, ESLint is confused
+            // eslint-disable-next-line react/jsx-key
+            <div css={[className, headerImageStyles]}>
+                <figure>
+                    { imageElement(imageTypeData.alt, assets, imageSalt) }
+                    <HeaderImageCaption caption={imageTypeData.caption} credit={imageTypeData.credit}/>
+                </figure>
+            </div>
+        );
 
-    const headerImage: Option<JSX.Element | null> = image.map(({ imageTypeData, assets }) =>
-        // This is not an iterator, ESLint is confused
-        // eslint-disable-next-line react/jsx-key
-        <div css={[className, headerImageStyles]}>
-            <figure>
-                { imageElement(imageTypeData.alt, assets, imageSalt) }
-                <HeaderImageCaption caption={imageTypeData.caption} credit={imageTypeData.credit}/>
-            </figure>
-        </div>
-    );
-
-    // Needed to provide TypeScript with enough type information.
-    return headerImage.withDefault(null);
-
-}
+        // Needed to provide TypeScript with enough type information.
+        return headerImage.withDefault(null);
+    });
 
 export default HeaderImage;

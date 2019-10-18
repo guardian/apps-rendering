@@ -7,6 +7,8 @@ import { formatDate } from 'utils/date';
 import { Contributor } from 'types/Capi';
 import Avatar from 'components/shared/Avatar';
 import Follow from 'components/shared/Follow';
+import { Reader } from 'types/Reader';
+import { Env } from 'server';
 
 const ArticleBylineStyles = ({ kicker }: PillarStyles): SerializedStyles => css`
     .author {
@@ -55,7 +57,6 @@ interface ArticleBylineProps {
     pillarStyles: PillarStyles;
     publicationDate: string;
     contributors: Contributor[];
-    imageSalt: string;
 }
 
 const ArticleByline = ({
@@ -63,21 +64,19 @@ const ArticleByline = ({
     pillarStyles,
     publicationDate,
     contributors,
-    imageSalt
-}: ArticleBylineProps): JSX.Element =>
-    <div css={[ArticleBylineStyles(pillarStyles), ArticleBylineDarkStyles(pillarStyles)]}>
-        <div css={sidePadding}>
-            <Avatar
-                contributors={contributors}
-                bgColour={pillarStyles.inverted}
-                imageSalt={imageSalt}
-            />
-            <div className="author">
-                <address dangerouslySetInnerHTML={{__html: byline}}></address>
-                <time className="date">{ formatDate(new Date(publicationDate)) }</time>
-                <Follow contributors={contributors} />
+}: ArticleBylineProps): Reader<Env, JSX.Element> =>
+    Avatar({ contributors, bgColour: pillarStyles.inverted }).map(avatar =>
+        <div css={[ArticleBylineStyles(pillarStyles), ArticleBylineDarkStyles(pillarStyles)]}>
+            <div css={sidePadding}>
+                { avatar }
+                <div className="author">
+                    <address dangerouslySetInnerHTML={{__html: byline}}></address>
+                    <time className="date">{ formatDate(new Date(publicationDate)) }</time>
+                    <Follow contributors={contributors} />
+                </div>
             </div>
         </div>
-    </div>
+    );
+    
 
 export default ArticleByline;
