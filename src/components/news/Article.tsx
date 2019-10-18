@@ -92,9 +92,9 @@ function Article({ capi }: { capi: any }): Reader<Env, JSX.Element> {
                         </div>
                     </div>
                 </main>
-                )    
+                )
             )
-        );    
+        );
 }
 
 export default Article;
