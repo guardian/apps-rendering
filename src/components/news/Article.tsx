@@ -56,45 +56,44 @@ function Article({ capi }: { capi: any }): Reader<Env, JSX.Element> {
     const bodyElements = type === 'liveblog' ? blocks.body : blocks.body[0].elements;
     const mainImage = fromNullable(blocks.main.elements.filter(isImage)[0]);
 
-    return HeaderImage({ image: mainImage, className: HeaderImageStyles })
-        .andThen(headerImage =>
-            ArticleByline({
-                byline: fields.bylineHtml,
-                pillarStyles,
-                publicationDate: webPublicationDate,
-                contributors,
-            }).andThen(byline =>
-                ArticleBody({ pillarStyles, bodyElements }).map(body =>
-                    // This is not an iterator, ESLint is confused
-                    // eslint-disable-next-line react/jsx-key
-                    <main css={[MainStyles, MainDarkStyles]}>
-                    <div css={BorderStyles}>
-                        { headerImage }
-                        <div css={articleWidthStyles}>
-                            <ArticleSeries series={series} pillarStyles={pillarStyles}/>
-                            <ArticleHeadline
-                                headline={fields.headline}
-                                feature={feature}
-                                rating={fields.starRating}
-                                pillarStyles={pillarStyles}
-                            />
-                            <ArticleStandfirst
-                                standfirst={fields.standfirst}
-                                feature={feature}
-                                pillarStyles={pillarStyles}
-                            />
-                        </div>
-                        <Keyline pillar={pillarId} type={'article'}/>
-                        <div css={articleWidthStyles}>
-                            { byline }
-                            { body }
-                            <Tags tags={tags}/>
-                        </div>
-                    </div>
-                </main>
-                )
-            )
-        );
+    return Reader.sequence([
+        HeaderImage({ image: mainImage, className: HeaderImageStyles }),
+        ArticleByline({
+            byline: fields.bylineHtml,
+            pillarStyles,
+            publicationDate: webPublicationDate,
+            contributors,
+        }),
+        ArticleBody({ pillarStyles, bodyElements }),
+    ]).map(([headerImage, byline, body]) =>
+        // This is not an iterator, ESLint is confused
+        // eslint-disable-next-line react/jsx-key
+        <main css={[MainStyles, MainDarkStyles]}>
+            <div css={BorderStyles}>
+                { headerImage }
+                <div css={articleWidthStyles}>
+                    <ArticleSeries series={series} pillarStyles={pillarStyles}/>
+                    <ArticleHeadline
+                        headline={fields.headline}
+                        feature={feature}
+                        rating={fields.starRating}
+                        pillarStyles={pillarStyles}
+                    />
+                    <ArticleStandfirst
+                        standfirst={fields.standfirst}
+                        feature={feature}
+                        pillarStyles={pillarStyles}
+                    />
+                </div>
+                <Keyline pillar={pillarId} type={'article'}/>
+                <div css={articleWidthStyles}>
+                    { byline }
+                    { body }
+                    <Tags tags={tags}/>
+                </div>
+            </div>
+        </main>
+    );
 }
 
 export default Article;
