@@ -26,7 +26,7 @@ class Reader<E, A> implements Monad<A> {
     };
 
     static sequence<E, A>(rs: Reader<E, A>[]): Reader<E, A[]> {
-        return new Reader((e: E) => rs.map(r => r.run(e)));
+        return new Reader((e: E): A[] => rs.map(r => r.run(e)));
     }
 
     constructor(f: (e: E) => A) {
