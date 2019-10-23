@@ -57,44 +57,43 @@ function LiveblogArticle({ capi }: LiveblogArticleProps): Reader<Env, JSX.Elemen
     const pillarStyles = getPillarStyles(pillarId);
     const contributors = tags.filter((tag: Tag) => tag.type === 'contributor');
     const bodyElements = type === 'liveblog' ? blocks.body : blocks.body[0].elements;
-    const mainImage = fromNullable(blocks.main.elements.filter(isImage)[0]);
+    const image = fromNullable(blocks.main.elements.filter(isImage)[0]);
 
-    return HeaderImage({ image: mainImage, className: HeaderImageStyles(pillarStyles) })
-        .andThen(headerImage =>
-            LiveblogByline({
-                byline: fields.bylineHtml,
-                pillarId,
-                publicationDate: webPublicationDate,
-                contributors,
-            }).andThen(byline =>
-                LiveblogBody({ bodyElements, pillarStyles }).map(body =>
-                    // This is not an iterator, ESLint is confused
-                    // eslint-disable-next-line react/jsx-key
-                    <main css={LiveblogArticleStyles}>
-                        <div css={BorderStyles}>
-                            <LiveblogSeries series={series} pillarStyles={pillarStyles}/>
-                            <LiveblogHeadline
-                                headline={fields.headline}
-                                pillarStyles={pillarStyles}
-                            />
-                            <LiveblogStandfirst
-                                standfirst={fields.standfirst}
-                                pillarStyles={pillarStyles}
-                            />
-                            { byline }
-                            { headerImage }
-                            <LiveblogKeyEvents
-                                bodyElements={bodyElements}
-                                pillarStyles={pillarStyles}
-                            />
-                            { body }
-                            <Tags tags={tags} background={palette.neutral[93]}/>
-                        </div>
-                    </main>
-                )
-            )
+    const headerImage = HeaderImage({ image, className: HeaderImageStyles(pillarStyles) });
+    const liveblogByline = LiveblogByline({
+        byline: fields.bylineHtml,
+        pillarId,
+        publicationDate: webPublicationDate,
+        contributors,
+    });
+    const liveblogBody = LiveblogBody({ bodyElements, pillarStyles });
+
+    return Reader.sequence([ headerImage, liveblogByline, liveblogBody ])
+        .map(([ headerImg, byline, body ]) =>
+            // This is not an iterator, ESLint is confused
+            // eslint-disable-next-line react/jsx-key
+            <main css={LiveblogArticleStyles}>
+                <div css={BorderStyles}>
+                    <LiveblogSeries series={series} pillarStyles={pillarStyles}/>
+                    <LiveblogHeadline
+                        headline={fields.headline}
+                        pillarStyles={pillarStyles}
+                    />
+                    <LiveblogStandfirst
+                        standfirst={fields.standfirst}
+                        pillarStyles={pillarStyles}
+                    />
+                    { byline }
+                    { headerImg }
+                    <LiveblogKeyEvents
+                        bodyElements={bodyElements}
+                        pillarStyles={pillarStyles}
+                    />
+                    { body }
+                    <Tags tags={tags} background={palette.neutral[93]}/>
+                </div>
+            </main>
         );
-
 }
 
 export default LiveblogArticle;
