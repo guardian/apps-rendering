@@ -4,7 +4,7 @@ import { sidePadding, PillarStyles, darkModeCss, commonArticleStyles } from '../
 import { palette } from '@guardian/src-foundations'
 import { render } from "../../renderBlocks";
 import { Block } from 'types/capi-thrift-models';
-import { Env } from 'server';
+import { Env } from 'types/Env';
 import { Reader } from 'types/Reader';
 
 const ArticleBodyStyles = (pillarStyles: PillarStyles): SerializedStyles => css`

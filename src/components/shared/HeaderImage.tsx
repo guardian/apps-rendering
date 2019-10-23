@@ -8,7 +8,7 @@ import { wide } from '@guardian/src-foundations';
 import { wideContentWidth } from 'styles';
 import { Option } from 'types/Option';
 import { Reader } from 'types/Reader';
-import { Env } from 'server';
+import { Env } from 'types/Env';
 
 const headerImageStyles = css`
     figure {

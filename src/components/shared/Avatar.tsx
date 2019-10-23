@@ -6,7 +6,7 @@ import { isSingleContributor } from 'utils/capi';
 import { css, SerializedStyles } from '@emotion/core';
 import { transformUrl } from 'utils/Asset';
 import { Reader } from 'types/Reader';
-import { Env } from 'server';
+import { Env } from 'types/Env';
 
 // ----- Styles ----- //
 

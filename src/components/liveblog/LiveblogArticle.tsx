@@ -12,7 +12,7 @@ import { PillarStyles, wideColumnWidth, baseMultiply, getPillarStyles } from 'st
 import { Tag } from 'types/capi-thrift-models';
 import { css, SerializedStyles } from '@emotion/core'
 import { palette, wide } from '@guardian/src-foundations'
-import { Env } from 'server';
+import { Env } from 'types/Env';
 import { Reader } from 'types/Reader';
 import { isImage } from 'components/blocks/image';
 import { fromNullable } from 'types/Option';

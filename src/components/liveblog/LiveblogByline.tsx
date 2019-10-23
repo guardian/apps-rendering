@@ -9,7 +9,7 @@ import { Contributor } from '../../types/Capi';
 import { formatDate } from 'utils/date';
 import Avatar from 'components/shared/Avatar';
 import LeftColumn from 'components/shared/LeftColumn';
-import { Env } from 'server';
+import { Env } from 'types/Env';
 import { Reader } from 'types/Reader';
 
 const LiveblogBylineStyles = ({ liveblogBackground }: PillarStyles): SerializedStyles => css`

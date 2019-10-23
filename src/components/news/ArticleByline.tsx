@@ -8,7 +8,7 @@ import { Contributor } from 'types/Capi';
 import Avatar from 'components/shared/Avatar';
 import Follow from 'components/shared/Follow';
 import { Reader } from 'types/Reader';
-import { Env } from 'server';
+import { Env } from 'types/Env';
 
 const ArticleBylineStyles = ({ kicker }: PillarStyles): SerializedStyles => css`
     .author {

@@ -15,10 +15,9 @@ import LiveblogArticle from 'components/liveblog/LiveblogArticle';
 import { getConfigValue } from 'utils/ssmConfig';
 import { parseCapi, capiEndpoint } from 'utils/capi';
 import { Reader } from 'types/Reader';
+import { Env } from 'types/Env';
 
 // ----- Setup ----- //
-
-export type Env = { imageSalt: string };
 
 const defaultId =
   'cities/2019/sep/13/reclaimed-lakes-and-giant-airports-how-mexico-city-might-have-looked';

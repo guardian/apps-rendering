@@ -13,7 +13,7 @@ import { palette, wide } from '@guardian/src-foundations';
 import { css } from '@emotion/core';
 import { Keyline } from 'components/shared/Keyline';
 import { Reader } from 'types/Reader';
-import { Env } from 'server';
+import { Env } from 'types/Env';
 import { isFeature } from 'utils/capi';
 import { fromNullable } from 'types/Option';
 import { isImage } from 'components/blocks/image';

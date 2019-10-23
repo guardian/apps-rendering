@@ -5,7 +5,7 @@ import jsdom from 'jsdom';
 
 import { Result, Err, fromUnsafe } from './types/Result';
 import { imageBlock } from './components/blocks/image';
-import { Env } from 'server';
+import { Env } from 'types/Env';
 import { Reader } from 'types/Reader';
 
 

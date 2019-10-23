@@ -7,7 +7,7 @@ import { Block } from 'types/capi-thrift-models';
 
 import { css, SerializedStyles } from '@emotion/core'
 import { Reader } from 'types/Reader';
-import { Env } from 'server';
+import { Env } from 'types/Env';
 
 const LiveBodyStyles = (pillarStyles: PillarStyles): SerializedStyles => css`
     .rich-link,
