@@ -1,47 +1,65 @@
-interface NativeCall {
+declare global {
+    interface Window {
+        nativeCalls: Action[];
+        nativeCall: (command: string) => void;
+        nativeHandler: (id: number, outcome: 'fulfilled' | 'rejected', response: string) => void;
+        AndroidWebViewMessage: (command: string) => {};
+        webkit: {
+            messageHandlers: {
+                iOSWebViewMessage: (command: string) => {}
+            }
+        };
+    }
+}
+
+interface Action {
     id: number;
-    promise: Promise<string>;
-    timePending: number;
+    promise: Promise<any>;
 }
 
 function initNativeApi() {
-    const nativeCalls: [NativeCall] | [] = [];
-    window['nativeCalls'] = nativeCalls;
-    window['nativeHandler'] = nativeHandler;
+    const nativeCalls: Action[] = [];
+    window.nativeCalls = nativeCalls;
+    window.nativeCall = nativeCall;
+    window.nativeHandler = nativeHandler;
 
-    // loop over promises and remove old promises
     setInterval(() => {
-        window['nativeCalls'] = window['nativeCalls']
-            .filter((action: NativeCall) => action.timePending < 5)
-            .forEach((action: NativeCall) => action.timePending++)
+        window.nativeCalls = window.nativeCalls
+            .filter((action: Action) => (Date.now() - action.id) < 30000)
     }, 30000);
 }
 
 function nativeCall(command: string) {
     const id = Date.now();
-    const timePending = 0;
-    const promise = new Promise(function(resolve, reject) {
+    const promise = new Promise(function(_resolve, reject) {
         setTimeout(function() {
             reject('timeout');
-        }, 30000) 
+        }, 300000);
     })
 
-    window['nativeCalls'].push({ id, promise, timePending });
+    window.nativeCalls.push({ id, promise });
 
-    if (window['AndroidWebViewMessage']) {
-        window['AndroidWebViewMessage'](command)
-    } else if (window['webkit']
-        && window['webkit']['messageHandlers']
-        && window['webkit']['messageHandlers']['iOSWebViewMessage']) {
-            window['webkit']['messageHandlers']['iOSWebViewMessage'](command)
+    if (window.AndroidWebViewMessage) {
+        window.AndroidWebViewMessage(command)
+    } else if (window.webkit
+        && window.webkit.messageHandlers
+        && window.webkit.messageHandlers.iOSWebViewMessage) {
+            window.webkit.messageHandlers.iOSWebViewMessage(command)
+    } else {
+        console.warn('No native APIs available');
     }
 } 
 
 
 function nativeHandler(id: number, outcome: 'fulfilled' | 'rejected', response: string) {
-    const action = window['nativeCalls'].find((action: NativeCall) => action.id === id);
-    outcome === 'fulfilled' ? action.promise.resolve(response) : action.promise.reject();
-    window['nativeCalls'] = window['nativeCalls'].filter((action: NativeCall) => action.id !== id);
+    const action = window.nativeCalls.find((action: Action) => action.id === id);
+    if (!action) return;
+    if (outcome === 'fulfilled') {
+        Promise.resolve(response);
+    } else {
+        Promise.reject(response);
+    }
+    window.nativeCalls = window.nativeCalls.filter((action: Action) => action.id !== id);
 }
 
 export { initNativeApi };
