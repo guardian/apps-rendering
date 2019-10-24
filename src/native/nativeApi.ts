@@ -7,7 +7,7 @@ declare global {
         webkit: {
             messageHandlers: {
                 iOSWebViewMessage: {
-                    postMessage: ({ command, id }: { command: string, id: string }) => {};
+                    postMessage: ({ command, id }: { command: string; id: string }) => {};
                 };
             };
         };
@@ -18,14 +18,15 @@ interface Action {
     id: string;
     timestamp: number;
     promise: Promise<string>;
-    resolve: any;
-    reject: any;
+    resolve: (response: string) => void;
+    reject: () => void;
 }
 
 const ACTION_TIMEOUT_MS = 300000;
 
 function nativeCall(command: string): Promise<string> {
-    let resolve, reject;
+    let resolve = (): void => {};
+    let reject = (): void => {};
     const timestamp = Date.now();
     const id = Math.random().toString().split('.')[1];
     const promise = new Promise<string>(function(res, rej): void {
