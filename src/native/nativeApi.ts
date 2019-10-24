@@ -6,35 +6,25 @@ declare global {
         AndroidWebViewMessage: (command: string) => {};
         webkit: {
             messageHandlers: {
-                iOSWebViewMessage: (command: string) => {}
-            }
+                iOSWebViewMessage: (command: string) => {};
+            };
         };
     }
 }
 
 interface Action {
     id: number;
-    promise: Promise<any>;
+    promise: Promise<string>;
 }
 
-function initNativeApi() {
-    const nativeCalls: Action[] = [];
-    window.nativeCalls = nativeCalls;
-    window.nativeCall = nativeCall;
-    window.nativeHandler = nativeHandler;
+const ACTION_TIMEOUT_MS = 300000;
 
-    setInterval(() => {
-        window.nativeCalls = window.nativeCalls
-            .filter((action: Action) => (Date.now() - action.id) < 30000)
-    }, 30000);
-}
-
-function nativeCall(command: string) {
+function nativeCall(command: string): void {
     const id = Date.now();
-    const promise = new Promise(function(_resolve, reject) {
+    const promise = new Promise<string>(function(_resolve, reject): void {
         setTimeout(function() {
             reject('timeout');
-        }, 300000);
+        }, ACTION_TIMEOUT_MS);
     })
 
     window.nativeCalls.push({ id, promise });
@@ -50,8 +40,7 @@ function nativeCall(command: string) {
     }
 } 
 
-
-function nativeHandler(id: number, outcome: 'fulfilled' | 'rejected', response: string) {
+function nativeHandler(id: number, outcome: 'fulfilled' | 'rejected', response: string): void {
     const action = window.nativeCalls.find((action: Action) => action.id === id);
     if (!action) return;
     if (outcome === 'fulfilled') {
@@ -60,6 +49,18 @@ function nativeHandler(id: number, outcome: 'fulfilled' | 'rejected', response: 
         Promise.reject(response);
     }
     window.nativeCalls = window.nativeCalls.filter((action: Action) => action.id !== id);
+}
+
+function initNativeApi(): void {
+    const nativeCalls: Action[] = [];
+    window.nativeCalls = nativeCalls;
+    window.nativeCall = nativeCall;
+    window.nativeHandler = nativeHandler;
+
+    setInterval(() => {
+        window.nativeCalls = window.nativeCalls
+            .filter((action: Action) => (Date.now() - action.id) < ACTION_TIMEOUT_MS)
+    }, ACTION_TIMEOUT_MS);
 }
 
 export { initNativeApi };
