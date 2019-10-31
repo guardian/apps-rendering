@@ -46,7 +46,7 @@ const HeaderImageStyles = css`
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function Article({ capi }: { capi: any }): Reader<Env, JSX.Element> {
+const Article = ({ capi }: { capi: any }): Reader<Env, JSX.Element | null> => Reader.do(function* () {
 
     const { type, fields, tags, webPublicationDate, pillarId, blocks } = capi;
     const [series] = tags.filter((tag: Tag) => tag.type === 'series');
@@ -56,45 +56,42 @@ function Article({ capi }: { capi: any }): Reader<Env, JSX.Element> {
     const bodyElements = type === 'liveblog' ? blocks.body : blocks.body[0].elements;
     const mainImage = fromNullable(blocks.main.elements.filter(isImage)[0]);
 
-    const headerImage = HeaderImage({ image: mainImage, className: HeaderImageStyles });
-    const articleByline = ArticleByline({
+    const headerImage = yield HeaderImage({ image: mainImage, className: HeaderImageStyles });
+    const articleByline = yield ArticleByline({
         byline: fields.bylineHtml,
         pillarStyles,
         publicationDate: webPublicationDate,
         contributors,
     });
-    const articleBody = ArticleBody({ pillarStyles, bodyElements });
+    const articleBody = yield ArticleBody({ pillarStyles, bodyElements });
 
-    return Reader.sequence([ headerImage, articleByline, articleBody ])
-        .map(([ headerImg, byline, body ]) =>
-            // This is not an iterator, ESLint is confused
-            // eslint-disable-next-line react/jsx-key
-            <main css={[MainStyles, MainDarkStyles]}>
-                <div css={BorderStyles}>
-                    { headerImg }
-                    <div css={articleWidthStyles}>
-                        <ArticleSeries series={series} pillarStyles={pillarStyles}/>
-                        <ArticleHeadline
-                            headline={fields.headline}
-                            feature={feature}
-                            rating={fields.starRating}
-                            pillarStyles={pillarStyles}
-                        />
-                        <ArticleStandfirst
-                            standfirst={fields.standfirst}
-                            feature={feature}
-                            pillarStyles={pillarStyles}
-                        />
-                    </div>
-                    <Keyline pillar={pillarId} type={'article'}/>
-                    <div css={articleWidthStyles}>
-                        { byline }
-                        { body }
-                        <Tags tags={tags}/>
-                    </div>
+    return Reader.of<Env, JSX.Element | null>(
+        <main css={[MainStyles, MainDarkStyles]}>
+            <div css={BorderStyles}>
+                { headerImage }
+                <div css={articleWidthStyles}>
+                    <ArticleSeries series={series} pillarStyles={pillarStyles}/>
+                    <ArticleHeadline
+                        headline={fields.headline}
+                        feature={feature}
+                        rating={fields.starRating}
+                        pillarStyles={pillarStyles}
+                    />
+                    <ArticleStandfirst
+                        standfirst={fields.standfirst}
+                        feature={feature}
+                        pillarStyles={pillarStyles}
+                    />
                 </div>
-            </main>
-        );
-}
+                <Keyline pillar={pillarId} type={'article'}/>
+                <div css={articleWidthStyles}>
+                    { articleByline }
+                    { articleBody }
+                    <Tags tags={tags}/>
+                </div>
+            </div>
+        </main>
+    );
+}());
 
 export default Article;

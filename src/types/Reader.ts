@@ -25,8 +25,24 @@ class Reader<E, A> implements Monad<A> {
         return new Reader(f);
     };
 
-    static sequence<E, A>(rs: Reader<E, A>[]): Reader<E, A[]> {
-        return new Reader((e: E): A[] => rs.map(r => r.run(e)));
+    static do<E, A, B>(gen: Generator<Reader<E, A>, Reader<E, B>, A | undefined>): Reader<E, B> {
+
+        function iterate(value?: A): Reader<E, B> {
+            const result = gen.next(value);
+    
+            if (result.done) {
+                return result.value;
+            }
+    
+            return result.value.andThen(iterate);
+        }
+    
+        return iterate();
+    
+    }
+
+    static of<E, A>(a: A): Reader<E, A> {
+        return new Reader((_: E) => a);
     }
 
     constructor(f: (e: E) => A) {
