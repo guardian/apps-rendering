@@ -50,7 +50,7 @@ interface LiveblogArticleProps {
     isLive: boolean;
 }
 
-function LiveblogArticle({ capi }: LiveblogArticleProps): Reader<Env, JSX.Element> {
+const LiveblogArticle = ({ capi }: LiveblogArticleProps): Reader<Env, JSX.Element | null> => Reader.do(function* () {
 
     const { type, fields, tags, webPublicationDate, pillarId, blocks } = capi;
     const [series] = tags.filter((tag: Tag) => tag.type === 'series');
@@ -59,19 +59,16 @@ function LiveblogArticle({ capi }: LiveblogArticleProps): Reader<Env, JSX.Elemen
     const bodyElements = type === 'liveblog' ? blocks.body : blocks.body[0].elements;
     const image = fromNullable(blocks.main.elements.filter(isImage)[0]);
 
-    const headerImage = HeaderImage({ image, className: HeaderImageStyles(pillarStyles) });
-    const liveblogByline = LiveblogByline({
+    const headerImage = yield HeaderImage({ image: image, className: HeaderImageStyles(pillarStyles) });
+    const liveblogByline = yield LiveblogByline({
         byline: fields.bylineHtml,
         pillarId,
         publicationDate: webPublicationDate,
         contributors,
     });
-    const liveblogBody = LiveblogBody({ bodyElements, pillarStyles });
+    const liveblogBody = yield LiveblogBody({ bodyElements, pillarStyles });
 
-    return Reader.sequence([ headerImage, liveblogByline, liveblogBody ])
-        .map(([ headerImg, byline, body ]) =>
-            // This is not an iterator, ESLint is confused
-            // eslint-disable-next-line react/jsx-key
+    return Reader.of<Env, JSX.Element | null>(
             <main css={LiveblogArticleStyles}>
                 <div css={BorderStyles}>
                     <LiveblogSeries series={series} pillarStyles={pillarStyles}/>
@@ -83,17 +80,17 @@ function LiveblogArticle({ capi }: LiveblogArticleProps): Reader<Env, JSX.Elemen
                         standfirst={fields.standfirst}
                         pillarStyles={pillarStyles}
                     />
-                    { byline }
-                    { headerImg }
+                    { liveblogByline }
+                    { headerImage }
                     <LiveblogKeyEvents
                         bodyElements={bodyElements}
                         pillarStyles={pillarStyles}
                     />
-                    { body }
+                    { liveblogBody }
                     <Tags tags={tags} background={palette.neutral[93]}/>
                 </div>
             </main>
         );
-}
+}());
 
 export default LiveblogArticle;
