@@ -1,3 +1,8 @@
-import Article from 'components/news/Article';
+// ----- Imports ----- //
 
-console.log(Article);
+import { ready } from './nativeMock';
+
+
+// ----- Run ----- //
+
+ready();

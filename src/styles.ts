@@ -266,31 +266,31 @@ export const articleWidthStyles = css`
     }
 `;
 
-const adHeight = '250px';
+const adHeight = '260px';
 
 export const adStyles = css`
     .ad-placeholder {
         color: ${palette.neutral[46]};
         background: ${palette.neutral[97]};
-        clear: both;
+        height: ${adHeight};
+        max-width: 300px;
+        margin: 0 auto;
 
         .ad-labels {
             ${textSans}
             padding: ${basePx(1)};
-            padding-bottom: ${adHeight};
+            display: flex;
 
             h1 {
                 margin: 0;
-                float: left;
+                flex-grow: 1;
             }
 
             .ad-hide {
-                float: right;
                 background: none;
                 border: none;
                 font-size: 16px;
                 color: ${palette.neutral[46]};
-                margin-top: -4px;
 
                 &::after {
                     padding-left: ${basePx(1)};
@@ -301,15 +301,11 @@ export const adStyles = css`
             }
         }
 
-        ${until.phablet} {
-            margin-left: ${basePx(-1)};
-            margin-right: ${basePx(-1)};
-        }
-
         ${from.desktop} {
             position: absolute;
             margin-left: calc(${wideContentWidth}px + ${basePx(2)});
             min-width: 300px;
+            max-width: unset;
         }
     }
 

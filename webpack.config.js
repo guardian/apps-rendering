@@ -114,7 +114,7 @@ const clientConfig = {
                                 '@emotion/babel-preset-css-prop',
                                 [
                                     '@babel/preset-env',
-                                    { useBuiltIns: 'usage', modules: false }
+                                    { modules: false }
                                 ],
                             ],
                         },
