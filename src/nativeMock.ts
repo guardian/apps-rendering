@@ -1,10 +1,5 @@
 // ----- Functions ----- //
 
-function ready(): void {
-    console.log('NATIVE: received readiness confirmation');
-    insertAds();
-}
-
 const randomColourVal = (): number => Math.round(Math.random() * 256);
 
 const randomRGB = (): string => `rgb(${randomColourVal()}, ${randomColourVal()}, ${randomColourVal()})`;
@@ -42,6 +37,11 @@ function buildAd(): Node {
 
 function insertAds(): void {
     document.querySelectorAll('.ad-placeholder').forEach(ad => ad.appendChild(buildAd()));
+}
+
+function ready(): void {
+    console.log('NATIVE: received readiness confirmation');
+    insertAds();
 }
 
 
