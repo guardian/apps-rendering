@@ -1,3 +1,8 @@
+import { NativeMessage, NativeConnection } from './thrift/NativeConnection';
+import { Transport } from './thrift/Transport';
+import { TBinaryProtocol, createClient, Connection } from 'thrift';
+import Calculator from '../../gen-nodejs/Calculator';
+
 declare global {
     interface Window {
         nativeCalls: Action[];
@@ -7,7 +12,7 @@ declare global {
         webkit: {
             messageHandlers: {
                 iOSWebViewMessage: {
-                    postMessage: ({ command, id }: { command: string; id: string }) => {};
+                    postMessage: (nativeMessage: NativeMessage) => {};
                 };
             };
         };
@@ -24,32 +29,69 @@ interface Action {
 
 const ACTION_TIMEOUT_MS = 300000;
 
-function nativeCall(command: string): Promise<string> {
-    let resolve = (): void => {};
-    let reject = (): void => {};
-    const timestamp = Date.now();
-    const id = Math.random().toString().split('.')[1];
-    const promise = new Promise<string>(function(res, rej): void {
-        resolve = res;
-        reject = rej;
-        setTimeout(function() {
-            rej('timeout');
-        }, ACTION_TIMEOUT_MS);
-    })
 
-    window.nativeCalls.push({ id, promise, timestamp, resolve, reject });
 
+
+function receiveMessageIOS(nativeMessage: NativeMessage) {
+    console.log("[iOS] Receive Message")
     if (window.AndroidWebViewMessage) {
-        window.AndroidWebViewMessage(command)
+        // window.AndroidWebViewMessage(command)
     } else if (window.webkit
         && window.webkit.messageHandlers
         && window.webkit.messageHandlers.iOSWebViewMessage) {
-            window.webkit.messageHandlers.iOSWebViewMessage.postMessage({ command, id })
+            console.log(nativeMessage)
+            const message = {
+                data: nativeMessage.toString("base64"),
+                connectionId: "123"
+            }
+            window.webkit.messageHandlers.iOSWebViewMessage.postMessage(message)
     } else {
         console.warn('No native APIs available');
     }
+    // server.receiveMessage(buffer)
+}
 
-    return promise;
+function receiveMessageJS(buffer: string) {
+    console.log("[JS] Receive Message");
+    const buf = new Buffer(buffer);
+    const writeCb = (buf: Buffer) => {};
+    connection.rxMessage(new Transport(buf, writeCb));
+  }
+
+const protocol = TBinaryProtocol;
+const connection = new NativeConnection({ protocol }, receiveMessageIOS);
+
+const client = createClient(Calculator, connection as unknown as Connection);
+
+
+function nativeCall(command: string): Promise<string> {
+    return client.add(1, 1);
+
+    // let resolve = (): void => {};
+    // let reject = (): void => {};
+    // const timestamp = Date.now();
+    // const id = Math.random().toString().split('.')[1];
+    // const promise = new Promise<string>(function(res, rej): void {
+    //     resolve = res;
+    //     reject = rej;
+    //     setTimeout(function() {
+    //         rej('timeout');
+    //     }, ACTION_TIMEOUT_MS);
+    // })
+
+    // window.nativeCalls.push({ id, promise, timestamp, resolve, reject });
+
+    // if (window.AndroidWebViewMessage) {
+    //     window.AndroidWebViewMessage(command)
+    // } else if (window.webkit
+    //     && window.webkit.messageHandlers
+    //     && window.webkit.messageHandlers.iOSWebViewMessage) {
+    //         window.webkit.messageHandlers.iOSWebViewMessage.postMessage({ command, id })
+    // } else {
+    //     console.warn('No native APIs available');
+    // }
+
+    // return promise;
 } 
 
 function nativeHandler(id: string, outcome: 'fulfilled' | 'rejected', response: string): void {

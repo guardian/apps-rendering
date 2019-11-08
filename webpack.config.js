@@ -100,6 +100,12 @@ const clientConfig = {
     output: {
         filename: 'client.js',
     },
+    node: {
+        net: "empty",
+        tls: "empty",
+        child_process: "empty",
+        fs: "empty"
+    },
     resolve,
     module: {
         rules: [

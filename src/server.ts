@@ -18,6 +18,8 @@ import { getConfigValue } from 'utils/ssmConfig';
 import { isFeature, parseCapi, capiEndpoint } from 'utils/capi';
 import { fromNullable } from 'types/Option';
 
+import { transport } from 'native/thrift/Transport';
+
 // ----- Setup ----- //
 
 interface CapiFields {
