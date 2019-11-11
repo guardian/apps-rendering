@@ -100,12 +100,6 @@ const clientConfig = {
     output: {
         filename: 'client.js',
     },
-    node: {
-        net: "empty",
-        tls: "empty",
-        child_process: "empty",
-        fs: "empty"
-    },
     resolve,
     module: {
         rules: [
@@ -120,7 +114,8 @@ const clientConfig = {
                                 '@emotion/babel-preset-css-prop',
                                 [
                                     '@babel/preset-env',
-                                    { useBuiltIns: 'usage', modules: false }
+                                    { useBuiltIns: 'usage', modules: false, "targets": { "esmodules": true } 
+                                }
                                 ],
                             ],
                         },

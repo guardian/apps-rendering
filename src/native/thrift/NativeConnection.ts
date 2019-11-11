@@ -1,57 +1,129 @@
-import { TJSONProtocol } from 'thrift';
-import { Transport } from './Transport';
+import { 
+    ThriftConnection, 
+    ThriftClient, 
+    IClientConstructor,
+    getTransport,
+    getProtocol,
+    TransportType,
+    ProtocolType,
+    ITransportConstructor,
+    IProtocolConstructor,
+    TApplicationException,
+    TApplicationExceptionType
+} from '@creditkarma/thrift-server-core'
+
+import * as uuid from 'uuid';
+
+declare global {
+    interface Window {
+        nativeConnections: { [id: string]: NativeConnection }
+        AndroidWebViewMessage: (command: string) => {};
+        webkit: {
+            messageHandlers: {
+                iOSWebViewMessage: {
+                    postMessage: (nativeMessage: NativeMessage) => {};
+                };
+            };
+        };
+    }
+}
 
 export interface NativeMessage {
-    data: string;
-    connectionId: string;
+    data: string,
+    connectionId: string
 }
 
-interface ConnectionOptions {
-    transport?: typeof Transport;
-    protocol?: any;
+interface PromiseResponse {
+    resolve: (response: Buffer) => void;
+    reject: (error: Error) => void;
+    timeoutId: NodeJS.Timeout;
 }
 
-export class NativeConnection {
-    transport: typeof Transport;
-    protocol: any;
-    iosFunction: (nativeMessage: NativeMessage) => void;
-    client: any;
+const ACTION_TIMEOUT_MS = 30000;
 
-    write(buffer: NativeMessage) {
-        this.iosFunction(buffer)
+function sendNativeMessage(nativeMessage: NativeMessage) {
+    if (window.AndroidWebViewMessage) {
+        // window.AndroidWebViewMessage(command)
+    } else if (window.webkit
+        && window.webkit.messageHandlers
+        && window.webkit.messageHandlers.iOSWebViewMessage) {
+            window.webkit.messageHandlers.iOSWebViewMessage.postMessage(nativeMessage)
+    } else {
+        console.warn('No native APIs available');
+    }
+}
+
+export class NativeConnection<Context = void> extends ThriftConnection {
+    connectionId = uuid.v4();
+    promises: PromiseResponse[] = [];
+    outBuffer: NativeMessage[] = [];
+
+    constructor(Transport: ITransportConstructor, Protocol: IProtocolConstructor) {
+        super(Transport, Protocol);
+        window.nativeConnections = window.nativeConnections || {};
+        window.nativeConnections[this.connectionId] = this
     }
     
-    rxMessage(transport_with_data: any) {
-        const message = new this.protocol(transport_with_data);
-        const header = message.readMessageBegin();
-        const dummy_seqid = header.rseqid * -1;
-        const client = this.client;
-        client._reqs[dummy_seqid] = function(err: any, success: any){
-            transport_with_data.commitPosition();
-    
-            const callback = client._reqs[header.rseqid];
-            delete client._reqs[header.rseqid];
-            if (callback) {
-                callback(err, success);
+    reset(oldConnectionId: string) {
+        if (oldConnectionId === this.connectionId) {
+            console.warn("Reseting connection " + oldConnectionId)
+            delete(window.nativeConnections[this.connectionId])
+            this.promises.forEach(promise => {
+                promise.reject(new TApplicationException(TApplicationExceptionType.UNKNOWN, "Timeout error"))
+            })
+            this.promises = []
+            this.connectionId = uuid.v4();
+            window.nativeConnections[this.connectionId] = this            
+        }
+    }
+
+    receive(message: NativeMessage): void {
+        console.log(this.connectionId);
+        const resolver = this.promises.shift();
+        if (resolver) {
+            clearTimeout(resolver.timeoutId)
+            const data = Buffer.from(message.data, 'base64');
+            resolver.resolve(data);
+        }
+        this.sendNextMessage()
+    }
+
+    private sendNextMessage() {
+        const message = this.outBuffer.shift();
+        if (message) {
+            console.log("Sending next message")
+            sendNativeMessage(message)
+        }
+    }
+
+    send(dataToSend: Buffer, context?: void | undefined): Promise<Buffer> {
+        const id = this.connectionId
+        const connection = this
+        return new Promise<Buffer>(function(res, rej): void {
+            connection.promises.push({ 
+                resolve: res,
+                reject: rej,
+                timeoutId: setTimeout(function() { connection.reset(id); }, ACTION_TIMEOUT_MS)
+            });
+            let message: NativeMessage = {
+                data: dataToSend.toString("base64"),
+                connectionId: id
             }
-        }
-    
-        if (client['recv_' + header.fname]) {
-            client['recv_' + header.fname](message, header.mtype, dummy_seqid);
-        } else {
-            delete client._reqs[dummy_seqid];
-            throw("Received a response to an unknown RPC function");
-        }
+            if (connection.promises.length == 1) {
+                console.log("Sending message immediately")
+                sendNativeMessage(message);
+            } else {
+                console.log("Queing message because others in flight")
+                connection.outBuffer.push(message);
+            }
+        });
     }
-    
-    end() {
-        console.log("end called")
-    }
+}
 
-    constructor(options: ConnectionOptions = {}, iosFunction: (nativeMessage: NativeMessage) => void) {
-        this.transport = options.transport || Transport;        
-        this.protocol = options.protocol || TJSONProtocol;
-        this.iosFunction = iosFunction;
-        this.client = null;
-    }
+export function createAppClient<TClient extends ThriftClient<void>>(
+    ServiceClient: IClientConstructor<TClient, void>, 
+    transport: TransportType = 'buffered', 
+    protocol: ProtocolType = 'compact'
+): TClient {
+    return new ServiceClient(new NativeConnection(getTransport(transport), getProtocol(protocol)));
 }

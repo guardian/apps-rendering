@@ -9,7 +9,7 @@
         // Allows discovery of node_modules packages
         "moduleResolution": "node",
         "noUnusedLocals": true,
-        "noUnusedParameters": true,
+        "noUnusedParameters": false,
         "baseUrl": "src/"
     }
 }
