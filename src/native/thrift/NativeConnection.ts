@@ -16,8 +16,8 @@ import * as uuid from 'uuid';
 
 declare global {
     interface Window {
-        nativeConnections: { [id: string]: NativeConnection }
-        AndroidWebViewMessage: (command: string) => {};
+        nativeConnections: { [id: string]: NativeConnection };
+        AndroidWebViewMessage?: (command: string) => {};
         webkit: {
             messageHandlers: {
                 iOSWebViewMessage: {
@@ -29,8 +29,8 @@ declare global {
 }
 
 export interface NativeMessage {
-    data: string,
-    connectionId: string
+    data: string;
+    connectionId: string;
 }
 
 interface PromiseResponse {
@@ -41,13 +41,11 @@ interface PromiseResponse {
 
 const ACTION_TIMEOUT_MS = 30000;
 
-function sendNativeMessage(nativeMessage: NativeMessage) {
+function sendNativeMessage(nativeMessage: NativeMessage): void {
     if (window.AndroidWebViewMessage) {
         // window.AndroidWebViewMessage(command)
-    } else if (window.webkit
-        && window.webkit.messageHandlers
-        && window.webkit.messageHandlers.iOSWebViewMessage) {
-            window.webkit.messageHandlers.iOSWebViewMessage.postMessage(nativeMessage)
+    } else if (window?.webkit?.messageHandlers?.iOSWebViewMessage?.postMessage) {
+        window.webkit.messageHandlers.iOSWebViewMessage.postMessage(nativeMessage)
     } else {
         console.warn('No native APIs available');
     }
@@ -64,10 +62,10 @@ export class NativeConnection<Context = void> extends ThriftConnection {
         window.nativeConnections[this.connectionId] = this
     }
     
-    reset(oldConnectionId: string) {
+    reset(oldConnectionId: string): void {
         if (oldConnectionId === this.connectionId) {
             console.warn("Reseting connection " + oldConnectionId)
-            delete(window.nativeConnections[this.connectionId])
+            delete window.nativeConnections[this.connectionId]
             this.promises.forEach(promise => {
                 promise.reject(new TApplicationException(TApplicationExceptionType.UNKNOWN, "Timeout error"))
             })
@@ -88,7 +86,7 @@ export class NativeConnection<Context = void> extends ThriftConnection {
         this.sendNextMessage()
     }
 
-    private sendNextMessage() {
+    private sendNextMessage(): void {
         const message = this.outBuffer.shift();
         if (message) {
             console.log("Sending next message")
@@ -98,18 +96,19 @@ export class NativeConnection<Context = void> extends ThriftConnection {
 
     send(dataToSend: Buffer, context?: void | undefined): Promise<Buffer> {
         const id = this.connectionId
-        const connection = this
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const connection = this;
         return new Promise<Buffer>(function(res, rej): void {
             connection.promises.push({ 
                 resolve: res,
                 reject: rej,
                 timeoutId: setTimeout(function() { connection.reset(id); }, ACTION_TIMEOUT_MS)
             });
-            let message: NativeMessage = {
+            const message: NativeMessage = {
                 data: dataToSend.toString("base64"),
                 connectionId: id
             }
-            if (connection.promises.length == 1) {
+            if (connection.promises.length === 1) {
                 console.log("Sending message immediately")
                 sendNativeMessage(message);
             } else {

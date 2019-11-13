@@ -17,8 +17,6 @@ import { getConfigValue } from 'utils/ssmConfig';
 import { parseCapi, capiEndpoint } from 'types/Capi';
 import { Capi } from 'types/Capi';
 
-import { transport } from 'native/thrift/Transport';
-
 // ----- Setup ----- //
 
 const defaultId =
@@ -45,7 +43,6 @@ function getContent(capi: Capi): Result<string, Content> {
   }
 
   return new Ok(content);
-
 }
 
 const getArticleComponent = (imageSalt: string) =>
@@ -114,9 +111,7 @@ app.get('/*', async (req, res) => {
 
     console.error(e);
     res.status(500).send('An error occurred, check the console');
-
   }
-
 });
 
 app.listen(3040);
