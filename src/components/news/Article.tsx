@@ -6,30 +6,18 @@ import ArticleHeadline from './ArticleHeadline';
 import ArticleStandfirst from './ArticleStandfirst';
 import ArticleByline from './ArticleByline';
 import ArticleBody from './ArticleBody';
-import Tags from '../shared/Tags';
-import { Option } from 'types/Option';
-import { Series, Contributor } from '../../types/Capi';
-import { Tag, Block, BlockElement } from 'types/capi-thrift-models';
-import { PillarId, PillarStyles, darkModeCss, articleWidthStyles } from '../../styles';
-import { palette, wide } from '@guardian/src-foundations';
+import Tags from 'components/shared/Tags';
+import { Content } from 'types/capi-thrift-models';
+import { darkModeCss, articleWidthStyles } from 'styles';
+import { palette } from '@guardian/src-foundations';
+import { from, breakpoints } from '@guardian/src-foundations/mq';
 import { css } from '@emotion/core';
 import { Keyline } from 'components/shared/Keyline';
+import { isFeature, articleSeries, articleContributors, articleMainImage } from 'types/Capi';
+import { getPillarStyles, pillarFromString } from 'types/Pillar';
 
 export interface ArticleProps {
-    headline: string;
-    standfirst: string;
-    bylineHtml: string;
-    webPublicationDate: string;
-    body: string;
-    tags: Tag[];
-    feature: boolean;
-    pillarId: PillarId;
-    mainImage: Option<BlockElement>;
-    starRating?: string;
-    pillarStyles: PillarStyles;
-    contributors: Contributor[];
-    series: Series;
-    bodyElements: Block[];
+    capi: Content;
     imageSalt: string;
 }
 
@@ -38,76 +26,76 @@ const MainStyles = css`
 `;
 
 const MainDarkStyles = darkModeCss`
-    background: ${palette.neutral[10]};
+    background: ${palette.neutral.darkMode};
 `;
 
 const BorderStyles = css`
     background: ${palette.neutral[100]};
 
-    ${wide} {
-        width: 1300px;
+    ${from.wide} {
+        width: ${breakpoints.wide}px;
         margin: 0 auto;
     }
 `;
 
 const HeaderImageStyles = css`
     figure {
-        ${wide} {
+        margin: 0;
+
+        ${from.wide} {
             margin: 0 auto;
         }
     }
 `;
 
-const Article = ({
-    headline,
-    standfirst,
-    bylineHtml,
-    webPublicationDate,
-    pillarId,
-    tags,
-    feature,
-    mainImage,
-    starRating,
-    bodyElements,
-    pillarStyles,
-    contributors,
-    series,
-    imageSalt,
-}: ArticleProps): JSX.Element =>
-    <main css={[MainStyles, MainDarkStyles]}>
-        <div css={BorderStyles}>
-            <HeaderImage image={mainImage} imageSalt={imageSalt} className={HeaderImageStyles}/>
-            <div css={articleWidthStyles}>
-                <ArticleSeries series={series} pillarStyles={pillarStyles}/>
-                <ArticleHeadline
-                    headline={headline}
-                    feature={feature}
-                    rating={starRating}
-                    pillarStyles={pillarStyles}
-                />
-                <ArticleStandfirst
-                    standfirst={standfirst}
-                    feature={feature}
-                    pillarStyles={pillarStyles}
-                />
+const Article = ({ capi, imageSalt }: ArticleProps): JSX.Element => {
+
+    const { fields, tags, webPublicationDate, pillarId, blocks } = capi;
+    const series = articleSeries(capi);
+    const feature = isFeature(capi) || 'starRating' in fields;
+    const pillar = pillarFromString(pillarId);
+    const pillarStyles = getPillarStyles(pillar);
+    const contributors = articleContributors(capi);
+    const bodyElements = blocks.body[0].elements;
+    const mainImage = articleMainImage(capi);
+
+    return (
+        <main css={[MainStyles, MainDarkStyles]}>
+            <div css={BorderStyles}>
+                <HeaderImage image={mainImage} imageSalt={imageSalt} className={HeaderImageStyles}/>
+                <div css={articleWidthStyles}>
+                    <ArticleSeries series={series} pillarStyles={pillarStyles}/>
+                    <ArticleHeadline
+                        headline={fields.headline}
+                        feature={feature}
+                        rating={String(fields.starRating)}
+                        pillarStyles={pillarStyles}
+                    />
+                    <ArticleStandfirst
+                        standfirst={fields.standfirst}
+                        feature={feature}
+                        pillarStyles={pillarStyles}
+                    />
+                </div>
+                <Keyline pillar={pillar} type={'article'}/>
+                <div css={articleWidthStyles}>
+                    <ArticleByline
+                        byline={fields.bylineHtml}
+                        pillarStyles={pillarStyles}
+                        publicationDate={webPublicationDate}
+                        contributors={contributors}
+                        imageSalt={imageSalt}
+                    />
+                    <ArticleBody
+                        pillarStyles={pillarStyles}
+                        bodyElements={bodyElements}
+                        imageSalt={imageSalt}
+                    />
+                    <Tags tags={tags}/>
+                </div>
             </div>
-            <Keyline pillar={pillarId} type={'article'}/>
-            <div css={articleWidthStyles}>
-                <ArticleByline
-                    byline={bylineHtml}
-                    pillarStyles={pillarStyles}
-                    publicationDate={webPublicationDate}
-                    contributors={contributors}
-                    imageSalt={imageSalt}
-                />
-                <ArticleBody
-                    pillarStyles={pillarStyles}
-                    bodyElements={bodyElements}
-                    imageSalt={imageSalt}
-                />
-                <Tags tags={tags}/>
-            </div>
-        </div>
-    </main>
+        </main>
+    );
+}
 
 export default Article;

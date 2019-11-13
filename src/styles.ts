@@ -1,5 +1,7 @@
-import { palette, until, from, wide, phablet } from '@guardian/src-foundations';
+import { palette } from '@guardian/src-foundations';
+import { from, until, between } from '@guardian/src-foundations/mq';
 import { css, SerializedStyles } from '@emotion/core'
+import { PillarStyles } from 'types/Pillar';
 
 const BASE_PADDING = 8;
 
@@ -11,70 +13,12 @@ export const sidePadding = css`
     padding-left: ${basePx(1)};
     padding-right: ${basePx(1)};
 
-    ${wide} {
+    ${from.wide} {
         padding-left: 0;
         padding-right: 0;
-    }
-}`;
+    }`;
 
-export type PillarId = 'pillar/news'|'pillar/opinion'|'pillar/sport'|'pillar/arts'|'pillar/lifestyle';
-
-export interface PillarStyles {
-    kicker: string;
-    featureHeadline: string;
-    soft: string;
-    inverted: string;
-    liveblogBackground: string;
-}
-
-interface PillarColours {
-    [pillar: string]: PillarStyles;
-}
-
-export const pillarColours: PillarColours = {
-    news: {
-        kicker: palette.news.main,
-        featureHeadline: palette.news.dark,
-        soft: palette.neutral[97],
-        inverted: palette.news.bright,
-        liveblogBackground: palette.news.dark
-    },
-    opinion: {
-        kicker: palette.opinion.main,
-        featureHeadline: palette.opinion.dark,
-        soft: palette.opinion.faded,
-        inverted: palette.opinion.bright,
-        liveblogBackground: palette.opinion.dark
-    },
-    sport: {
-        kicker: palette.sport.main,
-        featureHeadline: palette.sport.dark,
-        soft: palette.sport.faded,
-        inverted: palette.sport.bright,
-        liveblogBackground: palette.sport.dark
-    },
-    arts: {
-        kicker: palette.culture.main,
-        featureHeadline: palette.culture.dark,
-        soft: palette.culture.faded,
-        inverted: palette.culture.bright,
-        liveblogBackground: palette.culture.dark
-    },
-    lifestyle: {
-        kicker: palette.lifestyle.main,
-        featureHeadline: palette.lifestyle.dark,
-        soft: palette.lifestyle.faded,
-        inverted: palette.lifestyle.bright,
-        liveblogBackground: palette.lifestyle.dark
-    }
-}
-
-export function getPillarStyles(pillarId: PillarId): PillarStyles {
-    const pillar = pillarId.replace('pillar/', '');
-    return pillarColours[pillar];
-}
-
-export const bulletStyles = (kicker: string, opacity = 1): string =>  `
+export const bulletStyles = (kicker: string, opacity = 1): string => `
     .bullet {
         color: transparent;
 
@@ -126,9 +70,9 @@ export const darkModeCss = (
 ): SerializedStyles => css`
     @media (prefers-color-scheme: dark) {
         ${styles
-            .map((style, i) => `${style}${placeholders[i] ? placeholders[i] : ''}`)
-            .join('')
-        }
+        .map((style, i) => `${style}${placeholders[i] ? placeholders[i] : ''}`)
+        .join('')
+    }
     }
 `;
 
@@ -143,7 +87,7 @@ export const commonArticleStyles = ({ kicker }: PillarStyles): SerializedStyles 
     }
 
     .image {
-        ${from.phablet.until.wide} {
+        ${between.phablet.and.wide} {
             padding-left: ${basePx(1)};
             padding-right: ${basePx(1)};
         }
@@ -195,10 +139,6 @@ export const commonArticleStyles = ({ kicker }: PillarStyles): SerializedStyles 
     .element-membership {
         background: ${palette.neutral[97]};
         padding: ${basePx(1)};
-        
-        ${until.wide} {
-            margin-left: ${basePx(1)};
-        }
 
         h1 {
             margin: 0;
@@ -235,8 +175,13 @@ export const commonArticleStyles = ({ kicker }: PillarStyles): SerializedStyles 
     }
 
     p {
-        hyphens: auto;
         overflow-wrap: break-word;
+    }
+
+    ${until.wide} {
+        .twitter-tweet {
+            clear: both;
+        }
     }
 
     ${bulletStyles(kicker)}
@@ -246,11 +191,70 @@ export const wideContentWidth = 620;
 export const wideColumnWidth = 220;
 
 export const articleWidthStyles = css`
-    ${wide} {
+    ${from.wide} {
         margin: 0 auto;
     }
 
-    ${phablet} {
+    ${from.phablet} {
         width: ${wideContentWidth}px;
     }
 `;
+
+const adHeight = '250px';
+
+export const adStyles = css`
+    .ad-placeholder {
+        color: ${palette.neutral[46]};
+        background: ${palette.neutral[97]};
+        clear: both;
+
+        .ad-labels {
+            ${textSans}
+            padding: ${basePx(1)};
+            padding-bottom: ${adHeight};
+
+            h1 {
+                margin: 0;
+                float: left;
+            }
+
+            .ad-hide {
+                float: right;
+                background: none;
+                border: none;
+                font-size: 16px;
+                color: ${palette.neutral[46]};
+                margin-top: -4px;
+
+                &::after {
+                    padding-left: ${basePx(1)};
+                    ${icons}
+                    content: "\\e04F";
+                    font-size: 16px;
+                }
+            }
+        }
+
+        ${until.phablet} {
+            margin: 1em ${basePx(-1)};
+        }
+
+        ${from.desktop} {
+            position: absolute;
+            margin-left: calc(${wideContentWidth}px + ${basePx(2)});
+            min-width: 300px;
+        }
+    }
+
+    .ad-placeholder.short:nth-of-type(1) {
+        ${from.desktop} {
+        top: 0;
+        }
+    }
+
+    .ad-placeholder.short:nth-of-type(2) {
+        ${from.desktop} {
+        top: 300px;
+        }
+    }
+`

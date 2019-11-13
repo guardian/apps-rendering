@@ -1,28 +1,54 @@
 import React from 'react';
 import { css, SerializedStyles } from '@emotion/core'
-import { sidePadding, PillarStyles, darkModeCss, commonArticleStyles } from '../../styles';
-import { palette } from '@guardian/src-foundations'
-import { render } from "../../renderBlocks";
-import { Block } from 'types/capi-thrift-models';
+import {
+    sidePadding,
+    darkModeCss,
+    commonArticleStyles,
+    basePx,
+    adStyles
+} from 'styles';
+import { palette } from '@guardian/src-foundations';
+import { from, until } from '@guardian/src-foundations/mq';
+import { render } from "renderBlocks";
+import { BlockElement } from 'types/capi-thrift-models';
+import { PillarStyles } from 'types/Pillar';
+
+const richLinkWidth = "13.75rem";
 
 const ArticleBodyStyles = (pillarStyles: PillarStyles): SerializedStyles => css`
+    position: relative;
+
     .rich-link,
     .element-membership {
         float: left;
         clear: left;
-        width: 13.75rem;
+        width: ${richLinkWidth};
         margin: 8px 24px 8px 0;
+
+        ${from.wide} {
+            margin-left: calc(-${richLinkWidth} - 16px - 24px);
+        }
     }
 
-    p {
-        ${sidePadding}
+    iframe {
+        width: 100%;
+        border: none;
     }
 
+    ${until.wide} {
+        figure:not(.interactive) {
+            margin-left: ${basePx(-1)};
+            margin-right: ${basePx(-1)};
+        }
+    }
+
+    ${adStyles}
+    ${sidePadding}
     ${commonArticleStyles(pillarStyles)}
 `;
 
 const ArticleBodyDarkStyles = ({ inverted }: PillarStyles): SerializedStyles => darkModeCss`
-    background: ${palette.neutral[10]};
+    background: ${palette.neutral.darkMode};
     color: ${palette.neutral[86]};
 
     a {
@@ -52,7 +78,7 @@ const ArticleBodyDarkStyles = ({ inverted }: PillarStyles): SerializedStyles => 
 
 interface ArticleBodyProps {
     pillarStyles: PillarStyles;
-    bodyElements: Block[];
+    bodyElements: BlockElement[];
     imageSalt: string;
 }
 

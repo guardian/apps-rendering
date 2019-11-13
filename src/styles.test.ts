@@ -1,4 +1,5 @@
-import { basePx, baseMultiply, getPillarStyles, darkModeCss } from './styles';
+import { basePx, baseMultiply, darkModeCss } from './styles';
+import { getPillarStyles, Pillar } from 'types/Pillar';
 
 describe('helper functions return correct styles', () => {
     test('Calculates base pixels', () => {
@@ -10,12 +11,12 @@ describe('helper functions return correct styles', () => {
     });
 
     test('Returns correct pillar styles for pillar', () => {
-        const pillarStyles = getPillarStyles('pillar/news');
+        const pillarStyles = getPillarStyles(Pillar.news);
         const expectedNewsPillarStyles =  {
             kicker: '#c70000',
             featureHeadline: '#ab0613',
             soft: '#f6f6f6',
-            inverted: '#ff4e36',
+            inverted: '#FF5943',
             liveblogBackground: '#ab0613'
         }
         expect(pillarStyles).toEqual(expectedNewsPillarStyles);

@@ -1,11 +1,12 @@
 import React from 'react';
-import { PillarStyles, bulletStyles, commonArticleStyles } from '../../styles';
+import { bulletStyles, commonArticleStyles } from 'styles';
 import LiveblogBlock from './LiveblogBlock';
 import LiveblogLoadMore from './LiveblogLoadMore';
 import { render } from 'renderBlocks';
 import { Block } from 'types/capi-thrift-models';
 
 import { css, SerializedStyles } from '@emotion/core'
+import { PillarStyles } from 'types/Pillar';
 
 const LiveBodyStyles = (pillarStyles: PillarStyles): SerializedStyles => css`
     .rich-link,
@@ -33,7 +34,7 @@ const LiveblogBody= ({ pillarStyles, bodyElements, imageSalt }: LiveblogBodyProp
     const LoadMore = ({ total }: { total: number }): JSX.Element | null => total > 10
         ? <LiveblogLoadMore pillarStyles={pillarStyles}/> 
         : null;
-
+    const ads = false;
     return (
         <article css={LiveBodyStyles(pillarStyles)}>
             {
@@ -45,7 +46,7 @@ const LiveblogBody= ({ pillarStyles, bodyElements, imageSalt }: LiveblogBodyProp
                         title={block.title}
                         firstPublishedDate={block.firstPublishedDate}
                         lastModifiedDate={block.lastModifiedDate}>
-                            <>{render(block.elements, imageSalt).html}</>
+                            <>{render(block.elements, imageSalt, ads).html}</>
                         </LiveblogBlock>
                 })
             }

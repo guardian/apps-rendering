@@ -5,7 +5,8 @@ import jsdom from 'jsdom';
 
 import { Result, Err, fromUnsafe } from './types/Result';
 import { imageBlock } from './components/blocks/image';
-
+import { insertAdPlaceholders } from './ads';
+import { transform } from 'utils/contentTransformations';
 
 // ----- Setup ----- //
 
@@ -41,32 +42,45 @@ function getAttrs(node: Node): {} {
     }
 }
 
-function textElement(node: Node, idx: number): ReactNode {
-
+function textElement(node: Node): ReactNode {
     switch (node.nodeName) {
         case 'P':
             return h(
                 'p',
-                { key: idx },
+                null,
                 ...Array.from(node.childNodes).map(textElement),
             );
         case '#text':
             return node.textContent;
         case 'A':
             return h('a', getAttrs(node), node.textContent);
+        case 'SPAN':
+            return h('span', getAttrs(node), node.textContent);
         default:
             // Fallback to handle any element
             return h(
                 node.nodeName.toLocaleLowerCase(),
-                { key: idx },
+                null,
                 ...Array.from(node.childNodes).map(textElement),
             );
     }
-
 }
 
 function textBlock(fragment: DocumentFragment): ReactNode[] {
     return Array.from(fragment.children).map(textElement);
+}
+
+function tweetBlock(fragment: DocumentFragment): ReactNode[] {
+    return Array.from(fragment.children).map(node => {
+        switch (node.nodeName) {
+            case 'BLOCKQUOTE':
+                return h(
+                    'blockquote',
+                    getAttrs(node),
+                    ...Array.from(node.childNodes).map(textElement)
+                );
+        }
+    });
 }
 
 const pullquoteBlock = (fragment: DocumentFragment): ReactNode =>
@@ -82,16 +96,26 @@ const richLinkBlock = (url: string, linkText: string): ReactNode =>
         h('a', { href: url }, 'Read more'),
     );
 
+const interactiveBlock = (url: string): ReactNode =>
+    h('figure', { className: "interactive" },
+        h('iframe', { src: url, height: 500 }, null)
+    )
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any 
 function reactFromElement(element: any, imageSalt: string): Result<string, ReactNode> {
 
     switch (element.type) {
         case 'text':
-
             return fromUnsafe(
-                () => JSDOM.fragment(element.textTypeData.html),
+                () => JSDOM.fragment(transform(element.textTypeData.html)),
                 'Failed to parse text element',
             ).map(textBlock);
+
+        case 'tweet':
+            return fromUnsafe(
+                () => JSDOM.fragment(element.tweetTypeData.html),
+                'Failed to parse text element',
+            ).map(tweetBlock);
 
         case 'pullquote':
 
@@ -114,6 +138,13 @@ function reactFromElement(element: any, imageSalt: string): Result<string, React
                 return imageBlock(imageTypeData, assets, imageSalt)
             }, 'Failed to parse image');
 
+        case 'interactive':
+
+            return fromUnsafe(() => {
+                const { interactiveTypeData } = element;
+                return interactiveBlock(interactiveTypeData.iframeUrl)
+            }, 'Failed to parse interactive');
+
         default:
             return new Err(`Unexpected element type: ${element.type}`);
     }
@@ -134,10 +165,10 @@ function elementsToReact(elements: any, imageSalt: string): ParsedReact {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function render(bodyElements: any, imageSalt: string): Rendered {
-
+function render(bodyElements: any, imageSalt: string, ads = true): Rendered {
     const reactNodes = elementsToReact(bodyElements, imageSalt);
-    const main = h('article', null, ...reactNodes.nodes);
+    const reactNodesWithAds = ads ? insertAdPlaceholders(reactNodes.nodes) : reactNodes.nodes;
+    const main = h('article', null, ...reactNodesWithAds);
 
     return {
         errors: reactNodes.errors,

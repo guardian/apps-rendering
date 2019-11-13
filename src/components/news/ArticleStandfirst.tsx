@@ -1,8 +1,9 @@
 import React from 'react';
-import { sidePadding, PillarStyles, bulletStyles, headlineFont, darkModeCss } from '../../styles';
+import { sidePadding, bulletStyles, headlineFont, darkModeCss } from 'styles';
 import { transform } from '../../utils/contentTransformations';
 import { css, SerializedStyles } from '@emotion/core';
 import { palette } from '@guardian/src-foundations';
+import { PillarStyles } from 'types/Pillar';
 
 const StandfirstFeatureStyles = `
     color: ${palette.neutral[46]};
@@ -32,7 +33,7 @@ const StandfirstStyles = (feature: boolean, { kicker }: PillarStyles): Serialize
 `;
 
 const StandfirstDarkStyles = ({ inverted }: PillarStyles): SerializedStyles => darkModeCss`
-    background: ${palette.neutral[10]};
+    background: ${palette.neutral.darkMode};
     color: ${palette.neutral[86]};
 
     a {
