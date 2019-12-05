@@ -77,7 +77,7 @@ const nodeConfig = {
 const serverConfig = env => ({
     name: 'server',
     mode: 'development',
-    entry: 'server.ts',
+    entry: 'server/server.ts',
     node: {
         __dirname: false,
     },
@@ -95,12 +95,19 @@ const serverConfig = env => ({
 const clientConfig = {
     name: 'client',
     mode: 'development',
-    entry: 'client.ts',
+    entry: 'client/client.ts',
     target: 'web',
     output: {
+        path: path.resolve(__dirname, 'dist/assets'),
         filename: 'client.js',
     },
     resolve,
+    devServer: {
+        publicPath: '/assets/',
+        proxy: {
+            '**': 'http://localhost:3040',
+        }
+    },
     module: {
         rules: [
             {
@@ -136,7 +143,7 @@ const clientConfig = {
 const testConfig = {
     name: 'tests',
     mode: 'development',
-    entry: glob.sync("./**/*test.ts", { ignore: './node_modules/**' }).reduce(testEntryPoints, {}),
+    entry: glob.sync("./**/*test.ts*", { ignore: './node_modules/**' }).reduce(testEntryPoints, {}),
     output: {
         filename: '[name].test.js',
     },

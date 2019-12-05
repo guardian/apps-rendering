@@ -3,10 +3,12 @@
 import React from 'react';
 import jsdom from 'jsdom';
 
-import { Result, Err, fromUnsafe } from './types/Result';
+import { Result, Err, fromUnsafe } from './types/result';
 import { imageBlock } from './components/blocks/image';
 import { insertAdPlaceholders } from './ads';
-import { transform } from 'utils/contentTransformations';
+import { transform } from 'contentTransformations';
+import { BlockElement } from 'capiThriftModels';
+
 
 // ----- Setup ----- //
 
@@ -84,7 +86,7 @@ function tweetBlock(fragment: DocumentFragment): ReactNode[] {
 }
 
 const pullquoteBlock = (fragment: DocumentFragment): ReactNode =>
-    h('aside', null,
+    h('aside', { className: 'pullquote' },
         h('blockquote', null,
             h('p', null, fragment.textContent)
         )
@@ -101,8 +103,7 @@ const interactiveBlock = (url: string): ReactNode =>
         h('iframe', { src: url, height: 500 }, null)
     )
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any 
-function reactFromElement(element: any, imageSalt: string): Result<string, ReactNode> {
+function reactFromElement(element: BlockElement, imageSalt: string): Result<string, ReactNode> {
 
     switch (element.type) {
         case 'text':
@@ -151,10 +152,8 @@ function reactFromElement(element: any, imageSalt: string): Result<string, React
 
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any 
-function elementsToReact(elements: any, imageSalt: string): ParsedReact {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any 
-    const elementToReact = ({ errors, nodes }: ParsedReact, element: any): ParsedReact =>
+function elementsToReact(elements: BlockElement[], imageSalt: string): ParsedReact {
+    const elementToReact = ({ errors, nodes }: ParsedReact, element: BlockElement): ParsedReact =>
         reactFromElement(element, imageSalt).either(
             error => ({ errors: [ ...errors, error ], nodes }),
             node => ({ errors, nodes: [ ...nodes, node ] }),
@@ -164,11 +163,10 @@ function elementsToReact(elements: any, imageSalt: string): ParsedReact {
 
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function render(bodyElements: any, imageSalt: string, ads = true): Rendered {
+function render(bodyElements: BlockElement[], imageSalt: string, ads = true): Rendered {
     const reactNodes = elementsToReact(bodyElements, imageSalt);
     const reactNodesWithAds = ads ? insertAdPlaceholders(reactNodes.nodes) : reactNodes.nodes;
-    const main = h('article', null, ...reactNodesWithAds);
+    const main = h(React.Fragment, null, ...reactNodesWithAds);
 
     return {
         errors: reactNodes.errors,

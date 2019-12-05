@@ -1,7 +1,7 @@
 import { palette } from '@guardian/src-foundations';
 import { from, until, between } from '@guardian/src-foundations/mq';
 import { css, SerializedStyles } from '@emotion/core'
-import { PillarStyles } from 'types/Pillar';
+import { PillarStyles } from 'pillar';
 
 const BASE_PADDING = 8;
 
@@ -93,7 +93,7 @@ export const commonArticleStyles = ({ kicker }: PillarStyles): SerializedStyles 
         }
     }
 
-    blockquote {
+    .pullquote {
         font-weight: 200;
         font-size: 2.2rem;
         line-height: 1.3;
@@ -109,7 +109,7 @@ export const commonArticleStyles = ({ kicker }: PillarStyles): SerializedStyles 
                 font-size: 2.2rem;
                 content: '\\e11c';
                 display: inline-block;
-                margin-right: 8px;
+                margin-right: ${basePx(1)};
             }
         }
 
@@ -145,7 +145,7 @@ export const commonArticleStyles = ({ kicker }: PillarStyles): SerializedStyles 
         }
 
         p {
-            margin: 8px 0;
+            margin: ${basePx(1, 0)};
         }
 
         span {
@@ -160,7 +160,7 @@ export const commonArticleStyles = ({ kicker }: PillarStyles): SerializedStyles 
     h2 {
         font-size: 1.8rem;
         line-height: 2.2rem;
-        margin: 8px 0;
+        margin: ${basePx(1, 0)};
         font-weight: 500;
 
         & + p {
@@ -204,7 +204,7 @@ const adHeight = '250px';
 
 export const adStyles = css`
     .ad-placeholder {
-        color: ${palette.neutral[46]};
+        color: ${palette.neutral[20]};
         background: ${palette.neutral[97]};
         clear: both;
 
@@ -216,6 +216,7 @@ export const adStyles = css`
             h1 {
                 margin: 0;
                 float: left;
+                font-size: 16px;
             }
 
             .ad-hide {
@@ -223,14 +224,27 @@ export const adStyles = css`
                 background: none;
                 border: none;
                 font-size: 16px;
-                color: ${palette.neutral[46]};
-                margin-top: -4px;
+                color: ${palette.neutral[20]};
+                position: relative;
+
+                span {
+                    position: absolute;
+                    right: 20px;
+                    top: 3px;
+                }
 
                 &::after {
                     padding-left: ${basePx(1)};
                     ${icons}
                     content: "\\e04F";
                     font-size: 16px;
+                    position: absolute;
+                    right: 0px;
+                    top: 1px;
+                }
+
+                &:focus {
+                    text-decoration: underline;
                 }
             }
         }
