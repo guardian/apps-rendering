@@ -772,7 +772,7 @@ export declare class Content {
   blocks: Blocks;
   rights: Rights;
   crossword: Crossword;
-  atoms: any;
+  atoms?: any;
   stats: ContentStats;
   section: Section;
   debug: Debug;

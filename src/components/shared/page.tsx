@@ -8,7 +8,6 @@ import LiveblogArticle from 'components/liveblog/article';
 import Opinion from 'components/opinion/article';
 import Immersive from 'components/immersive/article';
 
-import { Content } from 'capiThriftModels';
 import { includesTweets } from 'capi';
 import { fontFace } from 'styles';
 import { None, Some } from 'types/option';
@@ -17,7 +16,7 @@ import { JSDOM } from 'jsdom';
 import { partition } from 'types/result';
 import { insertAdPlaceholders } from 'ads';
 import { fromCapi, Layout } from 'article';
-
+import { Content as c } from '../../server/capi-types/Content';
 
 // ----- Components ----- //
 
@@ -79,7 +78,7 @@ const PageStyles = css`
 
 interface BodyProps {
     imageSalt: string;
-    capi: Content;
+    capi: c;
 }
 
 const WithScript = (props: { src: string; children: ReactNode }): ReactElement =>
@@ -135,7 +134,7 @@ function ArticleBody({ capi, imageSalt }: BodyProps): React.ReactElement {
 }
 
 interface Props {
-    content: Content;
+    content: c;
     imageSalt: string;
 }
 
