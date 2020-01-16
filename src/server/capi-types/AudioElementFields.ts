@@ -5,6 +5,18 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IAudioElementFields {
+    html?: string;
+    source?: string;
+    description?: string;
+    title?: string;
+    credit?: string;
+    caption?: string;
+    durationMinutes?: number;
+    durationSeconds?: number;
+    clean?: boolean;
+    explicit?: boolean;
+}
 export interface IAudioElementFieldsArgs {
     html?: string;
     source?: string;
@@ -17,108 +29,78 @@ export interface IAudioElementFieldsArgs {
     clean?: boolean;
     explicit?: boolean;
 }
-export class AudioElementFields {
-    public html?: string;
-    public source?: string;
-    public description?: string;
-    public title?: string;
-    public credit?: string;
-    public caption?: string;
-    public durationMinutes?: number;
-    public durationSeconds?: number;
-    public clean?: boolean;
-    public explicit?: boolean;
-    constructor(args?: IAudioElementFieldsArgs) {
-        if (args != null && args.html != null) {
-            this.html = args.html;
-        }
-        if (args != null && args.source != null) {
-            this.source = args.source;
-        }
-        if (args != null && args.description != null) {
-            this.description = args.description;
-        }
-        if (args != null && args.title != null) {
-            this.title = args.title;
-        }
-        if (args != null && args.credit != null) {
-            this.credit = args.credit;
-        }
-        if (args != null && args.caption != null) {
-            this.caption = args.caption;
-        }
-        if (args != null && args.durationMinutes != null) {
-            this.durationMinutes = args.durationMinutes;
-        }
-        if (args != null && args.durationSeconds != null) {
-            this.durationSeconds = args.durationSeconds;
-        }
-        if (args != null && args.clean != null) {
-            this.clean = args.clean;
-        }
-        if (args != null && args.explicit != null) {
-            this.explicit = args.explicit;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const AudioElementFieldsCodec: thrift.IStructCodec<IAudioElementFieldsArgs, IAudioElementFields> = {
+    encode(args: IAudioElementFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            html: args.html,
+            source: args.source,
+            description: args.description,
+            title: args.title,
+            credit: args.credit,
+            caption: args.caption,
+            durationMinutes: args.durationMinutes,
+            durationSeconds: args.durationSeconds,
+            clean: args.clean,
+            explicit: args.explicit
+        };
         output.writeStructBegin("AudioElementFields");
-        if (this.html != null) {
+        if (obj.html != null) {
             output.writeFieldBegin("html", thrift.TType.STRING, 1);
-            output.writeString(this.html);
+            output.writeString(obj.html);
             output.writeFieldEnd();
         }
-        if (this.source != null) {
+        if (obj.source != null) {
             output.writeFieldBegin("source", thrift.TType.STRING, 2);
-            output.writeString(this.source);
+            output.writeString(obj.source);
             output.writeFieldEnd();
         }
-        if (this.description != null) {
+        if (obj.description != null) {
             output.writeFieldBegin("description", thrift.TType.STRING, 3);
-            output.writeString(this.description);
+            output.writeString(obj.description);
             output.writeFieldEnd();
         }
-        if (this.title != null) {
+        if (obj.title != null) {
             output.writeFieldBegin("title", thrift.TType.STRING, 4);
-            output.writeString(this.title);
+            output.writeString(obj.title);
             output.writeFieldEnd();
         }
-        if (this.credit != null) {
+        if (obj.credit != null) {
             output.writeFieldBegin("credit", thrift.TType.STRING, 5);
-            output.writeString(this.credit);
+            output.writeString(obj.credit);
             output.writeFieldEnd();
         }
-        if (this.caption != null) {
+        if (obj.caption != null) {
             output.writeFieldBegin("caption", thrift.TType.STRING, 6);
-            output.writeString(this.caption);
+            output.writeString(obj.caption);
             output.writeFieldEnd();
         }
-        if (this.durationMinutes != null) {
+        if (obj.durationMinutes != null) {
             output.writeFieldBegin("durationMinutes", thrift.TType.I32, 7);
-            output.writeI32(this.durationMinutes);
+            output.writeI32(obj.durationMinutes);
             output.writeFieldEnd();
         }
-        if (this.durationSeconds != null) {
+        if (obj.durationSeconds != null) {
             output.writeFieldBegin("durationSeconds", thrift.TType.I32, 8);
-            output.writeI32(this.durationSeconds);
+            output.writeI32(obj.durationSeconds);
             output.writeFieldEnd();
         }
-        if (this.clean != null) {
+        if (obj.clean != null) {
             output.writeFieldBegin("clean", thrift.TType.BOOL, 9);
-            output.writeBool(this.clean);
+            output.writeBool(obj.clean);
             output.writeFieldEnd();
         }
-        if (this.explicit != null) {
+        if (obj.explicit != null) {
             output.writeFieldBegin("explicit", thrift.TType.BOOL, 10);
-            output.writeBool(this.explicit);
+            output.writeBool(obj.explicit);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): AudioElementFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IAudioElementFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -224,6 +206,83 @@ export class AudioElementFields {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new AudioElementFields(_args);
+        return {
+            html: _args.html,
+            source: _args.source,
+            description: _args.description,
+            title: _args.title,
+            credit: _args.credit,
+            caption: _args.caption,
+            durationMinutes: _args.durationMinutes,
+            durationSeconds: _args.durationSeconds,
+            clean: _args.clean,
+            explicit: _args.explicit
+        };
+    }
+};
+export class AudioElementFields extends thrift.StructLike implements IAudioElementFields {
+    public html?: string;
+    public source?: string;
+    public description?: string;
+    public title?: string;
+    public credit?: string;
+    public caption?: string;
+    public durationMinutes?: number;
+    public durationSeconds?: number;
+    public clean?: boolean;
+    public explicit?: boolean;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IAudioElementFieldsArgs = {}) {
+        super();
+        if (args.html != null) {
+            const value_11: string = args.html;
+            this.html = value_11;
+        }
+        if (args.source != null) {
+            const value_12: string = args.source;
+            this.source = value_12;
+        }
+        if (args.description != null) {
+            const value_13: string = args.description;
+            this.description = value_13;
+        }
+        if (args.title != null) {
+            const value_14: string = args.title;
+            this.title = value_14;
+        }
+        if (args.credit != null) {
+            const value_15: string = args.credit;
+            this.credit = value_15;
+        }
+        if (args.caption != null) {
+            const value_16: string = args.caption;
+            this.caption = value_16;
+        }
+        if (args.durationMinutes != null) {
+            const value_17: number = args.durationMinutes;
+            this.durationMinutes = value_17;
+        }
+        if (args.durationSeconds != null) {
+            const value_18: number = args.durationSeconds;
+            this.durationSeconds = value_18;
+        }
+        if (args.clean != null) {
+            const value_19: boolean = args.clean;
+            this.clean = value_19;
+        }
+        if (args.explicit != null) {
+            const value_20: boolean = args.explicit;
+            this.explicit = value_20;
+        }
+    }
+    public static read(input: thrift.TProtocol): AudioElementFields {
+        return new AudioElementFields(AudioElementFieldsCodec.decode(input));
+    }
+    public static write(args: IAudioElementFieldsArgs, output: thrift.TProtocol): void {
+        return AudioElementFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return AudioElementFieldsCodec.encode(this, output);
     }
 }

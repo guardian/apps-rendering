@@ -7,63 +7,57 @@
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as AssetType from "./AssetType";
 import * as AssetFields from "./AssetFields";
+export interface IAsset {
+    type: AssetType.AssetType;
+    mimeType?: string;
+    file?: string;
+    typeData?: AssetFields.IAssetFields;
+}
 export interface IAssetArgs {
     type: AssetType.AssetType;
     mimeType?: string;
     file?: string;
-    typeData?: AssetFields.AssetFields;
+    typeData?: AssetFields.IAssetFieldsArgs;
 }
-export class Asset {
-    public type: AssetType.AssetType;
-    public mimeType?: string;
-    public file?: string;
-    public typeData?: AssetFields.AssetFields;
-    constructor(args: IAssetArgs) {
-        if (args != null && args.type != null) {
-            this.type = args.type;
+export const AssetCodec: thrift.IStructCodec<IAssetArgs, IAsset> = {
+    encode(args: IAssetArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            type: args.type,
+            mimeType: args.mimeType,
+            file: args.file,
+            typeData: args.typeData
+        };
+        output.writeStructBegin("Asset");
+        if (obj.type != null) {
+            output.writeFieldBegin("type", thrift.TType.I32, 1);
+            output.writeI32(obj.type);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[type] is unset!");
         }
-        if (args != null && args.mimeType != null) {
-            this.mimeType = args.mimeType;
-        }
-        if (args != null && args.file != null) {
-            this.file = args.file;
-        }
-        if (args != null && args.typeData != null) {
-            this.typeData = args.typeData;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("Asset");
-        if (this.type != null) {
-            output.writeFieldBegin("type", thrift.TType.I32, 1);
-            output.writeI32(this.type);
-            output.writeFieldEnd();
-        }
-        if (this.mimeType != null) {
+        if (obj.mimeType != null) {
             output.writeFieldBegin("mimeType", thrift.TType.STRING, 2);
-            output.writeString(this.mimeType);
+            output.writeString(obj.mimeType);
             output.writeFieldEnd();
         }
-        if (this.file != null) {
+        if (obj.file != null) {
             output.writeFieldBegin("file", thrift.TType.STRING, 3);
-            output.writeString(this.file);
+            output.writeString(obj.file);
             output.writeFieldEnd();
         }
-        if (this.typeData != null) {
+        if (obj.typeData != null) {
             output.writeFieldBegin("typeData", thrift.TType.STRUCT, 4);
-            this.typeData.write(output);
+            AssetFields.AssetFieldsCodec.encode(obj.typeData, output);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): Asset {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IAsset {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -101,7 +95,7 @@ export class Asset {
                     break;
                 case 4:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_4: AssetFields.AssetFields = AssetFields.AssetFields.read(input);
+                        const value_4: AssetFields.IAssetFields = AssetFields.AssetFieldsCodec.decode(input);
                         _args.typeData = value_4;
                     }
                     else {
@@ -116,10 +110,54 @@ export class Asset {
         }
         input.readStructEnd();
         if (_args.type !== undefined) {
-            return new Asset(_args);
+            return {
+                type: _args.type,
+                mimeType: _args.mimeType,
+                file: _args.file,
+                typeData: _args.typeData
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read Asset from input");
         }
+    }
+};
+export class Asset extends thrift.StructLike implements IAsset {
+    public type: AssetType.AssetType;
+    public mimeType?: string;
+    public file?: string;
+    public typeData?: AssetFields.IAssetFields;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IAssetArgs) {
+        super();
+        if (args.type != null) {
+            const value_5: AssetType.AssetType = args.type;
+            this.type = value_5;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[type] is unset!");
+        }
+        if (args.mimeType != null) {
+            const value_6: string = args.mimeType;
+            this.mimeType = value_6;
+        }
+        if (args.file != null) {
+            const value_7: string = args.file;
+            this.file = value_7;
+        }
+        if (args.typeData != null) {
+            const value_8: AssetFields.IAssetFields = new AssetFields.AssetFields(args.typeData);
+            this.typeData = value_8;
+        }
+    }
+    public static read(input: thrift.TProtocol): Asset {
+        return new Asset(AssetCodec.decode(input));
+    }
+    public static write(args: IAssetArgs, output: thrift.TProtocol): void {
+        return AssetCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return AssetCodec.encode(this, output);
     }
 }

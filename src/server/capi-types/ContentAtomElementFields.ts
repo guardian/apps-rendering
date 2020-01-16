@@ -5,50 +5,48 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IContentAtomElementFields {
+    atomId: string;
+    atomType: string;
+}
 export interface IContentAtomElementFieldsArgs {
     atomId: string;
     atomType: string;
 }
-export class ContentAtomElementFields {
-    public atomId: string;
-    public atomType: string;
-    constructor(args: IContentAtomElementFieldsArgs) {
-        if (args != null && args.atomId != null) {
-            this.atomId = args.atomId;
+export const ContentAtomElementFieldsCodec: thrift.IStructCodec<IContentAtomElementFieldsArgs, IContentAtomElementFields> = {
+    encode(args: IContentAtomElementFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            atomId: args.atomId,
+            atomType: args.atomType
+        };
+        output.writeStructBegin("ContentAtomElementFields");
+        if (obj.atomId != null) {
+            output.writeFieldBegin("atomId", thrift.TType.STRING, 1);
+            output.writeString(obj.atomId);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[atomId] is unset!");
         }
-        if (args != null && args.atomType != null) {
-            this.atomType = args.atomType;
+        if (obj.atomType != null) {
+            output.writeFieldBegin("atomType", thrift.TType.STRING, 2);
+            output.writeString(obj.atomType);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[atomType] is unset!");
         }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("ContentAtomElementFields");
-        if (this.atomId != null) {
-            output.writeFieldBegin("atomId", thrift.TType.STRING, 1);
-            output.writeString(this.atomId);
-            output.writeFieldEnd();
-        }
-        if (this.atomType != null) {
-            output.writeFieldBegin("atomType", thrift.TType.STRING, 2);
-            output.writeString(this.atomType);
-            output.writeFieldEnd();
-        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): ContentAtomElementFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IContentAtomElementFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
-            const fieldId: number = ret.fieldType;
+            const fieldId: number = ret.fieldId;
             if (fieldType === thrift.TType.STOP) {
                 break;
             }
@@ -79,10 +77,45 @@ export class ContentAtomElementFields {
         }
         input.readStructEnd();
         if (_args.atomId !== undefined && _args.atomType !== undefined) {
-            return new ContentAtomElementFields(_args);
+            return {
+                atomId: _args.atomId,
+                atomType: _args.atomType
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read ContentAtomElementFields from input");
         }
+    }
+};
+export class ContentAtomElementFields extends thrift.StructLike implements IContentAtomElementFields {
+    public atomId: string;
+    public atomType: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IContentAtomElementFieldsArgs) {
+        super();
+        if (args.atomId != null) {
+            const value_3: string = args.atomId;
+            this.atomId = value_3;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[atomId] is unset!");
+        }
+        if (args.atomType != null) {
+            const value_4: string = args.atomType;
+            this.atomType = value_4;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[atomType] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): ContentAtomElementFields {
+        return new ContentAtomElementFields(ContentAtomElementFieldsCodec.decode(input));
+    }
+    public static write(args: IContentAtomElementFieldsArgs, output: thrift.TProtocol): void {
+        return ContentAtomElementFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return ContentAtomElementFieldsCodec.encode(this, output);
     }
 }

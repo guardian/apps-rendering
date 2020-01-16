@@ -6,50 +6,48 @@
 */
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as MostViewedVideo from "./MostViewedVideo";
+export interface IVideoStatsResponse {
+    status: string;
+    mostViewedVideos: Array<MostViewedVideo.IMostViewedVideo>;
+}
 export interface IVideoStatsResponseArgs {
     status: string;
-    mostViewedVideos: Array<MostViewedVideo.MostViewedVideo>;
+    mostViewedVideos: Array<MostViewedVideo.IMostViewedVideoArgs>;
 }
-export class VideoStatsResponse {
-    public status: string;
-    public mostViewedVideos: Array<MostViewedVideo.MostViewedVideo>;
-    constructor(args: IVideoStatsResponseArgs) {
-        if (args != null && args.status != null) {
-            this.status = args.status;
+export const VideoStatsResponseCodec: thrift.IStructCodec<IVideoStatsResponseArgs, IVideoStatsResponse> = {
+    encode(args: IVideoStatsResponseArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            status: args.status,
+            mostViewedVideos: args.mostViewedVideos
+        };
+        output.writeStructBegin("VideoStatsResponse");
+        if (obj.status != null) {
+            output.writeFieldBegin("status", thrift.TType.STRING, 1);
+            output.writeString(obj.status);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
         }
-        if (args != null && args.mostViewedVideos != null) {
-            this.mostViewedVideos = args.mostViewedVideos;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[mostViewedVideos] is unset!");
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("VideoStatsResponse");
-        if (this.status != null) {
-            output.writeFieldBegin("status", thrift.TType.STRING, 1);
-            output.writeString(this.status);
-            output.writeFieldEnd();
-        }
-        if (this.mostViewedVideos != null) {
+        if (obj.mostViewedVideos != null) {
             output.writeFieldBegin("mostViewedVideos", thrift.TType.LIST, 2);
-            output.writeListBegin(thrift.TType.STRUCT, this.mostViewedVideos.length);
-            this.mostViewedVideos.forEach((value_1: MostViewedVideo.MostViewedVideo): void => {
-                value_1.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.mostViewedVideos.length);
+            obj.mostViewedVideos.forEach((value_1: MostViewedVideo.IMostViewedVideoArgs): void => {
+                MostViewedVideo.MostViewedVideoCodec.encode(value_1, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[mostViewedVideos] is unset!");
+        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): VideoStatsResponse {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IVideoStatsResponse {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -69,11 +67,11 @@ export class VideoStatsResponse {
                     break;
                 case 2:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_3: Array<MostViewedVideo.MostViewedVideo> = new Array<MostViewedVideo.MostViewedVideo>();
+                        const value_3: Array<MostViewedVideo.IMostViewedVideo> = new Array<MostViewedVideo.IMostViewedVideo>();
                         const metadata_1: thrift.IThriftList = input.readListBegin();
                         const size_1: number = metadata_1.size;
                         for (let i_1: number = 0; i_1 < size_1; i_1++) {
-                            const value_4: MostViewedVideo.MostViewedVideo = MostViewedVideo.MostViewedVideo.read(input);
+                            const value_4: MostViewedVideo.IMostViewedVideo = MostViewedVideo.MostViewedVideoCodec.decode(input);
                             value_3.push(value_4);
                         }
                         input.readListEnd();
@@ -91,10 +89,49 @@ export class VideoStatsResponse {
         }
         input.readStructEnd();
         if (_args.status !== undefined && _args.mostViewedVideos !== undefined) {
-            return new VideoStatsResponse(_args);
+            return {
+                status: _args.status,
+                mostViewedVideos: _args.mostViewedVideos
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read VideoStatsResponse from input");
         }
+    }
+};
+export class VideoStatsResponse extends thrift.StructLike implements IVideoStatsResponse {
+    public status: string;
+    public mostViewedVideos: Array<MostViewedVideo.IMostViewedVideo>;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IVideoStatsResponseArgs) {
+        super();
+        if (args.status != null) {
+            const value_5: string = args.status;
+            this.status = value_5;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
+        }
+        if (args.mostViewedVideos != null) {
+            const value_6: Array<MostViewedVideo.IMostViewedVideo> = new Array<MostViewedVideo.IMostViewedVideo>();
+            args.mostViewedVideos.forEach((value_7: MostViewedVideo.IMostViewedVideoArgs): void => {
+                const value_8: MostViewedVideo.IMostViewedVideo = new MostViewedVideo.MostViewedVideo(value_7);
+                value_6.push(value_8);
+            });
+            this.mostViewedVideos = value_6;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[mostViewedVideos] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): VideoStatsResponse {
+        return new VideoStatsResponse(VideoStatsResponseCodec.decode(input));
+    }
+    public static write(args: IVideoStatsResponseArgs, output: thrift.TProtocol): void {
+        return VideoStatsResponseCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return VideoStatsResponseCodec.encode(this, output);
     }
 }

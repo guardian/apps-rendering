@@ -6,32 +6,30 @@
 */
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as CapiDateTime from "./CapiDateTime";
-export interface ISponsorshipTargetingArgs {
-    publishedSince?: CapiDateTime.CapiDateTime;
+export interface ISponsorshipTargeting {
+    publishedSince?: CapiDateTime.ICapiDateTime;
     validEditions?: Array<string>;
 }
-export class SponsorshipTargeting {
-    public publishedSince?: CapiDateTime.CapiDateTime;
-    public validEditions?: Array<string>;
-    constructor(args?: ISponsorshipTargetingArgs) {
-        if (args != null && args.publishedSince != null) {
-            this.publishedSince = args.publishedSince;
-        }
-        if (args != null && args.validEditions != null) {
-            this.validEditions = args.validEditions;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export interface ISponsorshipTargetingArgs {
+    publishedSince?: CapiDateTime.ICapiDateTimeArgs;
+    validEditions?: Array<string>;
+}
+export const SponsorshipTargetingCodec: thrift.IStructCodec<ISponsorshipTargetingArgs, ISponsorshipTargeting> = {
+    encode(args: ISponsorshipTargetingArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            publishedSince: args.publishedSince,
+            validEditions: args.validEditions
+        };
         output.writeStructBegin("SponsorshipTargeting");
-        if (this.publishedSince != null) {
+        if (obj.publishedSince != null) {
             output.writeFieldBegin("publishedSince", thrift.TType.STRUCT, 1);
-            this.publishedSince.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.publishedSince, output);
             output.writeFieldEnd();
         }
-        if (this.validEditions != null) {
+        if (obj.validEditions != null) {
             output.writeFieldBegin("validEditions", thrift.TType.LIST, 2);
-            output.writeListBegin(thrift.TType.STRING, this.validEditions.length);
-            this.validEditions.forEach((value_1: string): void => {
+            output.writeListBegin(thrift.TType.STRING, obj.validEditions.length);
+            obj.validEditions.forEach((value_1: string): void => {
                 output.writeString(value_1);
             });
             output.writeListEnd();
@@ -40,10 +38,10 @@ export class SponsorshipTargeting {
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): SponsorshipTargeting {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): ISponsorshipTargeting {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -54,7 +52,7 @@ export class SponsorshipTargeting {
             switch (fieldId) {
                 case 1:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_2: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_2: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.publishedSince = value_2;
                     }
                     else {
@@ -84,6 +82,39 @@ export class SponsorshipTargeting {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new SponsorshipTargeting(_args);
+        return {
+            publishedSince: _args.publishedSince,
+            validEditions: _args.validEditions
+        };
+    }
+};
+export class SponsorshipTargeting extends thrift.StructLike implements ISponsorshipTargeting {
+    public publishedSince?: CapiDateTime.ICapiDateTime;
+    public validEditions?: Array<string>;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: ISponsorshipTargetingArgs = {}) {
+        super();
+        if (args.publishedSince != null) {
+            const value_5: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.publishedSince);
+            this.publishedSince = value_5;
+        }
+        if (args.validEditions != null) {
+            const value_6: Array<string> = new Array<string>();
+            args.validEditions.forEach((value_7: string): void => {
+                const value_8: string = value_7;
+                value_6.push(value_8);
+            });
+            this.validEditions = value_6;
+        }
+    }
+    public static read(input: thrift.TProtocol): SponsorshipTargeting {
+        return new SponsorshipTargeting(SponsorshipTargetingCodec.decode(input));
+    }
+    public static write(args: ISponsorshipTargetingArgs, output: thrift.TProtocol): void {
+        return SponsorshipTargetingCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return SponsorshipTargetingCodec.encode(this, output);
     }
 }

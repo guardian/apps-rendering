@@ -5,46 +5,44 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface ISponsorshipLogoDimensions {
+    width: number;
+    height: number;
+}
 export interface ISponsorshipLogoDimensionsArgs {
     width: number;
     height: number;
 }
-export class SponsorshipLogoDimensions {
-    public width: number;
-    public height: number;
-    constructor(args: ISponsorshipLogoDimensionsArgs) {
-        if (args != null && args.width != null) {
-            this.width = args.width;
+export const SponsorshipLogoDimensionsCodec: thrift.IStructCodec<ISponsorshipLogoDimensionsArgs, ISponsorshipLogoDimensions> = {
+    encode(args: ISponsorshipLogoDimensionsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            width: args.width,
+            height: args.height
+        };
+        output.writeStructBegin("SponsorshipLogoDimensions");
+        if (obj.width != null) {
+            output.writeFieldBegin("width", thrift.TType.I32, 1);
+            output.writeI32(obj.width);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[width] is unset!");
         }
-        if (args != null && args.height != null) {
-            this.height = args.height;
+        if (obj.height != null) {
+            output.writeFieldBegin("height", thrift.TType.I32, 2);
+            output.writeI32(obj.height);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[height] is unset!");
         }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("SponsorshipLogoDimensions");
-        if (this.width != null) {
-            output.writeFieldBegin("width", thrift.TType.I32, 1);
-            output.writeI32(this.width);
-            output.writeFieldEnd();
-        }
-        if (this.height != null) {
-            output.writeFieldBegin("height", thrift.TType.I32, 2);
-            output.writeI32(this.height);
-            output.writeFieldEnd();
-        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): SponsorshipLogoDimensions {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): ISponsorshipLogoDimensions {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -79,10 +77,45 @@ export class SponsorshipLogoDimensions {
         }
         input.readStructEnd();
         if (_args.width !== undefined && _args.height !== undefined) {
-            return new SponsorshipLogoDimensions(_args);
+            return {
+                width: _args.width,
+                height: _args.height
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read SponsorshipLogoDimensions from input");
         }
+    }
+};
+export class SponsorshipLogoDimensions extends thrift.StructLike implements ISponsorshipLogoDimensions {
+    public width: number;
+    public height: number;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: ISponsorshipLogoDimensionsArgs) {
+        super();
+        if (args.width != null) {
+            const value_3: number = args.width;
+            this.width = value_3;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[width] is unset!");
+        }
+        if (args.height != null) {
+            const value_4: number = args.height;
+            this.height = value_4;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[height] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): SponsorshipLogoDimensions {
+        return new SponsorshipLogoDimensions(SponsorshipLogoDimensionsCodec.decode(input));
+    }
+    public static write(args: ISponsorshipLogoDimensionsArgs, output: thrift.TProtocol): void {
+        return SponsorshipLogoDimensionsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return SponsorshipLogoDimensionsCodec.encode(this, output);
     }
 }

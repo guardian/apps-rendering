@@ -7,86 +7,78 @@
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as ElementType from "./ElementType";
 import * as Asset from "./Asset";
+export interface IElement {
+    id: string;
+    relation: string;
+    type: ElementType.ElementType;
+    galleryIndex?: number;
+    assets: Array<Asset.IAsset>;
+}
 export interface IElementArgs {
     id: string;
     relation: string;
     type: ElementType.ElementType;
     galleryIndex?: number;
-    assets: Array<Asset.Asset>;
+    assets: Array<Asset.IAssetArgs>;
 }
-export class Element {
-    public id: string;
-    public relation: string;
-    public type: ElementType.ElementType;
-    public galleryIndex?: number;
-    public assets: Array<Asset.Asset>;
-    constructor(args: IElementArgs) {
-        if (args != null && args.id != null) {
-            this.id = args.id;
+export const ElementCodec: thrift.IStructCodec<IElementArgs, IElement> = {
+    encode(args: IElementArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            id: args.id,
+            relation: args.relation,
+            type: args.type,
+            galleryIndex: args.galleryIndex,
+            assets: args.assets
+        };
+        output.writeStructBegin("Element");
+        if (obj.id != null) {
+            output.writeFieldBegin("id", thrift.TType.STRING, 1);
+            output.writeString(obj.id);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
         }
-        if (args != null && args.relation != null) {
-            this.relation = args.relation;
+        if (obj.relation != null) {
+            output.writeFieldBegin("relation", thrift.TType.STRING, 2);
+            output.writeString(obj.relation);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[relation] is unset!");
         }
-        if (args != null && args.type != null) {
-            this.type = args.type;
+        if (obj.type != null) {
+            output.writeFieldBegin("type", thrift.TType.I32, 3);
+            output.writeI32(obj.type);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[type] is unset!");
         }
-        if (args != null && args.galleryIndex != null) {
-            this.galleryIndex = args.galleryIndex;
-        }
-        if (args != null && args.assets != null) {
-            this.assets = args.assets;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[assets] is unset!");
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("Element");
-        if (this.id != null) {
-            output.writeFieldBegin("id", thrift.TType.STRING, 1);
-            output.writeString(this.id);
-            output.writeFieldEnd();
-        }
-        if (this.relation != null) {
-            output.writeFieldBegin("relation", thrift.TType.STRING, 2);
-            output.writeString(this.relation);
-            output.writeFieldEnd();
-        }
-        if (this.type != null) {
-            output.writeFieldBegin("type", thrift.TType.I32, 3);
-            output.writeI32(this.type);
-            output.writeFieldEnd();
-        }
-        if (this.galleryIndex != null) {
+        if (obj.galleryIndex != null) {
             output.writeFieldBegin("galleryIndex", thrift.TType.I32, 4);
-            output.writeI32(this.galleryIndex);
+            output.writeI32(obj.galleryIndex);
             output.writeFieldEnd();
         }
-        if (this.assets != null) {
+        if (obj.assets != null) {
             output.writeFieldBegin("assets", thrift.TType.LIST, 5);
-            output.writeListBegin(thrift.TType.STRUCT, this.assets.length);
-            this.assets.forEach((value_1: Asset.Asset): void => {
-                value_1.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.assets.length);
+            obj.assets.forEach((value_1: Asset.IAssetArgs): void => {
+                Asset.AssetCodec.encode(value_1, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[assets] is unset!");
+        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): Element {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IElement {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -133,11 +125,11 @@ export class Element {
                     break;
                 case 5:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_6: Array<Asset.Asset> = new Array<Asset.Asset>();
+                        const value_6: Array<Asset.IAsset> = new Array<Asset.IAsset>();
                         const metadata_1: thrift.IThriftList = input.readListBegin();
                         const size_1: number = metadata_1.size;
                         for (let i_1: number = 0; i_1 < size_1; i_1++) {
-                            const value_7: Asset.Asset = Asset.Asset.read(input);
+                            const value_7: Asset.IAsset = Asset.AssetCodec.decode(input);
                             value_6.push(value_7);
                         }
                         input.readListEnd();
@@ -155,10 +147,73 @@ export class Element {
         }
         input.readStructEnd();
         if (_args.id !== undefined && _args.relation !== undefined && _args.type !== undefined && _args.assets !== undefined) {
-            return new Element(_args);
+            return {
+                id: _args.id,
+                relation: _args.relation,
+                type: _args.type,
+                galleryIndex: _args.galleryIndex,
+                assets: _args.assets
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read Element from input");
         }
+    }
+};
+export class Element extends thrift.StructLike implements IElement {
+    public id: string;
+    public relation: string;
+    public type: ElementType.ElementType;
+    public galleryIndex?: number;
+    public assets: Array<Asset.IAsset>;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IElementArgs) {
+        super();
+        if (args.id != null) {
+            const value_8: string = args.id;
+            this.id = value_8;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
+        }
+        if (args.relation != null) {
+            const value_9: string = args.relation;
+            this.relation = value_9;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[relation] is unset!");
+        }
+        if (args.type != null) {
+            const value_10: ElementType.ElementType = args.type;
+            this.type = value_10;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[type] is unset!");
+        }
+        if (args.galleryIndex != null) {
+            const value_11: number = args.galleryIndex;
+            this.galleryIndex = value_11;
+        }
+        if (args.assets != null) {
+            const value_12: Array<Asset.IAsset> = new Array<Asset.IAsset>();
+            args.assets.forEach((value_13: Asset.IAssetArgs): void => {
+                const value_14: Asset.IAsset = new Asset.Asset(value_13);
+                value_12.push(value_14);
+            });
+            this.assets = value_12;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[assets] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): Element {
+        return new Element(ElementCodec.decode(input));
+    }
+    public static write(args: IElementArgs, output: thrift.TProtocol): void {
+        return ElementCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return ElementCodec.encode(this, output);
     }
 }

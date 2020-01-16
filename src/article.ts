@@ -1,11 +1,14 @@
 // ----- Imports ----- //
 
 import { Pillar, pillarFromString } from 'pillar';
-import { Content, ElementType, BlockElement, Tag } from 'capiThriftModels';
+import { Content } from './server/capi-types/Content';
+import { ElementType } from './server/capi-types/ElementType';
+import { BlockElement } from './server/capi-types/BlockElement';
+import { Tag } from './server/capi-types/Tag';
 import { isFeature, isAnalysis, isImmersive, isReview, articleMainImage, articleContributors, articleSeries } from 'capi';
 import { Option, fromNullable } from 'types/option';
 import { Err, Ok, Result } from 'types/result';
-
+import { ContentType } from 'server/capi-types/ContentType';
 
 // ----- Types ----- //
 
@@ -71,46 +74,44 @@ type Block = {
 
 type DocParser = (html: string) => DocumentFragment;
 
-
 // ----- Functions ----- //
 
-const tweetContent = (tweetId: string, doc: DocumentFragment): Result<string, NodeList> => {
+const tweetContent = (doc: DocumentFragment): Result<string, NodeList> => {
     const blockquote = doc.querySelector('blockquote');
 
     if (blockquote !== null) {
         return new Ok(blockquote.childNodes);
     }
 
-    return new Err(`There was no blockquote element in the tweet with id: ${tweetId}`);
+    return new Err(`There was no blockquote element in the tweet`);
 }
 
 const parseBlock = (docParser: DocParser) => (block: BlockElement): Result<string, Block> => {
     switch (block.type) {
 
         case ElementType.TEXT:
-            return new Ok({ kind: ElementType.TEXT, doc: docParser(block.textTypeData.html) });
+            return new Ok({ kind: ElementType.TEXT, doc: docParser(block?.textTypeData?.html ?? "") });
 
         case ElementType.IMAGE:
 
-            const masterAsset = block.assets.find(asset => asset.typeData.isMaster);
-            const { alt, caption, displayCredit, credit } = block.imageTypeData;
-            const imageBlock: Option<Result<string, Block>> = fromNullable(masterAsset)
-                .map(asset => new Ok({
+            const masterAsset = block.assets.find(asset => asset?.typeData?.isMaster);
+            const { alt, caption, displayCredit, credit } = block?.imageTypeData || {};
+            if (!masterAsset) return new Err("I couldn\'t find a master asset")
+            return new Ok({
                     kind: ElementType.IMAGE,
-                    alt,
-                    caption,
-                    displayCredit,
-                    credit,
-                    file: asset.file,
-                    width: asset.typeData.width,
-                    height: asset.typeData.height,
-                }));
-
-            return imageBlock.withDefault(new Err('I couldn\'t find a master asset'));
+                    alt: alt ?? "",
+                    caption: caption ?? "",
+                    displayCredit: displayCredit ?? false,
+                    credit: credit ?? "",
+                    file: masterAsset.file ?? "",
+                    width: masterAsset.typeData?.width ?? 0,
+                    height: masterAsset.typeData?.height ?? 0,
+                })
 
         case ElementType.PULLQUOTE:
 
-            const { html: quote, attribution } = block.pullquoteTypeData;
+            const { html: quote, attribution } = block.pullquoteTypeData || {};
+            if (!quote) return new Err("Missing quote from pullquoteTypeData block");
             return new Ok({
                 kind: ElementType.PULLQUOTE,
                 quote,
@@ -118,16 +119,21 @@ const parseBlock = (docParser: DocParser) => (block: BlockElement): Result<strin
             });
 
         case ElementType.INTERACTIVE:
-            const { iframeUrl } = block.interactiveTypeData;
+            const { iframeUrl } = block.interactiveTypeData || {};
+            if (!iframeUrl) return new Err("No iframeUrl for interactive block")
             return new Ok({ kind: ElementType.INTERACTIVE, url: iframeUrl });
 
         case ElementType.RICH_LINK:
 
-            const { url, linkText } = block.richLinkTypeData;
+            const { url, linkText } = block.richLinkTypeData || {};
+            if (!url) return new Err("No url for rich link block")
+            if (!linkText) return new Err("No linkText for rich link block")
             return new Ok({ kind: ElementType.RICH_LINK, url, linkText });
 
         case ElementType.TWEET:
-            return tweetContent(block.tweetTypeData.id, docParser(block.tweetTypeData.html))
+            const { html } = block.tweetTypeData || {};
+            if (!html) return new Err("No html for tweet block")
+            return tweetContent(docParser(html))
                 .map(content => ({ kind: ElementType.TWEET, content }));
 
         default:
@@ -135,12 +141,14 @@ const parseBlock = (docParser: DocParser) => (block: BlockElement): Result<strin
     }
 }
 
-const parseBlocks = (docParser: DocParser) => (blocks: BlockElement[]): Result<string, Block>[] =>
-    blocks.map(parseBlock(docParser));
+const parseBlocks = (docParser: DocParser) => (blocks: BlockElement[] | undefined): Result<string, Block>[] => {
+    if (!blocks) return [new Err("Undefined blocks in parseBlocks")];
+    return blocks.map(parseBlock(docParser));
+}
 
 function parseLayout(content: Content): Layout {
     switch (content.type) {
-        case 'article':
+        case ContentType.ARTICLE:
             if (pillarFromString(content.pillarId) === Pillar.opinion) {
                 return Layout.Opinion;
             } else if (isImmersive(content)) {
@@ -153,40 +161,43 @@ function parseLayout(content: Content): Layout {
                 return Layout.Analysis;
             }
             return Layout.Standard;
-        case 'liveblog':
+        case ContentType.LIVEBLOG:
             return Layout.Liveblog;
-        case 'gallery':
+        case ContentType.GALLERY:
             return Layout.Gallery;
-        case 'interactive':
+        case ContentType.INTERACTIVE:
             return Layout.Interactive;
-        case 'picture':
+        case ContentType.PICTURE:
             return Layout.Picture;
-        case 'video':
+        case ContentType.VIDEO:
             return Layout.Video;
-        case 'audio':
+        case ContentType.AUDIO:
             return Layout.Audio;
         default:
             return Layout.Standard;
     }    
 }
 
-const fromCapi = (docParser: DocParser) => (content: Content): Article =>
-    ({
+const fromCapi = (docParser: DocParser) => (content: Content): Article => {
+    const body = content?.blocks?.body;
+    const elements = body?.length ? body[0].elements : new Err("No body elements on block");
+    return ({
         layout: parseLayout(content),
-        pillar: pillarFromString(content.pillarId),
-        headline: content.fields.headline,
-        standfirst: docParser(content.fields.standfirst),
-        byline: content.fields.byline,
-        bylineHtml: fromNullable(content.fields.bylineHtml).map(docParser),
-        publishDate: content.webPublicationDate,
+        pillar: pillarFromString(content.pillarId ?? 'pillar/news'),
+        headline: content?.fields?.headline ?? "",
+        standfirst: docParser(content?.fields?.standfirst ?? ""),
+        byline: content?.fields?.byline ?? "",
+        bylineHtml: fromNullable(content?.fields?.bylineHtml ?? "").map(docParser),
+        publishDate: content?.webPublicationDate?.iso8601 ?? "",
         mainImage: articleMainImage(content),
         contributors: articleContributors(content),
         series: articleSeries(content),
-        commentable: content.fields.commentable,
-        starRating: fromNullable(content.fields.starRating),
-        blocks: parseBlocks(docParser)(content.blocks.body[0].elements),
+        commentable: content?.fields?.commentable ?? false,
+        starRating: fromNullable(content?.fields?.starRating),
+        blocks: parseBlocks(docParser)(elements),
         tags: content.tags,
     });
+}
 
 
 // ----- Exports ----- //

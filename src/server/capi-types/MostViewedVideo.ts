@@ -5,46 +5,44 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IMostViewedVideo {
+    id: string;
+    count: number;
+}
 export interface IMostViewedVideoArgs {
     id: string;
     count: number;
 }
-export class MostViewedVideo {
-    public id: string;
-    public count: number;
-    constructor(args: IMostViewedVideoArgs) {
-        if (args != null && args.id != null) {
-            this.id = args.id;
+export const MostViewedVideoCodec: thrift.IStructCodec<IMostViewedVideoArgs, IMostViewedVideo> = {
+    encode(args: IMostViewedVideoArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            id: args.id,
+            count: args.count
+        };
+        output.writeStructBegin("MostViewedVideo");
+        if (obj.id != null) {
+            output.writeFieldBegin("id", thrift.TType.STRING, 1);
+            output.writeString(obj.id);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
         }
-        if (args != null && args.count != null) {
-            this.count = args.count;
+        if (obj.count != null) {
+            output.writeFieldBegin("count", thrift.TType.I32, 2);
+            output.writeI32(obj.count);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[count] is unset!");
         }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("MostViewedVideo");
-        if (this.id != null) {
-            output.writeFieldBegin("id", thrift.TType.STRING, 1);
-            output.writeString(this.id);
-            output.writeFieldEnd();
-        }
-        if (this.count != null) {
-            output.writeFieldBegin("count", thrift.TType.I32, 2);
-            output.writeI32(this.count);
-            output.writeFieldEnd();
-        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): MostViewedVideo {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IMostViewedVideo {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -79,10 +77,45 @@ export class MostViewedVideo {
         }
         input.readStructEnd();
         if (_args.id !== undefined && _args.count !== undefined) {
-            return new MostViewedVideo(_args);
+            return {
+                id: _args.id,
+                count: _args.count
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read MostViewedVideo from input");
         }
+    }
+};
+export class MostViewedVideo extends thrift.StructLike implements IMostViewedVideo {
+    public id: string;
+    public count: number;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IMostViewedVideoArgs) {
+        super();
+        if (args.id != null) {
+            const value_3: string = args.id;
+            this.id = value_3;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
+        }
+        if (args.count != null) {
+            const value_4: number = args.count;
+            this.count = value_4;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[count] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): MostViewedVideo {
+        return new MostViewedVideo(MostViewedVideoCodec.decode(input));
+    }
+    public static write(args: IMostViewedVideoArgs, output: thrift.TProtocol): void {
+        return MostViewedVideoCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return MostViewedVideoCodec.encode(this, output);
     }
 }

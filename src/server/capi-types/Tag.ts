@@ -9,8 +9,7 @@ import * as TagType from "./TagType";
 import * as Reference from "./Reference";
 import * as Podcast from "./Podcast";
 import * as Sponsorship from "./Sponsorship";
-import { IThriftSet } from "@creditkarma/thrift-server-core";
-export interface ITagArgs {
+export interface ITag {
     id: string;
     type: TagType.TagType;
     sectionId?: string;
@@ -18,17 +17,17 @@ export interface ITagArgs {
     webTitle: string;
     webUrl: string;
     apiUrl: string;
-    references: Array<Reference.Reference>;
+    references: Array<Reference.IReference>;
     description?: string;
     bio?: string;
     bylineImageUrl?: string;
     bylineLargeImageUrl?: string;
-    podcast?: Podcast.Podcast;
+    podcast?: Podcast.IPodcast;
     firstName?: string;
     lastName?: string;
     emailAddress?: string;
     twitterHandle?: string;
-    activeSponsorships?: Array<Sponsorship.Sponsorship>;
+    activeSponsorships?: Array<Sponsorship.ISponsorship>;
     paidContentType?: string;
     paidContentCampaignColour?: string;
     rcsId?: string;
@@ -38,286 +37,236 @@ export interface ITagArgs {
     campaignInformationType?: string;
     internalName?: string;
 }
-export class Tag {
-    public id: string;
-    public type: TagType.TagType;
-    public sectionId?: string;
-    public sectionName?: string;
-    public webTitle: string;
-    public webUrl: string;
-    public apiUrl: string;
-    public references: Array<Reference.Reference>;
-    public description?: string;
-    public bio?: string;
-    public bylineImageUrl?: string;
-    public bylineLargeImageUrl?: string;
-    public podcast?: Podcast.Podcast;
-    public firstName?: string;
-    public lastName?: string;
-    public emailAddress?: string;
-    public twitterHandle?: string;
-    public activeSponsorships?: Array<Sponsorship.Sponsorship>;
-    public paidContentType?: string;
-    public paidContentCampaignColour?: string;
-    public rcsId?: string;
-    public r2ContributorId?: string;
-    public tagCategories?: Set<string>;
-    public entityIds?: Set<string>;
-    public campaignInformationType?: string;
-    public internalName?: string;
-    constructor(args: ITagArgs) {
-        if (args != null && args.id != null) {
-            this.id = args.id;
+export interface ITagArgs {
+    id: string;
+    type: TagType.TagType;
+    sectionId?: string;
+    sectionName?: string;
+    webTitle: string;
+    webUrl: string;
+    apiUrl: string;
+    references: Array<Reference.IReferenceArgs>;
+    description?: string;
+    bio?: string;
+    bylineImageUrl?: string;
+    bylineLargeImageUrl?: string;
+    podcast?: Podcast.IPodcastArgs;
+    firstName?: string;
+    lastName?: string;
+    emailAddress?: string;
+    twitterHandle?: string;
+    activeSponsorships?: Array<Sponsorship.ISponsorshipArgs>;
+    paidContentType?: string;
+    paidContentCampaignColour?: string;
+    rcsId?: string;
+    r2ContributorId?: string;
+    tagCategories?: Set<string>;
+    entityIds?: Set<string>;
+    campaignInformationType?: string;
+    internalName?: string;
+}
+export const TagCodec: thrift.IStructCodec<ITagArgs, ITag> = {
+    encode(args: ITagArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            id: args.id,
+            type: args.type,
+            sectionId: args.sectionId,
+            sectionName: args.sectionName,
+            webTitle: args.webTitle,
+            webUrl: args.webUrl,
+            apiUrl: args.apiUrl,
+            references: args.references,
+            description: args.description,
+            bio: args.bio,
+            bylineImageUrl: args.bylineImageUrl,
+            bylineLargeImageUrl: args.bylineLargeImageUrl,
+            podcast: args.podcast,
+            firstName: args.firstName,
+            lastName: args.lastName,
+            emailAddress: args.emailAddress,
+            twitterHandle: args.twitterHandle,
+            activeSponsorships: args.activeSponsorships,
+            paidContentType: args.paidContentType,
+            paidContentCampaignColour: args.paidContentCampaignColour,
+            rcsId: args.rcsId,
+            r2ContributorId: args.r2ContributorId,
+            tagCategories: args.tagCategories,
+            entityIds: args.entityIds,
+            campaignInformationType: args.campaignInformationType,
+            internalName: args.internalName
+        };
+        output.writeStructBegin("Tag");
+        if (obj.id != null) {
+            output.writeFieldBegin("id", thrift.TType.STRING, 1);
+            output.writeString(obj.id);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
         }
-        if (args != null && args.type != null) {
-            this.type = args.type;
+        if (obj.type != null) {
+            output.writeFieldBegin("type", thrift.TType.I32, 2);
+            output.writeI32(obj.type);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[type] is unset!");
         }
-        if (args != null && args.sectionId != null) {
-            this.sectionId = args.sectionId;
+        if (obj.sectionId != null) {
+            output.writeFieldBegin("sectionId", thrift.TType.STRING, 3);
+            output.writeString(obj.sectionId);
+            output.writeFieldEnd();
         }
-        if (args != null && args.sectionName != null) {
-            this.sectionName = args.sectionName;
+        if (obj.sectionName != null) {
+            output.writeFieldBegin("sectionName", thrift.TType.STRING, 4);
+            output.writeString(obj.sectionName);
+            output.writeFieldEnd();
         }
-        if (args != null && args.webTitle != null) {
-            this.webTitle = args.webTitle;
+        if (obj.webTitle != null) {
+            output.writeFieldBegin("webTitle", thrift.TType.STRING, 5);
+            output.writeString(obj.webTitle);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webTitle] is unset!");
         }
-        if (args != null && args.webUrl != null) {
-            this.webUrl = args.webUrl;
+        if (obj.webUrl != null) {
+            output.writeFieldBegin("webUrl", thrift.TType.STRING, 6);
+            output.writeString(obj.webUrl);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webUrl] is unset!");
         }
-        if (args != null && args.apiUrl != null) {
-            this.apiUrl = args.apiUrl;
+        if (obj.apiUrl != null) {
+            output.writeFieldBegin("apiUrl", thrift.TType.STRING, 7);
+            output.writeString(obj.apiUrl);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[apiUrl] is unset!");
         }
-        if (args != null && args.references != null) {
-            this.references = args.references;
+        if (obj.references != null) {
+            output.writeFieldBegin("references", thrift.TType.LIST, 8);
+            output.writeListBegin(thrift.TType.STRUCT, obj.references.length);
+            obj.references.forEach((value_1: Reference.IReferenceArgs): void => {
+                Reference.ReferenceCodec.encode(value_1, output);
+            });
+            output.writeListEnd();
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[references] is unset!");
         }
-        if (args != null && args.description != null) {
-            this.description = args.description;
-        }
-        if (args != null && args.bio != null) {
-            this.bio = args.bio;
-        }
-        if (args != null && args.bylineImageUrl != null) {
-            this.bylineImageUrl = args.bylineImageUrl;
-        }
-        if (args != null && args.bylineLargeImageUrl != null) {
-            this.bylineLargeImageUrl = args.bylineLargeImageUrl;
-        }
-        if (args != null && args.podcast != null) {
-            this.podcast = args.podcast;
-        }
-        if (args != null && args.firstName != null) {
-            this.firstName = args.firstName;
-        }
-        if (args != null && args.lastName != null) {
-            this.lastName = args.lastName;
-        }
-        if (args != null && args.emailAddress != null) {
-            this.emailAddress = args.emailAddress;
-        }
-        if (args != null && args.twitterHandle != null) {
-            this.twitterHandle = args.twitterHandle;
-        }
-        if (args != null && args.activeSponsorships != null) {
-            this.activeSponsorships = args.activeSponsorships;
-        }
-        if (args != null && args.paidContentType != null) {
-            this.paidContentType = args.paidContentType;
-        }
-        if (args != null && args.paidContentCampaignColour != null) {
-            this.paidContentCampaignColour = args.paidContentCampaignColour;
-        }
-        if (args != null && args.rcsId != null) {
-            this.rcsId = args.rcsId;
-        }
-        if (args != null && args.r2ContributorId != null) {
-            this.r2ContributorId = args.r2ContributorId;
-        }
-        if (args != null && args.tagCategories != null) {
-            this.tagCategories = args.tagCategories;
-        }
-        if (args != null && args.entityIds != null) {
-            this.entityIds = args.entityIds;
-        }
-        if (args != null && args.campaignInformationType != null) {
-            this.campaignInformationType = args.campaignInformationType;
-        }
-        if (args != null && args.internalName != null) {
-            this.internalName = args.internalName;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("Tag");
-        if (this.id != null) {
-            output.writeFieldBegin("id", thrift.TType.STRING, 1);
-            output.writeString(this.id);
-            output.writeFieldEnd();
-        }
-        if (this.type != null) {
-            output.writeFieldBegin("type", thrift.TType.I32, 2);
-            output.writeI32(this.type);
-            output.writeFieldEnd();
-        }
-        if (this.sectionId != null) {
-            output.writeFieldBegin("sectionId", thrift.TType.STRING, 3);
-            output.writeString(this.sectionId);
-            output.writeFieldEnd();
-        }
-        if (this.sectionName != null) {
-            output.writeFieldBegin("sectionName", thrift.TType.STRING, 4);
-            output.writeString(this.sectionName);
-            output.writeFieldEnd();
-        }
-        if (this.webTitle != null) {
-            output.writeFieldBegin("webTitle", thrift.TType.STRING, 5);
-            output.writeString(this.webTitle);
-            output.writeFieldEnd();
-        }
-        if (this.webUrl != null) {
-            output.writeFieldBegin("webUrl", thrift.TType.STRING, 6);
-            output.writeString(this.webUrl);
-            output.writeFieldEnd();
-        }
-        if (this.apiUrl != null) {
-            output.writeFieldBegin("apiUrl", thrift.TType.STRING, 7);
-            output.writeString(this.apiUrl);
-            output.writeFieldEnd();
-        }
-        if (this.references != null) {
-            output.writeFieldBegin("references", thrift.TType.LIST, 8);
-            output.writeListBegin(thrift.TType.STRUCT, this.references.length);
-            this.references.forEach((value_1: Reference.Reference): void => {
-                value_1.write(output);
-            });
-            output.writeListEnd();
-            output.writeFieldEnd();
-        }
-        if (this.description != null) {
+        if (obj.description != null) {
             output.writeFieldBegin("description", thrift.TType.STRING, 9);
-            output.writeString(this.description);
+            output.writeString(obj.description);
             output.writeFieldEnd();
         }
-        if (this.bio != null) {
+        if (obj.bio != null) {
             output.writeFieldBegin("bio", thrift.TType.STRING, 10);
-            output.writeString(this.bio);
+            output.writeString(obj.bio);
             output.writeFieldEnd();
         }
-        if (this.bylineImageUrl != null) {
+        if (obj.bylineImageUrl != null) {
             output.writeFieldBegin("bylineImageUrl", thrift.TType.STRING, 11);
-            output.writeString(this.bylineImageUrl);
+            output.writeString(obj.bylineImageUrl);
             output.writeFieldEnd();
         }
-        if (this.bylineLargeImageUrl != null) {
+        if (obj.bylineLargeImageUrl != null) {
             output.writeFieldBegin("bylineLargeImageUrl", thrift.TType.STRING, 12);
-            output.writeString(this.bylineLargeImageUrl);
+            output.writeString(obj.bylineLargeImageUrl);
             output.writeFieldEnd();
         }
-        if (this.podcast != null) {
+        if (obj.podcast != null) {
             output.writeFieldBegin("podcast", thrift.TType.STRUCT, 13);
-            this.podcast.write(output);
+            Podcast.PodcastCodec.encode(obj.podcast, output);
             output.writeFieldEnd();
         }
-        if (this.firstName != null) {
+        if (obj.firstName != null) {
             output.writeFieldBegin("firstName", thrift.TType.STRING, 14);
-            output.writeString(this.firstName);
+            output.writeString(obj.firstName);
             output.writeFieldEnd();
         }
-        if (this.lastName != null) {
+        if (obj.lastName != null) {
             output.writeFieldBegin("lastName", thrift.TType.STRING, 15);
-            output.writeString(this.lastName);
+            output.writeString(obj.lastName);
             output.writeFieldEnd();
         }
-        if (this.emailAddress != null) {
+        if (obj.emailAddress != null) {
             output.writeFieldBegin("emailAddress", thrift.TType.STRING, 16);
-            output.writeString(this.emailAddress);
+            output.writeString(obj.emailAddress);
             output.writeFieldEnd();
         }
-        if (this.twitterHandle != null) {
+        if (obj.twitterHandle != null) {
             output.writeFieldBegin("twitterHandle", thrift.TType.STRING, 17);
-            output.writeString(this.twitterHandle);
+            output.writeString(obj.twitterHandle);
             output.writeFieldEnd();
         }
-        if (this.activeSponsorships != null) {
+        if (obj.activeSponsorships != null) {
             output.writeFieldBegin("activeSponsorships", thrift.TType.LIST, 18);
-            output.writeListBegin(thrift.TType.STRUCT, this.activeSponsorships.length);
-            this.activeSponsorships.forEach((value_2: Sponsorship.Sponsorship): void => {
-                value_2.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.activeSponsorships.length);
+            obj.activeSponsorships.forEach((value_2: Sponsorship.ISponsorshipArgs): void => {
+                Sponsorship.SponsorshipCodec.encode(value_2, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.paidContentType != null) {
+        if (obj.paidContentType != null) {
             output.writeFieldBegin("paidContentType", thrift.TType.STRING, 19);
-            output.writeString(this.paidContentType);
+            output.writeString(obj.paidContentType);
             output.writeFieldEnd();
         }
-        if (this.paidContentCampaignColour != null) {
+        if (obj.paidContentCampaignColour != null) {
             output.writeFieldBegin("paidContentCampaignColour", thrift.TType.STRING, 20);
-            output.writeString(this.paidContentCampaignColour);
+            output.writeString(obj.paidContentCampaignColour);
             output.writeFieldEnd();
         }
-        if (this.rcsId != null) {
+        if (obj.rcsId != null) {
             output.writeFieldBegin("rcsId", thrift.TType.STRING, 21);
-            output.writeString(this.rcsId);
+            output.writeString(obj.rcsId);
             output.writeFieldEnd();
         }
-        if (this.r2ContributorId != null) {
+        if (obj.r2ContributorId != null) {
             output.writeFieldBegin("r2ContributorId", thrift.TType.STRING, 22);
-            output.writeString(this.r2ContributorId);
+            output.writeString(obj.r2ContributorId);
             output.writeFieldEnd();
         }
-        if (this.tagCategories != null) {
+        if (obj.tagCategories != null) {
             output.writeFieldBegin("tagCategories", thrift.TType.SET, 23);
-            output.writeSetBegin(thrift.TType.STRING, this.tagCategories.size);
-            this.tagCategories.forEach((value_3: string): void => {
+            output.writeSetBegin(thrift.TType.STRING, obj.tagCategories.size);
+            obj.tagCategories.forEach((value_3: string): void => {
                 output.writeString(value_3);
             });
             output.writeSetEnd();
             output.writeFieldEnd();
         }
-        if (this.entityIds != null) {
+        if (obj.entityIds != null) {
             output.writeFieldBegin("entityIds", thrift.TType.SET, 24);
-            output.writeSetBegin(thrift.TType.STRING, this.entityIds.size);
-            this.entityIds.forEach((value_4: string): void => {
+            output.writeSetBegin(thrift.TType.STRING, obj.entityIds.size);
+            obj.entityIds.forEach((value_4: string): void => {
                 output.writeString(value_4);
             });
             output.writeSetEnd();
             output.writeFieldEnd();
         }
-        if (this.campaignInformationType != null) {
+        if (obj.campaignInformationType != null) {
             output.writeFieldBegin("campaignInformationType", thrift.TType.STRING, 25);
-            output.writeString(this.campaignInformationType);
+            output.writeString(obj.campaignInformationType);
             output.writeFieldEnd();
         }
-        if (this.internalName != null) {
+        if (obj.internalName != null) {
             output.writeFieldBegin("internalName", thrift.TType.STRING, 26);
-            output.writeString(this.internalName);
+            output.writeString(obj.internalName);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): Tag {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): ITag {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -391,11 +340,11 @@ export class Tag {
                     break;
                 case 8:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_12: Array<Reference.Reference> = new Array<Reference.Reference>();
+                        const value_12: Array<Reference.IReference> = new Array<Reference.IReference>();
                         const metadata_1: thrift.IThriftList = input.readListBegin();
                         const size_1: number = metadata_1.size;
                         for (let i_1: number = 0; i_1 < size_1; i_1++) {
-                            const value_13: Reference.Reference = Reference.Reference.read(input);
+                            const value_13: Reference.IReference = Reference.ReferenceCodec.decode(input);
                             value_12.push(value_13);
                         }
                         input.readListEnd();
@@ -443,7 +392,7 @@ export class Tag {
                     break;
                 case 13:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_18: Podcast.Podcast = Podcast.Podcast.read(input);
+                        const value_18: Podcast.IPodcast = Podcast.PodcastCodec.decode(input);
                         _args.podcast = value_18;
                     }
                     else {
@@ -488,11 +437,11 @@ export class Tag {
                     break;
                 case 18:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_23: Array<Sponsorship.Sponsorship> = new Array<Sponsorship.Sponsorship>();
+                        const value_23: Array<Sponsorship.ISponsorship> = new Array<Sponsorship.ISponsorship>();
                         const metadata_2: thrift.IThriftList = input.readListBegin();
                         const size_2: number = metadata_2.size;
                         for (let i_2: number = 0; i_2 < size_2; i_2++) {
-                            const value_24: Sponsorship.Sponsorship = Sponsorship.Sponsorship.read(input);
+                            const value_24: Sponsorship.ISponsorship = Sponsorship.SponsorshipCodec.decode(input);
                             value_23.push(value_24);
                         }
                         input.readListEnd();
@@ -541,7 +490,7 @@ export class Tag {
                 case 23:
                     if (fieldType === thrift.TType.SET) {
                         const value_29: Set<string> = new Set<string>();
-                        const metadata_3: IThriftSet = input.readSetBegin();
+                        const metadata_3: thrift.IThriftSet = input.readSetBegin();
                         const size_3: number = metadata_3.size;
                         for (let i_3: number = 0; i_3 < size_3; i_3++) {
                             const value_30: string = input.readString();
@@ -596,10 +545,217 @@ export class Tag {
         }
         input.readStructEnd();
         if (_args.id !== undefined && _args.type !== undefined && _args.webTitle !== undefined && _args.webUrl !== undefined && _args.apiUrl !== undefined && _args.references !== undefined) {
-            return new Tag(_args);
+            return {
+                id: _args.id,
+                type: _args.type,
+                sectionId: _args.sectionId,
+                sectionName: _args.sectionName,
+                webTitle: _args.webTitle,
+                webUrl: _args.webUrl,
+                apiUrl: _args.apiUrl,
+                references: _args.references,
+                description: _args.description,
+                bio: _args.bio,
+                bylineImageUrl: _args.bylineImageUrl,
+                bylineLargeImageUrl: _args.bylineLargeImageUrl,
+                podcast: _args.podcast,
+                firstName: _args.firstName,
+                lastName: _args.lastName,
+                emailAddress: _args.emailAddress,
+                twitterHandle: _args.twitterHandle,
+                activeSponsorships: _args.activeSponsorships,
+                paidContentType: _args.paidContentType,
+                paidContentCampaignColour: _args.paidContentCampaignColour,
+                rcsId: _args.rcsId,
+                r2ContributorId: _args.r2ContributorId,
+                tagCategories: _args.tagCategories,
+                entityIds: _args.entityIds,
+                campaignInformationType: _args.campaignInformationType,
+                internalName: _args.internalName
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read Tag from input");
         }
+    }
+};
+export class Tag extends thrift.StructLike implements ITag {
+    public id: string;
+    public type: TagType.TagType;
+    public sectionId?: string;
+    public sectionName?: string;
+    public webTitle: string;
+    public webUrl: string;
+    public apiUrl: string;
+    public references: Array<Reference.IReference>;
+    public description?: string;
+    public bio?: string;
+    public bylineImageUrl?: string;
+    public bylineLargeImageUrl?: string;
+    public podcast?: Podcast.IPodcast;
+    public firstName?: string;
+    public lastName?: string;
+    public emailAddress?: string;
+    public twitterHandle?: string;
+    public activeSponsorships?: Array<Sponsorship.ISponsorship>;
+    public paidContentType?: string;
+    public paidContentCampaignColour?: string;
+    public rcsId?: string;
+    public r2ContributorId?: string;
+    public tagCategories?: Set<string>;
+    public entityIds?: Set<string>;
+    public campaignInformationType?: string;
+    public internalName?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: ITagArgs) {
+        super();
+        if (args.id != null) {
+            const value_35: string = args.id;
+            this.id = value_35;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
+        }
+        if (args.type != null) {
+            const value_36: TagType.TagType = args.type;
+            this.type = value_36;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[type] is unset!");
+        }
+        if (args.sectionId != null) {
+            const value_37: string = args.sectionId;
+            this.sectionId = value_37;
+        }
+        if (args.sectionName != null) {
+            const value_38: string = args.sectionName;
+            this.sectionName = value_38;
+        }
+        if (args.webTitle != null) {
+            const value_39: string = args.webTitle;
+            this.webTitle = value_39;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webTitle] is unset!");
+        }
+        if (args.webUrl != null) {
+            const value_40: string = args.webUrl;
+            this.webUrl = value_40;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webUrl] is unset!");
+        }
+        if (args.apiUrl != null) {
+            const value_41: string = args.apiUrl;
+            this.apiUrl = value_41;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[apiUrl] is unset!");
+        }
+        if (args.references != null) {
+            const value_42: Array<Reference.IReference> = new Array<Reference.IReference>();
+            args.references.forEach((value_61: Reference.IReferenceArgs): void => {
+                const value_62: Reference.IReference = new Reference.Reference(value_61);
+                value_42.push(value_62);
+            });
+            this.references = value_42;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[references] is unset!");
+        }
+        if (args.description != null) {
+            const value_43: string = args.description;
+            this.description = value_43;
+        }
+        if (args.bio != null) {
+            const value_44: string = args.bio;
+            this.bio = value_44;
+        }
+        if (args.bylineImageUrl != null) {
+            const value_45: string = args.bylineImageUrl;
+            this.bylineImageUrl = value_45;
+        }
+        if (args.bylineLargeImageUrl != null) {
+            const value_46: string = args.bylineLargeImageUrl;
+            this.bylineLargeImageUrl = value_46;
+        }
+        if (args.podcast != null) {
+            const value_47: Podcast.IPodcast = new Podcast.Podcast(args.podcast);
+            this.podcast = value_47;
+        }
+        if (args.firstName != null) {
+            const value_48: string = args.firstName;
+            this.firstName = value_48;
+        }
+        if (args.lastName != null) {
+            const value_49: string = args.lastName;
+            this.lastName = value_49;
+        }
+        if (args.emailAddress != null) {
+            const value_50: string = args.emailAddress;
+            this.emailAddress = value_50;
+        }
+        if (args.twitterHandle != null) {
+            const value_51: string = args.twitterHandle;
+            this.twitterHandle = value_51;
+        }
+        if (args.activeSponsorships != null) {
+            const value_52: Array<Sponsorship.ISponsorship> = new Array<Sponsorship.ISponsorship>();
+            args.activeSponsorships.forEach((value_63: Sponsorship.ISponsorshipArgs): void => {
+                const value_64: Sponsorship.ISponsorship = new Sponsorship.Sponsorship(value_63);
+                value_52.push(value_64);
+            });
+            this.activeSponsorships = value_52;
+        }
+        if (args.paidContentType != null) {
+            const value_53: string = args.paidContentType;
+            this.paidContentType = value_53;
+        }
+        if (args.paidContentCampaignColour != null) {
+            const value_54: string = args.paidContentCampaignColour;
+            this.paidContentCampaignColour = value_54;
+        }
+        if (args.rcsId != null) {
+            const value_55: string = args.rcsId;
+            this.rcsId = value_55;
+        }
+        if (args.r2ContributorId != null) {
+            const value_56: string = args.r2ContributorId;
+            this.r2ContributorId = value_56;
+        }
+        if (args.tagCategories != null) {
+            const value_57: Set<string> = new Set<string>();
+            args.tagCategories.forEach((value_65: string): void => {
+                const value_66: string = value_65;
+                value_57.add(value_66);
+            });
+            this.tagCategories = value_57;
+        }
+        if (args.entityIds != null) {
+            const value_58: Set<string> = new Set<string>();
+            args.entityIds.forEach((value_67: string): void => {
+                const value_68: string = value_67;
+                value_58.add(value_68);
+            });
+            this.entityIds = value_58;
+        }
+        if (args.campaignInformationType != null) {
+            const value_59: string = args.campaignInformationType;
+            this.campaignInformationType = value_59;
+        }
+        if (args.internalName != null) {
+            const value_60: string = args.internalName;
+            this.internalName = value_60;
+        }
+    }
+    public static read(input: thrift.TProtocol): Tag {
+        return new Tag(TagCodec.decode(input));
+    }
+    public static write(args: ITagArgs, output: thrift.TProtocol): void {
+        return TagCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return TagCodec.encode(this, output);
     }
 }

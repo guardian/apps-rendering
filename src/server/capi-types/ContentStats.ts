@@ -5,6 +5,22 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IContentStats {
+    videos: number;
+    images: number;
+    text: number;
+    tweets: number;
+    pullquotes: number;
+    audio: number;
+    interactives: number;
+    witness: number;
+    richlinks: number;
+    membership: number;
+    embeds: number;
+    comments: number;
+    instagram: number;
+    vines: number;
+}
 export interface IContentStatsArgs {
     videos: number;
     images: number;
@@ -21,186 +37,144 @@ export interface IContentStatsArgs {
     instagram: number;
     vines: number;
 }
-export class ContentStats {
-    public videos: number;
-    public images: number;
-    public text: number;
-    public tweets: number;
-    public pullquotes: number;
-    public audio: number;
-    public interactives: number;
-    public witness: number;
-    public richlinks: number;
-    public membership: number;
-    public embeds: number;
-    public comments: number;
-    public instagram: number;
-    public vines: number;
-    constructor(args: IContentStatsArgs) {
-        if (args != null && args.videos != null) {
-            this.videos = args.videos;
+export const ContentStatsCodec: thrift.IStructCodec<IContentStatsArgs, IContentStats> = {
+    encode(args: IContentStatsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            videos: args.videos,
+            images: args.images,
+            text: args.text,
+            tweets: args.tweets,
+            pullquotes: args.pullquotes,
+            audio: args.audio,
+            interactives: args.interactives,
+            witness: args.witness,
+            richlinks: args.richlinks,
+            membership: args.membership,
+            embeds: args.embeds,
+            comments: args.comments,
+            instagram: args.instagram,
+            vines: args.vines
+        };
+        output.writeStructBegin("ContentStats");
+        if (obj.videos != null) {
+            output.writeFieldBegin("videos", thrift.TType.I32, 1);
+            output.writeI32(obj.videos);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[videos] is unset!");
         }
-        if (args != null && args.images != null) {
-            this.images = args.images;
+        if (obj.images != null) {
+            output.writeFieldBegin("images", thrift.TType.I32, 2);
+            output.writeI32(obj.images);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[images] is unset!");
         }
-        if (args != null && args.text != null) {
-            this.text = args.text;
+        if (obj.text != null) {
+            output.writeFieldBegin("text", thrift.TType.I32, 3);
+            output.writeI32(obj.text);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[text] is unset!");
         }
-        if (args != null && args.tweets != null) {
-            this.tweets = args.tweets;
+        if (obj.tweets != null) {
+            output.writeFieldBegin("tweets", thrift.TType.I32, 4);
+            output.writeI32(obj.tweets);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[tweets] is unset!");
         }
-        if (args != null && args.pullquotes != null) {
-            this.pullquotes = args.pullquotes;
+        if (obj.pullquotes != null) {
+            output.writeFieldBegin("pullquotes", thrift.TType.I32, 5);
+            output.writeI32(obj.pullquotes);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[pullquotes] is unset!");
         }
-        if (args != null && args.audio != null) {
-            this.audio = args.audio;
+        if (obj.audio != null) {
+            output.writeFieldBegin("audio", thrift.TType.I32, 6);
+            output.writeI32(obj.audio);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[audio] is unset!");
         }
-        if (args != null && args.interactives != null) {
-            this.interactives = args.interactives;
+        if (obj.interactives != null) {
+            output.writeFieldBegin("interactives", thrift.TType.I32, 7);
+            output.writeI32(obj.interactives);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[interactives] is unset!");
         }
-        if (args != null && args.witness != null) {
-            this.witness = args.witness;
+        if (obj.witness != null) {
+            output.writeFieldBegin("witness", thrift.TType.I32, 8);
+            output.writeI32(obj.witness);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[witness] is unset!");
         }
-        if (args != null && args.richlinks != null) {
-            this.richlinks = args.richlinks;
+        if (obj.richlinks != null) {
+            output.writeFieldBegin("richlinks", thrift.TType.I32, 9);
+            output.writeI32(obj.richlinks);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[richlinks] is unset!");
         }
-        if (args != null && args.membership != null) {
-            this.membership = args.membership;
+        if (obj.membership != null) {
+            output.writeFieldBegin("membership", thrift.TType.I32, 10);
+            output.writeI32(obj.membership);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[membership] is unset!");
         }
-        if (args != null && args.embeds != null) {
-            this.embeds = args.embeds;
+        if (obj.embeds != null) {
+            output.writeFieldBegin("embeds", thrift.TType.I32, 11);
+            output.writeI32(obj.embeds);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[embeds] is unset!");
         }
-        if (args != null && args.comments != null) {
-            this.comments = args.comments;
+        if (obj.comments != null) {
+            output.writeFieldBegin("comments", thrift.TType.I32, 12);
+            output.writeI32(obj.comments);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[comments] is unset!");
         }
-        if (args != null && args.instagram != null) {
-            this.instagram = args.instagram;
+        if (obj.instagram != null) {
+            output.writeFieldBegin("instagram", thrift.TType.I32, 13);
+            output.writeI32(obj.instagram);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[instagram] is unset!");
         }
-        if (args != null && args.vines != null) {
-            this.vines = args.vines;
+        if (obj.vines != null) {
+            output.writeFieldBegin("vines", thrift.TType.I32, 14);
+            output.writeI32(obj.vines);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[vines] is unset!");
         }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("ContentStats");
-        if (this.videos != null) {
-            output.writeFieldBegin("videos", thrift.TType.I32, 1);
-            output.writeI32(this.videos);
-            output.writeFieldEnd();
-        }
-        if (this.images != null) {
-            output.writeFieldBegin("images", thrift.TType.I32, 2);
-            output.writeI32(this.images);
-            output.writeFieldEnd();
-        }
-        if (this.text != null) {
-            output.writeFieldBegin("text", thrift.TType.I32, 3);
-            output.writeI32(this.text);
-            output.writeFieldEnd();
-        }
-        if (this.tweets != null) {
-            output.writeFieldBegin("tweets", thrift.TType.I32, 4);
-            output.writeI32(this.tweets);
-            output.writeFieldEnd();
-        }
-        if (this.pullquotes != null) {
-            output.writeFieldBegin("pullquotes", thrift.TType.I32, 5);
-            output.writeI32(this.pullquotes);
-            output.writeFieldEnd();
-        }
-        if (this.audio != null) {
-            output.writeFieldBegin("audio", thrift.TType.I32, 6);
-            output.writeI32(this.audio);
-            output.writeFieldEnd();
-        }
-        if (this.interactives != null) {
-            output.writeFieldBegin("interactives", thrift.TType.I32, 7);
-            output.writeI32(this.interactives);
-            output.writeFieldEnd();
-        }
-        if (this.witness != null) {
-            output.writeFieldBegin("witness", thrift.TType.I32, 8);
-            output.writeI32(this.witness);
-            output.writeFieldEnd();
-        }
-        if (this.richlinks != null) {
-            output.writeFieldBegin("richlinks", thrift.TType.I32, 9);
-            output.writeI32(this.richlinks);
-            output.writeFieldEnd();
-        }
-        if (this.membership != null) {
-            output.writeFieldBegin("membership", thrift.TType.I32, 10);
-            output.writeI32(this.membership);
-            output.writeFieldEnd();
-        }
-        if (this.embeds != null) {
-            output.writeFieldBegin("embeds", thrift.TType.I32, 11);
-            output.writeI32(this.embeds);
-            output.writeFieldEnd();
-        }
-        if (this.comments != null) {
-            output.writeFieldBegin("comments", thrift.TType.I32, 12);
-            output.writeI32(this.comments);
-            output.writeFieldEnd();
-        }
-        if (this.instagram != null) {
-            output.writeFieldBegin("instagram", thrift.TType.I32, 13);
-            output.writeI32(this.instagram);
-            output.writeFieldEnd();
-        }
-        if (this.vines != null) {
-            output.writeFieldBegin("vines", thrift.TType.I32, 14);
-            output.writeI32(this.vines);
-            output.writeFieldEnd();
-        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): ContentStats {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IContentStats {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -343,10 +317,153 @@ export class ContentStats {
         }
         input.readStructEnd();
         if (_args.videos !== undefined && _args.images !== undefined && _args.text !== undefined && _args.tweets !== undefined && _args.pullquotes !== undefined && _args.audio !== undefined && _args.interactives !== undefined && _args.witness !== undefined && _args.richlinks !== undefined && _args.membership !== undefined && _args.embeds !== undefined && _args.comments !== undefined && _args.instagram !== undefined && _args.vines !== undefined) {
-            return new ContentStats(_args);
+            return {
+                videos: _args.videos,
+                images: _args.images,
+                text: _args.text,
+                tweets: _args.tweets,
+                pullquotes: _args.pullquotes,
+                audio: _args.audio,
+                interactives: _args.interactives,
+                witness: _args.witness,
+                richlinks: _args.richlinks,
+                membership: _args.membership,
+                embeds: _args.embeds,
+                comments: _args.comments,
+                instagram: _args.instagram,
+                vines: _args.vines
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read ContentStats from input");
         }
+    }
+};
+export class ContentStats extends thrift.StructLike implements IContentStats {
+    public videos: number;
+    public images: number;
+    public text: number;
+    public tweets: number;
+    public pullquotes: number;
+    public audio: number;
+    public interactives: number;
+    public witness: number;
+    public richlinks: number;
+    public membership: number;
+    public embeds: number;
+    public comments: number;
+    public instagram: number;
+    public vines: number;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IContentStatsArgs) {
+        super();
+        if (args.videos != null) {
+            const value_15: number = args.videos;
+            this.videos = value_15;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[videos] is unset!");
+        }
+        if (args.images != null) {
+            const value_16: number = args.images;
+            this.images = value_16;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[images] is unset!");
+        }
+        if (args.text != null) {
+            const value_17: number = args.text;
+            this.text = value_17;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[text] is unset!");
+        }
+        if (args.tweets != null) {
+            const value_18: number = args.tweets;
+            this.tweets = value_18;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[tweets] is unset!");
+        }
+        if (args.pullquotes != null) {
+            const value_19: number = args.pullquotes;
+            this.pullquotes = value_19;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[pullquotes] is unset!");
+        }
+        if (args.audio != null) {
+            const value_20: number = args.audio;
+            this.audio = value_20;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[audio] is unset!");
+        }
+        if (args.interactives != null) {
+            const value_21: number = args.interactives;
+            this.interactives = value_21;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[interactives] is unset!");
+        }
+        if (args.witness != null) {
+            const value_22: number = args.witness;
+            this.witness = value_22;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[witness] is unset!");
+        }
+        if (args.richlinks != null) {
+            const value_23: number = args.richlinks;
+            this.richlinks = value_23;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[richlinks] is unset!");
+        }
+        if (args.membership != null) {
+            const value_24: number = args.membership;
+            this.membership = value_24;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[membership] is unset!");
+        }
+        if (args.embeds != null) {
+            const value_25: number = args.embeds;
+            this.embeds = value_25;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[embeds] is unset!");
+        }
+        if (args.comments != null) {
+            const value_26: number = args.comments;
+            this.comments = value_26;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[comments] is unset!");
+        }
+        if (args.instagram != null) {
+            const value_27: number = args.instagram;
+            this.instagram = value_27;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[instagram] is unset!");
+        }
+        if (args.vines != null) {
+            const value_28: number = args.vines;
+            this.vines = value_28;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[vines] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): ContentStats {
+        return new ContentStats(ContentStatsCodec.decode(input));
+    }
+    public static write(args: IContentStatsArgs, output: thrift.TProtocol): void {
+        return ContentStatsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return ContentStatsCodec.encode(this, output);
     }
 }

@@ -6,7 +6,7 @@ import ImmersiveStandfirst from 'components/immersive/standfirst';
 import ImmersiveByline from 'components/immersive/byline';
 import ArticleBody from 'components/shared/articleBody';
 import Tags from 'components/shared/tags';
-import { Content } from 'capiThriftModels';
+import { Content } from '../../server/capi-types/Content';
 import { articleWidthStyles, basePx, darkModeCss } from 'styles';
 import { from, breakpoints } from '@guardian/src-foundations/mq';
 import { css, SerializedStyles } from '@emotion/core';
@@ -107,7 +107,7 @@ function ImmersiveArticle({
                     <Keyline {...article} />
                     <ImmersiveByline
                         pillarStyles={pillarStyles}
-                        publicationDate={webPublicationDate}
+                        publicationDate={webPublicationDate.iso8601}
                         contributors={contributors}
                         className={articleWidthStyles}
                     />

@@ -5,6 +5,17 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IInstagramElementFields {
+    originalUrl: string;
+    title: string;
+    source: string;
+    authorUrl: string;
+    authorUsername: string;
+    html?: string;
+    width?: number;
+    alt?: string;
+    caption?: string;
+}
 export interface IInstagramElementFieldsArgs {
     originalUrl: string;
     title: string;
@@ -16,114 +27,87 @@ export interface IInstagramElementFieldsArgs {
     alt?: string;
     caption?: string;
 }
-export class InstagramElementFields {
-    public originalUrl: string;
-    public title: string;
-    public source: string;
-    public authorUrl: string;
-    public authorUsername: string;
-    public html?: string;
-    public width?: number;
-    public alt?: string;
-    public caption?: string;
-    constructor(args: IInstagramElementFieldsArgs) {
-        if (args != null && args.originalUrl != null) {
-            this.originalUrl = args.originalUrl;
+export const InstagramElementFieldsCodec: thrift.IStructCodec<IInstagramElementFieldsArgs, IInstagramElementFields> = {
+    encode(args: IInstagramElementFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            originalUrl: args.originalUrl,
+            title: args.title,
+            source: args.source,
+            authorUrl: args.authorUrl,
+            authorUsername: args.authorUsername,
+            html: args.html,
+            width: args.width,
+            alt: args.alt,
+            caption: args.caption
+        };
+        output.writeStructBegin("InstagramElementFields");
+        if (obj.originalUrl != null) {
+            output.writeFieldBegin("originalUrl", thrift.TType.STRING, 1);
+            output.writeString(obj.originalUrl);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[originalUrl] is unset!");
         }
-        if (args != null && args.title != null) {
-            this.title = args.title;
+        if (obj.title != null) {
+            output.writeFieldBegin("title", thrift.TType.STRING, 2);
+            output.writeString(obj.title);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[title] is unset!");
         }
-        if (args != null && args.source != null) {
-            this.source = args.source;
+        if (obj.source != null) {
+            output.writeFieldBegin("source", thrift.TType.STRING, 3);
+            output.writeString(obj.source);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[source] is unset!");
         }
-        if (args != null && args.authorUrl != null) {
-            this.authorUrl = args.authorUrl;
+        if (obj.authorUrl != null) {
+            output.writeFieldBegin("authorUrl", thrift.TType.STRING, 4);
+            output.writeString(obj.authorUrl);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[authorUrl] is unset!");
         }
-        if (args != null && args.authorUsername != null) {
-            this.authorUsername = args.authorUsername;
+        if (obj.authorUsername != null) {
+            output.writeFieldBegin("authorUsername", thrift.TType.STRING, 5);
+            output.writeString(obj.authorUsername);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[authorUsername] is unset!");
         }
-        if (args != null && args.html != null) {
-            this.html = args.html;
-        }
-        if (args != null && args.width != null) {
-            this.width = args.width;
-        }
-        if (args != null && args.alt != null) {
-            this.alt = args.alt;
-        }
-        if (args != null && args.caption != null) {
-            this.caption = args.caption;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("InstagramElementFields");
-        if (this.originalUrl != null) {
-            output.writeFieldBegin("originalUrl", thrift.TType.STRING, 1);
-            output.writeString(this.originalUrl);
-            output.writeFieldEnd();
-        }
-        if (this.title != null) {
-            output.writeFieldBegin("title", thrift.TType.STRING, 2);
-            output.writeString(this.title);
-            output.writeFieldEnd();
-        }
-        if (this.source != null) {
-            output.writeFieldBegin("source", thrift.TType.STRING, 3);
-            output.writeString(this.source);
-            output.writeFieldEnd();
-        }
-        if (this.authorUrl != null) {
-            output.writeFieldBegin("authorUrl", thrift.TType.STRING, 4);
-            output.writeString(this.authorUrl);
-            output.writeFieldEnd();
-        }
-        if (this.authorUsername != null) {
-            output.writeFieldBegin("authorUsername", thrift.TType.STRING, 5);
-            output.writeString(this.authorUsername);
-            output.writeFieldEnd();
-        }
-        if (this.html != null) {
+        if (obj.html != null) {
             output.writeFieldBegin("html", thrift.TType.STRING, 6);
-            output.writeString(this.html);
+            output.writeString(obj.html);
             output.writeFieldEnd();
         }
-        if (this.width != null) {
+        if (obj.width != null) {
             output.writeFieldBegin("width", thrift.TType.I32, 7);
-            output.writeI32(this.width);
+            output.writeI32(obj.width);
             output.writeFieldEnd();
         }
-        if (this.alt != null) {
+        if (obj.alt != null) {
             output.writeFieldBegin("alt", thrift.TType.STRING, 8);
-            output.writeString(this.alt);
+            output.writeString(obj.alt);
             output.writeFieldEnd();
         }
-        if (this.caption != null) {
+        if (obj.caption != null) {
             output.writeFieldBegin("caption", thrift.TType.STRING, 9);
-            output.writeString(this.caption);
+            output.writeString(obj.caption);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): InstagramElementFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IInstagramElementFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -221,10 +205,96 @@ export class InstagramElementFields {
         }
         input.readStructEnd();
         if (_args.originalUrl !== undefined && _args.title !== undefined && _args.source !== undefined && _args.authorUrl !== undefined && _args.authorUsername !== undefined) {
-            return new InstagramElementFields(_args);
+            return {
+                originalUrl: _args.originalUrl,
+                title: _args.title,
+                source: _args.source,
+                authorUrl: _args.authorUrl,
+                authorUsername: _args.authorUsername,
+                html: _args.html,
+                width: _args.width,
+                alt: _args.alt,
+                caption: _args.caption
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read InstagramElementFields from input");
         }
+    }
+};
+export class InstagramElementFields extends thrift.StructLike implements IInstagramElementFields {
+    public originalUrl: string;
+    public title: string;
+    public source: string;
+    public authorUrl: string;
+    public authorUsername: string;
+    public html?: string;
+    public width?: number;
+    public alt?: string;
+    public caption?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IInstagramElementFieldsArgs) {
+        super();
+        if (args.originalUrl != null) {
+            const value_10: string = args.originalUrl;
+            this.originalUrl = value_10;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[originalUrl] is unset!");
+        }
+        if (args.title != null) {
+            const value_11: string = args.title;
+            this.title = value_11;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[title] is unset!");
+        }
+        if (args.source != null) {
+            const value_12: string = args.source;
+            this.source = value_12;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[source] is unset!");
+        }
+        if (args.authorUrl != null) {
+            const value_13: string = args.authorUrl;
+            this.authorUrl = value_13;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[authorUrl] is unset!");
+        }
+        if (args.authorUsername != null) {
+            const value_14: string = args.authorUsername;
+            this.authorUsername = value_14;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[authorUsername] is unset!");
+        }
+        if (args.html != null) {
+            const value_15: string = args.html;
+            this.html = value_15;
+        }
+        if (args.width != null) {
+            const value_16: number = args.width;
+            this.width = value_16;
+        }
+        if (args.alt != null) {
+            const value_17: string = args.alt;
+            this.alt = value_17;
+        }
+        if (args.caption != null) {
+            const value_18: string = args.caption;
+            this.caption = value_18;
+        }
+    }
+    public static read(input: thrift.TProtocol): InstagramElementFields {
+        return new InstagramElementFields(InstagramElementFieldsCodec.decode(input));
+    }
+    public static write(args: IInstagramElementFieldsArgs, output: thrift.TProtocol): void {
+        return InstagramElementFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return InstagramElementFieldsCodec.encode(this, output);
     }
 }

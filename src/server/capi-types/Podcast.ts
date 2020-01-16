@@ -6,6 +6,19 @@
 */
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as PodcastCategory from "./PodcastCategory";
+export interface IPodcast {
+    linkUrl: string;
+    copyright: string;
+    author: string;
+    subscriptionUrl?: string;
+    explicit: boolean;
+    image?: string;
+    categories?: Array<PodcastCategory.IPodcastCategory>;
+    podcastType?: string;
+    googlePodcastsUrl?: string;
+    spotifyUrl?: string;
+    acastId?: string;
+}
 export interface IPodcastArgs {
     linkUrl: string;
     copyright: string;
@@ -13,139 +26,106 @@ export interface IPodcastArgs {
     subscriptionUrl?: string;
     explicit: boolean;
     image?: string;
-    categories?: Array<PodcastCategory.PodcastCategory>;
+    categories?: Array<PodcastCategory.IPodcastCategoryArgs>;
     podcastType?: string;
     googlePodcastsUrl?: string;
     spotifyUrl?: string;
     acastId?: string;
 }
-export class Podcast {
-    public linkUrl: string;
-    public copyright: string;
-    public author: string;
-    public subscriptionUrl?: string;
-    public explicit: boolean;
-    public image?: string;
-    public categories?: Array<PodcastCategory.PodcastCategory>;
-    public podcastType?: string;
-    public googlePodcastsUrl?: string;
-    public spotifyUrl?: string;
-    public acastId?: string;
-    constructor(args: IPodcastArgs) {
-        if (args != null && args.linkUrl != null) {
-            this.linkUrl = args.linkUrl;
+export const PodcastCodec: thrift.IStructCodec<IPodcastArgs, IPodcast> = {
+    encode(args: IPodcastArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            linkUrl: args.linkUrl,
+            copyright: args.copyright,
+            author: args.author,
+            subscriptionUrl: args.subscriptionUrl,
+            explicit: args.explicit,
+            image: args.image,
+            categories: args.categories,
+            podcastType: args.podcastType,
+            googlePodcastsUrl: args.googlePodcastsUrl,
+            spotifyUrl: args.spotifyUrl,
+            acastId: args.acastId
+        };
+        output.writeStructBegin("Podcast");
+        if (obj.linkUrl != null) {
+            output.writeFieldBegin("linkUrl", thrift.TType.STRING, 1);
+            output.writeString(obj.linkUrl);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[linkUrl] is unset!");
         }
-        if (args != null && args.copyright != null) {
-            this.copyright = args.copyright;
+        if (obj.copyright != null) {
+            output.writeFieldBegin("copyright", thrift.TType.STRING, 2);
+            output.writeString(obj.copyright);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[copyright] is unset!");
         }
-        if (args != null && args.author != null) {
-            this.author = args.author;
+        if (obj.author != null) {
+            output.writeFieldBegin("author", thrift.TType.STRING, 3);
+            output.writeString(obj.author);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[author] is unset!");
         }
-        if (args != null && args.subscriptionUrl != null) {
-            this.subscriptionUrl = args.subscriptionUrl;
+        if (obj.subscriptionUrl != null) {
+            output.writeFieldBegin("subscriptionUrl", thrift.TType.STRING, 4);
+            output.writeString(obj.subscriptionUrl);
+            output.writeFieldEnd();
         }
-        if (args != null && args.explicit != null) {
-            this.explicit = args.explicit;
+        if (obj.explicit != null) {
+            output.writeFieldBegin("explicit", thrift.TType.BOOL, 5);
+            output.writeBool(obj.explicit);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[explicit] is unset!");
         }
-        if (args != null && args.image != null) {
-            this.image = args.image;
-        }
-        if (args != null && args.categories != null) {
-            this.categories = args.categories;
-        }
-        if (args != null && args.podcastType != null) {
-            this.podcastType = args.podcastType;
-        }
-        if (args != null && args.googlePodcastsUrl != null) {
-            this.googlePodcastsUrl = args.googlePodcastsUrl;
-        }
-        if (args != null && args.spotifyUrl != null) {
-            this.spotifyUrl = args.spotifyUrl;
-        }
-        if (args != null && args.acastId != null) {
-            this.acastId = args.acastId;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("Podcast");
-        if (this.linkUrl != null) {
-            output.writeFieldBegin("linkUrl", thrift.TType.STRING, 1);
-            output.writeString(this.linkUrl);
-            output.writeFieldEnd();
-        }
-        if (this.copyright != null) {
-            output.writeFieldBegin("copyright", thrift.TType.STRING, 2);
-            output.writeString(this.copyright);
-            output.writeFieldEnd();
-        }
-        if (this.author != null) {
-            output.writeFieldBegin("author", thrift.TType.STRING, 3);
-            output.writeString(this.author);
-            output.writeFieldEnd();
-        }
-        if (this.subscriptionUrl != null) {
-            output.writeFieldBegin("subscriptionUrl", thrift.TType.STRING, 4);
-            output.writeString(this.subscriptionUrl);
-            output.writeFieldEnd();
-        }
-        if (this.explicit != null) {
-            output.writeFieldBegin("explicit", thrift.TType.BOOL, 5);
-            output.writeBool(this.explicit);
-            output.writeFieldEnd();
-        }
-        if (this.image != null) {
+        if (obj.image != null) {
             output.writeFieldBegin("image", thrift.TType.STRING, 6);
-            output.writeString(this.image);
+            output.writeString(obj.image);
             output.writeFieldEnd();
         }
-        if (this.categories != null) {
+        if (obj.categories != null) {
             output.writeFieldBegin("categories", thrift.TType.LIST, 7);
-            output.writeListBegin(thrift.TType.STRUCT, this.categories.length);
-            this.categories.forEach((value_1: PodcastCategory.PodcastCategory): void => {
-                value_1.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.categories.length);
+            obj.categories.forEach((value_1: PodcastCategory.IPodcastCategoryArgs): void => {
+                PodcastCategory.PodcastCategoryCodec.encode(value_1, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.podcastType != null) {
+        if (obj.podcastType != null) {
             output.writeFieldBegin("podcastType", thrift.TType.STRING, 8);
-            output.writeString(this.podcastType);
+            output.writeString(obj.podcastType);
             output.writeFieldEnd();
         }
-        if (this.googlePodcastsUrl != null) {
+        if (obj.googlePodcastsUrl != null) {
             output.writeFieldBegin("googlePodcastsUrl", thrift.TType.STRING, 9);
-            output.writeString(this.googlePodcastsUrl);
+            output.writeString(obj.googlePodcastsUrl);
             output.writeFieldEnd();
         }
-        if (this.spotifyUrl != null) {
+        if (obj.spotifyUrl != null) {
             output.writeFieldBegin("spotifyUrl", thrift.TType.STRING, 10);
-            output.writeString(this.spotifyUrl);
+            output.writeString(obj.spotifyUrl);
             output.writeFieldEnd();
         }
-        if (this.acastId != null) {
+        if (obj.acastId != null) {
             output.writeFieldBegin("acastId", thrift.TType.STRING, 11);
-            output.writeString(this.acastId);
+            output.writeString(obj.acastId);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): Podcast {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IPodcast {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -210,11 +190,11 @@ export class Podcast {
                     break;
                 case 7:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_8: Array<PodcastCategory.PodcastCategory> = new Array<PodcastCategory.PodcastCategory>();
+                        const value_8: Array<PodcastCategory.IPodcastCategory> = new Array<PodcastCategory.IPodcastCategory>();
                         const metadata_1: thrift.IThriftList = input.readListBegin();
                         const size_1: number = metadata_1.size;
                         for (let i_1: number = 0; i_1 < size_1; i_1++) {
-                            const value_9: PodcastCategory.PodcastCategory = PodcastCategory.PodcastCategory.read(input);
+                            const value_9: PodcastCategory.IPodcastCategory = PodcastCategory.PodcastCategoryCodec.decode(input);
                             value_8.push(value_9);
                         }
                         input.readListEnd();
@@ -268,10 +248,109 @@ export class Podcast {
         }
         input.readStructEnd();
         if (_args.linkUrl !== undefined && _args.copyright !== undefined && _args.author !== undefined && _args.explicit !== undefined) {
-            return new Podcast(_args);
+            return {
+                linkUrl: _args.linkUrl,
+                copyright: _args.copyright,
+                author: _args.author,
+                subscriptionUrl: _args.subscriptionUrl,
+                explicit: _args.explicit,
+                image: _args.image,
+                categories: _args.categories,
+                podcastType: _args.podcastType,
+                googlePodcastsUrl: _args.googlePodcastsUrl,
+                spotifyUrl: _args.spotifyUrl,
+                acastId: _args.acastId
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read Podcast from input");
         }
+    }
+};
+export class Podcast extends thrift.StructLike implements IPodcast {
+    public linkUrl: string;
+    public copyright: string;
+    public author: string;
+    public subscriptionUrl?: string;
+    public explicit: boolean;
+    public image?: string;
+    public categories?: Array<PodcastCategory.IPodcastCategory>;
+    public podcastType?: string;
+    public googlePodcastsUrl?: string;
+    public spotifyUrl?: string;
+    public acastId?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IPodcastArgs) {
+        super();
+        if (args.linkUrl != null) {
+            const value_14: string = args.linkUrl;
+            this.linkUrl = value_14;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[linkUrl] is unset!");
+        }
+        if (args.copyright != null) {
+            const value_15: string = args.copyright;
+            this.copyright = value_15;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[copyright] is unset!");
+        }
+        if (args.author != null) {
+            const value_16: string = args.author;
+            this.author = value_16;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[author] is unset!");
+        }
+        if (args.subscriptionUrl != null) {
+            const value_17: string = args.subscriptionUrl;
+            this.subscriptionUrl = value_17;
+        }
+        if (args.explicit != null) {
+            const value_18: boolean = args.explicit;
+            this.explicit = value_18;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[explicit] is unset!");
+        }
+        if (args.image != null) {
+            const value_19: string = args.image;
+            this.image = value_19;
+        }
+        if (args.categories != null) {
+            const value_20: Array<PodcastCategory.IPodcastCategory> = new Array<PodcastCategory.IPodcastCategory>();
+            args.categories.forEach((value_25: PodcastCategory.IPodcastCategoryArgs): void => {
+                const value_26: PodcastCategory.IPodcastCategory = new PodcastCategory.PodcastCategory(value_25);
+                value_20.push(value_26);
+            });
+            this.categories = value_20;
+        }
+        if (args.podcastType != null) {
+            const value_21: string = args.podcastType;
+            this.podcastType = value_21;
+        }
+        if (args.googlePodcastsUrl != null) {
+            const value_22: string = args.googlePodcastsUrl;
+            this.googlePodcastsUrl = value_22;
+        }
+        if (args.spotifyUrl != null) {
+            const value_23: string = args.spotifyUrl;
+            this.spotifyUrl = value_23;
+        }
+        if (args.acastId != null) {
+            const value_24: string = args.acastId;
+            this.acastId = value_24;
+        }
+    }
+    public static read(input: thrift.TProtocol): Podcast {
+        return new Podcast(PodcastCodec.decode(input));
+    }
+    public static write(args: IPodcastArgs, output: thrift.TProtocol): void {
+        return PodcastCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return PodcastCodec.encode(this, output);
     }
 }

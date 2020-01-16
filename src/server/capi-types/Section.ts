@@ -7,92 +7,82 @@
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as Edition from "./Edition";
 import * as Sponsorship from "./Sponsorship";
+export interface ISection {
+    id: string;
+    webTitle: string;
+    webUrl: string;
+    apiUrl: string;
+    editions: Array<Edition.IEdition>;
+    activeSponsorships?: Array<Sponsorship.ISponsorship>;
+}
 export interface ISectionArgs {
     id: string;
     webTitle: string;
     webUrl: string;
     apiUrl: string;
-    editions: Array<Edition.Edition>;
-    activeSponsorships?: Array<Sponsorship.Sponsorship>;
+    editions: Array<Edition.IEditionArgs>;
+    activeSponsorships?: Array<Sponsorship.ISponsorshipArgs>;
 }
-export class Section {
-    public id: string;
-    public webTitle: string;
-    public webUrl: string;
-    public apiUrl: string;
-    public editions: Array<Edition.Edition>;
-    public activeSponsorships?: Array<Sponsorship.Sponsorship>;
-    constructor(args: ISectionArgs) {
-        if (args != null && args.id != null) {
-            this.id = args.id;
+export const SectionCodec: thrift.IStructCodec<ISectionArgs, ISection> = {
+    encode(args: ISectionArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            id: args.id,
+            webTitle: args.webTitle,
+            webUrl: args.webUrl,
+            apiUrl: args.apiUrl,
+            editions: args.editions,
+            activeSponsorships: args.activeSponsorships
+        };
+        output.writeStructBegin("Section");
+        if (obj.id != null) {
+            output.writeFieldBegin("id", thrift.TType.STRING, 1);
+            output.writeString(obj.id);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
         }
-        if (args != null && args.webTitle != null) {
-            this.webTitle = args.webTitle;
+        if (obj.webTitle != null) {
+            output.writeFieldBegin("webTitle", thrift.TType.STRING, 2);
+            output.writeString(obj.webTitle);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webTitle] is unset!");
         }
-        if (args != null && args.webUrl != null) {
-            this.webUrl = args.webUrl;
+        if (obj.webUrl != null) {
+            output.writeFieldBegin("webUrl", thrift.TType.STRING, 3);
+            output.writeString(obj.webUrl);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webUrl] is unset!");
         }
-        if (args != null && args.apiUrl != null) {
-            this.apiUrl = args.apiUrl;
+        if (obj.apiUrl != null) {
+            output.writeFieldBegin("apiUrl", thrift.TType.STRING, 4);
+            output.writeString(obj.apiUrl);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[apiUrl] is unset!");
         }
-        if (args != null && args.editions != null) {
-            this.editions = args.editions;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[editions] is unset!");
-        }
-        if (args != null && args.activeSponsorships != null) {
-            this.activeSponsorships = args.activeSponsorships;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("Section");
-        if (this.id != null) {
-            output.writeFieldBegin("id", thrift.TType.STRING, 1);
-            output.writeString(this.id);
-            output.writeFieldEnd();
-        }
-        if (this.webTitle != null) {
-            output.writeFieldBegin("webTitle", thrift.TType.STRING, 2);
-            output.writeString(this.webTitle);
-            output.writeFieldEnd();
-        }
-        if (this.webUrl != null) {
-            output.writeFieldBegin("webUrl", thrift.TType.STRING, 3);
-            output.writeString(this.webUrl);
-            output.writeFieldEnd();
-        }
-        if (this.apiUrl != null) {
-            output.writeFieldBegin("apiUrl", thrift.TType.STRING, 4);
-            output.writeString(this.apiUrl);
-            output.writeFieldEnd();
-        }
-        if (this.editions != null) {
+        if (obj.editions != null) {
             output.writeFieldBegin("editions", thrift.TType.LIST, 5);
-            output.writeListBegin(thrift.TType.STRUCT, this.editions.length);
-            this.editions.forEach((value_1: Edition.Edition): void => {
-                value_1.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.editions.length);
+            obj.editions.forEach((value_1: Edition.IEditionArgs): void => {
+                Edition.EditionCodec.encode(value_1, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.activeSponsorships != null) {
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[editions] is unset!");
+        }
+        if (obj.activeSponsorships != null) {
             output.writeFieldBegin("activeSponsorships", thrift.TType.LIST, 6);
-            output.writeListBegin(thrift.TType.STRUCT, this.activeSponsorships.length);
-            this.activeSponsorships.forEach((value_2: Sponsorship.Sponsorship): void => {
-                value_2.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.activeSponsorships.length);
+            obj.activeSponsorships.forEach((value_2: Sponsorship.ISponsorshipArgs): void => {
+                Sponsorship.SponsorshipCodec.encode(value_2, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
@@ -100,10 +90,10 @@ export class Section {
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): Section {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): ISection {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -150,11 +140,11 @@ export class Section {
                     break;
                 case 5:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_7: Array<Edition.Edition> = new Array<Edition.Edition>();
+                        const value_7: Array<Edition.IEdition> = new Array<Edition.IEdition>();
                         const metadata_1: thrift.IThriftList = input.readListBegin();
                         const size_1: number = metadata_1.size;
                         for (let i_1: number = 0; i_1 < size_1; i_1++) {
-                            const value_8: Edition.Edition = Edition.Edition.read(input);
+                            const value_8: Edition.IEdition = Edition.EditionCodec.decode(input);
                             value_7.push(value_8);
                         }
                         input.readListEnd();
@@ -166,11 +156,11 @@ export class Section {
                     break;
                 case 6:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_9: Array<Sponsorship.Sponsorship> = new Array<Sponsorship.Sponsorship>();
+                        const value_9: Array<Sponsorship.ISponsorship> = new Array<Sponsorship.ISponsorship>();
                         const metadata_2: thrift.IThriftList = input.readListBegin();
                         const size_2: number = metadata_2.size;
                         for (let i_2: number = 0; i_2 < size_2; i_2++) {
-                            const value_10: Sponsorship.Sponsorship = Sponsorship.Sponsorship.read(input);
+                            const value_10: Sponsorship.ISponsorship = Sponsorship.SponsorshipCodec.decode(input);
                             value_9.push(value_10);
                         }
                         input.readListEnd();
@@ -188,10 +178,86 @@ export class Section {
         }
         input.readStructEnd();
         if (_args.id !== undefined && _args.webTitle !== undefined && _args.webUrl !== undefined && _args.apiUrl !== undefined && _args.editions !== undefined) {
-            return new Section(_args);
+            return {
+                id: _args.id,
+                webTitle: _args.webTitle,
+                webUrl: _args.webUrl,
+                apiUrl: _args.apiUrl,
+                editions: _args.editions,
+                activeSponsorships: _args.activeSponsorships
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read Section from input");
         }
+    }
+};
+export class Section extends thrift.StructLike implements ISection {
+    public id: string;
+    public webTitle: string;
+    public webUrl: string;
+    public apiUrl: string;
+    public editions: Array<Edition.IEdition>;
+    public activeSponsorships?: Array<Sponsorship.ISponsorship>;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: ISectionArgs) {
+        super();
+        if (args.id != null) {
+            const value_11: string = args.id;
+            this.id = value_11;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
+        }
+        if (args.webTitle != null) {
+            const value_12: string = args.webTitle;
+            this.webTitle = value_12;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webTitle] is unset!");
+        }
+        if (args.webUrl != null) {
+            const value_13: string = args.webUrl;
+            this.webUrl = value_13;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webUrl] is unset!");
+        }
+        if (args.apiUrl != null) {
+            const value_14: string = args.apiUrl;
+            this.apiUrl = value_14;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[apiUrl] is unset!");
+        }
+        if (args.editions != null) {
+            const value_15: Array<Edition.IEdition> = new Array<Edition.IEdition>();
+            args.editions.forEach((value_17: Edition.IEditionArgs): void => {
+                const value_18: Edition.IEdition = new Edition.Edition(value_17);
+                value_15.push(value_18);
+            });
+            this.editions = value_15;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[editions] is unset!");
+        }
+        if (args.activeSponsorships != null) {
+            const value_16: Array<Sponsorship.ISponsorship> = new Array<Sponsorship.ISponsorship>();
+            args.activeSponsorships.forEach((value_19: Sponsorship.ISponsorshipArgs): void => {
+                const value_20: Sponsorship.ISponsorship = new Sponsorship.Sponsorship(value_19);
+                value_16.push(value_20);
+            });
+            this.activeSponsorships = value_16;
+        }
+    }
+    public static read(input: thrift.TProtocol): Section {
+        return new Section(SectionCodec.decode(input));
+    }
+    public static write(args: ISectionArgs, output: thrift.TProtocol): void {
+        return SectionCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return SectionCodec.encode(this, output);
     }
 }

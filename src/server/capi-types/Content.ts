@@ -14,297 +14,247 @@ import * as Reference from "./Reference";
 import * as Blocks from "./Blocks";
 import * as Rights from "./Rights";
 import * as Crossword from "./Crossword";
+import * as Atoms from "./Atoms";
 import * as ContentStats from "./ContentStats";
 import * as Section from "./Section";
 import * as Debug from "./Debug";
-export interface IContentArgs {
+export interface IContent {
     id: string;
     type: ContentType.ContentType;
     sectionId?: string;
     sectionName?: string;
-    webPublicationDate?: CapiDateTime.CapiDateTime;
+    webPublicationDate?: CapiDateTime.ICapiDateTime;
     webTitle: string;
     webUrl: string;
     apiUrl: string;
-    fields?: ContentFields.ContentFields;
-    tags: Array<Tag.Tag>;
-    elements?: Array<Element.Element>;
-    references: Array<Reference.Reference>;
+    fields?: ContentFields.IContentFields;
+    tags: Array<Tag.ITag>;
+    elements?: Array<Element.IElement>;
+    references: Array<Reference.IReference>;
     isExpired?: boolean;
-    blocks?: Blocks.Blocks;
-    rights?: Rights.Rights;
-    crossword?: Crossword.Crossword;
-    stats?: ContentStats.ContentStats;
-    section?: Section.Section;
-    debug?: Debug.Debug;
+    blocks?: Blocks.IBlocks;
+    rights?: Rights.IRights;
+    crossword?: Crossword.ICrossword;
+    atoms?: Atoms.IAtoms;
+    stats?: ContentStats.IContentStats;
+    section?: Section.ISection;
+    debug?: Debug.IDebug;
     isGone?: boolean;
     isHosted: boolean;
     pillarId?: string;
     pillarName?: string;
 }
-export class Content {
-    public id: string;
-    public type: ContentType.ContentType = ContentType.ContentType.ARTICLE;
-    public sectionId?: string;
-    public sectionName?: string;
-    public webPublicationDate?: CapiDateTime.CapiDateTime;
-    public webTitle: string;
-    public webUrl: string;
-    public apiUrl: string;
-    public fields?: ContentFields.ContentFields;
-    public tags: Array<Tag.Tag> = [];
-    public elements?: Array<Element.Element>;
-    public references: Array<Reference.Reference> = [];
-    public isExpired?: boolean;
-    public blocks?: Blocks.Blocks;
-    public rights?: Rights.Rights;
-    public crossword?: Crossword.Crossword;
-    public stats?: ContentStats.ContentStats;
-    public section?: Section.Section;
-    public debug?: Debug.Debug;
-    public isGone?: boolean;
-    public isHosted: boolean = false;
-    public pillarId?: string;
-    public pillarName?: string;
-    constructor(args: IContentArgs) {
-        if (args != null && args.id != null) {
-            this.id = args.id;
+export interface IContentArgs {
+    id: string;
+    type?: ContentType.ContentType;
+    sectionId?: string;
+    sectionName?: string;
+    webPublicationDate?: CapiDateTime.ICapiDateTimeArgs;
+    webTitle: string;
+    webUrl: string;
+    apiUrl: string;
+    fields?: ContentFields.IContentFieldsArgs;
+    tags?: Array<Tag.ITagArgs>;
+    elements?: Array<Element.IElementArgs>;
+    references?: Array<Reference.IReferenceArgs>;
+    isExpired?: boolean;
+    blocks?: Blocks.IBlocksArgs;
+    rights?: Rights.IRightsArgs;
+    crossword?: Crossword.ICrosswordArgs;
+    atoms?: Atoms.IAtomsArgs;
+    stats?: ContentStats.IContentStatsArgs;
+    section?: Section.ISectionArgs;
+    debug?: Debug.IDebugArgs;
+    isGone?: boolean;
+    isHosted?: boolean;
+    pillarId?: string;
+    pillarName?: string;
+}
+export const ContentCodec: thrift.IStructCodec<IContentArgs, IContent> = {
+    encode(args: IContentArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            id: args.id,
+            type: (args.type != null ? args.type : ContentType.ContentType.ARTICLE),
+            sectionId: args.sectionId,
+            sectionName: args.sectionName,
+            webPublicationDate: args.webPublicationDate,
+            webTitle: args.webTitle,
+            webUrl: args.webUrl,
+            apiUrl: args.apiUrl,
+            fields: args.fields,
+            tags: (args.tags != null ? args.tags : []),
+            elements: args.elements,
+            references: (args.references != null ? args.references : []),
+            isExpired: args.isExpired,
+            blocks: args.blocks,
+            rights: args.rights,
+            crossword: args.crossword,
+            atoms: args.atoms,
+            stats: args.stats,
+            section: args.section,
+            debug: args.debug,
+            isGone: args.isGone,
+            isHosted: (args.isHosted != null ? args.isHosted : false),
+            pillarId: args.pillarId,
+            pillarName: args.pillarName
+        };
+        output.writeStructBegin("Content");
+        if (obj.id != null) {
+            output.writeFieldBegin("id", thrift.TType.STRING, 1);
+            output.writeString(obj.id);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
         }
-        if (args != null && args.type != null) {
-            this.type = args.type;
+        if (obj.type != null) {
+            output.writeFieldBegin("type", thrift.TType.I32, 2);
+            output.writeI32(obj.type);
+            output.writeFieldEnd();
         }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[type] is unset!");
+        if (obj.sectionId != null) {
+            output.writeFieldBegin("sectionId", thrift.TType.STRING, 3);
+            output.writeString(obj.sectionId);
+            output.writeFieldEnd();
         }
-        if (args != null && args.sectionId != null) {
-            this.sectionId = args.sectionId;
+        if (obj.sectionName != null) {
+            output.writeFieldBegin("sectionName", thrift.TType.STRING, 4);
+            output.writeString(obj.sectionName);
+            output.writeFieldEnd();
         }
-        if (args != null && args.sectionName != null) {
-            this.sectionName = args.sectionName;
+        if (obj.webPublicationDate != null) {
+            output.writeFieldBegin("webPublicationDate", thrift.TType.STRUCT, 5);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.webPublicationDate, output);
+            output.writeFieldEnd();
         }
-        if (args != null && args.webPublicationDate != null) {
-            this.webPublicationDate = args.webPublicationDate;
-        }
-        if (args != null && args.webTitle != null) {
-            this.webTitle = args.webTitle;
+        if (obj.webTitle != null) {
+            output.writeFieldBegin("webTitle", thrift.TType.STRING, 6);
+            output.writeString(obj.webTitle);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webTitle] is unset!");
         }
-        if (args != null && args.webUrl != null) {
-            this.webUrl = args.webUrl;
+        if (obj.webUrl != null) {
+            output.writeFieldBegin("webUrl", thrift.TType.STRING, 7);
+            output.writeString(obj.webUrl);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webUrl] is unset!");
         }
-        if (args != null && args.apiUrl != null) {
-            this.apiUrl = args.apiUrl;
+        if (obj.apiUrl != null) {
+            output.writeFieldBegin("apiUrl", thrift.TType.STRING, 8);
+            output.writeString(obj.apiUrl);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[apiUrl] is unset!");
         }
-        if (args != null && args.fields != null) {
-            this.fields = args.fields;
-        }
-        if (args != null && args.tags != null) {
-            this.tags = args.tags;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[tags] is unset!");
-        }
-        if (args != null && args.elements != null) {
-            this.elements = args.elements;
-        }
-        if (args != null && args.references != null) {
-            this.references = args.references;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[references] is unset!");
-        }
-        if (args != null && args.isExpired != null) {
-            this.isExpired = args.isExpired;
-        }
-        if (args != null && args.blocks != null) {
-            this.blocks = args.blocks;
-        }
-        if (args != null && args.rights != null) {
-            this.rights = args.rights;
-        }
-        if (args != null && args.crossword != null) {
-            this.crossword = args.crossword;
-        }
-        if (args != null && args.stats != null) {
-            this.stats = args.stats;
-        }
-        if (args != null && args.section != null) {
-            this.section = args.section;
-        }
-        if (args != null && args.debug != null) {
-            this.debug = args.debug;
-        }
-        if (args != null && args.isGone != null) {
-            this.isGone = args.isGone;
-        }
-        if (args != null && args.isHosted != null) {
-            this.isHosted = args.isHosted;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[isHosted] is unset!");
-        }
-        if (args != null && args.pillarId != null) {
-            this.pillarId = args.pillarId;
-        }
-        if (args != null && args.pillarName != null) {
-            this.pillarName = args.pillarName;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("Content");
-        if (this.id != null) {
-            output.writeFieldBegin("id", thrift.TType.STRING, 1);
-            output.writeString(this.id);
-            output.writeFieldEnd();
-        }
-        if (this.type != null) {
-            output.writeFieldBegin("type", thrift.TType.I32, 2);
-            output.writeI32(this.type);
-            output.writeFieldEnd();
-        }
-        if (this.sectionId != null) {
-            output.writeFieldBegin("sectionId", thrift.TType.STRING, 3);
-            output.writeString(this.sectionId);
-            output.writeFieldEnd();
-        }
-        if (this.sectionName != null) {
-            output.writeFieldBegin("sectionName", thrift.TType.STRING, 4);
-            output.writeString(this.sectionName);
-            output.writeFieldEnd();
-        }
-        if (this.webPublicationDate != null) {
-            output.writeFieldBegin("webPublicationDate", thrift.TType.STRUCT, 5);
-            this.webPublicationDate.write(output);
-            output.writeFieldEnd();
-        }
-        if (this.webTitle != null) {
-            output.writeFieldBegin("webTitle", thrift.TType.STRING, 6);
-            output.writeString(this.webTitle);
-            output.writeFieldEnd();
-        }
-        if (this.webUrl != null) {
-            output.writeFieldBegin("webUrl", thrift.TType.STRING, 7);
-            output.writeString(this.webUrl);
-            output.writeFieldEnd();
-        }
-        if (this.apiUrl != null) {
-            output.writeFieldBegin("apiUrl", thrift.TType.STRING, 8);
-            output.writeString(this.apiUrl);
-            output.writeFieldEnd();
-        }
-        if (this.fields != null) {
+        if (obj.fields != null) {
             output.writeFieldBegin("fields", thrift.TType.STRUCT, 9);
-            this.fields.write(output);
+            ContentFields.ContentFieldsCodec.encode(obj.fields, output);
             output.writeFieldEnd();
         }
-        if (this.tags != null) {
+        if (obj.tags != null) {
             output.writeFieldBegin("tags", thrift.TType.LIST, 10);
-            output.writeListBegin(thrift.TType.STRUCT, this.tags.length);
-            this.tags.forEach((value_1: Tag.Tag): void => {
-                value_1.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.tags.length);
+            obj.tags.forEach((value_1: Tag.ITagArgs): void => {
+                Tag.TagCodec.encode(value_1, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.elements != null) {
+        if (obj.elements != null) {
             output.writeFieldBegin("elements", thrift.TType.LIST, 11);
-            output.writeListBegin(thrift.TType.STRUCT, this.elements.length);
-            this.elements.forEach((value_2: Element.Element): void => {
-                value_2.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.elements.length);
+            obj.elements.forEach((value_2: Element.IElementArgs): void => {
+                Element.ElementCodec.encode(value_2, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.references != null) {
+        if (obj.references != null) {
             output.writeFieldBegin("references", thrift.TType.LIST, 12);
-            output.writeListBegin(thrift.TType.STRUCT, this.references.length);
-            this.references.forEach((value_3: Reference.Reference): void => {
-                value_3.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.references.length);
+            obj.references.forEach((value_3: Reference.IReferenceArgs): void => {
+                Reference.ReferenceCodec.encode(value_3, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.isExpired != null) {
+        if (obj.isExpired != null) {
             output.writeFieldBegin("isExpired", thrift.TType.BOOL, 13);
-            output.writeBool(this.isExpired);
+            output.writeBool(obj.isExpired);
             output.writeFieldEnd();
         }
-        if (this.blocks != null) {
+        if (obj.blocks != null) {
             output.writeFieldBegin("blocks", thrift.TType.STRUCT, 14);
-            this.blocks.write(output);
+            Blocks.BlocksCodec.encode(obj.blocks, output);
             output.writeFieldEnd();
         }
-        if (this.rights != null) {
+        if (obj.rights != null) {
             output.writeFieldBegin("rights", thrift.TType.STRUCT, 15);
-            this.rights.write(output);
+            Rights.RightsCodec.encode(obj.rights, output);
             output.writeFieldEnd();
         }
-        if (this.crossword != null) {
+        if (obj.crossword != null) {
             output.writeFieldBegin("crossword", thrift.TType.STRUCT, 16);
-            this.crossword.write(output);
+            Crossword.CrosswordCodec.encode(obj.crossword, output);
             output.writeFieldEnd();
         }
-        if (this.stats != null) {
+        if (obj.atoms != null) {
+            output.writeFieldBegin("atoms", thrift.TType.STRUCT, 17);
+            Atoms.AtomsCodec.encode(obj.atoms, output);
+            output.writeFieldEnd();
+        }
+        if (obj.stats != null) {
             output.writeFieldBegin("stats", thrift.TType.STRUCT, 18);
-            this.stats.write(output);
+            ContentStats.ContentStatsCodec.encode(obj.stats, output);
             output.writeFieldEnd();
         }
-        if (this.section != null) {
+        if (obj.section != null) {
             output.writeFieldBegin("section", thrift.TType.STRUCT, 19);
-            this.section.write(output);
+            Section.SectionCodec.encode(obj.section, output);
             output.writeFieldEnd();
         }
-        if (this.debug != null) {
+        if (obj.debug != null) {
             output.writeFieldBegin("debug", thrift.TType.STRUCT, 20);
-            this.debug.write(output);
+            Debug.DebugCodec.encode(obj.debug, output);
             output.writeFieldEnd();
         }
-        if (this.isGone != null) {
+        if (obj.isGone != null) {
             output.writeFieldBegin("isGone", thrift.TType.BOOL, 21);
-            output.writeBool(this.isGone);
+            output.writeBool(obj.isGone);
             output.writeFieldEnd();
         }
-        if (this.isHosted != null) {
+        if (obj.isHosted != null) {
             output.writeFieldBegin("isHosted", thrift.TType.BOOL, 23);
-            output.writeBool(this.isHosted);
+            output.writeBool(obj.isHosted);
             output.writeFieldEnd();
         }
-        if (this.pillarId != null) {
+        if (obj.pillarId != null) {
             output.writeFieldBegin("pillarId", thrift.TType.STRING, 24);
-            output.writeString(this.pillarId);
+            output.writeString(obj.pillarId);
             output.writeFieldEnd();
         }
-        if (this.pillarName != null) {
+        if (obj.pillarName != null) {
             output.writeFieldBegin("pillarName", thrift.TType.STRING, 25);
-            output.writeString(this.pillarName);
+            output.writeString(obj.pillarName);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): Content {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IContent {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
             const fieldId: number = ret.fieldId;
-            console.log(input)
-
             if (fieldType === thrift.TType.STOP) {
-                console.log("breaking")
                 break;
             }
             switch (fieldId) {
@@ -346,7 +296,7 @@ export class Content {
                     break;
                 case 5:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_8: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_8: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.webPublicationDate = value_8;
                     }
                     else {
@@ -382,7 +332,7 @@ export class Content {
                     break;
                 case 9:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_12: ContentFields.ContentFields = ContentFields.ContentFields.read(input);
+                        const value_12: ContentFields.IContentFields = ContentFields.ContentFieldsCodec.decode(input);
                         _args.fields = value_12;
                     }
                     else {
@@ -391,11 +341,11 @@ export class Content {
                     break;
                 case 10:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_13: Array<Tag.Tag> = new Array<Tag.Tag>();
+                        const value_13: Array<Tag.ITag> = new Array<Tag.ITag>();
                         const metadata_1: thrift.IThriftList = input.readListBegin();
                         const size_1: number = metadata_1.size;
                         for (let i_1: number = 0; i_1 < size_1; i_1++) {
-                            const value_14: Tag.Tag = Tag.Tag.read(input);
+                            const value_14: Tag.ITag = Tag.TagCodec.decode(input);
                             value_13.push(value_14);
                         }
                         input.readListEnd();
@@ -407,11 +357,11 @@ export class Content {
                     break;
                 case 11:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_15: Array<Element.Element> = new Array<Element.Element>();
+                        const value_15: Array<Element.IElement> = new Array<Element.IElement>();
                         const metadata_2: thrift.IThriftList = input.readListBegin();
                         const size_2: number = metadata_2.size;
                         for (let i_2: number = 0; i_2 < size_2; i_2++) {
-                            const value_16: Element.Element = Element.Element.read(input);
+                            const value_16: Element.IElement = Element.ElementCodec.decode(input);
                             value_15.push(value_16);
                         }
                         input.readListEnd();
@@ -423,11 +373,11 @@ export class Content {
                     break;
                 case 12:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_17: Array<Reference.Reference> = new Array<Reference.Reference>();
+                        const value_17: Array<Reference.IReference> = new Array<Reference.IReference>();
                         const metadata_3: thrift.IThriftList = input.readListBegin();
                         const size_3: number = metadata_3.size;
                         for (let i_3: number = 0; i_3 < size_3; i_3++) {
-                            const value_18: Reference.Reference = Reference.Reference.read(input);
+                            const value_18: Reference.IReference = Reference.ReferenceCodec.decode(input);
                             value_17.push(value_18);
                         }
                         input.readListEnd();
@@ -448,7 +398,7 @@ export class Content {
                     break;
                 case 14:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_20: Blocks.Blocks = Blocks.Blocks.read(input);
+                        const value_20: Blocks.IBlocks = Blocks.BlocksCodec.decode(input);
                         _args.blocks = value_20;
                     }
                     else {
@@ -457,7 +407,7 @@ export class Content {
                     break;
                 case 15:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_21: Rights.Rights = Rights.Rights.read(input);
+                        const value_21: Rights.IRights = Rights.RightsCodec.decode(input);
                         _args.rights = value_21;
                     }
                     else {
@@ -466,8 +416,17 @@ export class Content {
                     break;
                 case 16:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_22: Crossword.Crossword = Crossword.Crossword.read(input);
+                        const value_22: Crossword.ICrossword = Crossword.CrosswordCodec.decode(input);
                         _args.crossword = value_22;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 17:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_23: Atoms.IAtoms = Atoms.AtomsCodec.decode(input);
+                        _args.atoms = value_23;
                     }
                     else {
                         input.skip(fieldType);
@@ -475,8 +434,8 @@ export class Content {
                     break;
                 case 18:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_23: ContentStats.ContentStats = ContentStats.ContentStats.read(input);
-                        _args.stats = value_23;
+                        const value_24: ContentStats.IContentStats = ContentStats.ContentStatsCodec.decode(input);
+                        _args.stats = value_24;
                     }
                     else {
                         input.skip(fieldType);
@@ -484,8 +443,8 @@ export class Content {
                     break;
                 case 19:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_24: Section.Section = Section.Section.read(input);
-                        _args.section = value_24;
+                        const value_25: Section.ISection = Section.SectionCodec.decode(input);
+                        _args.section = value_25;
                     }
                     else {
                         input.skip(fieldType);
@@ -493,8 +452,8 @@ export class Content {
                     break;
                 case 20:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_25: Debug.Debug = Debug.Debug.read(input);
-                        _args.debug = value_25;
+                        const value_26: Debug.IDebug = Debug.DebugCodec.decode(input);
+                        _args.debug = value_26;
                     }
                     else {
                         input.skip(fieldType);
@@ -502,8 +461,8 @@ export class Content {
                     break;
                 case 21:
                     if (fieldType === thrift.TType.BOOL) {
-                        const value_26: boolean = input.readBool();
-                        _args.isGone = value_26;
+                        const value_27: boolean = input.readBool();
+                        _args.isGone = value_27;
                     }
                     else {
                         input.skip(fieldType);
@@ -511,8 +470,8 @@ export class Content {
                     break;
                 case 23:
                     if (fieldType === thrift.TType.BOOL) {
-                        const value_27: boolean = input.readBool();
-                        _args.isHosted = value_27;
+                        const value_28: boolean = input.readBool();
+                        _args.isHosted = value_28;
                     }
                     else {
                         input.skip(fieldType);
@@ -520,8 +479,8 @@ export class Content {
                     break;
                 case 24:
                     if (fieldType === thrift.TType.STRING) {
-                        const value_28: string = input.readString();
-                        _args.pillarId = value_28;
+                        const value_29: string = input.readString();
+                        _args.pillarId = value_29;
                     }
                     else {
                         input.skip(fieldType);
@@ -529,8 +488,8 @@ export class Content {
                     break;
                 case 25:
                     if (fieldType === thrift.TType.STRING) {
-                        const value_29: string = input.readString();
-                        _args.pillarName = value_29;
+                        const value_30: string = input.readString();
+                        _args.pillarName = value_30;
                     }
                     else {
                         input.skip(fieldType);
@@ -543,12 +502,196 @@ export class Content {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        console.log(_args)
         if (_args.id !== undefined && _args.type !== undefined && _args.webTitle !== undefined && _args.webUrl !== undefined && _args.apiUrl !== undefined && _args.tags !== undefined && _args.references !== undefined && _args.isHosted !== undefined) {
-            return new Content(_args);
+            return {
+                id: _args.id,
+                type: (_args.type != null ? _args.type : ContentType.ContentType.ARTICLE),
+                sectionId: _args.sectionId,
+                sectionName: _args.sectionName,
+                webPublicationDate: _args.webPublicationDate,
+                webTitle: _args.webTitle,
+                webUrl: _args.webUrl,
+                apiUrl: _args.apiUrl,
+                fields: _args.fields,
+                tags: (_args.tags != null ? _args.tags : []),
+                elements: _args.elements,
+                references: (_args.references != null ? _args.references : []),
+                isExpired: _args.isExpired,
+                blocks: _args.blocks,
+                rights: _args.rights,
+                crossword: _args.crossword,
+                atoms: _args.atoms,
+                stats: _args.stats,
+                section: _args.section,
+                debug: _args.debug,
+                isGone: _args.isGone,
+                isHosted: (_args.isHosted != null ? _args.isHosted : false),
+                pillarId: _args.pillarId,
+                pillarName: _args.pillarName
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read Content from input");
         }
+    }
+};
+export class Content extends thrift.StructLike implements IContent {
+    public id: string;
+    public type: ContentType.ContentType = ContentType.ContentType.ARTICLE;
+    public sectionId?: string;
+    public sectionName?: string;
+    public webPublicationDate?: CapiDateTime.ICapiDateTime;
+    public webTitle: string;
+    public webUrl: string;
+    public apiUrl: string;
+    public fields?: ContentFields.IContentFields;
+    public tags: Array<Tag.ITag> = [];
+    public elements?: Array<Element.IElement>;
+    public references: Array<Reference.IReference> = [];
+    public isExpired?: boolean;
+    public blocks?: Blocks.IBlocks;
+    public rights?: Rights.IRights;
+    public crossword?: Crossword.ICrossword;
+    public atoms?: Atoms.IAtoms;
+    public stats?: ContentStats.IContentStats;
+    public section?: Section.ISection;
+    public debug?: Debug.IDebug;
+    public isGone?: boolean;
+    public isHosted: boolean = false;
+    public pillarId?: string;
+    public pillarName?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IContentArgs) {
+        super();
+        if (args.id != null) {
+            const value_31: string = args.id;
+            this.id = value_31;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
+        }
+        if (args.type != null) {
+            const value_32: ContentType.ContentType = args.type;
+            this.type = value_32;
+        }
+        if (args.sectionId != null) {
+            const value_33: string = args.sectionId;
+            this.sectionId = value_33;
+        }
+        if (args.sectionName != null) {
+            const value_34: string = args.sectionName;
+            this.sectionName = value_34;
+        }
+        if (args.webPublicationDate != null) {
+            const value_35: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.webPublicationDate);
+            this.webPublicationDate = value_35;
+        }
+        if (args.webTitle != null) {
+            const value_36: string = args.webTitle;
+            this.webTitle = value_36;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webTitle] is unset!");
+        }
+        if (args.webUrl != null) {
+            const value_37: string = args.webUrl;
+            this.webUrl = value_37;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webUrl] is unset!");
+        }
+        if (args.apiUrl != null) {
+            const value_38: string = args.apiUrl;
+            this.apiUrl = value_38;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[apiUrl] is unset!");
+        }
+        if (args.fields != null) {
+            const value_39: ContentFields.IContentFields = new ContentFields.ContentFields(args.fields);
+            this.fields = value_39;
+        }
+        if (args.tags != null) {
+            const value_40: Array<Tag.ITag> = new Array<Tag.ITag>();
+            args.tags.forEach((value_55: Tag.ITagArgs): void => {
+                const value_56: Tag.ITag = new Tag.Tag(value_55);
+                value_40.push(value_56);
+            });
+            this.tags = value_40;
+        }
+        if (args.elements != null) {
+            const value_41: Array<Element.IElement> = new Array<Element.IElement>();
+            args.elements.forEach((value_57: Element.IElementArgs): void => {
+                const value_58: Element.IElement = new Element.Element(value_57);
+                value_41.push(value_58);
+            });
+            this.elements = value_41;
+        }
+        if (args.references != null) {
+            const value_42: Array<Reference.IReference> = new Array<Reference.IReference>();
+            args.references.forEach((value_59: Reference.IReferenceArgs): void => {
+                const value_60: Reference.IReference = new Reference.Reference(value_59);
+                value_42.push(value_60);
+            });
+            this.references = value_42;
+        }
+        if (args.isExpired != null) {
+            const value_43: boolean = args.isExpired;
+            this.isExpired = value_43;
+        }
+        if (args.blocks != null) {
+            const value_44: Blocks.IBlocks = new Blocks.Blocks(args.blocks);
+            this.blocks = value_44;
+        }
+        if (args.rights != null) {
+            const value_45: Rights.IRights = new Rights.Rights(args.rights);
+            this.rights = value_45;
+        }
+        if (args.crossword != null) {
+            const value_46: Crossword.ICrossword = new Crossword.Crossword(args.crossword);
+            this.crossword = value_46;
+        }
+        if (args.atoms != null) {
+            const value_47: Atoms.IAtoms = new Atoms.Atoms(args.atoms);
+            this.atoms = value_47;
+        }
+        if (args.stats != null) {
+            const value_48: ContentStats.IContentStats = new ContentStats.ContentStats(args.stats);
+            this.stats = value_48;
+        }
+        if (args.section != null) {
+            const value_49: Section.ISection = new Section.Section(args.section);
+            this.section = value_49;
+        }
+        if (args.debug != null) {
+            const value_50: Debug.IDebug = new Debug.Debug(args.debug);
+            this.debug = value_50;
+        }
+        if (args.isGone != null) {
+            const value_51: boolean = args.isGone;
+            this.isGone = value_51;
+        }
+        if (args.isHosted != null) {
+            const value_52: boolean = args.isHosted;
+            this.isHosted = value_52;
+        }
+        if (args.pillarId != null) {
+            const value_53: string = args.pillarId;
+            this.pillarId = value_53;
+        }
+        if (args.pillarName != null) {
+            const value_54: string = args.pillarName;
+            this.pillarName = value_54;
+        }
+    }
+    public static read(input: thrift.TProtocol): Content {
+        return new Content(ContentCodec.decode(input));
+    }
+    public static write(args: IContentArgs, output: thrift.TProtocol): void {
+        return ContentCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return ContentCodec.encode(this, output);
     }
 }

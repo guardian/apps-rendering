@@ -9,142 +9,122 @@ import * as SponsorshipType from "./SponsorshipType";
 import * as SponsorshipTargeting from "./SponsorshipTargeting";
 import * as SponsorshipLogoDimensions from "./SponsorshipLogoDimensions";
 import * as CapiDateTime from "./CapiDateTime";
+export interface ISponsorship {
+    sponsorshipType: SponsorshipType.SponsorshipType;
+    sponsorName: string;
+    sponsorLogo: string;
+    sponsorLink: string;
+    targeting?: SponsorshipTargeting.ISponsorshipTargeting;
+    aboutLink?: string;
+    sponsorLogoDimensions?: SponsorshipLogoDimensions.ISponsorshipLogoDimensions;
+    highContrastSponsorLogo?: string;
+    highContrastSponsorLogoDimensions?: SponsorshipLogoDimensions.ISponsorshipLogoDimensions;
+    validFrom?: CapiDateTime.ICapiDateTime;
+    validTo?: CapiDateTime.ICapiDateTime;
+}
 export interface ISponsorshipArgs {
     sponsorshipType: SponsorshipType.SponsorshipType;
     sponsorName: string;
     sponsorLogo: string;
     sponsorLink: string;
-    targeting?: SponsorshipTargeting.SponsorshipTargeting;
+    targeting?: SponsorshipTargeting.ISponsorshipTargetingArgs;
     aboutLink?: string;
-    sponsorLogoDimensions?: SponsorshipLogoDimensions.SponsorshipLogoDimensions;
+    sponsorLogoDimensions?: SponsorshipLogoDimensions.ISponsorshipLogoDimensionsArgs;
     highContrastSponsorLogo?: string;
-    highContrastSponsorLogoDimensions?: SponsorshipLogoDimensions.SponsorshipLogoDimensions;
-    validFrom?: CapiDateTime.CapiDateTime;
-    validTo?: CapiDateTime.CapiDateTime;
+    highContrastSponsorLogoDimensions?: SponsorshipLogoDimensions.ISponsorshipLogoDimensionsArgs;
+    validFrom?: CapiDateTime.ICapiDateTimeArgs;
+    validTo?: CapiDateTime.ICapiDateTimeArgs;
 }
-export class Sponsorship {
-    public sponsorshipType: SponsorshipType.SponsorshipType;
-    public sponsorName: string;
-    public sponsorLogo: string;
-    public sponsorLink: string;
-    public targeting?: SponsorshipTargeting.SponsorshipTargeting;
-    public aboutLink?: string;
-    public sponsorLogoDimensions?: SponsorshipLogoDimensions.SponsorshipLogoDimensions;
-    public highContrastSponsorLogo?: string;
-    public highContrastSponsorLogoDimensions?: SponsorshipLogoDimensions.SponsorshipLogoDimensions;
-    public validFrom?: CapiDateTime.CapiDateTime;
-    public validTo?: CapiDateTime.CapiDateTime;
-    constructor(args: ISponsorshipArgs) {
-        if (args != null && args.sponsorshipType != null) {
-            this.sponsorshipType = args.sponsorshipType;
+export const SponsorshipCodec: thrift.IStructCodec<ISponsorshipArgs, ISponsorship> = {
+    encode(args: ISponsorshipArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            sponsorshipType: args.sponsorshipType,
+            sponsorName: args.sponsorName,
+            sponsorLogo: args.sponsorLogo,
+            sponsorLink: args.sponsorLink,
+            targeting: args.targeting,
+            aboutLink: args.aboutLink,
+            sponsorLogoDimensions: args.sponsorLogoDimensions,
+            highContrastSponsorLogo: args.highContrastSponsorLogo,
+            highContrastSponsorLogoDimensions: args.highContrastSponsorLogoDimensions,
+            validFrom: args.validFrom,
+            validTo: args.validTo
+        };
+        output.writeStructBegin("Sponsorship");
+        if (obj.sponsorshipType != null) {
+            output.writeFieldBegin("sponsorshipType", thrift.TType.I32, 1);
+            output.writeI32(obj.sponsorshipType);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[sponsorshipType] is unset!");
         }
-        if (args != null && args.sponsorName != null) {
-            this.sponsorName = args.sponsorName;
+        if (obj.sponsorName != null) {
+            output.writeFieldBegin("sponsorName", thrift.TType.STRING, 2);
+            output.writeString(obj.sponsorName);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[sponsorName] is unset!");
         }
-        if (args != null && args.sponsorLogo != null) {
-            this.sponsorLogo = args.sponsorLogo;
+        if (obj.sponsorLogo != null) {
+            output.writeFieldBegin("sponsorLogo", thrift.TType.STRING, 3);
+            output.writeString(obj.sponsorLogo);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[sponsorLogo] is unset!");
         }
-        if (args != null && args.sponsorLink != null) {
-            this.sponsorLink = args.sponsorLink;
+        if (obj.sponsorLink != null) {
+            output.writeFieldBegin("sponsorLink", thrift.TType.STRING, 4);
+            output.writeString(obj.sponsorLink);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[sponsorLink] is unset!");
         }
-        if (args != null && args.targeting != null) {
-            this.targeting = args.targeting;
-        }
-        if (args != null && args.aboutLink != null) {
-            this.aboutLink = args.aboutLink;
-        }
-        if (args != null && args.sponsorLogoDimensions != null) {
-            this.sponsorLogoDimensions = args.sponsorLogoDimensions;
-        }
-        if (args != null && args.highContrastSponsorLogo != null) {
-            this.highContrastSponsorLogo = args.highContrastSponsorLogo;
-        }
-        if (args != null && args.highContrastSponsorLogoDimensions != null) {
-            this.highContrastSponsorLogoDimensions = args.highContrastSponsorLogoDimensions;
-        }
-        if (args != null && args.validFrom != null) {
-            this.validFrom = args.validFrom;
-        }
-        if (args != null && args.validTo != null) {
-            this.validTo = args.validTo;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("Sponsorship");
-        if (this.sponsorshipType != null) {
-            output.writeFieldBegin("sponsorshipType", thrift.TType.I32, 1);
-            output.writeI32(this.sponsorshipType);
-            output.writeFieldEnd();
-        }
-        if (this.sponsorName != null) {
-            output.writeFieldBegin("sponsorName", thrift.TType.STRING, 2);
-            output.writeString(this.sponsorName);
-            output.writeFieldEnd();
-        }
-        if (this.sponsorLogo != null) {
-            output.writeFieldBegin("sponsorLogo", thrift.TType.STRING, 3);
-            output.writeString(this.sponsorLogo);
-            output.writeFieldEnd();
-        }
-        if (this.sponsorLink != null) {
-            output.writeFieldBegin("sponsorLink", thrift.TType.STRING, 4);
-            output.writeString(this.sponsorLink);
-            output.writeFieldEnd();
-        }
-        if (this.targeting != null) {
+        if (obj.targeting != null) {
             output.writeFieldBegin("targeting", thrift.TType.STRUCT, 5);
-            this.targeting.write(output);
+            SponsorshipTargeting.SponsorshipTargetingCodec.encode(obj.targeting, output);
             output.writeFieldEnd();
         }
-        if (this.aboutLink != null) {
+        if (obj.aboutLink != null) {
             output.writeFieldBegin("aboutLink", thrift.TType.STRING, 6);
-            output.writeString(this.aboutLink);
+            output.writeString(obj.aboutLink);
             output.writeFieldEnd();
         }
-        if (this.sponsorLogoDimensions != null) {
+        if (obj.sponsorLogoDimensions != null) {
             output.writeFieldBegin("sponsorLogoDimensions", thrift.TType.STRUCT, 7);
-            this.sponsorLogoDimensions.write(output);
+            SponsorshipLogoDimensions.SponsorshipLogoDimensionsCodec.encode(obj.sponsorLogoDimensions, output);
             output.writeFieldEnd();
         }
-        if (this.highContrastSponsorLogo != null) {
+        if (obj.highContrastSponsorLogo != null) {
             output.writeFieldBegin("highContrastSponsorLogo", thrift.TType.STRING, 8);
-            output.writeString(this.highContrastSponsorLogo);
+            output.writeString(obj.highContrastSponsorLogo);
             output.writeFieldEnd();
         }
-        if (this.highContrastSponsorLogoDimensions != null) {
+        if (obj.highContrastSponsorLogoDimensions != null) {
             output.writeFieldBegin("highContrastSponsorLogoDimensions", thrift.TType.STRUCT, 9);
-            this.highContrastSponsorLogoDimensions.write(output);
+            SponsorshipLogoDimensions.SponsorshipLogoDimensionsCodec.encode(obj.highContrastSponsorLogoDimensions, output);
             output.writeFieldEnd();
         }
-        if (this.validFrom != null) {
+        if (obj.validFrom != null) {
             output.writeFieldBegin("validFrom", thrift.TType.STRUCT, 10);
-            this.validFrom.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.validFrom, output);
             output.writeFieldEnd();
         }
-        if (this.validTo != null) {
+        if (obj.validTo != null) {
             output.writeFieldBegin("validTo", thrift.TType.STRUCT, 11);
-            this.validTo.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.validTo, output);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): Sponsorship {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): ISponsorship {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -191,7 +171,7 @@ export class Sponsorship {
                     break;
                 case 5:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_5: SponsorshipTargeting.SponsorshipTargeting = SponsorshipTargeting.SponsorshipTargeting.read(input);
+                        const value_5: SponsorshipTargeting.ISponsorshipTargeting = SponsorshipTargeting.SponsorshipTargetingCodec.decode(input);
                         _args.targeting = value_5;
                     }
                     else {
@@ -209,7 +189,7 @@ export class Sponsorship {
                     break;
                 case 7:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_7: SponsorshipLogoDimensions.SponsorshipLogoDimensions = SponsorshipLogoDimensions.SponsorshipLogoDimensions.read(input);
+                        const value_7: SponsorshipLogoDimensions.ISponsorshipLogoDimensions = SponsorshipLogoDimensions.SponsorshipLogoDimensionsCodec.decode(input);
                         _args.sponsorLogoDimensions = value_7;
                     }
                     else {
@@ -227,7 +207,7 @@ export class Sponsorship {
                     break;
                 case 9:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_9: SponsorshipLogoDimensions.SponsorshipLogoDimensions = SponsorshipLogoDimensions.SponsorshipLogoDimensions.read(input);
+                        const value_9: SponsorshipLogoDimensions.ISponsorshipLogoDimensions = SponsorshipLogoDimensions.SponsorshipLogoDimensionsCodec.decode(input);
                         _args.highContrastSponsorLogoDimensions = value_9;
                     }
                     else {
@@ -236,7 +216,7 @@ export class Sponsorship {
                     break;
                 case 10:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_10: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_10: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.validFrom = value_10;
                     }
                     else {
@@ -245,7 +225,7 @@ export class Sponsorship {
                     break;
                 case 11:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_11: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_11: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.validTo = value_11;
                     }
                     else {
@@ -260,10 +240,105 @@ export class Sponsorship {
         }
         input.readStructEnd();
         if (_args.sponsorshipType !== undefined && _args.sponsorName !== undefined && _args.sponsorLogo !== undefined && _args.sponsorLink !== undefined) {
-            return new Sponsorship(_args);
+            return {
+                sponsorshipType: _args.sponsorshipType,
+                sponsorName: _args.sponsorName,
+                sponsorLogo: _args.sponsorLogo,
+                sponsorLink: _args.sponsorLink,
+                targeting: _args.targeting,
+                aboutLink: _args.aboutLink,
+                sponsorLogoDimensions: _args.sponsorLogoDimensions,
+                highContrastSponsorLogo: _args.highContrastSponsorLogo,
+                highContrastSponsorLogoDimensions: _args.highContrastSponsorLogoDimensions,
+                validFrom: _args.validFrom,
+                validTo: _args.validTo
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read Sponsorship from input");
         }
+    }
+};
+export class Sponsorship extends thrift.StructLike implements ISponsorship {
+    public sponsorshipType: SponsorshipType.SponsorshipType;
+    public sponsorName: string;
+    public sponsorLogo: string;
+    public sponsorLink: string;
+    public targeting?: SponsorshipTargeting.ISponsorshipTargeting;
+    public aboutLink?: string;
+    public sponsorLogoDimensions?: SponsorshipLogoDimensions.ISponsorshipLogoDimensions;
+    public highContrastSponsorLogo?: string;
+    public highContrastSponsorLogoDimensions?: SponsorshipLogoDimensions.ISponsorshipLogoDimensions;
+    public validFrom?: CapiDateTime.ICapiDateTime;
+    public validTo?: CapiDateTime.ICapiDateTime;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: ISponsorshipArgs) {
+        super();
+        if (args.sponsorshipType != null) {
+            const value_12: SponsorshipType.SponsorshipType = args.sponsorshipType;
+            this.sponsorshipType = value_12;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[sponsorshipType] is unset!");
+        }
+        if (args.sponsorName != null) {
+            const value_13: string = args.sponsorName;
+            this.sponsorName = value_13;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[sponsorName] is unset!");
+        }
+        if (args.sponsorLogo != null) {
+            const value_14: string = args.sponsorLogo;
+            this.sponsorLogo = value_14;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[sponsorLogo] is unset!");
+        }
+        if (args.sponsorLink != null) {
+            const value_15: string = args.sponsorLink;
+            this.sponsorLink = value_15;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[sponsorLink] is unset!");
+        }
+        if (args.targeting != null) {
+            const value_16: SponsorshipTargeting.ISponsorshipTargeting = new SponsorshipTargeting.SponsorshipTargeting(args.targeting);
+            this.targeting = value_16;
+        }
+        if (args.aboutLink != null) {
+            const value_17: string = args.aboutLink;
+            this.aboutLink = value_17;
+        }
+        if (args.sponsorLogoDimensions != null) {
+            const value_18: SponsorshipLogoDimensions.ISponsorshipLogoDimensions = new SponsorshipLogoDimensions.SponsorshipLogoDimensions(args.sponsorLogoDimensions);
+            this.sponsorLogoDimensions = value_18;
+        }
+        if (args.highContrastSponsorLogo != null) {
+            const value_19: string = args.highContrastSponsorLogo;
+            this.highContrastSponsorLogo = value_19;
+        }
+        if (args.highContrastSponsorLogoDimensions != null) {
+            const value_20: SponsorshipLogoDimensions.ISponsorshipLogoDimensions = new SponsorshipLogoDimensions.SponsorshipLogoDimensions(args.highContrastSponsorLogoDimensions);
+            this.highContrastSponsorLogoDimensions = value_20;
+        }
+        if (args.validFrom != null) {
+            const value_21: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.validFrom);
+            this.validFrom = value_21;
+        }
+        if (args.validTo != null) {
+            const value_22: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.validTo);
+            this.validTo = value_22;
+        }
+    }
+    public static read(input: thrift.TProtocol): Sponsorship {
+        return new Sponsorship(SponsorshipCodec.decode(input));
+    }
+    public static write(args: ISponsorshipArgs, output: thrift.TProtocol): void {
+        return SponsorshipCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return SponsorshipCodec.encode(this, output);
     }
 }

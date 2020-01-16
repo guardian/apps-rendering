@@ -5,30 +5,30 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IMembershipPlaceholder {
+    campaignCode?: string;
+}
 export interface IMembershipPlaceholderArgs {
     campaignCode?: string;
 }
-export class MembershipPlaceholder {
-    public campaignCode?: string;
-    constructor(args?: IMembershipPlaceholderArgs) {
-        if (args != null && args.campaignCode != null) {
-            this.campaignCode = args.campaignCode;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const MembershipPlaceholderCodec: thrift.IStructCodec<IMembershipPlaceholderArgs, IMembershipPlaceholder> = {
+    encode(args: IMembershipPlaceholderArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            campaignCode: args.campaignCode
+        };
         output.writeStructBegin("MembershipPlaceholder");
-        if (this.campaignCode != null) {
+        if (obj.campaignCode != null) {
             output.writeFieldBegin("campaignCode", thrift.TType.STRING, 1);
-            output.writeString(this.campaignCode);
+            output.writeString(obj.campaignCode);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): MembershipPlaceholder {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IMembershipPlaceholder {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -53,6 +53,29 @@ export class MembershipPlaceholder {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new MembershipPlaceholder(_args);
+        return {
+            campaignCode: _args.campaignCode
+        };
+    }
+};
+export class MembershipPlaceholder extends thrift.StructLike implements IMembershipPlaceholder {
+    public campaignCode?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IMembershipPlaceholderArgs = {}) {
+        super();
+        if (args.campaignCode != null) {
+            const value_2: string = args.campaignCode;
+            this.campaignCode = value_2;
+        }
+    }
+    public static read(input: thrift.TProtocol): MembershipPlaceholder {
+        return new MembershipPlaceholder(MembershipPlaceholderCodec.decode(input));
+    }
+    public static write(args: IMembershipPlaceholderArgs, output: thrift.TProtocol): void {
+        return MembershipPlaceholderCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return MembershipPlaceholderCodec.encode(this, output);
     }
 }

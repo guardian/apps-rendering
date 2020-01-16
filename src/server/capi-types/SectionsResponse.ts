@@ -6,76 +6,70 @@
 */
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as Section from "./Section";
+export interface ISectionsResponse {
+    status: string;
+    userTier: string;
+    total: number;
+    results: Array<Section.ISection>;
+}
 export interface ISectionsResponseArgs {
     status: string;
     userTier: string;
     total: number;
-    results: Array<Section.Section>;
+    results: Array<Section.ISectionArgs>;
 }
-export class SectionsResponse {
-    public status: string;
-    public userTier: string;
-    public total: number;
-    public results: Array<Section.Section>;
-    constructor(args: ISectionsResponseArgs) {
-        if (args != null && args.status != null) {
-            this.status = args.status;
+export const SectionsResponseCodec: thrift.IStructCodec<ISectionsResponseArgs, ISectionsResponse> = {
+    encode(args: ISectionsResponseArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            status: args.status,
+            userTier: args.userTier,
+            total: args.total,
+            results: args.results
+        };
+        output.writeStructBegin("SectionsResponse");
+        if (obj.status != null) {
+            output.writeFieldBegin("status", thrift.TType.STRING, 1);
+            output.writeString(obj.status);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
         }
-        if (args != null && args.userTier != null) {
-            this.userTier = args.userTier;
+        if (obj.userTier != null) {
+            output.writeFieldBegin("userTier", thrift.TType.STRING, 2);
+            output.writeString(obj.userTier);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[userTier] is unset!");
         }
-        if (args != null && args.total != null) {
-            this.total = args.total;
+        if (obj.total != null) {
+            output.writeFieldBegin("total", thrift.TType.I32, 3);
+            output.writeI32(obj.total);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[total] is unset!");
         }
-        if (args != null && args.results != null) {
-            this.results = args.results;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("SectionsResponse");
-        if (this.status != null) {
-            output.writeFieldBegin("status", thrift.TType.STRING, 1);
-            output.writeString(this.status);
-            output.writeFieldEnd();
-        }
-        if (this.userTier != null) {
-            output.writeFieldBegin("userTier", thrift.TType.STRING, 2);
-            output.writeString(this.userTier);
-            output.writeFieldEnd();
-        }
-        if (this.total != null) {
-            output.writeFieldBegin("total", thrift.TType.I32, 3);
-            output.writeI32(this.total);
-            output.writeFieldEnd();
-        }
-        if (this.results != null) {
+        if (obj.results != null) {
             output.writeFieldBegin("results", thrift.TType.LIST, 4);
-            output.writeListBegin(thrift.TType.STRUCT, this.results.length);
-            this.results.forEach((value_1: Section.Section): void => {
-                value_1.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.results.length);
+            obj.results.forEach((value_1: Section.ISectionArgs): void => {
+                Section.SectionCodec.encode(value_1, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
+        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): SectionsResponse {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): ISectionsResponse {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -113,11 +107,11 @@ export class SectionsResponse {
                     break;
                 case 4:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_5: Array<Section.Section> = new Array<Section.Section>();
+                        const value_5: Array<Section.ISection> = new Array<Section.ISection>();
                         const metadata_1: thrift.IThriftList = input.readListBegin();
                         const size_1: number = metadata_1.size;
                         for (let i_1: number = 0; i_1 < size_1; i_1++) {
-                            const value_6: Section.Section = Section.Section.read(input);
+                            const value_6: Section.ISection = Section.SectionCodec.decode(input);
                             value_5.push(value_6);
                         }
                         input.readListEnd();
@@ -135,10 +129,67 @@ export class SectionsResponse {
         }
         input.readStructEnd();
         if (_args.status !== undefined && _args.userTier !== undefined && _args.total !== undefined && _args.results !== undefined) {
-            return new SectionsResponse(_args);
+            return {
+                status: _args.status,
+                userTier: _args.userTier,
+                total: _args.total,
+                results: _args.results
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read SectionsResponse from input");
         }
+    }
+};
+export class SectionsResponse extends thrift.StructLike implements ISectionsResponse {
+    public status: string;
+    public userTier: string;
+    public total: number;
+    public results: Array<Section.ISection>;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: ISectionsResponseArgs) {
+        super();
+        if (args.status != null) {
+            const value_7: string = args.status;
+            this.status = value_7;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
+        }
+        if (args.userTier != null) {
+            const value_8: string = args.userTier;
+            this.userTier = value_8;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[userTier] is unset!");
+        }
+        if (args.total != null) {
+            const value_9: number = args.total;
+            this.total = value_9;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[total] is unset!");
+        }
+        if (args.results != null) {
+            const value_10: Array<Section.ISection> = new Array<Section.ISection>();
+            args.results.forEach((value_11: Section.ISectionArgs): void => {
+                const value_12: Section.ISection = new Section.Section(value_11);
+                value_10.push(value_12);
+            });
+            this.results = value_10;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): SectionsResponse {
+        return new SectionsResponse(SectionsResponseCodec.decode(input));
+    }
+    public static write(args: ISectionsResponseArgs, output: thrift.TProtocol): void {
+        return SectionsResponseCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return SectionsResponseCodec.encode(this, output);
     }
 }

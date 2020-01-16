@@ -5,6 +5,18 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface ICommentElementFields {
+    source?: string;
+    discussionKey?: string;
+    commentUrl?: string;
+    originalUrl?: string;
+    sourceUrl?: string;
+    discussionUrl?: string;
+    authorUrl?: string;
+    html?: string;
+    authorName?: string;
+    commentId?: number;
+}
 export interface ICommentElementFieldsArgs {
     source?: string;
     discussionKey?: string;
@@ -17,108 +29,78 @@ export interface ICommentElementFieldsArgs {
     authorName?: string;
     commentId?: number;
 }
-export class CommentElementFields {
-    public source?: string;
-    public discussionKey?: string;
-    public commentUrl?: string;
-    public originalUrl?: string;
-    public sourceUrl?: string;
-    public discussionUrl?: string;
-    public authorUrl?: string;
-    public html?: string;
-    public authorName?: string;
-    public commentId?: number;
-    constructor(args?: ICommentElementFieldsArgs) {
-        if (args != null && args.source != null) {
-            this.source = args.source;
-        }
-        if (args != null && args.discussionKey != null) {
-            this.discussionKey = args.discussionKey;
-        }
-        if (args != null && args.commentUrl != null) {
-            this.commentUrl = args.commentUrl;
-        }
-        if (args != null && args.originalUrl != null) {
-            this.originalUrl = args.originalUrl;
-        }
-        if (args != null && args.sourceUrl != null) {
-            this.sourceUrl = args.sourceUrl;
-        }
-        if (args != null && args.discussionUrl != null) {
-            this.discussionUrl = args.discussionUrl;
-        }
-        if (args != null && args.authorUrl != null) {
-            this.authorUrl = args.authorUrl;
-        }
-        if (args != null && args.html != null) {
-            this.html = args.html;
-        }
-        if (args != null && args.authorName != null) {
-            this.authorName = args.authorName;
-        }
-        if (args != null && args.commentId != null) {
-            this.commentId = args.commentId;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const CommentElementFieldsCodec: thrift.IStructCodec<ICommentElementFieldsArgs, ICommentElementFields> = {
+    encode(args: ICommentElementFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            source: args.source,
+            discussionKey: args.discussionKey,
+            commentUrl: args.commentUrl,
+            originalUrl: args.originalUrl,
+            sourceUrl: args.sourceUrl,
+            discussionUrl: args.discussionUrl,
+            authorUrl: args.authorUrl,
+            html: args.html,
+            authorName: args.authorName,
+            commentId: args.commentId
+        };
         output.writeStructBegin("CommentElementFields");
-        if (this.source != null) {
+        if (obj.source != null) {
             output.writeFieldBegin("source", thrift.TType.STRING, 1);
-            output.writeString(this.source);
+            output.writeString(obj.source);
             output.writeFieldEnd();
         }
-        if (this.discussionKey != null) {
+        if (obj.discussionKey != null) {
             output.writeFieldBegin("discussionKey", thrift.TType.STRING, 2);
-            output.writeString(this.discussionKey);
+            output.writeString(obj.discussionKey);
             output.writeFieldEnd();
         }
-        if (this.commentUrl != null) {
+        if (obj.commentUrl != null) {
             output.writeFieldBegin("commentUrl", thrift.TType.STRING, 3);
-            output.writeString(this.commentUrl);
+            output.writeString(obj.commentUrl);
             output.writeFieldEnd();
         }
-        if (this.originalUrl != null) {
+        if (obj.originalUrl != null) {
             output.writeFieldBegin("originalUrl", thrift.TType.STRING, 4);
-            output.writeString(this.originalUrl);
+            output.writeString(obj.originalUrl);
             output.writeFieldEnd();
         }
-        if (this.sourceUrl != null) {
+        if (obj.sourceUrl != null) {
             output.writeFieldBegin("sourceUrl", thrift.TType.STRING, 5);
-            output.writeString(this.sourceUrl);
+            output.writeString(obj.sourceUrl);
             output.writeFieldEnd();
         }
-        if (this.discussionUrl != null) {
+        if (obj.discussionUrl != null) {
             output.writeFieldBegin("discussionUrl", thrift.TType.STRING, 6);
-            output.writeString(this.discussionUrl);
+            output.writeString(obj.discussionUrl);
             output.writeFieldEnd();
         }
-        if (this.authorUrl != null) {
+        if (obj.authorUrl != null) {
             output.writeFieldBegin("authorUrl", thrift.TType.STRING, 7);
-            output.writeString(this.authorUrl);
+            output.writeString(obj.authorUrl);
             output.writeFieldEnd();
         }
-        if (this.html != null) {
+        if (obj.html != null) {
             output.writeFieldBegin("html", thrift.TType.STRING, 8);
-            output.writeString(this.html);
+            output.writeString(obj.html);
             output.writeFieldEnd();
         }
-        if (this.authorName != null) {
+        if (obj.authorName != null) {
             output.writeFieldBegin("authorName", thrift.TType.STRING, 9);
-            output.writeString(this.authorName);
+            output.writeString(obj.authorName);
             output.writeFieldEnd();
         }
-        if (this.commentId != null) {
+        if (obj.commentId != null) {
             output.writeFieldBegin("commentId", thrift.TType.I32, 10);
-            output.writeI32(this.commentId);
+            output.writeI32(obj.commentId);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): CommentElementFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): ICommentElementFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -224,6 +206,83 @@ export class CommentElementFields {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new CommentElementFields(_args);
+        return {
+            source: _args.source,
+            discussionKey: _args.discussionKey,
+            commentUrl: _args.commentUrl,
+            originalUrl: _args.originalUrl,
+            sourceUrl: _args.sourceUrl,
+            discussionUrl: _args.discussionUrl,
+            authorUrl: _args.authorUrl,
+            html: _args.html,
+            authorName: _args.authorName,
+            commentId: _args.commentId
+        };
+    }
+};
+export class CommentElementFields extends thrift.StructLike implements ICommentElementFields {
+    public source?: string;
+    public discussionKey?: string;
+    public commentUrl?: string;
+    public originalUrl?: string;
+    public sourceUrl?: string;
+    public discussionUrl?: string;
+    public authorUrl?: string;
+    public html?: string;
+    public authorName?: string;
+    public commentId?: number;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: ICommentElementFieldsArgs = {}) {
+        super();
+        if (args.source != null) {
+            const value_11: string = args.source;
+            this.source = value_11;
+        }
+        if (args.discussionKey != null) {
+            const value_12: string = args.discussionKey;
+            this.discussionKey = value_12;
+        }
+        if (args.commentUrl != null) {
+            const value_13: string = args.commentUrl;
+            this.commentUrl = value_13;
+        }
+        if (args.originalUrl != null) {
+            const value_14: string = args.originalUrl;
+            this.originalUrl = value_14;
+        }
+        if (args.sourceUrl != null) {
+            const value_15: string = args.sourceUrl;
+            this.sourceUrl = value_15;
+        }
+        if (args.discussionUrl != null) {
+            const value_16: string = args.discussionUrl;
+            this.discussionUrl = value_16;
+        }
+        if (args.authorUrl != null) {
+            const value_17: string = args.authorUrl;
+            this.authorUrl = value_17;
+        }
+        if (args.html != null) {
+            const value_18: string = args.html;
+            this.html = value_18;
+        }
+        if (args.authorName != null) {
+            const value_19: string = args.authorName;
+            this.authorName = value_19;
+        }
+        if (args.commentId != null) {
+            const value_20: number = args.commentId;
+            this.commentId = value_20;
+        }
+    }
+    public static read(input: thrift.TProtocol): CommentElementFields {
+        return new CommentElementFields(CommentElementFieldsCodec.decode(input));
+    }
+    public static write(args: ICommentElementFieldsArgs, output: thrift.TProtocol): void {
+        return CommentElementFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return CommentElementFieldsCodec.encode(this, output);
     }
 }

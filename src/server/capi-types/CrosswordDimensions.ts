@@ -5,46 +5,44 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface ICrosswordDimensions {
+    cols: number;
+    rows: number;
+}
 export interface ICrosswordDimensionsArgs {
     cols: number;
     rows: number;
 }
-export class CrosswordDimensions {
-    public cols: number;
-    public rows: number;
-    constructor(args: ICrosswordDimensionsArgs) {
-        if (args != null && args.cols != null) {
-            this.cols = args.cols;
+export const CrosswordDimensionsCodec: thrift.IStructCodec<ICrosswordDimensionsArgs, ICrosswordDimensions> = {
+    encode(args: ICrosswordDimensionsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            cols: args.cols,
+            rows: args.rows
+        };
+        output.writeStructBegin("CrosswordDimensions");
+        if (obj.cols != null) {
+            output.writeFieldBegin("cols", thrift.TType.I32, 1);
+            output.writeI32(obj.cols);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[cols] is unset!");
         }
-        if (args != null && args.rows != null) {
-            this.rows = args.rows;
+        if (obj.rows != null) {
+            output.writeFieldBegin("rows", thrift.TType.I32, 2);
+            output.writeI32(obj.rows);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[rows] is unset!");
         }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("CrosswordDimensions");
-        if (this.cols != null) {
-            output.writeFieldBegin("cols", thrift.TType.I32, 1);
-            output.writeI32(this.cols);
-            output.writeFieldEnd();
-        }
-        if (this.rows != null) {
-            output.writeFieldBegin("rows", thrift.TType.I32, 2);
-            output.writeI32(this.rows);
-            output.writeFieldEnd();
-        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): CrosswordDimensions {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): ICrosswordDimensions {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -79,10 +77,45 @@ export class CrosswordDimensions {
         }
         input.readStructEnd();
         if (_args.cols !== undefined && _args.rows !== undefined) {
-            return new CrosswordDimensions(_args);
+            return {
+                cols: _args.cols,
+                rows: _args.rows
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read CrosswordDimensions from input");
         }
+    }
+};
+export class CrosswordDimensions extends thrift.StructLike implements ICrosswordDimensions {
+    public cols: number;
+    public rows: number;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: ICrosswordDimensionsArgs) {
+        super();
+        if (args.cols != null) {
+            const value_3: number = args.cols;
+            this.cols = value_3;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[cols] is unset!");
+        }
+        if (args.rows != null) {
+            const value_4: number = args.rows;
+            this.rows = value_4;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[rows] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): CrosswordDimensions {
+        return new CrosswordDimensions(CrosswordDimensionsCodec.decode(input));
+    }
+    public static write(args: ICrosswordDimensionsArgs, output: thrift.TProtocol): void {
+        return CrosswordDimensionsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return CrosswordDimensionsCodec.encode(this, output);
     }
 }

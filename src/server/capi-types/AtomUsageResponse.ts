@@ -5,6 +5,16 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IAtomUsageResponse {
+    status: string;
+    userTier: string;
+    total: number;
+    startIndex: number;
+    pageSize: number;
+    currentPage: number;
+    pages: number;
+    results: Array<string>;
+}
 export interface IAtomUsageResponseArgs {
     status: string;
     userTier: string;
@@ -15,118 +25,94 @@ export interface IAtomUsageResponseArgs {
     pages: number;
     results: Array<string>;
 }
-export class AtomUsageResponse {
-    public status: string;
-    public userTier: string;
-    public total: number;
-    public startIndex: number;
-    public pageSize: number;
-    public currentPage: number;
-    public pages: number;
-    public results: Array<string>;
-    constructor(args: IAtomUsageResponseArgs) {
-        if (args != null && args.status != null) {
-            this.status = args.status;
+export const AtomUsageResponseCodec: thrift.IStructCodec<IAtomUsageResponseArgs, IAtomUsageResponse> = {
+    encode(args: IAtomUsageResponseArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            status: args.status,
+            userTier: args.userTier,
+            total: args.total,
+            startIndex: args.startIndex,
+            pageSize: args.pageSize,
+            currentPage: args.currentPage,
+            pages: args.pages,
+            results: args.results
+        };
+        output.writeStructBegin("AtomUsageResponse");
+        if (obj.status != null) {
+            output.writeFieldBegin("status", thrift.TType.STRING, 1);
+            output.writeString(obj.status);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
         }
-        if (args != null && args.userTier != null) {
-            this.userTier = args.userTier;
+        if (obj.userTier != null) {
+            output.writeFieldBegin("userTier", thrift.TType.STRING, 2);
+            output.writeString(obj.userTier);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[userTier] is unset!");
         }
-        if (args != null && args.total != null) {
-            this.total = args.total;
+        if (obj.total != null) {
+            output.writeFieldBegin("total", thrift.TType.I32, 3);
+            output.writeI32(obj.total);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[total] is unset!");
         }
-        if (args != null && args.startIndex != null) {
-            this.startIndex = args.startIndex;
+        if (obj.startIndex != null) {
+            output.writeFieldBegin("startIndex", thrift.TType.I32, 4);
+            output.writeI32(obj.startIndex);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[startIndex] is unset!");
         }
-        if (args != null && args.pageSize != null) {
-            this.pageSize = args.pageSize;
+        if (obj.pageSize != null) {
+            output.writeFieldBegin("pageSize", thrift.TType.I32, 5);
+            output.writeI32(obj.pageSize);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[pageSize] is unset!");
         }
-        if (args != null && args.currentPage != null) {
-            this.currentPage = args.currentPage;
+        if (obj.currentPage != null) {
+            output.writeFieldBegin("currentPage", thrift.TType.I32, 6);
+            output.writeI32(obj.currentPage);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[currentPage] is unset!");
         }
-        if (args != null && args.pages != null) {
-            this.pages = args.pages;
+        if (obj.pages != null) {
+            output.writeFieldBegin("pages", thrift.TType.I32, 7);
+            output.writeI32(obj.pages);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[pages] is unset!");
         }
-        if (args != null && args.results != null) {
-            this.results = args.results;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("AtomUsageResponse");
-        if (this.status != null) {
-            output.writeFieldBegin("status", thrift.TType.STRING, 1);
-            output.writeString(this.status);
-            output.writeFieldEnd();
-        }
-        if (this.userTier != null) {
-            output.writeFieldBegin("userTier", thrift.TType.STRING, 2);
-            output.writeString(this.userTier);
-            output.writeFieldEnd();
-        }
-        if (this.total != null) {
-            output.writeFieldBegin("total", thrift.TType.I32, 3);
-            output.writeI32(this.total);
-            output.writeFieldEnd();
-        }
-        if (this.startIndex != null) {
-            output.writeFieldBegin("startIndex", thrift.TType.I32, 4);
-            output.writeI32(this.startIndex);
-            output.writeFieldEnd();
-        }
-        if (this.pageSize != null) {
-            output.writeFieldBegin("pageSize", thrift.TType.I32, 5);
-            output.writeI32(this.pageSize);
-            output.writeFieldEnd();
-        }
-        if (this.currentPage != null) {
-            output.writeFieldBegin("currentPage", thrift.TType.I32, 6);
-            output.writeI32(this.currentPage);
-            output.writeFieldEnd();
-        }
-        if (this.pages != null) {
-            output.writeFieldBegin("pages", thrift.TType.I32, 7);
-            output.writeI32(this.pages);
-            output.writeFieldEnd();
-        }
-        if (this.results != null) {
+        if (obj.results != null) {
             output.writeFieldBegin("results", thrift.TType.LIST, 8);
-            output.writeListBegin(thrift.TType.STRING, this.results.length);
-            this.results.forEach((value_1: string): void => {
+            output.writeListBegin(thrift.TType.STRING, obj.results.length);
+            obj.results.forEach((value_1: string): void => {
                 output.writeString(value_1);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
+        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): AtomUsageResponse {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IAtomUsageResponse {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -222,10 +208,103 @@ export class AtomUsageResponse {
         }
         input.readStructEnd();
         if (_args.status !== undefined && _args.userTier !== undefined && _args.total !== undefined && _args.startIndex !== undefined && _args.pageSize !== undefined && _args.currentPage !== undefined && _args.pages !== undefined && _args.results !== undefined) {
-            return new AtomUsageResponse(_args);
+            return {
+                status: _args.status,
+                userTier: _args.userTier,
+                total: _args.total,
+                startIndex: _args.startIndex,
+                pageSize: _args.pageSize,
+                currentPage: _args.currentPage,
+                pages: _args.pages,
+                results: _args.results
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read AtomUsageResponse from input");
         }
+    }
+};
+export class AtomUsageResponse extends thrift.StructLike implements IAtomUsageResponse {
+    public status: string;
+    public userTier: string;
+    public total: number;
+    public startIndex: number;
+    public pageSize: number;
+    public currentPage: number;
+    public pages: number;
+    public results: Array<string>;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IAtomUsageResponseArgs) {
+        super();
+        if (args.status != null) {
+            const value_11: string = args.status;
+            this.status = value_11;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
+        }
+        if (args.userTier != null) {
+            const value_12: string = args.userTier;
+            this.userTier = value_12;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[userTier] is unset!");
+        }
+        if (args.total != null) {
+            const value_13: number = args.total;
+            this.total = value_13;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[total] is unset!");
+        }
+        if (args.startIndex != null) {
+            const value_14: number = args.startIndex;
+            this.startIndex = value_14;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[startIndex] is unset!");
+        }
+        if (args.pageSize != null) {
+            const value_15: number = args.pageSize;
+            this.pageSize = value_15;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[pageSize] is unset!");
+        }
+        if (args.currentPage != null) {
+            const value_16: number = args.currentPage;
+            this.currentPage = value_16;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[currentPage] is unset!");
+        }
+        if (args.pages != null) {
+            const value_17: number = args.pages;
+            this.pages = value_17;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[pages] is unset!");
+        }
+        if (args.results != null) {
+            const value_18: Array<string> = new Array<string>();
+            args.results.forEach((value_19: string): void => {
+                const value_20: string = value_19;
+                value_18.push(value_20);
+            });
+            this.results = value_18;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): AtomUsageResponse {
+        return new AtomUsageResponse(AtomUsageResponseCodec.decode(input));
+    }
+    public static write(args: IAtomUsageResponseArgs, output: thrift.TProtocol): void {
+        return AtomUsageResponseCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return AtomUsageResponseCodec.encode(this, output);
     }
 }

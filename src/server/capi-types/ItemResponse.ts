@@ -9,7 +9,44 @@ import * as Content from "./Content";
 import * as Tag from "./Tag";
 import * as Edition from "./Edition";
 import * as Section from "./Section";
+import * as Atom from "./Atom";
 import * as Package from "./Package";
+export interface IItemResponse {
+    status: string;
+    userTier: string;
+    total?: number;
+    startIndex?: number;
+    pageSize?: number;
+    currentPage?: number;
+    pages?: number;
+    orderBy?: string;
+    content?: Content.IContent;
+    tag?: Tag.ITag;
+    edition?: Edition.IEdition;
+    section?: Section.ISection;
+    results?: Array<Content.IContent>;
+    quiz?: Atom.IAtom;
+    relatedContent?: Array<Content.IContent>;
+    storyPackage?: Array<Content.IContent>;
+    editorsPicks?: Array<Content.IContent>;
+    mostViewed?: Array<Content.IContent>;
+    leadContent?: Array<Content.IContent>;
+    packages?: Array<Package.IPackage>;
+    viewpoints?: Array<Atom.IAtom>;
+    media?: Atom.IAtom;
+    explainer?: Atom.IAtom;
+    cta?: Atom.IAtom;
+    interactive?: Atom.IAtom;
+    review?: Atom.IAtom;
+    recipe?: Atom.IAtom;
+    qanda?: Atom.IAtom;
+    guide?: Atom.IAtom;
+    profile?: Atom.IAtom;
+    timeline?: Atom.IAtom;
+    commonsdivision?: Atom.IAtom;
+    chart?: Atom.IAtom;
+    audio?: Atom.IAtom;
+}
 export interface IItemResponseArgs {
     status: string;
     userTier: string;
@@ -19,235 +56,287 @@ export interface IItemResponseArgs {
     currentPage?: number;
     pages?: number;
     orderBy?: string;
-    content?: Content.Content;
-    tag?: Tag.Tag;
-    edition?: Edition.Edition;
-    section?: Section.Section;
-    results?: Array<Content.Content>;
-    relatedContent?: Array<Content.Content>;
-    storyPackage?: Array<Content.Content>;
-    editorsPicks?: Array<Content.Content>;
-    mostViewed?: Array<Content.Content>;
-    leadContent?: Array<Content.Content>;
-    packages?: Array<Package.Package>;
+    content?: Content.IContentArgs;
+    tag?: Tag.ITagArgs;
+    edition?: Edition.IEditionArgs;
+    section?: Section.ISectionArgs;
+    results?: Array<Content.IContentArgs>;
+    quiz?: Atom.IAtomArgs;
+    relatedContent?: Array<Content.IContentArgs>;
+    storyPackage?: Array<Content.IContentArgs>;
+    editorsPicks?: Array<Content.IContentArgs>;
+    mostViewed?: Array<Content.IContentArgs>;
+    leadContent?: Array<Content.IContentArgs>;
+    packages?: Array<Package.IPackageArgs>;
+    viewpoints?: Array<Atom.IAtomArgs>;
+    media?: Atom.IAtomArgs;
+    explainer?: Atom.IAtomArgs;
+    cta?: Atom.IAtomArgs;
+    interactive?: Atom.IAtomArgs;
+    review?: Atom.IAtomArgs;
+    recipe?: Atom.IAtomArgs;
+    qanda?: Atom.IAtomArgs;
+    guide?: Atom.IAtomArgs;
+    profile?: Atom.IAtomArgs;
+    timeline?: Atom.IAtomArgs;
+    commonsdivision?: Atom.IAtomArgs;
+    chart?: Atom.IAtomArgs;
+    audio?: Atom.IAtomArgs;
 }
-export class ItemResponse {
-    public status: string;
-    public userTier: string;
-    public total?: number;
-    public startIndex?: number;
-    public pageSize?: number;
-    public currentPage?: number;
-    public pages?: number;
-    public orderBy?: string;
-    public content?: Content.Content;
-    public tag?: Tag.Tag;
-    public edition?: Edition.Edition;
-    public section?: Section.Section;
-    public results?: Array<Content.Content>;
-    public relatedContent?: Array<Content.Content>;
-    public storyPackage?: Array<Content.Content>;
-    public editorsPicks?: Array<Content.Content>;
-    public mostViewed?: Array<Content.Content>;
-    public leadContent?: Array<Content.Content>;
-    public packages?: Array<Package.Package>;
-    constructor(args: IItemResponseArgs) {
-        if (args != null && args.status != null) {
-            this.status = args.status;
+export const ItemResponseCodec: thrift.IStructCodec<IItemResponseArgs, IItemResponse> = {
+    encode(args: IItemResponseArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            status: args.status,
+            userTier: args.userTier,
+            total: args.total,
+            startIndex: args.startIndex,
+            pageSize: args.pageSize,
+            currentPage: args.currentPage,
+            pages: args.pages,
+            orderBy: args.orderBy,
+            content: args.content,
+            tag: args.tag,
+            edition: args.edition,
+            section: args.section,
+            results: args.results,
+            quiz: args.quiz,
+            relatedContent: args.relatedContent,
+            storyPackage: args.storyPackage,
+            editorsPicks: args.editorsPicks,
+            mostViewed: args.mostViewed,
+            leadContent: args.leadContent,
+            packages: args.packages,
+            viewpoints: args.viewpoints,
+            media: args.media,
+            explainer: args.explainer,
+            cta: args.cta,
+            interactive: args.interactive,
+            review: args.review,
+            recipe: args.recipe,
+            qanda: args.qanda,
+            guide: args.guide,
+            profile: args.profile,
+            timeline: args.timeline,
+            commonsdivision: args.commonsdivision,
+            chart: args.chart,
+            audio: args.audio
+        };
+        output.writeStructBegin("ItemResponse");
+        if (obj.status != null) {
+            output.writeFieldBegin("status", thrift.TType.STRING, 1);
+            output.writeString(obj.status);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
         }
-        if (args != null && args.userTier != null) {
-            this.userTier = args.userTier;
+        if (obj.userTier != null) {
+            output.writeFieldBegin("userTier", thrift.TType.STRING, 2);
+            output.writeString(obj.userTier);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[userTier] is unset!");
         }
-        if (args != null && args.total != null) {
-            this.total = args.total;
-        }
-        if (args != null && args.startIndex != null) {
-            this.startIndex = args.startIndex;
-        }
-        if (args != null && args.pageSize != null) {
-            this.pageSize = args.pageSize;
-        }
-        if (args != null && args.currentPage != null) {
-            this.currentPage = args.currentPage;
-        }
-        if (args != null && args.pages != null) {
-            this.pages = args.pages;
-        }
-        if (args != null && args.orderBy != null) {
-            this.orderBy = args.orderBy;
-        }
-        if (args != null && args.content != null) {
-            this.content = args.content;
-        }
-        if (args != null && args.tag != null) {
-            this.tag = args.tag;
-        }
-        if (args != null && args.edition != null) {
-            this.edition = args.edition;
-        }
-        if (args != null && args.section != null) {
-            this.section = args.section;
-        }
-        if (args != null && args.results != null) {
-            this.results = args.results;
-        }
-        if (args != null && args.relatedContent != null) {
-            this.relatedContent = args.relatedContent;
-        }
-        if (args != null && args.storyPackage != null) {
-            this.storyPackage = args.storyPackage;
-        }
-        if (args != null && args.editorsPicks != null) {
-            this.editorsPicks = args.editorsPicks;
-        }
-        if (args != null && args.mostViewed != null) {
-            this.mostViewed = args.mostViewed;
-        }
-        if (args != null && args.leadContent != null) {
-            this.leadContent = args.leadContent;
-        }
-        if (args != null && args.packages != null) {
-            this.packages = args.packages;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("ItemResponse");
-        if (this.status != null) {
-            output.writeFieldBegin("status", thrift.TType.STRING, 1);
-            output.writeString(this.status);
-            output.writeFieldEnd();
-        }
-        if (this.userTier != null) {
-            output.writeFieldBegin("userTier", thrift.TType.STRING, 2);
-            output.writeString(this.userTier);
-            output.writeFieldEnd();
-        }
-        if (this.total != null) {
+        if (obj.total != null) {
             output.writeFieldBegin("total", thrift.TType.I32, 3);
-            output.writeI32(this.total);
+            output.writeI32(obj.total);
             output.writeFieldEnd();
         }
-        if (this.startIndex != null) {
+        if (obj.startIndex != null) {
             output.writeFieldBegin("startIndex", thrift.TType.I32, 4);
-            output.writeI32(this.startIndex);
+            output.writeI32(obj.startIndex);
             output.writeFieldEnd();
         }
-        if (this.pageSize != null) {
+        if (obj.pageSize != null) {
             output.writeFieldBegin("pageSize", thrift.TType.I32, 5);
-            output.writeI32(this.pageSize);
+            output.writeI32(obj.pageSize);
             output.writeFieldEnd();
         }
-        if (this.currentPage != null) {
+        if (obj.currentPage != null) {
             output.writeFieldBegin("currentPage", thrift.TType.I32, 6);
-            output.writeI32(this.currentPage);
+            output.writeI32(obj.currentPage);
             output.writeFieldEnd();
         }
-        if (this.pages != null) {
+        if (obj.pages != null) {
             output.writeFieldBegin("pages", thrift.TType.I32, 7);
-            output.writeI32(this.pages);
+            output.writeI32(obj.pages);
             output.writeFieldEnd();
         }
-        if (this.orderBy != null) {
+        if (obj.orderBy != null) {
             output.writeFieldBegin("orderBy", thrift.TType.STRING, 8);
-            output.writeString(this.orderBy);
+            output.writeString(obj.orderBy);
             output.writeFieldEnd();
         }
-        if (this.content != null) {
+        if (obj.content != null) {
             output.writeFieldBegin("content", thrift.TType.STRUCT, 9);
-            this.content.write(output);
+            Content.ContentCodec.encode(obj.content, output);
             output.writeFieldEnd();
         }
-        if (this.tag != null) {
+        if (obj.tag != null) {
             output.writeFieldBegin("tag", thrift.TType.STRUCT, 10);
-            this.tag.write(output);
+            Tag.TagCodec.encode(obj.tag, output);
             output.writeFieldEnd();
         }
-        if (this.edition != null) {
+        if (obj.edition != null) {
             output.writeFieldBegin("edition", thrift.TType.STRUCT, 11);
-            this.edition.write(output);
+            Edition.EditionCodec.encode(obj.edition, output);
             output.writeFieldEnd();
         }
-        if (this.section != null) {
+        if (obj.section != null) {
             output.writeFieldBegin("section", thrift.TType.STRUCT, 12);
-            this.section.write(output);
+            Section.SectionCodec.encode(obj.section, output);
             output.writeFieldEnd();
         }
-        if (this.results != null) {
+        if (obj.results != null) {
             output.writeFieldBegin("results", thrift.TType.LIST, 13);
-            output.writeListBegin(thrift.TType.STRUCT, this.results.length);
-            this.results.forEach((value_1: Content.Content): void => {
-                value_1.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.results.length);
+            obj.results.forEach((value_1: Content.IContentArgs): void => {
+                Content.ContentCodec.encode(value_1, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.relatedContent != null) {
+        if (obj.quiz != null) {
+            output.writeFieldBegin("quiz", thrift.TType.STRUCT, 14);
+            Atom.AtomCodec.encode(obj.quiz, output);
+            output.writeFieldEnd();
+        }
+        if (obj.relatedContent != null) {
             output.writeFieldBegin("relatedContent", thrift.TType.LIST, 15);
-            output.writeListBegin(thrift.TType.STRUCT, this.relatedContent.length);
-            this.relatedContent.forEach((value_2: Content.Content): void => {
-                value_2.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.relatedContent.length);
+            obj.relatedContent.forEach((value_2: Content.IContentArgs): void => {
+                Content.ContentCodec.encode(value_2, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.storyPackage != null) {
+        if (obj.storyPackage != null) {
             output.writeFieldBegin("storyPackage", thrift.TType.LIST, 16);
-            output.writeListBegin(thrift.TType.STRUCT, this.storyPackage.length);
-            this.storyPackage.forEach((value_3: Content.Content): void => {
-                value_3.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.storyPackage.length);
+            obj.storyPackage.forEach((value_3: Content.IContentArgs): void => {
+                Content.ContentCodec.encode(value_3, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.editorsPicks != null) {
+        if (obj.editorsPicks != null) {
             output.writeFieldBegin("editorsPicks", thrift.TType.LIST, 17);
-            output.writeListBegin(thrift.TType.STRUCT, this.editorsPicks.length);
-            this.editorsPicks.forEach((value_4: Content.Content): void => {
-                value_4.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.editorsPicks.length);
+            obj.editorsPicks.forEach((value_4: Content.IContentArgs): void => {
+                Content.ContentCodec.encode(value_4, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.mostViewed != null) {
+        if (obj.mostViewed != null) {
             output.writeFieldBegin("mostViewed", thrift.TType.LIST, 18);
-            output.writeListBegin(thrift.TType.STRUCT, this.mostViewed.length);
-            this.mostViewed.forEach((value_5: Content.Content): void => {
-                value_5.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.mostViewed.length);
+            obj.mostViewed.forEach((value_5: Content.IContentArgs): void => {
+                Content.ContentCodec.encode(value_5, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.leadContent != null) {
+        if (obj.leadContent != null) {
             output.writeFieldBegin("leadContent", thrift.TType.LIST, 19);
-            output.writeListBegin(thrift.TType.STRUCT, this.leadContent.length);
-            this.leadContent.forEach((value_6: Content.Content): void => {
-                value_6.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.leadContent.length);
+            obj.leadContent.forEach((value_6: Content.IContentArgs): void => {
+                Content.ContentCodec.encode(value_6, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.packages != null) {
+        if (obj.packages != null) {
             output.writeFieldBegin("packages", thrift.TType.LIST, 20);
-            output.writeListBegin(thrift.TType.STRUCT, this.packages.length);
-            this.packages.forEach((value_7: Package.Package): void => {
-                value_7.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.packages.length);
+            obj.packages.forEach((value_7: Package.IPackageArgs): void => {
+                Package.PackageCodec.encode(value_7, output);
             });
             output.writeListEnd();
+            output.writeFieldEnd();
+        }
+        if (obj.viewpoints != null) {
+            output.writeFieldBegin("viewpoints", thrift.TType.LIST, 21);
+            output.writeListBegin(thrift.TType.STRUCT, obj.viewpoints.length);
+            obj.viewpoints.forEach((value_8: Atom.IAtomArgs): void => {
+                Atom.AtomCodec.encode(value_8, output);
+            });
+            output.writeListEnd();
+            output.writeFieldEnd();
+        }
+        if (obj.media != null) {
+            output.writeFieldBegin("media", thrift.TType.STRUCT, 22);
+            Atom.AtomCodec.encode(obj.media, output);
+            output.writeFieldEnd();
+        }
+        if (obj.explainer != null) {
+            output.writeFieldBegin("explainer", thrift.TType.STRUCT, 23);
+            Atom.AtomCodec.encode(obj.explainer, output);
+            output.writeFieldEnd();
+        }
+        if (obj.cta != null) {
+            output.writeFieldBegin("cta", thrift.TType.STRUCT, 24);
+            Atom.AtomCodec.encode(obj.cta, output);
+            output.writeFieldEnd();
+        }
+        if (obj.interactive != null) {
+            output.writeFieldBegin("interactive", thrift.TType.STRUCT, 25);
+            Atom.AtomCodec.encode(obj.interactive, output);
+            output.writeFieldEnd();
+        }
+        if (obj.review != null) {
+            output.writeFieldBegin("review", thrift.TType.STRUCT, 26);
+            Atom.AtomCodec.encode(obj.review, output);
+            output.writeFieldEnd();
+        }
+        if (obj.recipe != null) {
+            output.writeFieldBegin("recipe", thrift.TType.STRUCT, 27);
+            Atom.AtomCodec.encode(obj.recipe, output);
+            output.writeFieldEnd();
+        }
+        if (obj.qanda != null) {
+            output.writeFieldBegin("qanda", thrift.TType.STRUCT, 30);
+            Atom.AtomCodec.encode(obj.qanda, output);
+            output.writeFieldEnd();
+        }
+        if (obj.guide != null) {
+            output.writeFieldBegin("guide", thrift.TType.STRUCT, 31);
+            Atom.AtomCodec.encode(obj.guide, output);
+            output.writeFieldEnd();
+        }
+        if (obj.profile != null) {
+            output.writeFieldBegin("profile", thrift.TType.STRUCT, 32);
+            Atom.AtomCodec.encode(obj.profile, output);
+            output.writeFieldEnd();
+        }
+        if (obj.timeline != null) {
+            output.writeFieldBegin("timeline", thrift.TType.STRUCT, 33);
+            Atom.AtomCodec.encode(obj.timeline, output);
+            output.writeFieldEnd();
+        }
+        if (obj.commonsdivision != null) {
+            output.writeFieldBegin("commonsdivision", thrift.TType.STRUCT, 34);
+            Atom.AtomCodec.encode(obj.commonsdivision, output);
+            output.writeFieldEnd();
+        }
+        if (obj.chart != null) {
+            output.writeFieldBegin("chart", thrift.TType.STRUCT, 35);
+            Atom.AtomCodec.encode(obj.chart, output);
+            output.writeFieldEnd();
+        }
+        if (obj.audio != null) {
+            output.writeFieldBegin("audio", thrift.TType.STRUCT, 36);
+            Atom.AtomCodec.encode(obj.audio, output);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): ItemResponse {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IItemResponse {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -258,8 +347,8 @@ export class ItemResponse {
             switch (fieldId) {
                 case 1:
                     if (fieldType === thrift.TType.STRING) {
-                        const value_8: string = input.readString();
-                        _args.status = value_8;
+                        const value_9: string = input.readString();
+                        _args.status = value_9;
                     }
                     else {
                         input.skip(fieldType);
@@ -267,8 +356,8 @@ export class ItemResponse {
                     break;
                 case 2:
                     if (fieldType === thrift.TType.STRING) {
-                        const value_9: string = input.readString();
-                        _args.userTier = value_9;
+                        const value_10: string = input.readString();
+                        _args.userTier = value_10;
                     }
                     else {
                         input.skip(fieldType);
@@ -276,8 +365,8 @@ export class ItemResponse {
                     break;
                 case 3:
                     if (fieldType === thrift.TType.I32) {
-                        const value_10: number = input.readI32();
-                        _args.total = value_10;
+                        const value_11: number = input.readI32();
+                        _args.total = value_11;
                     }
                     else {
                         input.skip(fieldType);
@@ -285,8 +374,8 @@ export class ItemResponse {
                     break;
                 case 4:
                     if (fieldType === thrift.TType.I32) {
-                        const value_11: number = input.readI32();
-                        _args.startIndex = value_11;
+                        const value_12: number = input.readI32();
+                        _args.startIndex = value_12;
                     }
                     else {
                         input.skip(fieldType);
@@ -294,8 +383,8 @@ export class ItemResponse {
                     break;
                 case 5:
                     if (fieldType === thrift.TType.I32) {
-                        const value_12: number = input.readI32();
-                        _args.pageSize = value_12;
+                        const value_13: number = input.readI32();
+                        _args.pageSize = value_13;
                     }
                     else {
                         input.skip(fieldType);
@@ -303,8 +392,8 @@ export class ItemResponse {
                     break;
                 case 6:
                     if (fieldType === thrift.TType.I32) {
-                        const value_13: number = input.readI32();
-                        _args.currentPage = value_13;
+                        const value_14: number = input.readI32();
+                        _args.currentPage = value_14;
                     }
                     else {
                         input.skip(fieldType);
@@ -312,8 +401,8 @@ export class ItemResponse {
                     break;
                 case 7:
                     if (fieldType === thrift.TType.I32) {
-                        const value_14: number = input.readI32();
-                        _args.pages = value_14;
+                        const value_15: number = input.readI32();
+                        _args.pages = value_15;
                     }
                     else {
                         input.skip(fieldType);
@@ -321,8 +410,8 @@ export class ItemResponse {
                     break;
                 case 8:
                     if (fieldType === thrift.TType.STRING) {
-                        const value_15: string = input.readString();
-                        _args.orderBy = value_15;
+                        const value_16: string = input.readString();
+                        _args.orderBy = value_16;
                     }
                     else {
                         input.skip(fieldType);
@@ -330,8 +419,8 @@ export class ItemResponse {
                     break;
                 case 9:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_16: Content.Content = Content.Content.read(input);
-                        _args.content = value_16;
+                        const value_17: Content.IContent = Content.ContentCodec.decode(input);
+                        _args.content = value_17;
                     }
                     else {
                         input.skip(fieldType);
@@ -339,8 +428,8 @@ export class ItemResponse {
                     break;
                 case 10:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_17: Tag.Tag = Tag.Tag.read(input);
-                        _args.tag = value_17;
+                        const value_18: Tag.ITag = Tag.TagCodec.decode(input);
+                        _args.tag = value_18;
                     }
                     else {
                         input.skip(fieldType);
@@ -348,8 +437,8 @@ export class ItemResponse {
                     break;
                 case 11:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_18: Edition.Edition = Edition.Edition.read(input);
-                        _args.edition = value_18;
+                        const value_19: Edition.IEdition = Edition.EditionCodec.decode(input);
+                        _args.edition = value_19;
                     }
                     else {
                         input.skip(fieldType);
@@ -357,8 +446,8 @@ export class ItemResponse {
                     break;
                 case 12:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_19: Section.Section = Section.Section.read(input);
-                        _args.section = value_19;
+                        const value_20: Section.ISection = Section.SectionCodec.decode(input);
+                        _args.section = value_20;
                     }
                     else {
                         input.skip(fieldType);
@@ -366,15 +455,24 @@ export class ItemResponse {
                     break;
                 case 13:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_20: Array<Content.Content> = new Array<Content.Content>();
+                        const value_21: Array<Content.IContent> = new Array<Content.IContent>();
                         const metadata_1: thrift.IThriftList = input.readListBegin();
                         const size_1: number = metadata_1.size;
                         for (let i_1: number = 0; i_1 < size_1; i_1++) {
-                            const value_21: Content.Content = Content.Content.read(input);
-                            value_20.push(value_21);
+                            const value_22: Content.IContent = Content.ContentCodec.decode(input);
+                            value_21.push(value_22);
                         }
                         input.readListEnd();
-                        _args.results = value_20;
+                        _args.results = value_21;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 14:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_23: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.quiz = value_23;
                     }
                     else {
                         input.skip(fieldType);
@@ -382,15 +480,15 @@ export class ItemResponse {
                     break;
                 case 15:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_22: Array<Content.Content> = new Array<Content.Content>();
+                        const value_24: Array<Content.IContent> = new Array<Content.IContent>();
                         const metadata_2: thrift.IThriftList = input.readListBegin();
                         const size_2: number = metadata_2.size;
                         for (let i_2: number = 0; i_2 < size_2; i_2++) {
-                            const value_23: Content.Content = Content.Content.read(input);
-                            value_22.push(value_23);
+                            const value_25: Content.IContent = Content.ContentCodec.decode(input);
+                            value_24.push(value_25);
                         }
                         input.readListEnd();
-                        _args.relatedContent = value_22;
+                        _args.relatedContent = value_24;
                     }
                     else {
                         input.skip(fieldType);
@@ -398,15 +496,15 @@ export class ItemResponse {
                     break;
                 case 16:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_24: Array<Content.Content> = new Array<Content.Content>();
+                        const value_26: Array<Content.IContent> = new Array<Content.IContent>();
                         const metadata_3: thrift.IThriftList = input.readListBegin();
                         const size_3: number = metadata_3.size;
                         for (let i_3: number = 0; i_3 < size_3; i_3++) {
-                            const value_25: Content.Content = Content.Content.read(input);
-                            value_24.push(value_25);
+                            const value_27: Content.IContent = Content.ContentCodec.decode(input);
+                            value_26.push(value_27);
                         }
                         input.readListEnd();
-                        _args.storyPackage = value_24;
+                        _args.storyPackage = value_26;
                     }
                     else {
                         input.skip(fieldType);
@@ -414,15 +512,15 @@ export class ItemResponse {
                     break;
                 case 17:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_26: Array<Content.Content> = new Array<Content.Content>();
+                        const value_28: Array<Content.IContent> = new Array<Content.IContent>();
                         const metadata_4: thrift.IThriftList = input.readListBegin();
                         const size_4: number = metadata_4.size;
                         for (let i_4: number = 0; i_4 < size_4; i_4++) {
-                            const value_27: Content.Content = Content.Content.read(input);
-                            value_26.push(value_27);
+                            const value_29: Content.IContent = Content.ContentCodec.decode(input);
+                            value_28.push(value_29);
                         }
                         input.readListEnd();
-                        _args.editorsPicks = value_26;
+                        _args.editorsPicks = value_28;
                     }
                     else {
                         input.skip(fieldType);
@@ -430,15 +528,15 @@ export class ItemResponse {
                     break;
                 case 18:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_28: Array<Content.Content> = new Array<Content.Content>();
+                        const value_30: Array<Content.IContent> = new Array<Content.IContent>();
                         const metadata_5: thrift.IThriftList = input.readListBegin();
                         const size_5: number = metadata_5.size;
                         for (let i_5: number = 0; i_5 < size_5; i_5++) {
-                            const value_29: Content.Content = Content.Content.read(input);
-                            value_28.push(value_29);
+                            const value_31: Content.IContent = Content.ContentCodec.decode(input);
+                            value_30.push(value_31);
                         }
                         input.readListEnd();
-                        _args.mostViewed = value_28;
+                        _args.mostViewed = value_30;
                     }
                     else {
                         input.skip(fieldType);
@@ -446,15 +544,15 @@ export class ItemResponse {
                     break;
                 case 19:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_30: Array<Content.Content> = new Array<Content.Content>();
+                        const value_32: Array<Content.IContent> = new Array<Content.IContent>();
                         const metadata_6: thrift.IThriftList = input.readListBegin();
                         const size_6: number = metadata_6.size;
                         for (let i_6: number = 0; i_6 < size_6; i_6++) {
-                            const value_31: Content.Content = Content.Content.read(input);
-                            value_30.push(value_31);
+                            const value_33: Content.IContent = Content.ContentCodec.decode(input);
+                            value_32.push(value_33);
                         }
                         input.readListEnd();
-                        _args.leadContent = value_30;
+                        _args.leadContent = value_32;
                     }
                     else {
                         input.skip(fieldType);
@@ -462,15 +560,148 @@ export class ItemResponse {
                     break;
                 case 20:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_32: Array<Package.Package> = new Array<Package.Package>();
+                        const value_34: Array<Package.IPackage> = new Array<Package.IPackage>();
                         const metadata_7: thrift.IThriftList = input.readListBegin();
                         const size_7: number = metadata_7.size;
                         for (let i_7: number = 0; i_7 < size_7; i_7++) {
-                            const value_33: Package.Package = Package.Package.read(input);
-                            value_32.push(value_33);
+                            const value_35: Package.IPackage = Package.PackageCodec.decode(input);
+                            value_34.push(value_35);
                         }
                         input.readListEnd();
-                        _args.packages = value_32;
+                        _args.packages = value_34;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 21:
+                    if (fieldType === thrift.TType.LIST) {
+                        const value_36: Array<Atom.IAtom> = new Array<Atom.IAtom>();
+                        const metadata_8: thrift.IThriftList = input.readListBegin();
+                        const size_8: number = metadata_8.size;
+                        for (let i_8: number = 0; i_8 < size_8; i_8++) {
+                            const value_37: Atom.IAtom = Atom.AtomCodec.decode(input);
+                            value_36.push(value_37);
+                        }
+                        input.readListEnd();
+                        _args.viewpoints = value_36;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 22:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_38: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.media = value_38;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 23:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_39: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.explainer = value_39;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 24:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_40: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.cta = value_40;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 25:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_41: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.interactive = value_41;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 26:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_42: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.review = value_42;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 27:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_43: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.recipe = value_43;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 30:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_44: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.qanda = value_44;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 31:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_45: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.guide = value_45;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 32:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_46: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.profile = value_46;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 33:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_47: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.timeline = value_47;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 34:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_48: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.commonsdivision = value_48;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 35:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_49: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.chart = value_49;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 36:
+                    if (fieldType === thrift.TType.STRUCT) {
+                        const value_50: Atom.IAtom = Atom.AtomCodec.decode(input);
+                        _args.audio = value_50;
                     }
                     else {
                         input.skip(fieldType);
@@ -484,10 +715,269 @@ export class ItemResponse {
         }
         input.readStructEnd();
         if (_args.status !== undefined && _args.userTier !== undefined) {
-            return new ItemResponse(_args);
+            return {
+                status: _args.status,
+                userTier: _args.userTier,
+                total: _args.total,
+                startIndex: _args.startIndex,
+                pageSize: _args.pageSize,
+                currentPage: _args.currentPage,
+                pages: _args.pages,
+                orderBy: _args.orderBy,
+                content: _args.content,
+                tag: _args.tag,
+                edition: _args.edition,
+                section: _args.section,
+                results: _args.results,
+                quiz: _args.quiz,
+                relatedContent: _args.relatedContent,
+                storyPackage: _args.storyPackage,
+                editorsPicks: _args.editorsPicks,
+                mostViewed: _args.mostViewed,
+                leadContent: _args.leadContent,
+                packages: _args.packages,
+                viewpoints: _args.viewpoints,
+                media: _args.media,
+                explainer: _args.explainer,
+                cta: _args.cta,
+                interactive: _args.interactive,
+                review: _args.review,
+                recipe: _args.recipe,
+                qanda: _args.qanda,
+                guide: _args.guide,
+                profile: _args.profile,
+                timeline: _args.timeline,
+                commonsdivision: _args.commonsdivision,
+                chart: _args.chart,
+                audio: _args.audio
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read ItemResponse from input");
         }
+    }
+};
+export class ItemResponse extends thrift.StructLike implements IItemResponse {
+    public status: string;
+    public userTier: string;
+    public total?: number;
+    public startIndex?: number;
+    public pageSize?: number;
+    public currentPage?: number;
+    public pages?: number;
+    public orderBy?: string;
+    public content?: Content.IContent;
+    public tag?: Tag.ITag;
+    public edition?: Edition.IEdition;
+    public section?: Section.ISection;
+    public results?: Array<Content.IContent>;
+    public quiz?: Atom.IAtom;
+    public relatedContent?: Array<Content.IContent>;
+    public storyPackage?: Array<Content.IContent>;
+    public editorsPicks?: Array<Content.IContent>;
+    public mostViewed?: Array<Content.IContent>;
+    public leadContent?: Array<Content.IContent>;
+    public packages?: Array<Package.IPackage>;
+    public viewpoints?: Array<Atom.IAtom>;
+    public media?: Atom.IAtom;
+    public explainer?: Atom.IAtom;
+    public cta?: Atom.IAtom;
+    public interactive?: Atom.IAtom;
+    public review?: Atom.IAtom;
+    public recipe?: Atom.IAtom;
+    public qanda?: Atom.IAtom;
+    public guide?: Atom.IAtom;
+    public profile?: Atom.IAtom;
+    public timeline?: Atom.IAtom;
+    public commonsdivision?: Atom.IAtom;
+    public chart?: Atom.IAtom;
+    public audio?: Atom.IAtom;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IItemResponseArgs) {
+        super();
+        if (args.status != null) {
+            const value_51: string = args.status;
+            this.status = value_51;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
+        }
+        if (args.userTier != null) {
+            const value_52: string = args.userTier;
+            this.userTier = value_52;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[userTier] is unset!");
+        }
+        if (args.total != null) {
+            const value_53: number = args.total;
+            this.total = value_53;
+        }
+        if (args.startIndex != null) {
+            const value_54: number = args.startIndex;
+            this.startIndex = value_54;
+        }
+        if (args.pageSize != null) {
+            const value_55: number = args.pageSize;
+            this.pageSize = value_55;
+        }
+        if (args.currentPage != null) {
+            const value_56: number = args.currentPage;
+            this.currentPage = value_56;
+        }
+        if (args.pages != null) {
+            const value_57: number = args.pages;
+            this.pages = value_57;
+        }
+        if (args.orderBy != null) {
+            const value_58: string = args.orderBy;
+            this.orderBy = value_58;
+        }
+        if (args.content != null) {
+            const value_59: Content.IContent = new Content.Content(args.content);
+            this.content = value_59;
+        }
+        if (args.tag != null) {
+            const value_60: Tag.ITag = new Tag.Tag(args.tag);
+            this.tag = value_60;
+        }
+        if (args.edition != null) {
+            const value_61: Edition.IEdition = new Edition.Edition(args.edition);
+            this.edition = value_61;
+        }
+        if (args.section != null) {
+            const value_62: Section.ISection = new Section.Section(args.section);
+            this.section = value_62;
+        }
+        if (args.results != null) {
+            const value_63: Array<Content.IContent> = new Array<Content.IContent>();
+            args.results.forEach((value_85: Content.IContentArgs): void => {
+                const value_86: Content.IContent = new Content.Content(value_85);
+                value_63.push(value_86);
+            });
+            this.results = value_63;
+        }
+        if (args.quiz != null) {
+            const value_64: Atom.IAtom = new Atom.Atom(args.quiz);
+            this.quiz = value_64;
+        }
+        if (args.relatedContent != null) {
+            const value_65: Array<Content.IContent> = new Array<Content.IContent>();
+            args.relatedContent.forEach((value_87: Content.IContentArgs): void => {
+                const value_88: Content.IContent = new Content.Content(value_87);
+                value_65.push(value_88);
+            });
+            this.relatedContent = value_65;
+        }
+        if (args.storyPackage != null) {
+            const value_66: Array<Content.IContent> = new Array<Content.IContent>();
+            args.storyPackage.forEach((value_89: Content.IContentArgs): void => {
+                const value_90: Content.IContent = new Content.Content(value_89);
+                value_66.push(value_90);
+            });
+            this.storyPackage = value_66;
+        }
+        if (args.editorsPicks != null) {
+            const value_67: Array<Content.IContent> = new Array<Content.IContent>();
+            args.editorsPicks.forEach((value_91: Content.IContentArgs): void => {
+                const value_92: Content.IContent = new Content.Content(value_91);
+                value_67.push(value_92);
+            });
+            this.editorsPicks = value_67;
+        }
+        if (args.mostViewed != null) {
+            const value_68: Array<Content.IContent> = new Array<Content.IContent>();
+            args.mostViewed.forEach((value_93: Content.IContentArgs): void => {
+                const value_94: Content.IContent = new Content.Content(value_93);
+                value_68.push(value_94);
+            });
+            this.mostViewed = value_68;
+        }
+        if (args.leadContent != null) {
+            const value_69: Array<Content.IContent> = new Array<Content.IContent>();
+            args.leadContent.forEach((value_95: Content.IContentArgs): void => {
+                const value_96: Content.IContent = new Content.Content(value_95);
+                value_69.push(value_96);
+            });
+            this.leadContent = value_69;
+        }
+        if (args.packages != null) {
+            const value_70: Array<Package.IPackage> = new Array<Package.IPackage>();
+            args.packages.forEach((value_97: Package.IPackageArgs): void => {
+                const value_98: Package.IPackage = new Package.Package(value_97);
+                value_70.push(value_98);
+            });
+            this.packages = value_70;
+        }
+        if (args.viewpoints != null) {
+            const value_71: Array<Atom.IAtom> = new Array<Atom.IAtom>();
+            args.viewpoints.forEach((value_99: Atom.IAtomArgs): void => {
+                const value_100: Atom.IAtom = new Atom.Atom(value_99);
+                value_71.push(value_100);
+            });
+            this.viewpoints = value_71;
+        }
+        if (args.media != null) {
+            const value_72: Atom.IAtom = new Atom.Atom(args.media);
+            this.media = value_72;
+        }
+        if (args.explainer != null) {
+            const value_73: Atom.IAtom = new Atom.Atom(args.explainer);
+            this.explainer = value_73;
+        }
+        if (args.cta != null) {
+            const value_74: Atom.IAtom = new Atom.Atom(args.cta);
+            this.cta = value_74;
+        }
+        if (args.interactive != null) {
+            const value_75: Atom.IAtom = new Atom.Atom(args.interactive);
+            this.interactive = value_75;
+        }
+        if (args.review != null) {
+            const value_76: Atom.IAtom = new Atom.Atom(args.review);
+            this.review = value_76;
+        }
+        if (args.recipe != null) {
+            const value_77: Atom.IAtom = new Atom.Atom(args.recipe);
+            this.recipe = value_77;
+        }
+        if (args.qanda != null) {
+            const value_78: Atom.IAtom = new Atom.Atom(args.qanda);
+            this.qanda = value_78;
+        }
+        if (args.guide != null) {
+            const value_79: Atom.IAtom = new Atom.Atom(args.guide);
+            this.guide = value_79;
+        }
+        if (args.profile != null) {
+            const value_80: Atom.IAtom = new Atom.Atom(args.profile);
+            this.profile = value_80;
+        }
+        if (args.timeline != null) {
+            const value_81: Atom.IAtom = new Atom.Atom(args.timeline);
+            this.timeline = value_81;
+        }
+        if (args.commonsdivision != null) {
+            const value_82: Atom.IAtom = new Atom.Atom(args.commonsdivision);
+            this.commonsdivision = value_82;
+        }
+        if (args.chart != null) {
+            const value_83: Atom.IAtom = new Atom.Atom(args.chart);
+            this.chart = value_83;
+        }
+        if (args.audio != null) {
+            const value_84: Atom.IAtom = new Atom.Atom(args.audio);
+            this.audio = value_84;
+        }
+    }
+    public static read(input: thrift.TProtocol): ItemResponse {
+        return new ItemResponse(ItemResponseCodec.decode(input));
+    }
+    public static write(args: IItemResponseArgs, output: thrift.TProtocol): void {
+        return ItemResponseCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return ItemResponseCodec.encode(this, output);
     }
 }

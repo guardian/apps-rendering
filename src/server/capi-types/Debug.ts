@@ -6,66 +6,54 @@
 */
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as CapiDateTime from "./CapiDateTime";
-import { Int64 } from "@creditkarma/thrift-server-core";
-export interface IDebugArgs {
-    lastSeenByPorterAt?: CapiDateTime.CapiDateTime;
-    revisionSeenByPorter?: number | Int64;
+export interface IDebug {
+    lastSeenByPorterAt?: CapiDateTime.ICapiDateTime;
+    revisionSeenByPorter?: thrift.Int64;
     contentSource?: string;
     originatingSystem?: string;
 }
-export class Debug {
-    public lastSeenByPorterAt?: CapiDateTime.CapiDateTime;
-    public revisionSeenByPorter?: Int64;
-    public contentSource?: string;
-    public originatingSystem?: string;
-    constructor(args?: IDebugArgs) {
-        if (args != null && args.lastSeenByPorterAt != null) {
-            this.lastSeenByPorterAt = args.lastSeenByPorterAt;
-        }
-        if (args != null && args.revisionSeenByPorter != null) {
-            if (typeof args.revisionSeenByPorter === "number") {
-                this.revisionSeenByPorter = new Int64(args.revisionSeenByPorter);
-            }
-            else {
-                this.revisionSeenByPorter = args.revisionSeenByPorter;
-            }
-        }
-        if (args != null && args.contentSource != null) {
-            this.contentSource = args.contentSource;
-        }
-        if (args != null && args.originatingSystem != null) {
-            this.originatingSystem = args.originatingSystem;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export interface IDebugArgs {
+    lastSeenByPorterAt?: CapiDateTime.ICapiDateTimeArgs;
+    revisionSeenByPorter?: number | string | thrift.Int64;
+    contentSource?: string;
+    originatingSystem?: string;
+}
+export const DebugCodec: thrift.IStructCodec<IDebugArgs, IDebug> = {
+    encode(args: IDebugArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            lastSeenByPorterAt: args.lastSeenByPorterAt,
+            revisionSeenByPorter: (typeof args.revisionSeenByPorter === "number" ? new thrift.Int64(args.revisionSeenByPorter) : typeof args.revisionSeenByPorter === "string" ? thrift.Int64.fromDecimalString(args.revisionSeenByPorter) : args.revisionSeenByPorter),
+            contentSource: args.contentSource,
+            originatingSystem: args.originatingSystem
+        };
         output.writeStructBegin("Debug");
-        if (this.lastSeenByPorterAt != null) {
+        if (obj.lastSeenByPorterAt != null) {
             output.writeFieldBegin("lastSeenByPorterAt", thrift.TType.STRUCT, 1);
-            this.lastSeenByPorterAt.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.lastSeenByPorterAt, output);
             output.writeFieldEnd();
         }
-        if (this.revisionSeenByPorter != null) {
+        if (obj.revisionSeenByPorter != null) {
             output.writeFieldBegin("revisionSeenByPorter", thrift.TType.I64, 2);
-            output.writeI64(this.revisionSeenByPorter);
+            output.writeI64((typeof obj.revisionSeenByPorter === "number" ? new thrift.Int64(obj.revisionSeenByPorter) : typeof obj.revisionSeenByPorter === "string" ? thrift.Int64.fromDecimalString(obj.revisionSeenByPorter) : obj.revisionSeenByPorter));
             output.writeFieldEnd();
         }
-        if (this.contentSource != null) {
+        if (obj.contentSource != null) {
             output.writeFieldBegin("contentSource", thrift.TType.STRING, 3);
-            output.writeString(this.contentSource);
+            output.writeString(obj.contentSource);
             output.writeFieldEnd();
         }
-        if (this.originatingSystem != null) {
+        if (obj.originatingSystem != null) {
             output.writeFieldBegin("originatingSystem", thrift.TType.STRING, 4);
-            output.writeString(this.originatingSystem);
+            output.writeString(obj.originatingSystem);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): Debug {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IDebug {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -76,7 +64,7 @@ export class Debug {
             switch (fieldId) {
                 case 1:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_1: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_1: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.lastSeenByPorterAt = value_1;
                     }
                     else {
@@ -85,7 +73,7 @@ export class Debug {
                     break;
                 case 2:
                     if (fieldType === thrift.TType.I64) {
-                        const value_2: Int64 = input.readI64();
+                        const value_2: thrift.Int64 = input.readI64();
                         _args.revisionSeenByPorter = value_2;
                     }
                     else {
@@ -117,6 +105,47 @@ export class Debug {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new Debug(_args);
+        return {
+            lastSeenByPorterAt: _args.lastSeenByPorterAt,
+            revisionSeenByPorter: _args.revisionSeenByPorter,
+            contentSource: _args.contentSource,
+            originatingSystem: _args.originatingSystem
+        };
+    }
+};
+export class Debug extends thrift.StructLike implements IDebug {
+    public lastSeenByPorterAt?: CapiDateTime.ICapiDateTime;
+    public revisionSeenByPorter?: thrift.Int64;
+    public contentSource?: string;
+    public originatingSystem?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IDebugArgs = {}) {
+        super();
+        if (args.lastSeenByPorterAt != null) {
+            const value_5: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.lastSeenByPorterAt);
+            this.lastSeenByPorterAt = value_5;
+        }
+        if (args.revisionSeenByPorter != null) {
+            const value_6: thrift.Int64 = (typeof args.revisionSeenByPorter === "number" ? new thrift.Int64(args.revisionSeenByPorter) : typeof args.revisionSeenByPorter === "string" ? thrift.Int64.fromDecimalString(args.revisionSeenByPorter) : args.revisionSeenByPorter);
+            this.revisionSeenByPorter = value_6;
+        }
+        if (args.contentSource != null) {
+            const value_7: string = args.contentSource;
+            this.contentSource = value_7;
+        }
+        if (args.originatingSystem != null) {
+            const value_8: string = args.originatingSystem;
+            this.originatingSystem = value_8;
+        }
+    }
+    public static read(input: thrift.TProtocol): Debug {
+        return new Debug(DebugCodec.decode(input));
+    }
+    public static write(args: IDebugArgs, output: thrift.TProtocol): void {
+        return DebugCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return DebugCodec.encode(this, output);
     }
 }

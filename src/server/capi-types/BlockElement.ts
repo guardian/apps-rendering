@@ -23,230 +23,192 @@ import * as InstagramElementFields from "./InstagramElementFields";
 import * as CommentElementFields from "./CommentElementFields";
 import * as VineElementFields from "./VineElementFields";
 import * as ContentAtomElementFields from "./ContentAtomElementFields";
+export interface IBlockElement {
+    type: ElementType.ElementType;
+    assets: Array<Asset.IAsset>;
+    textTypeData?: TextElementFields.ITextElementFields;
+    videoTypeData?: VideoElementFields.IVideoElementFields;
+    tweetTypeData?: TweetElementFields.ITweetElementFields;
+    imageTypeData?: ImageElementFields.IImageElementFields;
+    audioTypeData?: AudioElementFields.IAudioElementFields;
+    pullquoteTypeData?: PullquoteElementFields.IPullquoteElementFields;
+    interactiveTypeData?: InteractiveElementFields.IInteractiveElementFields;
+    mapTypeData?: StandardElementFields.IStandardElementFields;
+    documentTypeData?: StandardElementFields.IStandardElementFields;
+    tableTypeData?: StandardElementFields.IStandardElementFields;
+    witnessTypeData?: WitnessElementFields.IWitnessElementFields;
+    richLinkTypeData?: RichLinkElementFields.IRichLinkElementFields;
+    membershipTypeData?: MembershipElementFields.IMembershipElementFields;
+    embedTypeData?: EmbedElementFields.IEmbedElementFields;
+    instagramTypeData?: InstagramElementFields.IInstagramElementFields;
+    commentTypeData?: CommentElementFields.ICommentElementFields;
+    vineTypeData?: VineElementFields.IVineElementFields;
+    contentAtomTypeData?: ContentAtomElementFields.IContentAtomElementFields;
+}
 export interface IBlockElementArgs {
     type: ElementType.ElementType;
-    assets: Array<Asset.Asset>;
-    textTypeData?: TextElementFields.TextElementFields;
-    videoTypeData?: VideoElementFields.VideoElementFields;
-    tweetTypeData?: TweetElementFields.TweetElementFields;
-    imageTypeData?: ImageElementFields.ImageElementFields;
-    audioTypeData?: AudioElementFields.AudioElementFields;
-    pullquoteTypeData?: PullquoteElementFields.PullquoteElementFields;
-    interactiveTypeData?: InteractiveElementFields.InteractiveElementFields;
-    mapTypeData?: StandardElementFields.StandardElementFields;
-    documentTypeData?: StandardElementFields.StandardElementFields;
-    tableTypeData?: StandardElementFields.StandardElementFields;
-    witnessTypeData?: WitnessElementFields.WitnessElementFields;
-    richLinkTypeData?: RichLinkElementFields.RichLinkElementFields;
-    membershipTypeData?: MembershipElementFields.MembershipElementFields;
-    embedTypeData?: EmbedElementFields.EmbedElementFields;
-    instagramTypeData?: InstagramElementFields.InstagramElementFields;
-    commentTypeData?: CommentElementFields.CommentElementFields;
-    vineTypeData?: VineElementFields.VineElementFields;
-    contentAtomTypeData?: ContentAtomElementFields.ContentAtomElementFields;
+    assets: Array<Asset.IAssetArgs>;
+    textTypeData?: TextElementFields.ITextElementFieldsArgs;
+    videoTypeData?: VideoElementFields.IVideoElementFieldsArgs;
+    tweetTypeData?: TweetElementFields.ITweetElementFieldsArgs;
+    imageTypeData?: ImageElementFields.IImageElementFieldsArgs;
+    audioTypeData?: AudioElementFields.IAudioElementFieldsArgs;
+    pullquoteTypeData?: PullquoteElementFields.IPullquoteElementFieldsArgs;
+    interactiveTypeData?: InteractiveElementFields.IInteractiveElementFieldsArgs;
+    mapTypeData?: StandardElementFields.IStandardElementFieldsArgs;
+    documentTypeData?: StandardElementFields.IStandardElementFieldsArgs;
+    tableTypeData?: StandardElementFields.IStandardElementFieldsArgs;
+    witnessTypeData?: WitnessElementFields.IWitnessElementFieldsArgs;
+    richLinkTypeData?: RichLinkElementFields.IRichLinkElementFieldsArgs;
+    membershipTypeData?: MembershipElementFields.IMembershipElementFieldsArgs;
+    embedTypeData?: EmbedElementFields.IEmbedElementFieldsArgs;
+    instagramTypeData?: InstagramElementFields.IInstagramElementFieldsArgs;
+    commentTypeData?: CommentElementFields.ICommentElementFieldsArgs;
+    vineTypeData?: VineElementFields.IVineElementFieldsArgs;
+    contentAtomTypeData?: ContentAtomElementFields.IContentAtomElementFieldsArgs;
 }
-export class BlockElement {
-    public type: ElementType.ElementType;
-    public assets: Array<Asset.Asset>;
-    public textTypeData?: TextElementFields.TextElementFields;
-    public videoTypeData?: VideoElementFields.VideoElementFields;
-    public tweetTypeData?: TweetElementFields.TweetElementFields;
-    public imageTypeData?: ImageElementFields.ImageElementFields;
-    public audioTypeData?: AudioElementFields.AudioElementFields;
-    public pullquoteTypeData?: PullquoteElementFields.PullquoteElementFields;
-    public interactiveTypeData?: InteractiveElementFields.InteractiveElementFields;
-    public mapTypeData?: StandardElementFields.StandardElementFields;
-    public documentTypeData?: StandardElementFields.StandardElementFields;
-    public tableTypeData?: StandardElementFields.StandardElementFields;
-    public witnessTypeData?: WitnessElementFields.WitnessElementFields;
-    public richLinkTypeData?: RichLinkElementFields.RichLinkElementFields;
-    public membershipTypeData?: MembershipElementFields.MembershipElementFields;
-    public embedTypeData?: EmbedElementFields.EmbedElementFields;
-    public instagramTypeData?: InstagramElementFields.InstagramElementFields;
-    public commentTypeData?: CommentElementFields.CommentElementFields;
-    public vineTypeData?: VineElementFields.VineElementFields;
-    public contentAtomTypeData?: ContentAtomElementFields.ContentAtomElementFields;
-    constructor(args: IBlockElementArgs) {
-        if (args != null && args.type != null) {
-            this.type = args.type;
+export const BlockElementCodec: thrift.IStructCodec<IBlockElementArgs, IBlockElement> = {
+    encode(args: IBlockElementArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            type: args.type,
+            assets: args.assets,
+            textTypeData: args.textTypeData,
+            videoTypeData: args.videoTypeData,
+            tweetTypeData: args.tweetTypeData,
+            imageTypeData: args.imageTypeData,
+            audioTypeData: args.audioTypeData,
+            pullquoteTypeData: args.pullquoteTypeData,
+            interactiveTypeData: args.interactiveTypeData,
+            mapTypeData: args.mapTypeData,
+            documentTypeData: args.documentTypeData,
+            tableTypeData: args.tableTypeData,
+            witnessTypeData: args.witnessTypeData,
+            richLinkTypeData: args.richLinkTypeData,
+            membershipTypeData: args.membershipTypeData,
+            embedTypeData: args.embedTypeData,
+            instagramTypeData: args.instagramTypeData,
+            commentTypeData: args.commentTypeData,
+            vineTypeData: args.vineTypeData,
+            contentAtomTypeData: args.contentAtomTypeData
+        };
+        output.writeStructBegin("BlockElement");
+        if (obj.type != null) {
+            output.writeFieldBegin("type", thrift.TType.I32, 1);
+            output.writeI32(obj.type);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[type] is unset!");
         }
-        if (args != null && args.assets != null) {
-            this.assets = args.assets;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[assets] is unset!");
-        }
-        if (args != null && args.textTypeData != null) {
-            this.textTypeData = args.textTypeData;
-        }
-        if (args != null && args.videoTypeData != null) {
-            this.videoTypeData = args.videoTypeData;
-        }
-        if (args != null && args.tweetTypeData != null) {
-            this.tweetTypeData = args.tweetTypeData;
-        }
-        if (args != null && args.imageTypeData != null) {
-            this.imageTypeData = args.imageTypeData;
-        }
-        if (args != null && args.audioTypeData != null) {
-            this.audioTypeData = args.audioTypeData;
-        }
-        if (args != null && args.pullquoteTypeData != null) {
-            this.pullquoteTypeData = args.pullquoteTypeData;
-        }
-        if (args != null && args.interactiveTypeData != null) {
-            this.interactiveTypeData = args.interactiveTypeData;
-        }
-        if (args != null && args.mapTypeData != null) {
-            this.mapTypeData = args.mapTypeData;
-        }
-        if (args != null && args.documentTypeData != null) {
-            this.documentTypeData = args.documentTypeData;
-        }
-        if (args != null && args.tableTypeData != null) {
-            this.tableTypeData = args.tableTypeData;
-        }
-        if (args != null && args.witnessTypeData != null) {
-            this.witnessTypeData = args.witnessTypeData;
-        }
-        if (args != null && args.richLinkTypeData != null) {
-            this.richLinkTypeData = args.richLinkTypeData;
-        }
-        if (args != null && args.membershipTypeData != null) {
-            this.membershipTypeData = args.membershipTypeData;
-        }
-        if (args != null && args.embedTypeData != null) {
-            this.embedTypeData = args.embedTypeData;
-        }
-        if (args != null && args.instagramTypeData != null) {
-            this.instagramTypeData = args.instagramTypeData;
-        }
-        if (args != null && args.commentTypeData != null) {
-            this.commentTypeData = args.commentTypeData;
-        }
-        if (args != null && args.vineTypeData != null) {
-            this.vineTypeData = args.vineTypeData;
-        }
-        if (args != null && args.contentAtomTypeData != null) {
-            this.contentAtomTypeData = args.contentAtomTypeData;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("BlockElement");
-        if (this.type != null) {
-            output.writeFieldBegin("type", thrift.TType.I32, 1);
-            output.writeI32(this.type);
-            output.writeFieldEnd();
-        }
-        if (this.assets != null) {
+        if (obj.assets != null) {
             output.writeFieldBegin("assets", thrift.TType.LIST, 2);
-            output.writeListBegin(thrift.TType.STRUCT, this.assets.length);
-            this.assets.forEach((value_1: Asset.Asset): void => {
-                value_1.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.assets.length);
+            obj.assets.forEach((value_1: Asset.IAssetArgs): void => {
+                Asset.AssetCodec.encode(value_1, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.textTypeData != null) {
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[assets] is unset!");
+        }
+        if (obj.textTypeData != null) {
             output.writeFieldBegin("textTypeData", thrift.TType.STRUCT, 3);
-            this.textTypeData.write(output);
+            TextElementFields.TextElementFieldsCodec.encode(obj.textTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.videoTypeData != null) {
+        if (obj.videoTypeData != null) {
             output.writeFieldBegin("videoTypeData", thrift.TType.STRUCT, 4);
-            this.videoTypeData.write(output);
+            VideoElementFields.VideoElementFieldsCodec.encode(obj.videoTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.tweetTypeData != null) {
+        if (obj.tweetTypeData != null) {
             output.writeFieldBegin("tweetTypeData", thrift.TType.STRUCT, 5);
-            this.tweetTypeData.write(output);
+            TweetElementFields.TweetElementFieldsCodec.encode(obj.tweetTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.imageTypeData != null) {
+        if (obj.imageTypeData != null) {
             output.writeFieldBegin("imageTypeData", thrift.TType.STRUCT, 6);
-            this.imageTypeData.write(output);
+            ImageElementFields.ImageElementFieldsCodec.encode(obj.imageTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.audioTypeData != null) {
+        if (obj.audioTypeData != null) {
             output.writeFieldBegin("audioTypeData", thrift.TType.STRUCT, 7);
-            this.audioTypeData.write(output);
+            AudioElementFields.AudioElementFieldsCodec.encode(obj.audioTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.pullquoteTypeData != null) {
+        if (obj.pullquoteTypeData != null) {
             output.writeFieldBegin("pullquoteTypeData", thrift.TType.STRUCT, 8);
-            this.pullquoteTypeData.write(output);
+            PullquoteElementFields.PullquoteElementFieldsCodec.encode(obj.pullquoteTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.interactiveTypeData != null) {
+        if (obj.interactiveTypeData != null) {
             output.writeFieldBegin("interactiveTypeData", thrift.TType.STRUCT, 9);
-            this.interactiveTypeData.write(output);
+            InteractiveElementFields.InteractiveElementFieldsCodec.encode(obj.interactiveTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.mapTypeData != null) {
+        if (obj.mapTypeData != null) {
             output.writeFieldBegin("mapTypeData", thrift.TType.STRUCT, 10);
-            this.mapTypeData.write(output);
+            StandardElementFields.StandardElementFieldsCodec.encode(obj.mapTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.documentTypeData != null) {
+        if (obj.documentTypeData != null) {
             output.writeFieldBegin("documentTypeData", thrift.TType.STRUCT, 11);
-            this.documentTypeData.write(output);
+            StandardElementFields.StandardElementFieldsCodec.encode(obj.documentTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.tableTypeData != null) {
+        if (obj.tableTypeData != null) {
             output.writeFieldBegin("tableTypeData", thrift.TType.STRUCT, 12);
-            this.tableTypeData.write(output);
+            StandardElementFields.StandardElementFieldsCodec.encode(obj.tableTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.witnessTypeData != null) {
+        if (obj.witnessTypeData != null) {
             output.writeFieldBegin("witnessTypeData", thrift.TType.STRUCT, 13);
-            this.witnessTypeData.write(output);
+            WitnessElementFields.WitnessElementFieldsCodec.encode(obj.witnessTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.richLinkTypeData != null) {
+        if (obj.richLinkTypeData != null) {
             output.writeFieldBegin("richLinkTypeData", thrift.TType.STRUCT, 14);
-            this.richLinkTypeData.write(output);
+            RichLinkElementFields.RichLinkElementFieldsCodec.encode(obj.richLinkTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.membershipTypeData != null) {
+        if (obj.membershipTypeData != null) {
             output.writeFieldBegin("membershipTypeData", thrift.TType.STRUCT, 15);
-            this.membershipTypeData.write(output);
+            MembershipElementFields.MembershipElementFieldsCodec.encode(obj.membershipTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.embedTypeData != null) {
+        if (obj.embedTypeData != null) {
             output.writeFieldBegin("embedTypeData", thrift.TType.STRUCT, 16);
-            this.embedTypeData.write(output);
+            EmbedElementFields.EmbedElementFieldsCodec.encode(obj.embedTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.instagramTypeData != null) {
+        if (obj.instagramTypeData != null) {
             output.writeFieldBegin("instagramTypeData", thrift.TType.STRUCT, 17);
-            this.instagramTypeData.write(output);
+            InstagramElementFields.InstagramElementFieldsCodec.encode(obj.instagramTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.commentTypeData != null) {
+        if (obj.commentTypeData != null) {
             output.writeFieldBegin("commentTypeData", thrift.TType.STRUCT, 18);
-            this.commentTypeData.write(output);
+            CommentElementFields.CommentElementFieldsCodec.encode(obj.commentTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.vineTypeData != null) {
+        if (obj.vineTypeData != null) {
             output.writeFieldBegin("vineTypeData", thrift.TType.STRUCT, 19);
-            this.vineTypeData.write(output);
+            VineElementFields.VineElementFieldsCodec.encode(obj.vineTypeData, output);
             output.writeFieldEnd();
         }
-        if (this.contentAtomTypeData != null) {
+        if (obj.contentAtomTypeData != null) {
             output.writeFieldBegin("contentAtomTypeData", thrift.TType.STRUCT, 20);
-            this.contentAtomTypeData.write(output);
+            ContentAtomElementFields.ContentAtomElementFieldsCodec.encode(obj.contentAtomTypeData, output);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): BlockElement {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IBlockElement {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -266,11 +228,11 @@ export class BlockElement {
                     break;
                 case 2:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_3: Array<Asset.Asset> = new Array<Asset.Asset>();
+                        const value_3: Array<Asset.IAsset> = new Array<Asset.IAsset>();
                         const metadata_1: thrift.IThriftList = input.readListBegin();
                         const size_1: number = metadata_1.size;
                         for (let i_1: number = 0; i_1 < size_1; i_1++) {
-                            const value_4: Asset.Asset = Asset.Asset.read(input);
+                            const value_4: Asset.IAsset = Asset.AssetCodec.decode(input);
                             value_3.push(value_4);
                         }
                         input.readListEnd();
@@ -282,7 +244,7 @@ export class BlockElement {
                     break;
                 case 3:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_5: TextElementFields.TextElementFields = TextElementFields.TextElementFields.read(input);
+                        const value_5: TextElementFields.ITextElementFields = TextElementFields.TextElementFieldsCodec.decode(input);
                         _args.textTypeData = value_5;
                     }
                     else {
@@ -291,7 +253,7 @@ export class BlockElement {
                     break;
                 case 4:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_6: VideoElementFields.VideoElementFields = VideoElementFields.VideoElementFields.read(input);
+                        const value_6: VideoElementFields.IVideoElementFields = VideoElementFields.VideoElementFieldsCodec.decode(input);
                         _args.videoTypeData = value_6;
                     }
                     else {
@@ -300,7 +262,7 @@ export class BlockElement {
                     break;
                 case 5:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_7: TweetElementFields.TweetElementFields = TweetElementFields.TweetElementFields.read(input);
+                        const value_7: TweetElementFields.ITweetElementFields = TweetElementFields.TweetElementFieldsCodec.decode(input);
                         _args.tweetTypeData = value_7;
                     }
                     else {
@@ -309,7 +271,7 @@ export class BlockElement {
                     break;
                 case 6:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_8: ImageElementFields.ImageElementFields = ImageElementFields.ImageElementFields.read(input);
+                        const value_8: ImageElementFields.IImageElementFields = ImageElementFields.ImageElementFieldsCodec.decode(input);
                         _args.imageTypeData = value_8;
                     }
                     else {
@@ -318,7 +280,7 @@ export class BlockElement {
                     break;
                 case 7:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_9: AudioElementFields.AudioElementFields = AudioElementFields.AudioElementFields.read(input);
+                        const value_9: AudioElementFields.IAudioElementFields = AudioElementFields.AudioElementFieldsCodec.decode(input);
                         _args.audioTypeData = value_9;
                     }
                     else {
@@ -327,7 +289,7 @@ export class BlockElement {
                     break;
                 case 8:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_10: PullquoteElementFields.PullquoteElementFields = PullquoteElementFields.PullquoteElementFields.read(input);
+                        const value_10: PullquoteElementFields.IPullquoteElementFields = PullquoteElementFields.PullquoteElementFieldsCodec.decode(input);
                         _args.pullquoteTypeData = value_10;
                     }
                     else {
@@ -336,7 +298,7 @@ export class BlockElement {
                     break;
                 case 9:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_11: InteractiveElementFields.InteractiveElementFields = InteractiveElementFields.InteractiveElementFields.read(input);
+                        const value_11: InteractiveElementFields.IInteractiveElementFields = InteractiveElementFields.InteractiveElementFieldsCodec.decode(input);
                         _args.interactiveTypeData = value_11;
                     }
                     else {
@@ -345,7 +307,7 @@ export class BlockElement {
                     break;
                 case 10:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_12: StandardElementFields.StandardElementFields = StandardElementFields.StandardElementFields.read(input);
+                        const value_12: StandardElementFields.IStandardElementFields = StandardElementFields.StandardElementFieldsCodec.decode(input);
                         _args.mapTypeData = value_12;
                     }
                     else {
@@ -354,7 +316,7 @@ export class BlockElement {
                     break;
                 case 11:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_13: StandardElementFields.StandardElementFields = StandardElementFields.StandardElementFields.read(input);
+                        const value_13: StandardElementFields.IStandardElementFields = StandardElementFields.StandardElementFieldsCodec.decode(input);
                         _args.documentTypeData = value_13;
                     }
                     else {
@@ -363,7 +325,7 @@ export class BlockElement {
                     break;
                 case 12:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_14: StandardElementFields.StandardElementFields = StandardElementFields.StandardElementFields.read(input);
+                        const value_14: StandardElementFields.IStandardElementFields = StandardElementFields.StandardElementFieldsCodec.decode(input);
                         _args.tableTypeData = value_14;
                     }
                     else {
@@ -372,7 +334,7 @@ export class BlockElement {
                     break;
                 case 13:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_15: WitnessElementFields.WitnessElementFields = WitnessElementFields.WitnessElementFields.read(input);
+                        const value_15: WitnessElementFields.IWitnessElementFields = WitnessElementFields.WitnessElementFieldsCodec.decode(input);
                         _args.witnessTypeData = value_15;
                     }
                     else {
@@ -381,7 +343,7 @@ export class BlockElement {
                     break;
                 case 14:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_16: RichLinkElementFields.RichLinkElementFields = RichLinkElementFields.RichLinkElementFields.read(input);
+                        const value_16: RichLinkElementFields.IRichLinkElementFields = RichLinkElementFields.RichLinkElementFieldsCodec.decode(input);
                         _args.richLinkTypeData = value_16;
                     }
                     else {
@@ -390,7 +352,7 @@ export class BlockElement {
                     break;
                 case 15:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_17: MembershipElementFields.MembershipElementFields = MembershipElementFields.MembershipElementFields.read(input);
+                        const value_17: MembershipElementFields.IMembershipElementFields = MembershipElementFields.MembershipElementFieldsCodec.decode(input);
                         _args.membershipTypeData = value_17;
                     }
                     else {
@@ -399,7 +361,7 @@ export class BlockElement {
                     break;
                 case 16:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_18: EmbedElementFields.EmbedElementFields = EmbedElementFields.EmbedElementFields.read(input);
+                        const value_18: EmbedElementFields.IEmbedElementFields = EmbedElementFields.EmbedElementFieldsCodec.decode(input);
                         _args.embedTypeData = value_18;
                     }
                     else {
@@ -408,7 +370,7 @@ export class BlockElement {
                     break;
                 case 17:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_19: InstagramElementFields.InstagramElementFields = InstagramElementFields.InstagramElementFields.read(input);
+                        const value_19: InstagramElementFields.IInstagramElementFields = InstagramElementFields.InstagramElementFieldsCodec.decode(input);
                         _args.instagramTypeData = value_19;
                     }
                     else {
@@ -417,7 +379,7 @@ export class BlockElement {
                     break;
                 case 18:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_20: CommentElementFields.CommentElementFields = CommentElementFields.CommentElementFields.read(input);
+                        const value_20: CommentElementFields.ICommentElementFields = CommentElementFields.CommentElementFieldsCodec.decode(input);
                         _args.commentTypeData = value_20;
                     }
                     else {
@@ -426,7 +388,7 @@ export class BlockElement {
                     break;
                 case 19:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_21: VineElementFields.VineElementFields = VineElementFields.VineElementFields.read(input);
+                        const value_21: VineElementFields.IVineElementFields = VineElementFields.VineElementFieldsCodec.decode(input);
                         _args.vineTypeData = value_21;
                     }
                     else {
@@ -435,7 +397,7 @@ export class BlockElement {
                     break;
                 case 20:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_22: ContentAtomElementFields.ContentAtomElementFields = ContentAtomElementFields.ContentAtomElementFields.read(input);
+                        const value_22: ContentAtomElementFields.IContentAtomElementFields = ContentAtomElementFields.ContentAtomElementFieldsCodec.decode(input);
                         _args.contentAtomTypeData = value_22;
                     }
                     else {
@@ -450,10 +412,157 @@ export class BlockElement {
         }
         input.readStructEnd();
         if (_args.type !== undefined && _args.assets !== undefined) {
-            return new BlockElement(_args);
+            return {
+                type: _args.type,
+                assets: _args.assets,
+                textTypeData: _args.textTypeData,
+                videoTypeData: _args.videoTypeData,
+                tweetTypeData: _args.tweetTypeData,
+                imageTypeData: _args.imageTypeData,
+                audioTypeData: _args.audioTypeData,
+                pullquoteTypeData: _args.pullquoteTypeData,
+                interactiveTypeData: _args.interactiveTypeData,
+                mapTypeData: _args.mapTypeData,
+                documentTypeData: _args.documentTypeData,
+                tableTypeData: _args.tableTypeData,
+                witnessTypeData: _args.witnessTypeData,
+                richLinkTypeData: _args.richLinkTypeData,
+                membershipTypeData: _args.membershipTypeData,
+                embedTypeData: _args.embedTypeData,
+                instagramTypeData: _args.instagramTypeData,
+                commentTypeData: _args.commentTypeData,
+                vineTypeData: _args.vineTypeData,
+                contentAtomTypeData: _args.contentAtomTypeData
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read BlockElement from input");
         }
+    }
+};
+export class BlockElement extends thrift.StructLike implements IBlockElement {
+    public type: ElementType.ElementType;
+    public assets: Array<Asset.IAsset>;
+    public textTypeData?: TextElementFields.ITextElementFields;
+    public videoTypeData?: VideoElementFields.IVideoElementFields;
+    public tweetTypeData?: TweetElementFields.ITweetElementFields;
+    public imageTypeData?: ImageElementFields.IImageElementFields;
+    public audioTypeData?: AudioElementFields.IAudioElementFields;
+    public pullquoteTypeData?: PullquoteElementFields.IPullquoteElementFields;
+    public interactiveTypeData?: InteractiveElementFields.IInteractiveElementFields;
+    public mapTypeData?: StandardElementFields.IStandardElementFields;
+    public documentTypeData?: StandardElementFields.IStandardElementFields;
+    public tableTypeData?: StandardElementFields.IStandardElementFields;
+    public witnessTypeData?: WitnessElementFields.IWitnessElementFields;
+    public richLinkTypeData?: RichLinkElementFields.IRichLinkElementFields;
+    public membershipTypeData?: MembershipElementFields.IMembershipElementFields;
+    public embedTypeData?: EmbedElementFields.IEmbedElementFields;
+    public instagramTypeData?: InstagramElementFields.IInstagramElementFields;
+    public commentTypeData?: CommentElementFields.ICommentElementFields;
+    public vineTypeData?: VineElementFields.IVineElementFields;
+    public contentAtomTypeData?: ContentAtomElementFields.IContentAtomElementFields;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IBlockElementArgs) {
+        super();
+        if (args.type != null) {
+            const value_23: ElementType.ElementType = args.type;
+            this.type = value_23;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[type] is unset!");
+        }
+        if (args.assets != null) {
+            const value_24: Array<Asset.IAsset> = new Array<Asset.IAsset>();
+            args.assets.forEach((value_43: Asset.IAssetArgs): void => {
+                const value_44: Asset.IAsset = new Asset.Asset(value_43);
+                value_24.push(value_44);
+            });
+            this.assets = value_24;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[assets] is unset!");
+        }
+        if (args.textTypeData != null) {
+            const value_25: TextElementFields.ITextElementFields = new TextElementFields.TextElementFields(args.textTypeData);
+            this.textTypeData = value_25;
+        }
+        if (args.videoTypeData != null) {
+            const value_26: VideoElementFields.IVideoElementFields = new VideoElementFields.VideoElementFields(args.videoTypeData);
+            this.videoTypeData = value_26;
+        }
+        if (args.tweetTypeData != null) {
+            const value_27: TweetElementFields.ITweetElementFields = new TweetElementFields.TweetElementFields(args.tweetTypeData);
+            this.tweetTypeData = value_27;
+        }
+        if (args.imageTypeData != null) {
+            const value_28: ImageElementFields.IImageElementFields = new ImageElementFields.ImageElementFields(args.imageTypeData);
+            this.imageTypeData = value_28;
+        }
+        if (args.audioTypeData != null) {
+            const value_29: AudioElementFields.IAudioElementFields = new AudioElementFields.AudioElementFields(args.audioTypeData);
+            this.audioTypeData = value_29;
+        }
+        if (args.pullquoteTypeData != null) {
+            const value_30: PullquoteElementFields.IPullquoteElementFields = new PullquoteElementFields.PullquoteElementFields(args.pullquoteTypeData);
+            this.pullquoteTypeData = value_30;
+        }
+        if (args.interactiveTypeData != null) {
+            const value_31: InteractiveElementFields.IInteractiveElementFields = new InteractiveElementFields.InteractiveElementFields(args.interactiveTypeData);
+            this.interactiveTypeData = value_31;
+        }
+        if (args.mapTypeData != null) {
+            const value_32: StandardElementFields.IStandardElementFields = new StandardElementFields.StandardElementFields(args.mapTypeData);
+            this.mapTypeData = value_32;
+        }
+        if (args.documentTypeData != null) {
+            const value_33: StandardElementFields.IStandardElementFields = new StandardElementFields.StandardElementFields(args.documentTypeData);
+            this.documentTypeData = value_33;
+        }
+        if (args.tableTypeData != null) {
+            const value_34: StandardElementFields.IStandardElementFields = new StandardElementFields.StandardElementFields(args.tableTypeData);
+            this.tableTypeData = value_34;
+        }
+        if (args.witnessTypeData != null) {
+            const value_35: WitnessElementFields.IWitnessElementFields = new WitnessElementFields.WitnessElementFields(args.witnessTypeData);
+            this.witnessTypeData = value_35;
+        }
+        if (args.richLinkTypeData != null) {
+            const value_36: RichLinkElementFields.IRichLinkElementFields = new RichLinkElementFields.RichLinkElementFields(args.richLinkTypeData);
+            this.richLinkTypeData = value_36;
+        }
+        if (args.membershipTypeData != null) {
+            const value_37: MembershipElementFields.IMembershipElementFields = new MembershipElementFields.MembershipElementFields(args.membershipTypeData);
+            this.membershipTypeData = value_37;
+        }
+        if (args.embedTypeData != null) {
+            const value_38: EmbedElementFields.IEmbedElementFields = new EmbedElementFields.EmbedElementFields(args.embedTypeData);
+            this.embedTypeData = value_38;
+        }
+        if (args.instagramTypeData != null) {
+            const value_39: InstagramElementFields.IInstagramElementFields = new InstagramElementFields.InstagramElementFields(args.instagramTypeData);
+            this.instagramTypeData = value_39;
+        }
+        if (args.commentTypeData != null) {
+            const value_40: CommentElementFields.ICommentElementFields = new CommentElementFields.CommentElementFields(args.commentTypeData);
+            this.commentTypeData = value_40;
+        }
+        if (args.vineTypeData != null) {
+            const value_41: VineElementFields.IVineElementFields = new VineElementFields.VineElementFields(args.vineTypeData);
+            this.vineTypeData = value_41;
+        }
+        if (args.contentAtomTypeData != null) {
+            const value_42: ContentAtomElementFields.IContentAtomElementFields = new ContentAtomElementFields.ContentAtomElementFields(args.contentAtomTypeData);
+            this.contentAtomTypeData = value_42;
+        }
+    }
+    public static read(input: thrift.TProtocol): BlockElement {
+        return new BlockElement(BlockElementCodec.decode(input));
+    }
+    public static write(args: IBlockElementArgs, output: thrift.TProtocol): void {
+        return BlockElementCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return BlockElementCodec.encode(this, output);
     }
 }

@@ -6,6 +6,17 @@
 */
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as Package from "./Package";
+export interface IPackagesResponse {
+    status: string;
+    userTier: string;
+    total: number;
+    startIndex: number;
+    pageSize: number;
+    currentPage: number;
+    pages: number;
+    orderBy: string;
+    results: Array<Package.IPackage>;
+}
 export interface IPackagesResponseArgs {
     status: string;
     userTier: string;
@@ -15,132 +26,105 @@ export interface IPackagesResponseArgs {
     currentPage: number;
     pages: number;
     orderBy: string;
-    results: Array<Package.Package>;
+    results: Array<Package.IPackageArgs>;
 }
-export class PackagesResponse {
-    public status: string;
-    public userTier: string;
-    public total: number;
-    public startIndex: number;
-    public pageSize: number;
-    public currentPage: number;
-    public pages: number;
-    public orderBy: string;
-    public results: Array<Package.Package>;
-    constructor(args: IPackagesResponseArgs) {
-        if (args != null && args.status != null) {
-            this.status = args.status;
+export const PackagesResponseCodec: thrift.IStructCodec<IPackagesResponseArgs, IPackagesResponse> = {
+    encode(args: IPackagesResponseArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            status: args.status,
+            userTier: args.userTier,
+            total: args.total,
+            startIndex: args.startIndex,
+            pageSize: args.pageSize,
+            currentPage: args.currentPage,
+            pages: args.pages,
+            orderBy: args.orderBy,
+            results: args.results
+        };
+        output.writeStructBegin("PackagesResponse");
+        if (obj.status != null) {
+            output.writeFieldBegin("status", thrift.TType.STRING, 1);
+            output.writeString(obj.status);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
         }
-        if (args != null && args.userTier != null) {
-            this.userTier = args.userTier;
+        if (obj.userTier != null) {
+            output.writeFieldBegin("userTier", thrift.TType.STRING, 2);
+            output.writeString(obj.userTier);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[userTier] is unset!");
         }
-        if (args != null && args.total != null) {
-            this.total = args.total;
+        if (obj.total != null) {
+            output.writeFieldBegin("total", thrift.TType.I32, 3);
+            output.writeI32(obj.total);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[total] is unset!");
         }
-        if (args != null && args.startIndex != null) {
-            this.startIndex = args.startIndex;
+        if (obj.startIndex != null) {
+            output.writeFieldBegin("startIndex", thrift.TType.I32, 4);
+            output.writeI32(obj.startIndex);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[startIndex] is unset!");
         }
-        if (args != null && args.pageSize != null) {
-            this.pageSize = args.pageSize;
+        if (obj.pageSize != null) {
+            output.writeFieldBegin("pageSize", thrift.TType.I32, 5);
+            output.writeI32(obj.pageSize);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[pageSize] is unset!");
         }
-        if (args != null && args.currentPage != null) {
-            this.currentPage = args.currentPage;
+        if (obj.currentPage != null) {
+            output.writeFieldBegin("currentPage", thrift.TType.I32, 6);
+            output.writeI32(obj.currentPage);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[currentPage] is unset!");
         }
-        if (args != null && args.pages != null) {
-            this.pages = args.pages;
+        if (obj.pages != null) {
+            output.writeFieldBegin("pages", thrift.TType.I32, 7);
+            output.writeI32(obj.pages);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[pages] is unset!");
         }
-        if (args != null && args.orderBy != null) {
-            this.orderBy = args.orderBy;
+        if (obj.orderBy != null) {
+            output.writeFieldBegin("orderBy", thrift.TType.STRING, 8);
+            output.writeString(obj.orderBy);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[orderBy] is unset!");
         }
-        if (args != null && args.results != null) {
-            this.results = args.results;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("PackagesResponse");
-        if (this.status != null) {
-            output.writeFieldBegin("status", thrift.TType.STRING, 1);
-            output.writeString(this.status);
-            output.writeFieldEnd();
-        }
-        if (this.userTier != null) {
-            output.writeFieldBegin("userTier", thrift.TType.STRING, 2);
-            output.writeString(this.userTier);
-            output.writeFieldEnd();
-        }
-        if (this.total != null) {
-            output.writeFieldBegin("total", thrift.TType.I32, 3);
-            output.writeI32(this.total);
-            output.writeFieldEnd();
-        }
-        if (this.startIndex != null) {
-            output.writeFieldBegin("startIndex", thrift.TType.I32, 4);
-            output.writeI32(this.startIndex);
-            output.writeFieldEnd();
-        }
-        if (this.pageSize != null) {
-            output.writeFieldBegin("pageSize", thrift.TType.I32, 5);
-            output.writeI32(this.pageSize);
-            output.writeFieldEnd();
-        }
-        if (this.currentPage != null) {
-            output.writeFieldBegin("currentPage", thrift.TType.I32, 6);
-            output.writeI32(this.currentPage);
-            output.writeFieldEnd();
-        }
-        if (this.pages != null) {
-            output.writeFieldBegin("pages", thrift.TType.I32, 7);
-            output.writeI32(this.pages);
-            output.writeFieldEnd();
-        }
-        if (this.orderBy != null) {
-            output.writeFieldBegin("orderBy", thrift.TType.STRING, 8);
-            output.writeString(this.orderBy);
-            output.writeFieldEnd();
-        }
-        if (this.results != null) {
+        if (obj.results != null) {
             output.writeFieldBegin("results", thrift.TType.LIST, 9);
-            output.writeListBegin(thrift.TType.STRUCT, this.results.length);
-            this.results.forEach((value_1: Package.Package): void => {
-                value_1.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.results.length);
+            obj.results.forEach((value_1: Package.IPackageArgs): void => {
+                Package.PackageCodec.encode(value_1, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
+        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): PackagesResponse {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IPackagesResponse {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -223,11 +207,11 @@ export class PackagesResponse {
                     break;
                 case 9:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_10: Array<Package.Package> = new Array<Package.Package>();
+                        const value_10: Array<Package.IPackage> = new Array<Package.IPackage>();
                         const metadata_1: thrift.IThriftList = input.readListBegin();
                         const size_1: number = metadata_1.size;
                         for (let i_1: number = 0; i_1 < size_1; i_1++) {
-                            const value_11: Package.Package = Package.Package.read(input);
+                            const value_11: Package.IPackage = Package.PackageCodec.decode(input);
                             value_10.push(value_11);
                         }
                         input.readListEnd();
@@ -245,10 +229,112 @@ export class PackagesResponse {
         }
         input.readStructEnd();
         if (_args.status !== undefined && _args.userTier !== undefined && _args.total !== undefined && _args.startIndex !== undefined && _args.pageSize !== undefined && _args.currentPage !== undefined && _args.pages !== undefined && _args.orderBy !== undefined && _args.results !== undefined) {
-            return new PackagesResponse(_args);
+            return {
+                status: _args.status,
+                userTier: _args.userTier,
+                total: _args.total,
+                startIndex: _args.startIndex,
+                pageSize: _args.pageSize,
+                currentPage: _args.currentPage,
+                pages: _args.pages,
+                orderBy: _args.orderBy,
+                results: _args.results
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read PackagesResponse from input");
         }
+    }
+};
+export class PackagesResponse extends thrift.StructLike implements IPackagesResponse {
+    public status: string;
+    public userTier: string;
+    public total: number;
+    public startIndex: number;
+    public pageSize: number;
+    public currentPage: number;
+    public pages: number;
+    public orderBy: string;
+    public results: Array<Package.IPackage>;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IPackagesResponseArgs) {
+        super();
+        if (args.status != null) {
+            const value_12: string = args.status;
+            this.status = value_12;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
+        }
+        if (args.userTier != null) {
+            const value_13: string = args.userTier;
+            this.userTier = value_13;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[userTier] is unset!");
+        }
+        if (args.total != null) {
+            const value_14: number = args.total;
+            this.total = value_14;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[total] is unset!");
+        }
+        if (args.startIndex != null) {
+            const value_15: number = args.startIndex;
+            this.startIndex = value_15;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[startIndex] is unset!");
+        }
+        if (args.pageSize != null) {
+            const value_16: number = args.pageSize;
+            this.pageSize = value_16;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[pageSize] is unset!");
+        }
+        if (args.currentPage != null) {
+            const value_17: number = args.currentPage;
+            this.currentPage = value_17;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[currentPage] is unset!");
+        }
+        if (args.pages != null) {
+            const value_18: number = args.pages;
+            this.pages = value_18;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[pages] is unset!");
+        }
+        if (args.orderBy != null) {
+            const value_19: string = args.orderBy;
+            this.orderBy = value_19;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[orderBy] is unset!");
+        }
+        if (args.results != null) {
+            const value_20: Array<Package.IPackage> = new Array<Package.IPackage>();
+            args.results.forEach((value_21: Package.IPackageArgs): void => {
+                const value_22: Package.IPackage = new Package.Package(value_21);
+                value_20.push(value_22);
+            });
+            this.results = value_20;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): PackagesResponse {
+        return new PackagesResponse(PackagesResponseCodec.decode(input));
+    }
+    public static write(args: IPackagesResponseArgs, output: thrift.TProtocol): void {
+        return PackagesResponseCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return PackagesResponseCodec.encode(this, output);
     }
 }

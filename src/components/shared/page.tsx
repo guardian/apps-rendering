@@ -16,7 +16,7 @@ import { JSDOM } from 'jsdom';
 import { partition } from 'types/result';
 import { insertAdPlaceholders } from 'ads';
 import { fromCapi, Layout } from 'article';
-import { Content as c } from '../../server/capi-types/Content';
+import { Content } from '../../server/capi-types/Content';
 
 // ----- Components ----- //
 
@@ -78,7 +78,7 @@ const PageStyles = css`
 
 interface BodyProps {
     imageSalt: string;
-    capi: c;
+    capi: Content;
 }
 
 const WithScript = (props: { src: string; children: ReactNode }): ReactElement =>
@@ -134,7 +134,7 @@ function ArticleBody({ capi, imageSalt }: BodyProps): React.ReactElement {
 }
 
 interface Props {
-    content: c;
+    content: Content;
     imageSalt: string;
 }
 

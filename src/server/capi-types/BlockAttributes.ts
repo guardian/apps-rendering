@@ -6,70 +6,62 @@
 */
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as MembershipPlaceholder from "./MembershipPlaceholder";
+export interface IBlockAttributes {
+    keyEvent?: boolean;
+    summary?: boolean;
+    title?: string;
+    pinned?: boolean;
+    membershipPlaceholder?: MembershipPlaceholder.IMembershipPlaceholder;
+}
 export interface IBlockAttributesArgs {
     keyEvent?: boolean;
     summary?: boolean;
     title?: string;
     pinned?: boolean;
-    membershipPlaceholder?: MembershipPlaceholder.MembershipPlaceholder;
+    membershipPlaceholder?: MembershipPlaceholder.IMembershipPlaceholderArgs;
 }
-export class BlockAttributes {
-    public keyEvent?: boolean;
-    public summary?: boolean;
-    public title?: string;
-    public pinned?: boolean;
-    public membershipPlaceholder?: MembershipPlaceholder.MembershipPlaceholder;
-    constructor(args?: IBlockAttributesArgs) {
-        if (args != null && args.keyEvent != null) {
-            this.keyEvent = args.keyEvent;
-        }
-        if (args != null && args.summary != null) {
-            this.summary = args.summary;
-        }
-        if (args != null && args.title != null) {
-            this.title = args.title;
-        }
-        if (args != null && args.pinned != null) {
-            this.pinned = args.pinned;
-        }
-        if (args != null && args.membershipPlaceholder != null) {
-            this.membershipPlaceholder = args.membershipPlaceholder;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const BlockAttributesCodec: thrift.IStructCodec<IBlockAttributesArgs, IBlockAttributes> = {
+    encode(args: IBlockAttributesArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            keyEvent: args.keyEvent,
+            summary: args.summary,
+            title: args.title,
+            pinned: args.pinned,
+            membershipPlaceholder: args.membershipPlaceholder
+        };
         output.writeStructBegin("BlockAttributes");
-        if (this.keyEvent != null) {
+        if (obj.keyEvent != null) {
             output.writeFieldBegin("keyEvent", thrift.TType.BOOL, 1);
-            output.writeBool(this.keyEvent);
+            output.writeBool(obj.keyEvent);
             output.writeFieldEnd();
         }
-        if (this.summary != null) {
+        if (obj.summary != null) {
             output.writeFieldBegin("summary", thrift.TType.BOOL, 2);
-            output.writeBool(this.summary);
+            output.writeBool(obj.summary);
             output.writeFieldEnd();
         }
-        if (this.title != null) {
+        if (obj.title != null) {
             output.writeFieldBegin("title", thrift.TType.STRING, 3);
-            output.writeString(this.title);
+            output.writeString(obj.title);
             output.writeFieldEnd();
         }
-        if (this.pinned != null) {
+        if (obj.pinned != null) {
             output.writeFieldBegin("pinned", thrift.TType.BOOL, 4);
-            output.writeBool(this.pinned);
+            output.writeBool(obj.pinned);
             output.writeFieldEnd();
         }
-        if (this.membershipPlaceholder != null) {
+        if (obj.membershipPlaceholder != null) {
             output.writeFieldBegin("membershipPlaceholder", thrift.TType.STRUCT, 5);
-            this.membershipPlaceholder.write(output);
+            MembershipPlaceholder.MembershipPlaceholderCodec.encode(obj.membershipPlaceholder, output);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): BlockAttributes {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IBlockAttributes {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -116,7 +108,7 @@ export class BlockAttributes {
                     break;
                 case 5:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_5: MembershipPlaceholder.MembershipPlaceholder = MembershipPlaceholder.MembershipPlaceholder.read(input);
+                        const value_5: MembershipPlaceholder.IMembershipPlaceholder = MembershipPlaceholder.MembershipPlaceholderCodec.decode(input);
                         _args.membershipPlaceholder = value_5;
                     }
                     else {
@@ -130,6 +122,53 @@ export class BlockAttributes {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new BlockAttributes(_args);
+        return {
+            keyEvent: _args.keyEvent,
+            summary: _args.summary,
+            title: _args.title,
+            pinned: _args.pinned,
+            membershipPlaceholder: _args.membershipPlaceholder
+        };
+    }
+};
+export class BlockAttributes extends thrift.StructLike implements IBlockAttributes {
+    public keyEvent?: boolean;
+    public summary?: boolean;
+    public title?: string;
+    public pinned?: boolean;
+    public membershipPlaceholder?: MembershipPlaceholder.IMembershipPlaceholder;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IBlockAttributesArgs = {}) {
+        super();
+        if (args.keyEvent != null) {
+            const value_6: boolean = args.keyEvent;
+            this.keyEvent = value_6;
+        }
+        if (args.summary != null) {
+            const value_7: boolean = args.summary;
+            this.summary = value_7;
+        }
+        if (args.title != null) {
+            const value_8: string = args.title;
+            this.title = value_8;
+        }
+        if (args.pinned != null) {
+            const value_9: boolean = args.pinned;
+            this.pinned = value_9;
+        }
+        if (args.membershipPlaceholder != null) {
+            const value_10: MembershipPlaceholder.IMembershipPlaceholder = new MembershipPlaceholder.MembershipPlaceholder(args.membershipPlaceholder);
+            this.membershipPlaceholder = value_10;
+        }
+    }
+    public static read(input: thrift.TProtocol): BlockAttributes {
+        return new BlockAttributes(BlockAttributesCodec.decode(input));
+    }
+    public static write(args: IBlockAttributesArgs, output: thrift.TProtocol): void {
+        return BlockAttributesCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return BlockAttributesCodec.encode(this, output);
     }
 }

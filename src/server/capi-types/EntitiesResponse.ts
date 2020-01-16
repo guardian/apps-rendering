@@ -5,46 +5,60 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+import * as Entity from "./Entity";
+export interface IEntitiesResponse {
+    status: string;
+    total: number;
+    results: Array<Entity.IEntity>;
+}
 export interface IEntitiesResponseArgs {
     status: string;
     total: number;
+    results: Array<Entity.IEntityArgs>;
 }
-export class EntitiesResponse {
-    public status: string;
-    public total: number;
-    constructor(args: IEntitiesResponseArgs) {
-        if (args != null && args.status != null) {
-            this.status = args.status;
+export const EntitiesResponseCodec: thrift.IStructCodec<IEntitiesResponseArgs, IEntitiesResponse> = {
+    encode(args: IEntitiesResponseArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            status: args.status,
+            total: args.total,
+            results: args.results
+        };
+        output.writeStructBegin("EntitiesResponse");
+        if (obj.status != null) {
+            output.writeFieldBegin("status", thrift.TType.STRING, 1);
+            output.writeString(obj.status);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
         }
-        if (args != null && args.total != null) {
-            this.total = args.total;
+        if (obj.total != null) {
+            output.writeFieldBegin("total", thrift.TType.I32, 2);
+            output.writeI32(obj.total);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[total] is unset!");
         }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("EntitiesResponse");
-        if (this.status != null) {
-            output.writeFieldBegin("status", thrift.TType.STRING, 1);
-            output.writeString(this.status);
+        if (obj.results != null) {
+            output.writeFieldBegin("results", thrift.TType.LIST, 3);
+            output.writeListBegin(thrift.TType.STRUCT, obj.results.length);
+            obj.results.forEach((value_1: Entity.IEntityArgs): void => {
+                Entity.EntityCodec.encode(value_1, output);
+            });
+            output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.total != null) {
-            output.writeFieldBegin("total", thrift.TType.I32, 2);
-            output.writeI32(this.total);
-            output.writeFieldEnd();
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): EntitiesResponse {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IEntitiesResponse {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -55,8 +69,8 @@ export class EntitiesResponse {
             switch (fieldId) {
                 case 1:
                     if (fieldType === thrift.TType.STRING) {
-                        const value_1: string = input.readString();
-                        _args.status = value_1;
+                        const value_2: string = input.readString();
+                        _args.status = value_2;
                     }
                     else {
                         input.skip(fieldType);
@@ -64,8 +78,24 @@ export class EntitiesResponse {
                     break;
                 case 2:
                     if (fieldType === thrift.TType.I32) {
-                        const value_2: number = input.readI32();
-                        _args.total = value_2;
+                        const value_3: number = input.readI32();
+                        _args.total = value_3;
+                    }
+                    else {
+                        input.skip(fieldType);
+                    }
+                    break;
+                case 3:
+                    if (fieldType === thrift.TType.LIST) {
+                        const value_4: Array<Entity.IEntity> = new Array<Entity.IEntity>();
+                        const metadata_1: thrift.IThriftList = input.readListBegin();
+                        const size_1: number = metadata_1.size;
+                        for (let i_1: number = 0; i_1 < size_1; i_1++) {
+                            const value_5: Entity.IEntity = Entity.EntityCodec.decode(input);
+                            value_4.push(value_5);
+                        }
+                        input.readListEnd();
+                        _args.results = value_4;
                     }
                     else {
                         input.skip(fieldType);
@@ -78,11 +108,59 @@ export class EntitiesResponse {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        if (_args.status !== undefined && _args.total !== undefined) {
-            return new EntitiesResponse(_args);
+        if (_args.status !== undefined && _args.total !== undefined && _args.results !== undefined) {
+            return {
+                status: _args.status,
+                total: _args.total,
+                results: _args.results
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read EntitiesResponse from input");
         }
+    }
+};
+export class EntitiesResponse extends thrift.StructLike implements IEntitiesResponse {
+    public status: string;
+    public total: number;
+    public results: Array<Entity.IEntity>;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IEntitiesResponseArgs) {
+        super();
+        if (args.status != null) {
+            const value_6: string = args.status;
+            this.status = value_6;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
+        }
+        if (args.total != null) {
+            const value_7: number = args.total;
+            this.total = value_7;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[total] is unset!");
+        }
+        if (args.results != null) {
+            const value_8: Array<Entity.IEntity> = new Array<Entity.IEntity>();
+            args.results.forEach((value_9: Entity.IEntityArgs): void => {
+                const value_10: Entity.IEntity = new Entity.Entity(value_9);
+                value_8.push(value_10);
+            });
+            this.results = value_8;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): EntitiesResponse {
+        return new EntitiesResponse(EntitiesResponseCodec.decode(input));
+    }
+    public static write(args: IEntitiesResponseArgs, output: thrift.TProtocol): void {
+        return EntitiesResponseCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return EntitiesResponseCodec.encode(this, output);
     }
 }

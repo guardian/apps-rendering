@@ -5,6 +5,20 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IStandardElementFields {
+    url?: string;
+    originalUrl?: string;
+    source?: string;
+    title?: string;
+    description?: string;
+    credit?: string;
+    caption?: string;
+    width?: number;
+    height?: number;
+    html?: string;
+    role?: string;
+    isMandatory?: boolean;
+}
 export interface IStandardElementFieldsArgs {
     url?: string;
     originalUrl?: string;
@@ -19,126 +33,90 @@ export interface IStandardElementFieldsArgs {
     role?: string;
     isMandatory?: boolean;
 }
-export class StandardElementFields {
-    public url?: string;
-    public originalUrl?: string;
-    public source?: string;
-    public title?: string;
-    public description?: string;
-    public credit?: string;
-    public caption?: string;
-    public width?: number;
-    public height?: number;
-    public html?: string;
-    public role?: string;
-    public isMandatory?: boolean;
-    constructor(args?: IStandardElementFieldsArgs) {
-        if (args != null && args.url != null) {
-            this.url = args.url;
-        }
-        if (args != null && args.originalUrl != null) {
-            this.originalUrl = args.originalUrl;
-        }
-        if (args != null && args.source != null) {
-            this.source = args.source;
-        }
-        if (args != null && args.title != null) {
-            this.title = args.title;
-        }
-        if (args != null && args.description != null) {
-            this.description = args.description;
-        }
-        if (args != null && args.credit != null) {
-            this.credit = args.credit;
-        }
-        if (args != null && args.caption != null) {
-            this.caption = args.caption;
-        }
-        if (args != null && args.width != null) {
-            this.width = args.width;
-        }
-        if (args != null && args.height != null) {
-            this.height = args.height;
-        }
-        if (args != null && args.html != null) {
-            this.html = args.html;
-        }
-        if (args != null && args.role != null) {
-            this.role = args.role;
-        }
-        if (args != null && args.isMandatory != null) {
-            this.isMandatory = args.isMandatory;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const StandardElementFieldsCodec: thrift.IStructCodec<IStandardElementFieldsArgs, IStandardElementFields> = {
+    encode(args: IStandardElementFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            url: args.url,
+            originalUrl: args.originalUrl,
+            source: args.source,
+            title: args.title,
+            description: args.description,
+            credit: args.credit,
+            caption: args.caption,
+            width: args.width,
+            height: args.height,
+            html: args.html,
+            role: args.role,
+            isMandatory: args.isMandatory
+        };
         output.writeStructBegin("StandardElementFields");
-        if (this.url != null) {
+        if (obj.url != null) {
             output.writeFieldBegin("url", thrift.TType.STRING, 1);
-            output.writeString(this.url);
+            output.writeString(obj.url);
             output.writeFieldEnd();
         }
-        if (this.originalUrl != null) {
+        if (obj.originalUrl != null) {
             output.writeFieldBegin("originalUrl", thrift.TType.STRING, 2);
-            output.writeString(this.originalUrl);
+            output.writeString(obj.originalUrl);
             output.writeFieldEnd();
         }
-        if (this.source != null) {
+        if (obj.source != null) {
             output.writeFieldBegin("source", thrift.TType.STRING, 3);
-            output.writeString(this.source);
+            output.writeString(obj.source);
             output.writeFieldEnd();
         }
-        if (this.title != null) {
+        if (obj.title != null) {
             output.writeFieldBegin("title", thrift.TType.STRING, 4);
-            output.writeString(this.title);
+            output.writeString(obj.title);
             output.writeFieldEnd();
         }
-        if (this.description != null) {
+        if (obj.description != null) {
             output.writeFieldBegin("description", thrift.TType.STRING, 5);
-            output.writeString(this.description);
+            output.writeString(obj.description);
             output.writeFieldEnd();
         }
-        if (this.credit != null) {
+        if (obj.credit != null) {
             output.writeFieldBegin("credit", thrift.TType.STRING, 6);
-            output.writeString(this.credit);
+            output.writeString(obj.credit);
             output.writeFieldEnd();
         }
-        if (this.caption != null) {
+        if (obj.caption != null) {
             output.writeFieldBegin("caption", thrift.TType.STRING, 7);
-            output.writeString(this.caption);
+            output.writeString(obj.caption);
             output.writeFieldEnd();
         }
-        if (this.width != null) {
+        if (obj.width != null) {
             output.writeFieldBegin("width", thrift.TType.I32, 8);
-            output.writeI32(this.width);
+            output.writeI32(obj.width);
             output.writeFieldEnd();
         }
-        if (this.height != null) {
+        if (obj.height != null) {
             output.writeFieldBegin("height", thrift.TType.I32, 9);
-            output.writeI32(this.height);
+            output.writeI32(obj.height);
             output.writeFieldEnd();
         }
-        if (this.html != null) {
+        if (obj.html != null) {
             output.writeFieldBegin("html", thrift.TType.STRING, 10);
-            output.writeString(this.html);
+            output.writeString(obj.html);
             output.writeFieldEnd();
         }
-        if (this.role != null) {
+        if (obj.role != null) {
             output.writeFieldBegin("role", thrift.TType.STRING, 11);
-            output.writeString(this.role);
+            output.writeString(obj.role);
             output.writeFieldEnd();
         }
-        if (this.isMandatory != null) {
+        if (obj.isMandatory != null) {
             output.writeFieldBegin("isMandatory", thrift.TType.BOOL, 12);
-            output.writeBool(this.isMandatory);
+            output.writeBool(obj.isMandatory);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): StandardElementFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IStandardElementFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -262,6 +240,95 @@ export class StandardElementFields {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new StandardElementFields(_args);
+        return {
+            url: _args.url,
+            originalUrl: _args.originalUrl,
+            source: _args.source,
+            title: _args.title,
+            description: _args.description,
+            credit: _args.credit,
+            caption: _args.caption,
+            width: _args.width,
+            height: _args.height,
+            html: _args.html,
+            role: _args.role,
+            isMandatory: _args.isMandatory
+        };
+    }
+};
+export class StandardElementFields extends thrift.StructLike implements IStandardElementFields {
+    public url?: string;
+    public originalUrl?: string;
+    public source?: string;
+    public title?: string;
+    public description?: string;
+    public credit?: string;
+    public caption?: string;
+    public width?: number;
+    public height?: number;
+    public html?: string;
+    public role?: string;
+    public isMandatory?: boolean;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IStandardElementFieldsArgs = {}) {
+        super();
+        if (args.url != null) {
+            const value_13: string = args.url;
+            this.url = value_13;
+        }
+        if (args.originalUrl != null) {
+            const value_14: string = args.originalUrl;
+            this.originalUrl = value_14;
+        }
+        if (args.source != null) {
+            const value_15: string = args.source;
+            this.source = value_15;
+        }
+        if (args.title != null) {
+            const value_16: string = args.title;
+            this.title = value_16;
+        }
+        if (args.description != null) {
+            const value_17: string = args.description;
+            this.description = value_17;
+        }
+        if (args.credit != null) {
+            const value_18: string = args.credit;
+            this.credit = value_18;
+        }
+        if (args.caption != null) {
+            const value_19: string = args.caption;
+            this.caption = value_19;
+        }
+        if (args.width != null) {
+            const value_20: number = args.width;
+            this.width = value_20;
+        }
+        if (args.height != null) {
+            const value_21: number = args.height;
+            this.height = value_21;
+        }
+        if (args.html != null) {
+            const value_22: string = args.html;
+            this.html = value_22;
+        }
+        if (args.role != null) {
+            const value_23: string = args.role;
+            this.role = value_23;
+        }
+        if (args.isMandatory != null) {
+            const value_24: boolean = args.isMandatory;
+            this.isMandatory = value_24;
+        }
+    }
+    public static read(input: thrift.TProtocol): StandardElementFields {
+        return new StandardElementFields(StandardElementFieldsCodec.decode(input));
+    }
+    public static write(args: IStandardElementFieldsArgs, output: thrift.TProtocol): void {
+        return StandardElementFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return StandardElementFieldsCodec.encode(this, output);
     }
 }

@@ -5,46 +5,44 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface ICrosswordPosition {
+    x: number;
+    y: number;
+}
 export interface ICrosswordPositionArgs {
     x: number;
     y: number;
 }
-export class CrosswordPosition {
-    public x: number;
-    public y: number;
-    constructor(args: ICrosswordPositionArgs) {
-        if (args != null && args.x != null) {
-            this.x = args.x;
+export const CrosswordPositionCodec: thrift.IStructCodec<ICrosswordPositionArgs, ICrosswordPosition> = {
+    encode(args: ICrosswordPositionArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            x: args.x,
+            y: args.y
+        };
+        output.writeStructBegin("CrosswordPosition");
+        if (obj.x != null) {
+            output.writeFieldBegin("x", thrift.TType.I32, 1);
+            output.writeI32(obj.x);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[x] is unset!");
         }
-        if (args != null && args.y != null) {
-            this.y = args.y;
+        if (obj.y != null) {
+            output.writeFieldBegin("y", thrift.TType.I32, 2);
+            output.writeI32(obj.y);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[y] is unset!");
         }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("CrosswordPosition");
-        if (this.x != null) {
-            output.writeFieldBegin("x", thrift.TType.I32, 1);
-            output.writeI32(this.x);
-            output.writeFieldEnd();
-        }
-        if (this.y != null) {
-            output.writeFieldBegin("y", thrift.TType.I32, 2);
-            output.writeI32(this.y);
-            output.writeFieldEnd();
-        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): CrosswordPosition {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): ICrosswordPosition {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -79,10 +77,45 @@ export class CrosswordPosition {
         }
         input.readStructEnd();
         if (_args.x !== undefined && _args.y !== undefined) {
-            return new CrosswordPosition(_args);
+            return {
+                x: _args.x,
+                y: _args.y
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read CrosswordPosition from input");
         }
+    }
+};
+export class CrosswordPosition extends thrift.StructLike implements ICrosswordPosition {
+    public x: number;
+    public y: number;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: ICrosswordPositionArgs) {
+        super();
+        if (args.x != null) {
+            const value_3: number = args.x;
+            this.x = value_3;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[x] is unset!");
+        }
+        if (args.y != null) {
+            const value_4: number = args.y;
+            this.y = value_4;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[y] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): CrosswordPosition {
+        return new CrosswordPosition(CrosswordPositionCodec.decode(input));
+    }
+    public static write(args: ICrosswordPositionArgs, output: thrift.TProtocol): void {
+        return CrosswordPositionCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return CrosswordPositionCodec.encode(this, output);
     }
 }

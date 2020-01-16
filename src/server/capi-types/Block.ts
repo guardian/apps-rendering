@@ -9,178 +9,149 @@ import * as BlockAttributes from "./BlockAttributes";
 import * as CapiDateTime from "./CapiDateTime";
 import * as User from "./User";
 import * as BlockElement from "./BlockElement";
+export interface IBlock {
+    id: string;
+    bodyHtml: string;
+    bodyTextSummary: string;
+    title?: string;
+    attributes: BlockAttributes.IBlockAttributes;
+    published: boolean;
+    createdDate?: CapiDateTime.ICapiDateTime;
+    firstPublishedDate?: CapiDateTime.ICapiDateTime;
+    publishedDate?: CapiDateTime.ICapiDateTime;
+    lastModifiedDate?: CapiDateTime.ICapiDateTime;
+    contributors: Array<string>;
+    createdBy?: User.IUser;
+    lastModifiedBy?: User.IUser;
+    elements: Array<BlockElement.IBlockElement>;
+}
 export interface IBlockArgs {
     id: string;
     bodyHtml: string;
     bodyTextSummary: string;
     title?: string;
-    attributes: BlockAttributes.BlockAttributes;
+    attributes: BlockAttributes.IBlockAttributesArgs;
     published: boolean;
-    createdDate?: CapiDateTime.CapiDateTime;
-    firstPublishedDate?: CapiDateTime.CapiDateTime;
-    publishedDate?: CapiDateTime.CapiDateTime;
-    lastModifiedDate?: CapiDateTime.CapiDateTime;
+    createdDate?: CapiDateTime.ICapiDateTimeArgs;
+    firstPublishedDate?: CapiDateTime.ICapiDateTimeArgs;
+    publishedDate?: CapiDateTime.ICapiDateTimeArgs;
+    lastModifiedDate?: CapiDateTime.ICapiDateTimeArgs;
     contributors: Array<string>;
-    createdBy?: User.User;
-    lastModifiedBy?: User.User;
-    elements: Array<BlockElement.BlockElement>;
+    createdBy?: User.IUserArgs;
+    lastModifiedBy?: User.IUserArgs;
+    elements?: Array<BlockElement.IBlockElementArgs>;
 }
-export class Block {
-    public id: string;
-    public bodyHtml: string;
-    public bodyTextSummary: string;
-    public title?: string;
-    public attributes: BlockAttributes.BlockAttributes;
-    public published: boolean;
-    public createdDate?: CapiDateTime.CapiDateTime;
-    public firstPublishedDate?: CapiDateTime.CapiDateTime;
-    public publishedDate?: CapiDateTime.CapiDateTime;
-    public lastModifiedDate?: CapiDateTime.CapiDateTime;
-    public contributors: Array<string>;
-    public createdBy?: User.User;
-    public lastModifiedBy?: User.User;
-    public elements: Array<BlockElement.BlockElement> = [];
-    constructor(args: IBlockArgs) {
-        if (args != null && args.id != null) {
-            this.id = args.id;
+export const BlockCodec: thrift.IStructCodec<IBlockArgs, IBlock> = {
+    encode(args: IBlockArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            id: args.id,
+            bodyHtml: args.bodyHtml,
+            bodyTextSummary: args.bodyTextSummary,
+            title: args.title,
+            attributes: args.attributes,
+            published: args.published,
+            createdDate: args.createdDate,
+            firstPublishedDate: args.firstPublishedDate,
+            publishedDate: args.publishedDate,
+            lastModifiedDate: args.lastModifiedDate,
+            contributors: args.contributors,
+            createdBy: args.createdBy,
+            lastModifiedBy: args.lastModifiedBy,
+            elements: (args.elements != null ? args.elements : [])
+        };
+        output.writeStructBegin("Block");
+        if (obj.id != null) {
+            output.writeFieldBegin("id", thrift.TType.STRING, 1);
+            output.writeString(obj.id);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
         }
-        if (args != null && args.bodyHtml != null) {
-            this.bodyHtml = args.bodyHtml;
+        if (obj.bodyHtml != null) {
+            output.writeFieldBegin("bodyHtml", thrift.TType.STRING, 2);
+            output.writeString(obj.bodyHtml);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[bodyHtml] is unset!");
         }
-        if (args != null && args.bodyTextSummary != null) {
-            this.bodyTextSummary = args.bodyTextSummary;
+        if (obj.bodyTextSummary != null) {
+            output.writeFieldBegin("bodyTextSummary", thrift.TType.STRING, 3);
+            output.writeString(obj.bodyTextSummary);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[bodyTextSummary] is unset!");
         }
-        if (args != null && args.title != null) {
-            this.title = args.title;
+        if (obj.title != null) {
+            output.writeFieldBegin("title", thrift.TType.STRING, 4);
+            output.writeString(obj.title);
+            output.writeFieldEnd();
         }
-        if (args != null && args.attributes != null) {
-            this.attributes = args.attributes;
+        if (obj.attributes != null) {
+            output.writeFieldBegin("attributes", thrift.TType.STRUCT, 5);
+            BlockAttributes.BlockAttributesCodec.encode(obj.attributes, output);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[attributes] is unset!");
         }
-        if (args != null && args.published != null) {
-            this.published = args.published;
+        if (obj.published != null) {
+            output.writeFieldBegin("published", thrift.TType.BOOL, 6);
+            output.writeBool(obj.published);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[published] is unset!");
         }
-        if (args != null && args.createdDate != null) {
-            this.createdDate = args.createdDate;
-        }
-        if (args != null && args.firstPublishedDate != null) {
-            this.firstPublishedDate = args.firstPublishedDate;
-        }
-        if (args != null && args.publishedDate != null) {
-            this.publishedDate = args.publishedDate;
-        }
-        if (args != null && args.lastModifiedDate != null) {
-            this.lastModifiedDate = args.lastModifiedDate;
-        }
-        if (args != null && args.contributors != null) {
-            this.contributors = args.contributors;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[contributors] is unset!");
-        }
-        if (args != null && args.createdBy != null) {
-            this.createdBy = args.createdBy;
-        }
-        if (args != null && args.lastModifiedBy != null) {
-            this.lastModifiedBy = args.lastModifiedBy;
-        }
-        if (args != null && args.elements != null) {
-            this.elements = args.elements;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[elements] is unset!");
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("Block");
-        if (this.id != null) {
-            output.writeFieldBegin("id", thrift.TType.STRING, 1);
-            output.writeString(this.id);
-            output.writeFieldEnd();
-        }
-        if (this.bodyHtml != null) {
-            output.writeFieldBegin("bodyHtml", thrift.TType.STRING, 2);
-            output.writeString(this.bodyHtml);
-            output.writeFieldEnd();
-        }
-        if (this.bodyTextSummary != null) {
-            output.writeFieldBegin("bodyTextSummary", thrift.TType.STRING, 3);
-            output.writeString(this.bodyTextSummary);
-            output.writeFieldEnd();
-        }
-        if (this.title != null) {
-            output.writeFieldBegin("title", thrift.TType.STRING, 4);
-            output.writeString(this.title);
-            output.writeFieldEnd();
-        }
-        if (this.attributes != null) {
-            output.writeFieldBegin("attributes", thrift.TType.STRUCT, 5);
-            this.attributes.write(output);
-            output.writeFieldEnd();
-        }
-        if (this.published != null) {
-            output.writeFieldBegin("published", thrift.TType.BOOL, 6);
-            output.writeBool(this.published);
-            output.writeFieldEnd();
-        }
-        if (this.createdDate != null) {
+        if (obj.createdDate != null) {
             output.writeFieldBegin("createdDate", thrift.TType.STRUCT, 7);
-            this.createdDate.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.createdDate, output);
             output.writeFieldEnd();
         }
-        if (this.firstPublishedDate != null) {
+        if (obj.firstPublishedDate != null) {
             output.writeFieldBegin("firstPublishedDate", thrift.TType.STRUCT, 8);
-            this.firstPublishedDate.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.firstPublishedDate, output);
             output.writeFieldEnd();
         }
-        if (this.publishedDate != null) {
+        if (obj.publishedDate != null) {
             output.writeFieldBegin("publishedDate", thrift.TType.STRUCT, 9);
-            this.publishedDate.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.publishedDate, output);
             output.writeFieldEnd();
         }
-        if (this.lastModifiedDate != null) {
+        if (obj.lastModifiedDate != null) {
             output.writeFieldBegin("lastModifiedDate", thrift.TType.STRUCT, 10);
-            this.lastModifiedDate.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.lastModifiedDate, output);
             output.writeFieldEnd();
         }
-        if (this.contributors != null) {
+        if (obj.contributors != null) {
             output.writeFieldBegin("contributors", thrift.TType.LIST, 11);
-            output.writeListBegin(thrift.TType.STRING, this.contributors.length);
-            this.contributors.forEach((value_1: string): void => {
+            output.writeListBegin(thrift.TType.STRING, obj.contributors.length);
+            obj.contributors.forEach((value_1: string): void => {
                 output.writeString(value_1);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.createdBy != null) {
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[contributors] is unset!");
+        }
+        if (obj.createdBy != null) {
             output.writeFieldBegin("createdBy", thrift.TType.STRUCT, 12);
-            this.createdBy.write(output);
+            User.UserCodec.encode(obj.createdBy, output);
             output.writeFieldEnd();
         }
-        if (this.lastModifiedBy != null) {
+        if (obj.lastModifiedBy != null) {
             output.writeFieldBegin("lastModifiedBy", thrift.TType.STRUCT, 13);
-            this.lastModifiedBy.write(output);
+            User.UserCodec.encode(obj.lastModifiedBy, output);
             output.writeFieldEnd();
         }
-        if (this.elements != null) {
+        if (obj.elements != null) {
             output.writeFieldBegin("elements", thrift.TType.LIST, 14);
-            output.writeListBegin(thrift.TType.STRUCT, this.elements.length);
-            this.elements.forEach((value_2: BlockElement.BlockElement): void => {
-                value_2.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.elements.length);
+            obj.elements.forEach((value_2: BlockElement.IBlockElementArgs): void => {
+                BlockElement.BlockElementCodec.encode(value_2, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
@@ -188,10 +159,10 @@ export class Block {
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): Block {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IBlock {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -238,7 +209,7 @@ export class Block {
                     break;
                 case 5:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_7: BlockAttributes.BlockAttributes = BlockAttributes.BlockAttributes.read(input);
+                        const value_7: BlockAttributes.IBlockAttributes = BlockAttributes.BlockAttributesCodec.decode(input);
                         _args.attributes = value_7;
                     }
                     else {
@@ -256,7 +227,7 @@ export class Block {
                     break;
                 case 7:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_9: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_9: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.createdDate = value_9;
                     }
                     else {
@@ -265,7 +236,7 @@ export class Block {
                     break;
                 case 8:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_10: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_10: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.firstPublishedDate = value_10;
                     }
                     else {
@@ -274,7 +245,7 @@ export class Block {
                     break;
                 case 9:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_11: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_11: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.publishedDate = value_11;
                     }
                     else {
@@ -283,7 +254,7 @@ export class Block {
                     break;
                 case 10:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_12: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_12: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.lastModifiedDate = value_12;
                     }
                     else {
@@ -308,7 +279,7 @@ export class Block {
                     break;
                 case 12:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_15: User.User = User.User.read(input);
+                        const value_15: User.IUser = User.UserCodec.decode(input);
                         _args.createdBy = value_15;
                     }
                     else {
@@ -317,7 +288,7 @@ export class Block {
                     break;
                 case 13:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_16: User.User = User.User.read(input);
+                        const value_16: User.IUser = User.UserCodec.decode(input);
                         _args.lastModifiedBy = value_16;
                     }
                     else {
@@ -326,11 +297,11 @@ export class Block {
                     break;
                 case 14:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_17: Array<BlockElement.BlockElement> = new Array<BlockElement.BlockElement>();
+                        const value_17: Array<BlockElement.IBlockElement> = new Array<BlockElement.IBlockElement>();
                         const metadata_2: thrift.IThriftList = input.readListBegin();
                         const size_2: number = metadata_2.size;
                         for (let i_2: number = 0; i_2 < size_2; i_2++) {
-                            const value_18: BlockElement.BlockElement = BlockElement.BlockElement.read(input);
+                            const value_18: BlockElement.IBlockElement = BlockElement.BlockElementCodec.decode(input);
                             value_17.push(value_18);
                         }
                         input.readListEnd();
@@ -348,10 +319,137 @@ export class Block {
         }
         input.readStructEnd();
         if (_args.id !== undefined && _args.bodyHtml !== undefined && _args.bodyTextSummary !== undefined && _args.attributes !== undefined && _args.published !== undefined && _args.contributors !== undefined && _args.elements !== undefined) {
-            return new Block(_args);
+            return {
+                id: _args.id,
+                bodyHtml: _args.bodyHtml,
+                bodyTextSummary: _args.bodyTextSummary,
+                title: _args.title,
+                attributes: _args.attributes,
+                published: _args.published,
+                createdDate: _args.createdDate,
+                firstPublishedDate: _args.firstPublishedDate,
+                publishedDate: _args.publishedDate,
+                lastModifiedDate: _args.lastModifiedDate,
+                contributors: _args.contributors,
+                createdBy: _args.createdBy,
+                lastModifiedBy: _args.lastModifiedBy,
+                elements: (_args.elements != null ? _args.elements : [])
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read Block from input");
         }
+    }
+};
+export class Block extends thrift.StructLike implements IBlock {
+    public id: string;
+    public bodyHtml: string;
+    public bodyTextSummary: string;
+    public title?: string;
+    public attributes: BlockAttributes.IBlockAttributes;
+    public published: boolean;
+    public createdDate?: CapiDateTime.ICapiDateTime;
+    public firstPublishedDate?: CapiDateTime.ICapiDateTime;
+    public publishedDate?: CapiDateTime.ICapiDateTime;
+    public lastModifiedDate?: CapiDateTime.ICapiDateTime;
+    public contributors: Array<string>;
+    public createdBy?: User.IUser;
+    public lastModifiedBy?: User.IUser;
+    public elements: Array<BlockElement.IBlockElement> = [];
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IBlockArgs) {
+        super();
+        if (args.id != null) {
+            const value_19: string = args.id;
+            this.id = value_19;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
+        }
+        if (args.bodyHtml != null) {
+            const value_20: string = args.bodyHtml;
+            this.bodyHtml = value_20;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[bodyHtml] is unset!");
+        }
+        if (args.bodyTextSummary != null) {
+            const value_21: string = args.bodyTextSummary;
+            this.bodyTextSummary = value_21;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[bodyTextSummary] is unset!");
+        }
+        if (args.title != null) {
+            const value_22: string = args.title;
+            this.title = value_22;
+        }
+        if (args.attributes != null) {
+            const value_23: BlockAttributes.IBlockAttributes = new BlockAttributes.BlockAttributes(args.attributes);
+            this.attributes = value_23;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[attributes] is unset!");
+        }
+        if (args.published != null) {
+            const value_24: boolean = args.published;
+            this.published = value_24;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[published] is unset!");
+        }
+        if (args.createdDate != null) {
+            const value_25: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.createdDate);
+            this.createdDate = value_25;
+        }
+        if (args.firstPublishedDate != null) {
+            const value_26: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.firstPublishedDate);
+            this.firstPublishedDate = value_26;
+        }
+        if (args.publishedDate != null) {
+            const value_27: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.publishedDate);
+            this.publishedDate = value_27;
+        }
+        if (args.lastModifiedDate != null) {
+            const value_28: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.lastModifiedDate);
+            this.lastModifiedDate = value_28;
+        }
+        if (args.contributors != null) {
+            const value_29: Array<string> = new Array<string>();
+            args.contributors.forEach((value_33: string): void => {
+                const value_34: string = value_33;
+                value_29.push(value_34);
+            });
+            this.contributors = value_29;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[contributors] is unset!");
+        }
+        if (args.createdBy != null) {
+            const value_30: User.IUser = new User.User(args.createdBy);
+            this.createdBy = value_30;
+        }
+        if (args.lastModifiedBy != null) {
+            const value_31: User.IUser = new User.User(args.lastModifiedBy);
+            this.lastModifiedBy = value_31;
+        }
+        if (args.elements != null) {
+            const value_32: Array<BlockElement.IBlockElement> = new Array<BlockElement.IBlockElement>();
+            args.elements.forEach((value_35: BlockElement.IBlockElementArgs): void => {
+                const value_36: BlockElement.IBlockElement = new BlockElement.BlockElement(value_35);
+                value_32.push(value_36);
+            });
+            this.elements = value_32;
+        }
+    }
+    public static read(input: thrift.TProtocol): Block {
+        return new Block(BlockCodec.decode(input));
+    }
+    public static write(args: IBlockArgs, output: thrift.TProtocol): void {
+        return BlockCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return BlockCodec.encode(this, output);
     }
 }

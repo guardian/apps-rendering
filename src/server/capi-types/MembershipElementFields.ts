@@ -6,6 +6,19 @@
 */
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as CapiDateTime from "./CapiDateTime";
+export interface IMembershipElementFields {
+    originalUrl?: string;
+    linkText?: string;
+    linkPrefix?: string;
+    title?: string;
+    venue?: string;
+    location?: string;
+    identifier?: string;
+    image?: string;
+    price?: string;
+    start?: CapiDateTime.ICapiDateTime;
+    end?: CapiDateTime.ICapiDateTime;
+}
 export interface IMembershipElementFieldsArgs {
     originalUrl?: string;
     linkText?: string;
@@ -16,120 +29,87 @@ export interface IMembershipElementFieldsArgs {
     identifier?: string;
     image?: string;
     price?: string;
-    start?: CapiDateTime.CapiDateTime;
-    end?: CapiDateTime.CapiDateTime;
+    start?: CapiDateTime.ICapiDateTimeArgs;
+    end?: CapiDateTime.ICapiDateTimeArgs;
 }
-export class MembershipElementFields {
-    public originalUrl?: string;
-    public linkText?: string;
-    public linkPrefix?: string;
-    public title?: string;
-    public venue?: string;
-    public location?: string;
-    public identifier?: string;
-    public image?: string;
-    public price?: string;
-    public start?: CapiDateTime.CapiDateTime;
-    public end?: CapiDateTime.CapiDateTime;
-    constructor(args?: IMembershipElementFieldsArgs) {
-        if (args != null && args.originalUrl != null) {
-            this.originalUrl = args.originalUrl;
-        }
-        if (args != null && args.linkText != null) {
-            this.linkText = args.linkText;
-        }
-        if (args != null && args.linkPrefix != null) {
-            this.linkPrefix = args.linkPrefix;
-        }
-        if (args != null && args.title != null) {
-            this.title = args.title;
-        }
-        if (args != null && args.venue != null) {
-            this.venue = args.venue;
-        }
-        if (args != null && args.location != null) {
-            this.location = args.location;
-        }
-        if (args != null && args.identifier != null) {
-            this.identifier = args.identifier;
-        }
-        if (args != null && args.image != null) {
-            this.image = args.image;
-        }
-        if (args != null && args.price != null) {
-            this.price = args.price;
-        }
-        if (args != null && args.start != null) {
-            this.start = args.start;
-        }
-        if (args != null && args.end != null) {
-            this.end = args.end;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const MembershipElementFieldsCodec: thrift.IStructCodec<IMembershipElementFieldsArgs, IMembershipElementFields> = {
+    encode(args: IMembershipElementFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            originalUrl: args.originalUrl,
+            linkText: args.linkText,
+            linkPrefix: args.linkPrefix,
+            title: args.title,
+            venue: args.venue,
+            location: args.location,
+            identifier: args.identifier,
+            image: args.image,
+            price: args.price,
+            start: args.start,
+            end: args.end
+        };
         output.writeStructBegin("MembershipElementFields");
-        if (this.originalUrl != null) {
+        if (obj.originalUrl != null) {
             output.writeFieldBegin("originalUrl", thrift.TType.STRING, 1);
-            output.writeString(this.originalUrl);
+            output.writeString(obj.originalUrl);
             output.writeFieldEnd();
         }
-        if (this.linkText != null) {
+        if (obj.linkText != null) {
             output.writeFieldBegin("linkText", thrift.TType.STRING, 2);
-            output.writeString(this.linkText);
+            output.writeString(obj.linkText);
             output.writeFieldEnd();
         }
-        if (this.linkPrefix != null) {
+        if (obj.linkPrefix != null) {
             output.writeFieldBegin("linkPrefix", thrift.TType.STRING, 3);
-            output.writeString(this.linkPrefix);
+            output.writeString(obj.linkPrefix);
             output.writeFieldEnd();
         }
-        if (this.title != null) {
+        if (obj.title != null) {
             output.writeFieldBegin("title", thrift.TType.STRING, 4);
-            output.writeString(this.title);
+            output.writeString(obj.title);
             output.writeFieldEnd();
         }
-        if (this.venue != null) {
+        if (obj.venue != null) {
             output.writeFieldBegin("venue", thrift.TType.STRING, 5);
-            output.writeString(this.venue);
+            output.writeString(obj.venue);
             output.writeFieldEnd();
         }
-        if (this.location != null) {
+        if (obj.location != null) {
             output.writeFieldBegin("location", thrift.TType.STRING, 6);
-            output.writeString(this.location);
+            output.writeString(obj.location);
             output.writeFieldEnd();
         }
-        if (this.identifier != null) {
+        if (obj.identifier != null) {
             output.writeFieldBegin("identifier", thrift.TType.STRING, 7);
-            output.writeString(this.identifier);
+            output.writeString(obj.identifier);
             output.writeFieldEnd();
         }
-        if (this.image != null) {
+        if (obj.image != null) {
             output.writeFieldBegin("image", thrift.TType.STRING, 8);
-            output.writeString(this.image);
+            output.writeString(obj.image);
             output.writeFieldEnd();
         }
-        if (this.price != null) {
+        if (obj.price != null) {
             output.writeFieldBegin("price", thrift.TType.STRING, 9);
-            output.writeString(this.price);
+            output.writeString(obj.price);
             output.writeFieldEnd();
         }
-        if (this.start != null) {
+        if (obj.start != null) {
             output.writeFieldBegin("start", thrift.TType.STRUCT, 10);
-            this.start.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.start, output);
             output.writeFieldEnd();
         }
-        if (this.end != null) {
+        if (obj.end != null) {
             output.writeFieldBegin("end", thrift.TType.STRUCT, 11);
-            this.end.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.end, output);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): MembershipElementFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IMembershipElementFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -221,7 +201,7 @@ export class MembershipElementFields {
                     break;
                 case 10:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_10: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_10: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.start = value_10;
                     }
                     else {
@@ -230,7 +210,7 @@ export class MembershipElementFields {
                     break;
                 case 11:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_11: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_11: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.end = value_11;
                     }
                     else {
@@ -244,6 +224,89 @@ export class MembershipElementFields {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new MembershipElementFields(_args);
+        return {
+            originalUrl: _args.originalUrl,
+            linkText: _args.linkText,
+            linkPrefix: _args.linkPrefix,
+            title: _args.title,
+            venue: _args.venue,
+            location: _args.location,
+            identifier: _args.identifier,
+            image: _args.image,
+            price: _args.price,
+            start: _args.start,
+            end: _args.end
+        };
+    }
+};
+export class MembershipElementFields extends thrift.StructLike implements IMembershipElementFields {
+    public originalUrl?: string;
+    public linkText?: string;
+    public linkPrefix?: string;
+    public title?: string;
+    public venue?: string;
+    public location?: string;
+    public identifier?: string;
+    public image?: string;
+    public price?: string;
+    public start?: CapiDateTime.ICapiDateTime;
+    public end?: CapiDateTime.ICapiDateTime;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IMembershipElementFieldsArgs = {}) {
+        super();
+        if (args.originalUrl != null) {
+            const value_12: string = args.originalUrl;
+            this.originalUrl = value_12;
+        }
+        if (args.linkText != null) {
+            const value_13: string = args.linkText;
+            this.linkText = value_13;
+        }
+        if (args.linkPrefix != null) {
+            const value_14: string = args.linkPrefix;
+            this.linkPrefix = value_14;
+        }
+        if (args.title != null) {
+            const value_15: string = args.title;
+            this.title = value_15;
+        }
+        if (args.venue != null) {
+            const value_16: string = args.venue;
+            this.venue = value_16;
+        }
+        if (args.location != null) {
+            const value_17: string = args.location;
+            this.location = value_17;
+        }
+        if (args.identifier != null) {
+            const value_18: string = args.identifier;
+            this.identifier = value_18;
+        }
+        if (args.image != null) {
+            const value_19: string = args.image;
+            this.image = value_19;
+        }
+        if (args.price != null) {
+            const value_20: string = args.price;
+            this.price = value_20;
+        }
+        if (args.start != null) {
+            const value_21: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.start);
+            this.start = value_21;
+        }
+        if (args.end != null) {
+            const value_22: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.end);
+            this.end = value_22;
+        }
+    }
+    public static read(input: thrift.TProtocol): MembershipElementFields {
+        return new MembershipElementFields(MembershipElementFieldsCodec.decode(input));
+    }
+    public static write(args: IMembershipElementFieldsArgs, output: thrift.TProtocol): void {
+        return MembershipElementFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return MembershipElementFieldsCodec.encode(this, output);
     }
 }

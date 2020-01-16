@@ -5,6 +5,27 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IVideoElementFields {
+    url?: string;
+    description?: string;
+    title?: string;
+    html?: string;
+    source?: string;
+    credit?: string;
+    caption?: string;
+    height?: number;
+    width?: number;
+    duration?: number;
+    contentAuthSystem?: string;
+    embeddable?: string;
+    isInappropriateForAdverts?: boolean;
+    mediaId?: string;
+    stillImageUrl?: string;
+    thumbnailUrl?: string;
+    shortUrl?: string;
+    role?: string;
+    originalUrl?: string;
+}
 export interface IVideoElementFieldsArgs {
     url?: string;
     description?: string;
@@ -26,189 +47,132 @@ export interface IVideoElementFieldsArgs {
     role?: string;
     originalUrl?: string;
 }
-export class VideoElementFields {
-    public url?: string;
-    public description?: string;
-    public title?: string;
-    public html?: string;
-    public source?: string;
-    public credit?: string;
-    public caption?: string;
-    public height?: number;
-    public width?: number;
-    public duration?: number;
-    public contentAuthSystem?: string;
-    public embeddable?: string;
-    public isInappropriateForAdverts?: boolean;
-    public mediaId?: string;
-    public stillImageUrl?: string;
-    public thumbnailUrl?: string;
-    public shortUrl?: string;
-    public role?: string;
-    public originalUrl?: string;
-    constructor(args?: IVideoElementFieldsArgs) {
-        if (args != null && args.url != null) {
-            this.url = args.url;
-        }
-        if (args != null && args.description != null) {
-            this.description = args.description;
-        }
-        if (args != null && args.title != null) {
-            this.title = args.title;
-        }
-        if (args != null && args.html != null) {
-            this.html = args.html;
-        }
-        if (args != null && args.source != null) {
-            this.source = args.source;
-        }
-        if (args != null && args.credit != null) {
-            this.credit = args.credit;
-        }
-        if (args != null && args.caption != null) {
-            this.caption = args.caption;
-        }
-        if (args != null && args.height != null) {
-            this.height = args.height;
-        }
-        if (args != null && args.width != null) {
-            this.width = args.width;
-        }
-        if (args != null && args.duration != null) {
-            this.duration = args.duration;
-        }
-        if (args != null && args.contentAuthSystem != null) {
-            this.contentAuthSystem = args.contentAuthSystem;
-        }
-        if (args != null && args.embeddable != null) {
-            this.embeddable = args.embeddable;
-        }
-        if (args != null && args.isInappropriateForAdverts != null) {
-            this.isInappropriateForAdverts = args.isInappropriateForAdverts;
-        }
-        if (args != null && args.mediaId != null) {
-            this.mediaId = args.mediaId;
-        }
-        if (args != null && args.stillImageUrl != null) {
-            this.stillImageUrl = args.stillImageUrl;
-        }
-        if (args != null && args.thumbnailUrl != null) {
-            this.thumbnailUrl = args.thumbnailUrl;
-        }
-        if (args != null && args.shortUrl != null) {
-            this.shortUrl = args.shortUrl;
-        }
-        if (args != null && args.role != null) {
-            this.role = args.role;
-        }
-        if (args != null && args.originalUrl != null) {
-            this.originalUrl = args.originalUrl;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const VideoElementFieldsCodec: thrift.IStructCodec<IVideoElementFieldsArgs, IVideoElementFields> = {
+    encode(args: IVideoElementFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            url: args.url,
+            description: args.description,
+            title: args.title,
+            html: args.html,
+            source: args.source,
+            credit: args.credit,
+            caption: args.caption,
+            height: args.height,
+            width: args.width,
+            duration: args.duration,
+            contentAuthSystem: args.contentAuthSystem,
+            embeddable: args.embeddable,
+            isInappropriateForAdverts: args.isInappropriateForAdverts,
+            mediaId: args.mediaId,
+            stillImageUrl: args.stillImageUrl,
+            thumbnailUrl: args.thumbnailUrl,
+            shortUrl: args.shortUrl,
+            role: args.role,
+            originalUrl: args.originalUrl
+        };
         output.writeStructBegin("VideoElementFields");
-        if (this.url != null) {
+        if (obj.url != null) {
             output.writeFieldBegin("url", thrift.TType.STRING, 1);
-            output.writeString(this.url);
+            output.writeString(obj.url);
             output.writeFieldEnd();
         }
-        if (this.description != null) {
+        if (obj.description != null) {
             output.writeFieldBegin("description", thrift.TType.STRING, 2);
-            output.writeString(this.description);
+            output.writeString(obj.description);
             output.writeFieldEnd();
         }
-        if (this.title != null) {
+        if (obj.title != null) {
             output.writeFieldBegin("title", thrift.TType.STRING, 3);
-            output.writeString(this.title);
+            output.writeString(obj.title);
             output.writeFieldEnd();
         }
-        if (this.html != null) {
+        if (obj.html != null) {
             output.writeFieldBegin("html", thrift.TType.STRING, 4);
-            output.writeString(this.html);
+            output.writeString(obj.html);
             output.writeFieldEnd();
         }
-        if (this.source != null) {
+        if (obj.source != null) {
             output.writeFieldBegin("source", thrift.TType.STRING, 5);
-            output.writeString(this.source);
+            output.writeString(obj.source);
             output.writeFieldEnd();
         }
-        if (this.credit != null) {
+        if (obj.credit != null) {
             output.writeFieldBegin("credit", thrift.TType.STRING, 6);
-            output.writeString(this.credit);
+            output.writeString(obj.credit);
             output.writeFieldEnd();
         }
-        if (this.caption != null) {
+        if (obj.caption != null) {
             output.writeFieldBegin("caption", thrift.TType.STRING, 7);
-            output.writeString(this.caption);
+            output.writeString(obj.caption);
             output.writeFieldEnd();
         }
-        if (this.height != null) {
+        if (obj.height != null) {
             output.writeFieldBegin("height", thrift.TType.I32, 8);
-            output.writeI32(this.height);
+            output.writeI32(obj.height);
             output.writeFieldEnd();
         }
-        if (this.width != null) {
+        if (obj.width != null) {
             output.writeFieldBegin("width", thrift.TType.I32, 9);
-            output.writeI32(this.width);
+            output.writeI32(obj.width);
             output.writeFieldEnd();
         }
-        if (this.duration != null) {
+        if (obj.duration != null) {
             output.writeFieldBegin("duration", thrift.TType.I32, 10);
-            output.writeI32(this.duration);
+            output.writeI32(obj.duration);
             output.writeFieldEnd();
         }
-        if (this.contentAuthSystem != null) {
+        if (obj.contentAuthSystem != null) {
             output.writeFieldBegin("contentAuthSystem", thrift.TType.STRING, 11);
-            output.writeString(this.contentAuthSystem);
+            output.writeString(obj.contentAuthSystem);
             output.writeFieldEnd();
         }
-        if (this.embeddable != null) {
+        if (obj.embeddable != null) {
             output.writeFieldBegin("embeddable", thrift.TType.STRING, 12);
-            output.writeString(this.embeddable);
+            output.writeString(obj.embeddable);
             output.writeFieldEnd();
         }
-        if (this.isInappropriateForAdverts != null) {
+        if (obj.isInappropriateForAdverts != null) {
             output.writeFieldBegin("isInappropriateForAdverts", thrift.TType.BOOL, 13);
-            output.writeBool(this.isInappropriateForAdverts);
+            output.writeBool(obj.isInappropriateForAdverts);
             output.writeFieldEnd();
         }
-        if (this.mediaId != null) {
+        if (obj.mediaId != null) {
             output.writeFieldBegin("mediaId", thrift.TType.STRING, 14);
-            output.writeString(this.mediaId);
+            output.writeString(obj.mediaId);
             output.writeFieldEnd();
         }
-        if (this.stillImageUrl != null) {
+        if (obj.stillImageUrl != null) {
             output.writeFieldBegin("stillImageUrl", thrift.TType.STRING, 15);
-            output.writeString(this.stillImageUrl);
+            output.writeString(obj.stillImageUrl);
             output.writeFieldEnd();
         }
-        if (this.thumbnailUrl != null) {
+        if (obj.thumbnailUrl != null) {
             output.writeFieldBegin("thumbnailUrl", thrift.TType.STRING, 16);
-            output.writeString(this.thumbnailUrl);
+            output.writeString(obj.thumbnailUrl);
             output.writeFieldEnd();
         }
-        if (this.shortUrl != null) {
+        if (obj.shortUrl != null) {
             output.writeFieldBegin("shortUrl", thrift.TType.STRING, 17);
-            output.writeString(this.shortUrl);
+            output.writeString(obj.shortUrl);
             output.writeFieldEnd();
         }
-        if (this.role != null) {
+        if (obj.role != null) {
             output.writeFieldBegin("role", thrift.TType.STRING, 18);
-            output.writeString(this.role);
+            output.writeString(obj.role);
             output.writeFieldEnd();
         }
-        if (this.originalUrl != null) {
+        if (obj.originalUrl != null) {
             output.writeFieldBegin("originalUrl", thrift.TType.STRING, 19);
-            output.writeString(this.originalUrl);
+            output.writeString(obj.originalUrl);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): VideoElementFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IVideoElementFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -395,6 +359,137 @@ export class VideoElementFields {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new VideoElementFields(_args);
+        return {
+            url: _args.url,
+            description: _args.description,
+            title: _args.title,
+            html: _args.html,
+            source: _args.source,
+            credit: _args.credit,
+            caption: _args.caption,
+            height: _args.height,
+            width: _args.width,
+            duration: _args.duration,
+            contentAuthSystem: _args.contentAuthSystem,
+            embeddable: _args.embeddable,
+            isInappropriateForAdverts: _args.isInappropriateForAdverts,
+            mediaId: _args.mediaId,
+            stillImageUrl: _args.stillImageUrl,
+            thumbnailUrl: _args.thumbnailUrl,
+            shortUrl: _args.shortUrl,
+            role: _args.role,
+            originalUrl: _args.originalUrl
+        };
+    }
+};
+export class VideoElementFields extends thrift.StructLike implements IVideoElementFields {
+    public url?: string;
+    public description?: string;
+    public title?: string;
+    public html?: string;
+    public source?: string;
+    public credit?: string;
+    public caption?: string;
+    public height?: number;
+    public width?: number;
+    public duration?: number;
+    public contentAuthSystem?: string;
+    public embeddable?: string;
+    public isInappropriateForAdverts?: boolean;
+    public mediaId?: string;
+    public stillImageUrl?: string;
+    public thumbnailUrl?: string;
+    public shortUrl?: string;
+    public role?: string;
+    public originalUrl?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IVideoElementFieldsArgs = {}) {
+        super();
+        if (args.url != null) {
+            const value_20: string = args.url;
+            this.url = value_20;
+        }
+        if (args.description != null) {
+            const value_21: string = args.description;
+            this.description = value_21;
+        }
+        if (args.title != null) {
+            const value_22: string = args.title;
+            this.title = value_22;
+        }
+        if (args.html != null) {
+            const value_23: string = args.html;
+            this.html = value_23;
+        }
+        if (args.source != null) {
+            const value_24: string = args.source;
+            this.source = value_24;
+        }
+        if (args.credit != null) {
+            const value_25: string = args.credit;
+            this.credit = value_25;
+        }
+        if (args.caption != null) {
+            const value_26: string = args.caption;
+            this.caption = value_26;
+        }
+        if (args.height != null) {
+            const value_27: number = args.height;
+            this.height = value_27;
+        }
+        if (args.width != null) {
+            const value_28: number = args.width;
+            this.width = value_28;
+        }
+        if (args.duration != null) {
+            const value_29: number = args.duration;
+            this.duration = value_29;
+        }
+        if (args.contentAuthSystem != null) {
+            const value_30: string = args.contentAuthSystem;
+            this.contentAuthSystem = value_30;
+        }
+        if (args.embeddable != null) {
+            const value_31: string = args.embeddable;
+            this.embeddable = value_31;
+        }
+        if (args.isInappropriateForAdverts != null) {
+            const value_32: boolean = args.isInappropriateForAdverts;
+            this.isInappropriateForAdverts = value_32;
+        }
+        if (args.mediaId != null) {
+            const value_33: string = args.mediaId;
+            this.mediaId = value_33;
+        }
+        if (args.stillImageUrl != null) {
+            const value_34: string = args.stillImageUrl;
+            this.stillImageUrl = value_34;
+        }
+        if (args.thumbnailUrl != null) {
+            const value_35: string = args.thumbnailUrl;
+            this.thumbnailUrl = value_35;
+        }
+        if (args.shortUrl != null) {
+            const value_36: string = args.shortUrl;
+            this.shortUrl = value_36;
+        }
+        if (args.role != null) {
+            const value_37: string = args.role;
+            this.role = value_37;
+        }
+        if (args.originalUrl != null) {
+            const value_38: string = args.originalUrl;
+            this.originalUrl = value_38;
+        }
+    }
+    public static read(input: thrift.TProtocol): VideoElementFields {
+        return new VideoElementFields(VideoElementFieldsCodec.decode(input));
+    }
+    public static write(args: IVideoElementFieldsArgs, output: thrift.TProtocol): void {
+        return VideoElementFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return VideoElementFieldsCodec.encode(this, output);
     }
 }

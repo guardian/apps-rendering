@@ -5,53 +5,49 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IUser {
+    email: string;
+    firstName?: string;
+    lastName?: string;
+}
 export interface IUserArgs {
     email: string;
     firstName?: string;
     lastName?: string;
 }
-export class User {
-    public email: string;
-    public firstName?: string;
-    public lastName?: string;
-    constructor(args: IUserArgs) {
-        if (args != null && args.email != null) {
-            this.email = args.email;
+export const UserCodec: thrift.IStructCodec<IUserArgs, IUser> = {
+    encode(args: IUserArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            email: args.email,
+            firstName: args.firstName,
+            lastName: args.lastName
+        };
+        output.writeStructBegin("User");
+        if (obj.email != null) {
+            output.writeFieldBegin("email", thrift.TType.STRING, 1);
+            output.writeString(obj.email);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[email] is unset!");
         }
-        if (args != null && args.firstName != null) {
-            this.firstName = args.firstName;
-        }
-        if (args != null && args.lastName != null) {
-            this.lastName = args.lastName;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("User");
-        if (this.email != null) {
-            output.writeFieldBegin("email", thrift.TType.STRING, 1);
-            output.writeString(this.email);
-            output.writeFieldEnd();
-        }
-        if (this.firstName != null) {
+        if (obj.firstName != null) {
             output.writeFieldBegin("firstName", thrift.TType.STRING, 2);
-            output.writeString(this.firstName);
+            output.writeString(obj.firstName);
             output.writeFieldEnd();
         }
-        if (this.lastName != null) {
+        if (obj.lastName != null) {
             output.writeFieldBegin("lastName", thrift.TType.STRING, 3);
-            output.writeString(this.lastName);
+            output.writeString(obj.lastName);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): User {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IUser {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -95,10 +91,48 @@ export class User {
         }
         input.readStructEnd();
         if (_args.email !== undefined) {
-            return new User(_args);
+            return {
+                email: _args.email,
+                firstName: _args.firstName,
+                lastName: _args.lastName
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read User from input");
         }
+    }
+};
+export class User extends thrift.StructLike implements IUser {
+    public email: string;
+    public firstName?: string;
+    public lastName?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IUserArgs) {
+        super();
+        if (args.email != null) {
+            const value_4: string = args.email;
+            this.email = value_4;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[email] is unset!");
+        }
+        if (args.firstName != null) {
+            const value_5: string = args.firstName;
+            this.firstName = value_5;
+        }
+        if (args.lastName != null) {
+            const value_6: string = args.lastName;
+            this.lastName = value_6;
+        }
+    }
+    public static read(input: thrift.TProtocol): User {
+        return new User(UserCodec.decode(input));
+    }
+    public static write(args: IUserArgs, output: thrift.TProtocol): void {
+        return UserCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return UserCodec.encode(this, output);
     }
 }

@@ -8,7 +8,7 @@ import * as thrift from "@creditkarma/thrift-server-core";
 import * as MembershipTier from "./MembershipTier";
 import * as CapiDateTime from "./CapiDateTime";
 import * as Office from "./Office";
-export interface IContentFieldsArgs {
+export interface IContentFields {
     headline?: string;
     standfirst?: string;
     trailText?: string;
@@ -20,11 +20,11 @@ export interface IContentFieldsArgs {
     contributorBio?: string;
     membershipAccess?: MembershipTier.MembershipTier;
     wordcount?: number;
-    commentCloseDate?: CapiDateTime.CapiDateTime;
+    commentCloseDate?: CapiDateTime.ICapiDateTime;
     commentable?: boolean;
-    creationDate?: CapiDateTime.CapiDateTime;
+    creationDate?: CapiDateTime.ICapiDateTime;
     displayHint?: string;
-    firstPublicationDate?: CapiDateTime.CapiDateTime;
+    firstPublicationDate?: CapiDateTime.ICapiDateTime;
     hasStoryPackage?: boolean;
     internalComposerCode?: string;
     internalOctopusCode?: string;
@@ -32,12 +32,12 @@ export interface IContentFieldsArgs {
     internalStoryPackageCode?: number;
     isInappropriateForSponsorship?: boolean;
     isPremoderated?: boolean;
-    lastModified?: CapiDateTime.CapiDateTime;
+    lastModified?: CapiDateTime.ICapiDateTime;
     liveBloggingNow?: boolean;
-    newspaperEditionDate?: CapiDateTime.CapiDateTime;
+    newspaperEditionDate?: CapiDateTime.ICapiDateTime;
     productionOffice?: Office.Office;
     publication?: string;
-    scheduledPublicationDate?: CapiDateTime.CapiDateTime;
+    scheduledPublicationDate?: CapiDateTime.ICapiDateTime;
     secureThumbnail?: string;
     shortUrl?: string;
     shouldHideAdverts?: boolean;
@@ -61,477 +61,377 @@ export interface IContentFieldsArgs {
     showAffiliateLinks?: boolean;
     bylineHtml?: string;
 }
-export class ContentFields {
-    public headline?: string;
-    public standfirst?: string;
-    public trailText?: string;
-    public byline?: string;
-    public main?: string;
-    public body?: string;
-    public newspaperPageNumber?: number;
-    public starRating?: number;
-    public contributorBio?: string;
-    public membershipAccess?: MembershipTier.MembershipTier;
-    public wordcount?: number;
-    public commentCloseDate?: CapiDateTime.CapiDateTime;
-    public commentable?: boolean;
-    public creationDate?: CapiDateTime.CapiDateTime;
-    public displayHint?: string;
-    public firstPublicationDate?: CapiDateTime.CapiDateTime;
-    public hasStoryPackage?: boolean;
-    public internalComposerCode?: string;
-    public internalOctopusCode?: string;
-    public internalPageCode?: number;
-    public internalStoryPackageCode?: number;
-    public isInappropriateForSponsorship?: boolean;
-    public isPremoderated?: boolean;
-    public lastModified?: CapiDateTime.CapiDateTime;
-    public liveBloggingNow?: boolean;
-    public newspaperEditionDate?: CapiDateTime.CapiDateTime;
-    public productionOffice?: Office.Office;
-    public publication?: string;
-    public scheduledPublicationDate?: CapiDateTime.CapiDateTime;
-    public secureThumbnail?: string;
-    public shortUrl?: string;
-    public shouldHideAdverts?: boolean;
-    public showInRelatedContent?: boolean;
-    public thumbnail?: string;
-    public legallySensitive?: boolean;
-    public allowUgc?: boolean;
-    public sensitive?: boolean;
-    public lang?: string;
-    public internalRevision?: number;
-    public internalContentCode?: number;
-    public isLive?: boolean;
-    public internalShortId?: string;
-    public shortSocialShareText?: string;
-    public socialShareText?: string;
-    public bodyText?: string;
-    public charCount?: number;
-    public internalVideoCode?: string;
-    public shouldHideReaderRevenue?: boolean;
-    public internalCommissionedWordcount?: number;
-    public showAffiliateLinks?: boolean;
-    public bylineHtml?: string;
-    constructor(args?: IContentFieldsArgs) {
-        if (args != null && args.headline != null) {
-            this.headline = args.headline;
-        }
-        if (args != null && args.standfirst != null) {
-            this.standfirst = args.standfirst;
-        }
-        if (args != null && args.trailText != null) {
-            this.trailText = args.trailText;
-        }
-        if (args != null && args.byline != null) {
-            this.byline = args.byline;
-        }
-        if (args != null && args.main != null) {
-            this.main = args.main;
-        }
-        if (args != null && args.body != null) {
-            this.body = args.body;
-        }
-        if (args != null && args.newspaperPageNumber != null) {
-            this.newspaperPageNumber = args.newspaperPageNumber;
-        }
-        if (args != null && args.starRating != null) {
-            this.starRating = args.starRating;
-        }
-        if (args != null && args.contributorBio != null) {
-            this.contributorBio = args.contributorBio;
-        }
-        if (args != null && args.membershipAccess != null) {
-            this.membershipAccess = args.membershipAccess;
-        }
-        if (args != null && args.wordcount != null) {
-            this.wordcount = args.wordcount;
-        }
-        if (args != null && args.commentCloseDate != null) {
-            this.commentCloseDate = args.commentCloseDate;
-        }
-        if (args != null && args.commentable != null) {
-            this.commentable = args.commentable;
-        }
-        if (args != null && args.creationDate != null) {
-            this.creationDate = args.creationDate;
-        }
-        if (args != null && args.displayHint != null) {
-            this.displayHint = args.displayHint;
-        }
-        if (args != null && args.firstPublicationDate != null) {
-            this.firstPublicationDate = args.firstPublicationDate;
-        }
-        if (args != null && args.hasStoryPackage != null) {
-            this.hasStoryPackage = args.hasStoryPackage;
-        }
-        if (args != null && args.internalComposerCode != null) {
-            this.internalComposerCode = args.internalComposerCode;
-        }
-        if (args != null && args.internalOctopusCode != null) {
-            this.internalOctopusCode = args.internalOctopusCode;
-        }
-        if (args != null && args.internalPageCode != null) {
-            this.internalPageCode = args.internalPageCode;
-        }
-        if (args != null && args.internalStoryPackageCode != null) {
-            this.internalStoryPackageCode = args.internalStoryPackageCode;
-        }
-        if (args != null && args.isInappropriateForSponsorship != null) {
-            this.isInappropriateForSponsorship = args.isInappropriateForSponsorship;
-        }
-        if (args != null && args.isPremoderated != null) {
-            this.isPremoderated = args.isPremoderated;
-        }
-        if (args != null && args.lastModified != null) {
-            this.lastModified = args.lastModified;
-        }
-        if (args != null && args.liveBloggingNow != null) {
-            this.liveBloggingNow = args.liveBloggingNow;
-        }
-        if (args != null && args.newspaperEditionDate != null) {
-            this.newspaperEditionDate = args.newspaperEditionDate;
-        }
-        if (args != null && args.productionOffice != null) {
-            this.productionOffice = args.productionOffice;
-        }
-        if (args != null && args.publication != null) {
-            this.publication = args.publication;
-        }
-        if (args != null && args.scheduledPublicationDate != null) {
-            this.scheduledPublicationDate = args.scheduledPublicationDate;
-        }
-        if (args != null && args.secureThumbnail != null) {
-            this.secureThumbnail = args.secureThumbnail;
-        }
-        if (args != null && args.shortUrl != null) {
-            this.shortUrl = args.shortUrl;
-        }
-        if (args != null && args.shouldHideAdverts != null) {
-            this.shouldHideAdverts = args.shouldHideAdverts;
-        }
-        if (args != null && args.showInRelatedContent != null) {
-            this.showInRelatedContent = args.showInRelatedContent;
-        }
-        if (args != null && args.thumbnail != null) {
-            this.thumbnail = args.thumbnail;
-        }
-        if (args != null && args.legallySensitive != null) {
-            this.legallySensitive = args.legallySensitive;
-        }
-        if (args != null && args.allowUgc != null) {
-            this.allowUgc = args.allowUgc;
-        }
-        if (args != null && args.sensitive != null) {
-            this.sensitive = args.sensitive;
-        }
-        if (args != null && args.lang != null) {
-            this.lang = args.lang;
-        }
-        if (args != null && args.internalRevision != null) {
-            this.internalRevision = args.internalRevision;
-        }
-        if (args != null && args.internalContentCode != null) {
-            this.internalContentCode = args.internalContentCode;
-        }
-        if (args != null && args.isLive != null) {
-            this.isLive = args.isLive;
-        }
-        if (args != null && args.internalShortId != null) {
-            this.internalShortId = args.internalShortId;
-        }
-        if (args != null && args.shortSocialShareText != null) {
-            this.shortSocialShareText = args.shortSocialShareText;
-        }
-        if (args != null && args.socialShareText != null) {
-            this.socialShareText = args.socialShareText;
-        }
-        if (args != null && args.bodyText != null) {
-            this.bodyText = args.bodyText;
-        }
-        if (args != null && args.charCount != null) {
-            this.charCount = args.charCount;
-        }
-        if (args != null && args.internalVideoCode != null) {
-            this.internalVideoCode = args.internalVideoCode;
-        }
-        if (args != null && args.shouldHideReaderRevenue != null) {
-            this.shouldHideReaderRevenue = args.shouldHideReaderRevenue;
-        }
-        if (args != null && args.internalCommissionedWordcount != null) {
-            this.internalCommissionedWordcount = args.internalCommissionedWordcount;
-        }
-        if (args != null && args.showAffiliateLinks != null) {
-            this.showAffiliateLinks = args.showAffiliateLinks;
-        }
-        if (args != null && args.bylineHtml != null) {
-            this.bylineHtml = args.bylineHtml;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export interface IContentFieldsArgs {
+    headline?: string;
+    standfirst?: string;
+    trailText?: string;
+    byline?: string;
+    main?: string;
+    body?: string;
+    newspaperPageNumber?: number;
+    starRating?: number;
+    contributorBio?: string;
+    membershipAccess?: MembershipTier.MembershipTier;
+    wordcount?: number;
+    commentCloseDate?: CapiDateTime.ICapiDateTimeArgs;
+    commentable?: boolean;
+    creationDate?: CapiDateTime.ICapiDateTimeArgs;
+    displayHint?: string;
+    firstPublicationDate?: CapiDateTime.ICapiDateTimeArgs;
+    hasStoryPackage?: boolean;
+    internalComposerCode?: string;
+    internalOctopusCode?: string;
+    internalPageCode?: number;
+    internalStoryPackageCode?: number;
+    isInappropriateForSponsorship?: boolean;
+    isPremoderated?: boolean;
+    lastModified?: CapiDateTime.ICapiDateTimeArgs;
+    liveBloggingNow?: boolean;
+    newspaperEditionDate?: CapiDateTime.ICapiDateTimeArgs;
+    productionOffice?: Office.Office;
+    publication?: string;
+    scheduledPublicationDate?: CapiDateTime.ICapiDateTimeArgs;
+    secureThumbnail?: string;
+    shortUrl?: string;
+    shouldHideAdverts?: boolean;
+    showInRelatedContent?: boolean;
+    thumbnail?: string;
+    legallySensitive?: boolean;
+    allowUgc?: boolean;
+    sensitive?: boolean;
+    lang?: string;
+    internalRevision?: number;
+    internalContentCode?: number;
+    isLive?: boolean;
+    internalShortId?: string;
+    shortSocialShareText?: string;
+    socialShareText?: string;
+    bodyText?: string;
+    charCount?: number;
+    internalVideoCode?: string;
+    shouldHideReaderRevenue?: boolean;
+    internalCommissionedWordcount?: number;
+    showAffiliateLinks?: boolean;
+    bylineHtml?: string;
+}
+export const ContentFieldsCodec: thrift.IStructCodec<IContentFieldsArgs, IContentFields> = {
+    encode(args: IContentFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            headline: args.headline,
+            standfirst: args.standfirst,
+            trailText: args.trailText,
+            byline: args.byline,
+            main: args.main,
+            body: args.body,
+            newspaperPageNumber: args.newspaperPageNumber,
+            starRating: args.starRating,
+            contributorBio: args.contributorBio,
+            membershipAccess: args.membershipAccess,
+            wordcount: args.wordcount,
+            commentCloseDate: args.commentCloseDate,
+            commentable: args.commentable,
+            creationDate: args.creationDate,
+            displayHint: args.displayHint,
+            firstPublicationDate: args.firstPublicationDate,
+            hasStoryPackage: args.hasStoryPackage,
+            internalComposerCode: args.internalComposerCode,
+            internalOctopusCode: args.internalOctopusCode,
+            internalPageCode: args.internalPageCode,
+            internalStoryPackageCode: args.internalStoryPackageCode,
+            isInappropriateForSponsorship: args.isInappropriateForSponsorship,
+            isPremoderated: args.isPremoderated,
+            lastModified: args.lastModified,
+            liveBloggingNow: args.liveBloggingNow,
+            newspaperEditionDate: args.newspaperEditionDate,
+            productionOffice: args.productionOffice,
+            publication: args.publication,
+            scheduledPublicationDate: args.scheduledPublicationDate,
+            secureThumbnail: args.secureThumbnail,
+            shortUrl: args.shortUrl,
+            shouldHideAdverts: args.shouldHideAdverts,
+            showInRelatedContent: args.showInRelatedContent,
+            thumbnail: args.thumbnail,
+            legallySensitive: args.legallySensitive,
+            allowUgc: args.allowUgc,
+            sensitive: args.sensitive,
+            lang: args.lang,
+            internalRevision: args.internalRevision,
+            internalContentCode: args.internalContentCode,
+            isLive: args.isLive,
+            internalShortId: args.internalShortId,
+            shortSocialShareText: args.shortSocialShareText,
+            socialShareText: args.socialShareText,
+            bodyText: args.bodyText,
+            charCount: args.charCount,
+            internalVideoCode: args.internalVideoCode,
+            shouldHideReaderRevenue: args.shouldHideReaderRevenue,
+            internalCommissionedWordcount: args.internalCommissionedWordcount,
+            showAffiliateLinks: args.showAffiliateLinks,
+            bylineHtml: args.bylineHtml
+        };
         output.writeStructBegin("ContentFields");
-        if (this.headline != null) {
+        if (obj.headline != null) {
             output.writeFieldBegin("headline", thrift.TType.STRING, 1);
-            output.writeString(this.headline);
+            output.writeString(obj.headline);
             output.writeFieldEnd();
         }
-        if (this.standfirst != null) {
+        if (obj.standfirst != null) {
             output.writeFieldBegin("standfirst", thrift.TType.STRING, 2);
-            output.writeString(this.standfirst);
+            output.writeString(obj.standfirst);
             output.writeFieldEnd();
         }
-        if (this.trailText != null) {
+        if (obj.trailText != null) {
             output.writeFieldBegin("trailText", thrift.TType.STRING, 3);
-            output.writeString(this.trailText);
+            output.writeString(obj.trailText);
             output.writeFieldEnd();
         }
-        if (this.byline != null) {
+        if (obj.byline != null) {
             output.writeFieldBegin("byline", thrift.TType.STRING, 4);
-            output.writeString(this.byline);
+            output.writeString(obj.byline);
             output.writeFieldEnd();
         }
-        if (this.main != null) {
+        if (obj.main != null) {
             output.writeFieldBegin("main", thrift.TType.STRING, 5);
-            output.writeString(this.main);
+            output.writeString(obj.main);
             output.writeFieldEnd();
         }
-        if (this.body != null) {
+        if (obj.body != null) {
             output.writeFieldBegin("body", thrift.TType.STRING, 6);
-            output.writeString(this.body);
+            output.writeString(obj.body);
             output.writeFieldEnd();
         }
-        if (this.newspaperPageNumber != null) {
+        if (obj.newspaperPageNumber != null) {
             output.writeFieldBegin("newspaperPageNumber", thrift.TType.I32, 7);
-            output.writeI32(this.newspaperPageNumber);
+            output.writeI32(obj.newspaperPageNumber);
             output.writeFieldEnd();
         }
-        if (this.starRating != null) {
+        if (obj.starRating != null) {
             output.writeFieldBegin("starRating", thrift.TType.I32, 8);
-            output.writeI32(this.starRating);
+            output.writeI32(obj.starRating);
             output.writeFieldEnd();
         }
-        if (this.contributorBio != null) {
+        if (obj.contributorBio != null) {
             output.writeFieldBegin("contributorBio", thrift.TType.STRING, 9);
-            output.writeString(this.contributorBio);
+            output.writeString(obj.contributorBio);
             output.writeFieldEnd();
         }
-        if (this.membershipAccess != null) {
+        if (obj.membershipAccess != null) {
             output.writeFieldBegin("membershipAccess", thrift.TType.I32, 10);
-            output.writeI32(this.membershipAccess);
+            output.writeI32(obj.membershipAccess);
             output.writeFieldEnd();
         }
-        if (this.wordcount != null) {
+        if (obj.wordcount != null) {
             output.writeFieldBegin("wordcount", thrift.TType.I32, 11);
-            output.writeI32(this.wordcount);
+            output.writeI32(obj.wordcount);
             output.writeFieldEnd();
         }
-        if (this.commentCloseDate != null) {
+        if (obj.commentCloseDate != null) {
             output.writeFieldBegin("commentCloseDate", thrift.TType.STRUCT, 12);
-            this.commentCloseDate.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.commentCloseDate, output);
             output.writeFieldEnd();
         }
-        if (this.commentable != null) {
+        if (obj.commentable != null) {
             output.writeFieldBegin("commentable", thrift.TType.BOOL, 13);
-            output.writeBool(this.commentable);
+            output.writeBool(obj.commentable);
             output.writeFieldEnd();
         }
-        if (this.creationDate != null) {
+        if (obj.creationDate != null) {
             output.writeFieldBegin("creationDate", thrift.TType.STRUCT, 14);
-            this.creationDate.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.creationDate, output);
             output.writeFieldEnd();
         }
-        if (this.displayHint != null) {
+        if (obj.displayHint != null) {
             output.writeFieldBegin("displayHint", thrift.TType.STRING, 15);
-            output.writeString(this.displayHint);
+            output.writeString(obj.displayHint);
             output.writeFieldEnd();
         }
-        if (this.firstPublicationDate != null) {
+        if (obj.firstPublicationDate != null) {
             output.writeFieldBegin("firstPublicationDate", thrift.TType.STRUCT, 16);
-            this.firstPublicationDate.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.firstPublicationDate, output);
             output.writeFieldEnd();
         }
-        if (this.hasStoryPackage != null) {
+        if (obj.hasStoryPackage != null) {
             output.writeFieldBegin("hasStoryPackage", thrift.TType.BOOL, 17);
-            output.writeBool(this.hasStoryPackage);
+            output.writeBool(obj.hasStoryPackage);
             output.writeFieldEnd();
         }
-        if (this.internalComposerCode != null) {
+        if (obj.internalComposerCode != null) {
             output.writeFieldBegin("internalComposerCode", thrift.TType.STRING, 18);
-            output.writeString(this.internalComposerCode);
+            output.writeString(obj.internalComposerCode);
             output.writeFieldEnd();
         }
-        if (this.internalOctopusCode != null) {
+        if (obj.internalOctopusCode != null) {
             output.writeFieldBegin("internalOctopusCode", thrift.TType.STRING, 19);
-            output.writeString(this.internalOctopusCode);
+            output.writeString(obj.internalOctopusCode);
             output.writeFieldEnd();
         }
-        if (this.internalPageCode != null) {
+        if (obj.internalPageCode != null) {
             output.writeFieldBegin("internalPageCode", thrift.TType.I32, 20);
-            output.writeI32(this.internalPageCode);
+            output.writeI32(obj.internalPageCode);
             output.writeFieldEnd();
         }
-        if (this.internalStoryPackageCode != null) {
+        if (obj.internalStoryPackageCode != null) {
             output.writeFieldBegin("internalStoryPackageCode", thrift.TType.I32, 21);
-            output.writeI32(this.internalStoryPackageCode);
+            output.writeI32(obj.internalStoryPackageCode);
             output.writeFieldEnd();
         }
-        if (this.isInappropriateForSponsorship != null) {
+        if (obj.isInappropriateForSponsorship != null) {
             output.writeFieldBegin("isInappropriateForSponsorship", thrift.TType.BOOL, 22);
-            output.writeBool(this.isInappropriateForSponsorship);
+            output.writeBool(obj.isInappropriateForSponsorship);
             output.writeFieldEnd();
         }
-        if (this.isPremoderated != null) {
+        if (obj.isPremoderated != null) {
             output.writeFieldBegin("isPremoderated", thrift.TType.BOOL, 23);
-            output.writeBool(this.isPremoderated);
+            output.writeBool(obj.isPremoderated);
             output.writeFieldEnd();
         }
-        if (this.lastModified != null) {
+        if (obj.lastModified != null) {
             output.writeFieldBegin("lastModified", thrift.TType.STRUCT, 24);
-            this.lastModified.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.lastModified, output);
             output.writeFieldEnd();
         }
-        if (this.liveBloggingNow != null) {
+        if (obj.liveBloggingNow != null) {
             output.writeFieldBegin("liveBloggingNow", thrift.TType.BOOL, 25);
-            output.writeBool(this.liveBloggingNow);
+            output.writeBool(obj.liveBloggingNow);
             output.writeFieldEnd();
         }
-        if (this.newspaperEditionDate != null) {
+        if (obj.newspaperEditionDate != null) {
             output.writeFieldBegin("newspaperEditionDate", thrift.TType.STRUCT, 26);
-            this.newspaperEditionDate.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.newspaperEditionDate, output);
             output.writeFieldEnd();
         }
-        if (this.productionOffice != null) {
+        if (obj.productionOffice != null) {
             output.writeFieldBegin("productionOffice", thrift.TType.I32, 27);
-            output.writeI32(this.productionOffice);
+            output.writeI32(obj.productionOffice);
             output.writeFieldEnd();
         }
-        if (this.publication != null) {
+        if (obj.publication != null) {
             output.writeFieldBegin("publication", thrift.TType.STRING, 28);
-            output.writeString(this.publication);
+            output.writeString(obj.publication);
             output.writeFieldEnd();
         }
-        if (this.scheduledPublicationDate != null) {
+        if (obj.scheduledPublicationDate != null) {
             output.writeFieldBegin("scheduledPublicationDate", thrift.TType.STRUCT, 29);
-            this.scheduledPublicationDate.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.scheduledPublicationDate, output);
             output.writeFieldEnd();
         }
-        if (this.secureThumbnail != null) {
+        if (obj.secureThumbnail != null) {
             output.writeFieldBegin("secureThumbnail", thrift.TType.STRING, 30);
-            output.writeString(this.secureThumbnail);
+            output.writeString(obj.secureThumbnail);
             output.writeFieldEnd();
         }
-        if (this.shortUrl != null) {
+        if (obj.shortUrl != null) {
             output.writeFieldBegin("shortUrl", thrift.TType.STRING, 31);
-            output.writeString(this.shortUrl);
+            output.writeString(obj.shortUrl);
             output.writeFieldEnd();
         }
-        if (this.shouldHideAdverts != null) {
+        if (obj.shouldHideAdverts != null) {
             output.writeFieldBegin("shouldHideAdverts", thrift.TType.BOOL, 32);
-            output.writeBool(this.shouldHideAdverts);
+            output.writeBool(obj.shouldHideAdverts);
             output.writeFieldEnd();
         }
-        if (this.showInRelatedContent != null) {
+        if (obj.showInRelatedContent != null) {
             output.writeFieldBegin("showInRelatedContent", thrift.TType.BOOL, 33);
-            output.writeBool(this.showInRelatedContent);
+            output.writeBool(obj.showInRelatedContent);
             output.writeFieldEnd();
         }
-        if (this.thumbnail != null) {
+        if (obj.thumbnail != null) {
             output.writeFieldBegin("thumbnail", thrift.TType.STRING, 34);
-            output.writeString(this.thumbnail);
+            output.writeString(obj.thumbnail);
             output.writeFieldEnd();
         }
-        if (this.legallySensitive != null) {
+        if (obj.legallySensitive != null) {
             output.writeFieldBegin("legallySensitive", thrift.TType.BOOL, 35);
-            output.writeBool(this.legallySensitive);
+            output.writeBool(obj.legallySensitive);
             output.writeFieldEnd();
         }
-        if (this.allowUgc != null) {
+        if (obj.allowUgc != null) {
             output.writeFieldBegin("allowUgc", thrift.TType.BOOL, 36);
-            output.writeBool(this.allowUgc);
+            output.writeBool(obj.allowUgc);
             output.writeFieldEnd();
         }
-        if (this.sensitive != null) {
+        if (obj.sensitive != null) {
             output.writeFieldBegin("sensitive", thrift.TType.BOOL, 37);
-            output.writeBool(this.sensitive);
+            output.writeBool(obj.sensitive);
             output.writeFieldEnd();
         }
-        if (this.lang != null) {
+        if (obj.lang != null) {
             output.writeFieldBegin("lang", thrift.TType.STRING, 38);
-            output.writeString(this.lang);
+            output.writeString(obj.lang);
             output.writeFieldEnd();
         }
-        if (this.internalRevision != null) {
+        if (obj.internalRevision != null) {
             output.writeFieldBegin("internalRevision", thrift.TType.I32, 39);
-            output.writeI32(this.internalRevision);
+            output.writeI32(obj.internalRevision);
             output.writeFieldEnd();
         }
-        if (this.internalContentCode != null) {
+        if (obj.internalContentCode != null) {
             output.writeFieldBegin("internalContentCode", thrift.TType.I32, 40);
-            output.writeI32(this.internalContentCode);
+            output.writeI32(obj.internalContentCode);
             output.writeFieldEnd();
         }
-        if (this.isLive != null) {
+        if (obj.isLive != null) {
             output.writeFieldBegin("isLive", thrift.TType.BOOL, 41);
-            output.writeBool(this.isLive);
+            output.writeBool(obj.isLive);
             output.writeFieldEnd();
         }
-        if (this.internalShortId != null) {
+        if (obj.internalShortId != null) {
             output.writeFieldBegin("internalShortId", thrift.TType.STRING, 42);
-            output.writeString(this.internalShortId);
+            output.writeString(obj.internalShortId);
             output.writeFieldEnd();
         }
-        if (this.shortSocialShareText != null) {
+        if (obj.shortSocialShareText != null) {
             output.writeFieldBegin("shortSocialShareText", thrift.TType.STRING, 43);
-            output.writeString(this.shortSocialShareText);
+            output.writeString(obj.shortSocialShareText);
             output.writeFieldEnd();
         }
-        if (this.socialShareText != null) {
+        if (obj.socialShareText != null) {
             output.writeFieldBegin("socialShareText", thrift.TType.STRING, 44);
-            output.writeString(this.socialShareText);
+            output.writeString(obj.socialShareText);
             output.writeFieldEnd();
         }
-        if (this.bodyText != null) {
+        if (obj.bodyText != null) {
             output.writeFieldBegin("bodyText", thrift.TType.STRING, 45);
-            output.writeString(this.bodyText);
+            output.writeString(obj.bodyText);
             output.writeFieldEnd();
         }
-        if (this.charCount != null) {
+        if (obj.charCount != null) {
             output.writeFieldBegin("charCount", thrift.TType.I32, 46);
-            output.writeI32(this.charCount);
+            output.writeI32(obj.charCount);
             output.writeFieldEnd();
         }
-        if (this.internalVideoCode != null) {
+        if (obj.internalVideoCode != null) {
             output.writeFieldBegin("internalVideoCode", thrift.TType.STRING, 47);
-            output.writeString(this.internalVideoCode);
+            output.writeString(obj.internalVideoCode);
             output.writeFieldEnd();
         }
-        if (this.shouldHideReaderRevenue != null) {
+        if (obj.shouldHideReaderRevenue != null) {
             output.writeFieldBegin("shouldHideReaderRevenue", thrift.TType.BOOL, 48);
-            output.writeBool(this.shouldHideReaderRevenue);
+            output.writeBool(obj.shouldHideReaderRevenue);
             output.writeFieldEnd();
         }
-        if (this.internalCommissionedWordcount != null) {
+        if (obj.internalCommissionedWordcount != null) {
             output.writeFieldBegin("internalCommissionedWordcount", thrift.TType.I32, 49);
-            output.writeI32(this.internalCommissionedWordcount);
+            output.writeI32(obj.internalCommissionedWordcount);
             output.writeFieldEnd();
         }
-        if (this.showAffiliateLinks != null) {
+        if (obj.showAffiliateLinks != null) {
             output.writeFieldBegin("showAffiliateLinks", thrift.TType.BOOL, 50);
-            output.writeBool(this.showAffiliateLinks);
+            output.writeBool(obj.showAffiliateLinks);
             output.writeFieldEnd();
         }
-        if (this.bylineHtml != null) {
+        if (obj.bylineHtml != null) {
             output.writeFieldBegin("bylineHtml", thrift.TType.STRING, 51);
-            output.writeString(this.bylineHtml);
+            output.writeString(obj.bylineHtml);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): ContentFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IContentFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -641,7 +541,7 @@ export class ContentFields {
                     break;
                 case 12:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_12: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_12: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.commentCloseDate = value_12;
                     }
                     else {
@@ -659,7 +559,7 @@ export class ContentFields {
                     break;
                 case 14:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_14: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_14: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.creationDate = value_14;
                     }
                     else {
@@ -677,7 +577,7 @@ export class ContentFields {
                     break;
                 case 16:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_16: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_16: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.firstPublicationDate = value_16;
                     }
                     else {
@@ -749,7 +649,7 @@ export class ContentFields {
                     break;
                 case 24:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_24: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_24: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.lastModified = value_24;
                     }
                     else {
@@ -767,7 +667,7 @@ export class ContentFields {
                     break;
                 case 26:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_26: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_26: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.newspaperEditionDate = value_26;
                     }
                     else {
@@ -794,7 +694,7 @@ export class ContentFields {
                     break;
                 case 29:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_29: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_29: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.scheduledPublicationDate = value_29;
                     }
                     else {
@@ -1006,6 +906,329 @@ export class ContentFields {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new ContentFields(_args);
+        return {
+            headline: _args.headline,
+            standfirst: _args.standfirst,
+            trailText: _args.trailText,
+            byline: _args.byline,
+            main: _args.main,
+            body: _args.body,
+            newspaperPageNumber: _args.newspaperPageNumber,
+            starRating: _args.starRating,
+            contributorBio: _args.contributorBio,
+            membershipAccess: _args.membershipAccess,
+            wordcount: _args.wordcount,
+            commentCloseDate: _args.commentCloseDate,
+            commentable: _args.commentable,
+            creationDate: _args.creationDate,
+            displayHint: _args.displayHint,
+            firstPublicationDate: _args.firstPublicationDate,
+            hasStoryPackage: _args.hasStoryPackage,
+            internalComposerCode: _args.internalComposerCode,
+            internalOctopusCode: _args.internalOctopusCode,
+            internalPageCode: _args.internalPageCode,
+            internalStoryPackageCode: _args.internalStoryPackageCode,
+            isInappropriateForSponsorship: _args.isInappropriateForSponsorship,
+            isPremoderated: _args.isPremoderated,
+            lastModified: _args.lastModified,
+            liveBloggingNow: _args.liveBloggingNow,
+            newspaperEditionDate: _args.newspaperEditionDate,
+            productionOffice: _args.productionOffice,
+            publication: _args.publication,
+            scheduledPublicationDate: _args.scheduledPublicationDate,
+            secureThumbnail: _args.secureThumbnail,
+            shortUrl: _args.shortUrl,
+            shouldHideAdverts: _args.shouldHideAdverts,
+            showInRelatedContent: _args.showInRelatedContent,
+            thumbnail: _args.thumbnail,
+            legallySensitive: _args.legallySensitive,
+            allowUgc: _args.allowUgc,
+            sensitive: _args.sensitive,
+            lang: _args.lang,
+            internalRevision: _args.internalRevision,
+            internalContentCode: _args.internalContentCode,
+            isLive: _args.isLive,
+            internalShortId: _args.internalShortId,
+            shortSocialShareText: _args.shortSocialShareText,
+            socialShareText: _args.socialShareText,
+            bodyText: _args.bodyText,
+            charCount: _args.charCount,
+            internalVideoCode: _args.internalVideoCode,
+            shouldHideReaderRevenue: _args.shouldHideReaderRevenue,
+            internalCommissionedWordcount: _args.internalCommissionedWordcount,
+            showAffiliateLinks: _args.showAffiliateLinks,
+            bylineHtml: _args.bylineHtml
+        };
+    }
+};
+export class ContentFields extends thrift.StructLike implements IContentFields {
+    public headline?: string;
+    public standfirst?: string;
+    public trailText?: string;
+    public byline?: string;
+    public main?: string;
+    public body?: string;
+    public newspaperPageNumber?: number;
+    public starRating?: number;
+    public contributorBio?: string;
+    public membershipAccess?: MembershipTier.MembershipTier;
+    public wordcount?: number;
+    public commentCloseDate?: CapiDateTime.ICapiDateTime;
+    public commentable?: boolean;
+    public creationDate?: CapiDateTime.ICapiDateTime;
+    public displayHint?: string;
+    public firstPublicationDate?: CapiDateTime.ICapiDateTime;
+    public hasStoryPackage?: boolean;
+    public internalComposerCode?: string;
+    public internalOctopusCode?: string;
+    public internalPageCode?: number;
+    public internalStoryPackageCode?: number;
+    public isInappropriateForSponsorship?: boolean;
+    public isPremoderated?: boolean;
+    public lastModified?: CapiDateTime.ICapiDateTime;
+    public liveBloggingNow?: boolean;
+    public newspaperEditionDate?: CapiDateTime.ICapiDateTime;
+    public productionOffice?: Office.Office;
+    public publication?: string;
+    public scheduledPublicationDate?: CapiDateTime.ICapiDateTime;
+    public secureThumbnail?: string;
+    public shortUrl?: string;
+    public shouldHideAdverts?: boolean;
+    public showInRelatedContent?: boolean;
+    public thumbnail?: string;
+    public legallySensitive?: boolean;
+    public allowUgc?: boolean;
+    public sensitive?: boolean;
+    public lang?: string;
+    public internalRevision?: number;
+    public internalContentCode?: number;
+    public isLive?: boolean;
+    public internalShortId?: string;
+    public shortSocialShareText?: string;
+    public socialShareText?: string;
+    public bodyText?: string;
+    public charCount?: number;
+    public internalVideoCode?: string;
+    public shouldHideReaderRevenue?: boolean;
+    public internalCommissionedWordcount?: number;
+    public showAffiliateLinks?: boolean;
+    public bylineHtml?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IContentFieldsArgs = {}) {
+        super();
+        if (args.headline != null) {
+            const value_52: string = args.headline;
+            this.headline = value_52;
+        }
+        if (args.standfirst != null) {
+            const value_53: string = args.standfirst;
+            this.standfirst = value_53;
+        }
+        if (args.trailText != null) {
+            const value_54: string = args.trailText;
+            this.trailText = value_54;
+        }
+        if (args.byline != null) {
+            const value_55: string = args.byline;
+            this.byline = value_55;
+        }
+        if (args.main != null) {
+            const value_56: string = args.main;
+            this.main = value_56;
+        }
+        if (args.body != null) {
+            const value_57: string = args.body;
+            this.body = value_57;
+        }
+        if (args.newspaperPageNumber != null) {
+            const value_58: number = args.newspaperPageNumber;
+            this.newspaperPageNumber = value_58;
+        }
+        if (args.starRating != null) {
+            const value_59: number = args.starRating;
+            this.starRating = value_59;
+        }
+        if (args.contributorBio != null) {
+            const value_60: string = args.contributorBio;
+            this.contributorBio = value_60;
+        }
+        if (args.membershipAccess != null) {
+            const value_61: MembershipTier.MembershipTier = args.membershipAccess;
+            this.membershipAccess = value_61;
+        }
+        if (args.wordcount != null) {
+            const value_62: number = args.wordcount;
+            this.wordcount = value_62;
+        }
+        if (args.commentCloseDate != null) {
+            const value_63: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.commentCloseDate);
+            this.commentCloseDate = value_63;
+        }
+        if (args.commentable != null) {
+            const value_64: boolean = args.commentable;
+            this.commentable = value_64;
+        }
+        if (args.creationDate != null) {
+            const value_65: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.creationDate);
+            this.creationDate = value_65;
+        }
+        if (args.displayHint != null) {
+            const value_66: string = args.displayHint;
+            this.displayHint = value_66;
+        }
+        if (args.firstPublicationDate != null) {
+            const value_67: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.firstPublicationDate);
+            this.firstPublicationDate = value_67;
+        }
+        if (args.hasStoryPackage != null) {
+            const value_68: boolean = args.hasStoryPackage;
+            this.hasStoryPackage = value_68;
+        }
+        if (args.internalComposerCode != null) {
+            const value_69: string = args.internalComposerCode;
+            this.internalComposerCode = value_69;
+        }
+        if (args.internalOctopusCode != null) {
+            const value_70: string = args.internalOctopusCode;
+            this.internalOctopusCode = value_70;
+        }
+        if (args.internalPageCode != null) {
+            const value_71: number = args.internalPageCode;
+            this.internalPageCode = value_71;
+        }
+        if (args.internalStoryPackageCode != null) {
+            const value_72: number = args.internalStoryPackageCode;
+            this.internalStoryPackageCode = value_72;
+        }
+        if (args.isInappropriateForSponsorship != null) {
+            const value_73: boolean = args.isInappropriateForSponsorship;
+            this.isInappropriateForSponsorship = value_73;
+        }
+        if (args.isPremoderated != null) {
+            const value_74: boolean = args.isPremoderated;
+            this.isPremoderated = value_74;
+        }
+        if (args.lastModified != null) {
+            const value_75: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.lastModified);
+            this.lastModified = value_75;
+        }
+        if (args.liveBloggingNow != null) {
+            const value_76: boolean = args.liveBloggingNow;
+            this.liveBloggingNow = value_76;
+        }
+        if (args.newspaperEditionDate != null) {
+            const value_77: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.newspaperEditionDate);
+            this.newspaperEditionDate = value_77;
+        }
+        if (args.productionOffice != null) {
+            const value_78: Office.Office = args.productionOffice;
+            this.productionOffice = value_78;
+        }
+        if (args.publication != null) {
+            const value_79: string = args.publication;
+            this.publication = value_79;
+        }
+        if (args.scheduledPublicationDate != null) {
+            const value_80: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.scheduledPublicationDate);
+            this.scheduledPublicationDate = value_80;
+        }
+        if (args.secureThumbnail != null) {
+            const value_81: string = args.secureThumbnail;
+            this.secureThumbnail = value_81;
+        }
+        if (args.shortUrl != null) {
+            const value_82: string = args.shortUrl;
+            this.shortUrl = value_82;
+        }
+        if (args.shouldHideAdverts != null) {
+            const value_83: boolean = args.shouldHideAdverts;
+            this.shouldHideAdverts = value_83;
+        }
+        if (args.showInRelatedContent != null) {
+            const value_84: boolean = args.showInRelatedContent;
+            this.showInRelatedContent = value_84;
+        }
+        if (args.thumbnail != null) {
+            const value_85: string = args.thumbnail;
+            this.thumbnail = value_85;
+        }
+        if (args.legallySensitive != null) {
+            const value_86: boolean = args.legallySensitive;
+            this.legallySensitive = value_86;
+        }
+        if (args.allowUgc != null) {
+            const value_87: boolean = args.allowUgc;
+            this.allowUgc = value_87;
+        }
+        if (args.sensitive != null) {
+            const value_88: boolean = args.sensitive;
+            this.sensitive = value_88;
+        }
+        if (args.lang != null) {
+            const value_89: string = args.lang;
+            this.lang = value_89;
+        }
+        if (args.internalRevision != null) {
+            const value_90: number = args.internalRevision;
+            this.internalRevision = value_90;
+        }
+        if (args.internalContentCode != null) {
+            const value_91: number = args.internalContentCode;
+            this.internalContentCode = value_91;
+        }
+        if (args.isLive != null) {
+            const value_92: boolean = args.isLive;
+            this.isLive = value_92;
+        }
+        if (args.internalShortId != null) {
+            const value_93: string = args.internalShortId;
+            this.internalShortId = value_93;
+        }
+        if (args.shortSocialShareText != null) {
+            const value_94: string = args.shortSocialShareText;
+            this.shortSocialShareText = value_94;
+        }
+        if (args.socialShareText != null) {
+            const value_95: string = args.socialShareText;
+            this.socialShareText = value_95;
+        }
+        if (args.bodyText != null) {
+            const value_96: string = args.bodyText;
+            this.bodyText = value_96;
+        }
+        if (args.charCount != null) {
+            const value_97: number = args.charCount;
+            this.charCount = value_97;
+        }
+        if (args.internalVideoCode != null) {
+            const value_98: string = args.internalVideoCode;
+            this.internalVideoCode = value_98;
+        }
+        if (args.shouldHideReaderRevenue != null) {
+            const value_99: boolean = args.shouldHideReaderRevenue;
+            this.shouldHideReaderRevenue = value_99;
+        }
+        if (args.internalCommissionedWordcount != null) {
+            const value_100: number = args.internalCommissionedWordcount;
+            this.internalCommissionedWordcount = value_100;
+        }
+        if (args.showAffiliateLinks != null) {
+            const value_101: boolean = args.showAffiliateLinks;
+            this.showAffiliateLinks = value_101;
+        }
+        if (args.bylineHtml != null) {
+            const value_102: string = args.bylineHtml;
+            this.bylineHtml = value_102;
+        }
+    }
+    public static read(input: thrift.TProtocol): ContentFields {
+        return new ContentFields(ContentFieldsCodec.decode(input));
+    }
+    public static write(args: IContentFieldsArgs, output: thrift.TProtocol): void {
+        return ContentFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return ContentFieldsCodec.encode(this, output);
     }
 }

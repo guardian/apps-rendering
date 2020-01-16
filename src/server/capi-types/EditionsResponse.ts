@@ -6,76 +6,70 @@
 */
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as NetworkFront from "./NetworkFront";
+export interface IEditionsResponse {
+    status: string;
+    userTier: string;
+    total: number;
+    results: Array<NetworkFront.INetworkFront>;
+}
 export interface IEditionsResponseArgs {
     status: string;
     userTier: string;
     total: number;
-    results: Array<NetworkFront.NetworkFront>;
+    results: Array<NetworkFront.INetworkFrontArgs>;
 }
-export class EditionsResponse {
-    public status: string;
-    public userTier: string;
-    public total: number;
-    public results: Array<NetworkFront.NetworkFront>;
-    constructor(args: IEditionsResponseArgs) {
-        if (args != null && args.status != null) {
-            this.status = args.status;
+export const EditionsResponseCodec: thrift.IStructCodec<IEditionsResponseArgs, IEditionsResponse> = {
+    encode(args: IEditionsResponseArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            status: args.status,
+            userTier: args.userTier,
+            total: args.total,
+            results: args.results
+        };
+        output.writeStructBegin("EditionsResponse");
+        if (obj.status != null) {
+            output.writeFieldBegin("status", thrift.TType.STRING, 1);
+            output.writeString(obj.status);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
         }
-        if (args != null && args.userTier != null) {
-            this.userTier = args.userTier;
+        if (obj.userTier != null) {
+            output.writeFieldBegin("userTier", thrift.TType.STRING, 2);
+            output.writeString(obj.userTier);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[userTier] is unset!");
         }
-        if (args != null && args.total != null) {
-            this.total = args.total;
+        if (obj.total != null) {
+            output.writeFieldBegin("total", thrift.TType.I32, 3);
+            output.writeI32(obj.total);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[total] is unset!");
         }
-        if (args != null && args.results != null) {
-            this.results = args.results;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("EditionsResponse");
-        if (this.status != null) {
-            output.writeFieldBegin("status", thrift.TType.STRING, 1);
-            output.writeString(this.status);
-            output.writeFieldEnd();
-        }
-        if (this.userTier != null) {
-            output.writeFieldBegin("userTier", thrift.TType.STRING, 2);
-            output.writeString(this.userTier);
-            output.writeFieldEnd();
-        }
-        if (this.total != null) {
-            output.writeFieldBegin("total", thrift.TType.I32, 3);
-            output.writeI32(this.total);
-            output.writeFieldEnd();
-        }
-        if (this.results != null) {
+        if (obj.results != null) {
             output.writeFieldBegin("results", thrift.TType.LIST, 4);
-            output.writeListBegin(thrift.TType.STRUCT, this.results.length);
-            this.results.forEach((value_1: NetworkFront.NetworkFront): void => {
-                value_1.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.results.length);
+            obj.results.forEach((value_1: NetworkFront.INetworkFrontArgs): void => {
+                NetworkFront.NetworkFrontCodec.encode(value_1, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
+        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): EditionsResponse {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IEditionsResponse {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -113,11 +107,11 @@ export class EditionsResponse {
                     break;
                 case 4:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_5: Array<NetworkFront.NetworkFront> = new Array<NetworkFront.NetworkFront>();
+                        const value_5: Array<NetworkFront.INetworkFront> = new Array<NetworkFront.INetworkFront>();
                         const metadata_1: thrift.IThriftList = input.readListBegin();
                         const size_1: number = metadata_1.size;
                         for (let i_1: number = 0; i_1 < size_1; i_1++) {
-                            const value_6: NetworkFront.NetworkFront = NetworkFront.NetworkFront.read(input);
+                            const value_6: NetworkFront.INetworkFront = NetworkFront.NetworkFrontCodec.decode(input);
                             value_5.push(value_6);
                         }
                         input.readListEnd();
@@ -135,10 +129,67 @@ export class EditionsResponse {
         }
         input.readStructEnd();
         if (_args.status !== undefined && _args.userTier !== undefined && _args.total !== undefined && _args.results !== undefined) {
-            return new EditionsResponse(_args);
+            return {
+                status: _args.status,
+                userTier: _args.userTier,
+                total: _args.total,
+                results: _args.results
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read EditionsResponse from input");
         }
+    }
+};
+export class EditionsResponse extends thrift.StructLike implements IEditionsResponse {
+    public status: string;
+    public userTier: string;
+    public total: number;
+    public results: Array<NetworkFront.INetworkFront>;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IEditionsResponseArgs) {
+        super();
+        if (args.status != null) {
+            const value_7: string = args.status;
+            this.status = value_7;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
+        }
+        if (args.userTier != null) {
+            const value_8: string = args.userTier;
+            this.userTier = value_8;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[userTier] is unset!");
+        }
+        if (args.total != null) {
+            const value_9: number = args.total;
+            this.total = value_9;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[total] is unset!");
+        }
+        if (args.results != null) {
+            const value_10: Array<NetworkFront.INetworkFront> = new Array<NetworkFront.INetworkFront>();
+            args.results.forEach((value_11: NetworkFront.INetworkFrontArgs): void => {
+                const value_12: NetworkFront.INetworkFront = new NetworkFront.NetworkFront(value_11);
+                value_10.push(value_12);
+            });
+            this.results = value_10;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): EditionsResponse {
+        return new EditionsResponse(EditionsResponseCodec.decode(input));
+    }
+    public static write(args: IEditionsResponseArgs, output: thrift.TProtocol): void {
+        return EditionsResponseCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return EditionsResponseCodec.encode(this, output);
     }
 }

@@ -6,63 +6,59 @@
 */
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as Pillar from "./Pillar";
+export interface IPillarsResponse {
+    status: string;
+    total: number;
+    results: Array<Pillar.IPillar>;
+}
 export interface IPillarsResponseArgs {
     status: string;
     total: number;
-    results: Array<Pillar.Pillar>;
+    results: Array<Pillar.IPillarArgs>;
 }
-export class PillarsResponse {
-    public status: string;
-    public total: number;
-    public results: Array<Pillar.Pillar>;
-    constructor(args: IPillarsResponseArgs) {
-        if (args != null && args.status != null) {
-            this.status = args.status;
+export const PillarsResponseCodec: thrift.IStructCodec<IPillarsResponseArgs, IPillarsResponse> = {
+    encode(args: IPillarsResponseArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            status: args.status,
+            total: args.total,
+            results: args.results
+        };
+        output.writeStructBegin("PillarsResponse");
+        if (obj.status != null) {
+            output.writeFieldBegin("status", thrift.TType.STRING, 1);
+            output.writeString(obj.status);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
         }
-        if (args != null && args.total != null) {
-            this.total = args.total;
+        if (obj.total != null) {
+            output.writeFieldBegin("total", thrift.TType.I32, 2);
+            output.writeI32(obj.total);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[total] is unset!");
         }
-        if (args != null && args.results != null) {
-            this.results = args.results;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("PillarsResponse");
-        if (this.status != null) {
-            output.writeFieldBegin("status", thrift.TType.STRING, 1);
-            output.writeString(this.status);
-            output.writeFieldEnd();
-        }
-        if (this.total != null) {
-            output.writeFieldBegin("total", thrift.TType.I32, 2);
-            output.writeI32(this.total);
-            output.writeFieldEnd();
-        }
-        if (this.results != null) {
+        if (obj.results != null) {
             output.writeFieldBegin("results", thrift.TType.LIST, 3);
-            output.writeListBegin(thrift.TType.STRUCT, this.results.length);
-            this.results.forEach((value_1: Pillar.Pillar): void => {
-                value_1.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.results.length);
+            obj.results.forEach((value_1: Pillar.IPillarArgs): void => {
+                Pillar.PillarCodec.encode(value_1, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
+        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): PillarsResponse {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IPillarsResponse {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -91,11 +87,11 @@ export class PillarsResponse {
                     break;
                 case 3:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_4: Array<Pillar.Pillar> = new Array<Pillar.Pillar>();
+                        const value_4: Array<Pillar.IPillar> = new Array<Pillar.IPillar>();
                         const metadata_1: thrift.IThriftList = input.readListBegin();
                         const size_1: number = metadata_1.size;
                         for (let i_1: number = 0; i_1 < size_1; i_1++) {
-                            const value_5: Pillar.Pillar = Pillar.Pillar.read(input);
+                            const value_5: Pillar.IPillar = Pillar.PillarCodec.decode(input);
                             value_4.push(value_5);
                         }
                         input.readListEnd();
@@ -113,10 +109,58 @@ export class PillarsResponse {
         }
         input.readStructEnd();
         if (_args.status !== undefined && _args.total !== undefined && _args.results !== undefined) {
-            return new PillarsResponse(_args);
+            return {
+                status: _args.status,
+                total: _args.total,
+                results: _args.results
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read PillarsResponse from input");
         }
+    }
+};
+export class PillarsResponse extends thrift.StructLike implements IPillarsResponse {
+    public status: string;
+    public total: number;
+    public results: Array<Pillar.IPillar>;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IPillarsResponseArgs) {
+        super();
+        if (args.status != null) {
+            const value_6: string = args.status;
+            this.status = value_6;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
+        }
+        if (args.total != null) {
+            const value_7: number = args.total;
+            this.total = value_7;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[total] is unset!");
+        }
+        if (args.results != null) {
+            const value_8: Array<Pillar.IPillar> = new Array<Pillar.IPillar>();
+            args.results.forEach((value_9: Pillar.IPillarArgs): void => {
+                const value_10: Pillar.IPillar = new Pillar.Pillar(value_9);
+                value_8.push(value_10);
+            });
+            this.results = value_8;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[results] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): PillarsResponse {
+        return new PillarsResponse(PillarsResponseCodec.decode(input));
+    }
+    public static write(args: IPillarsResponseArgs, output: thrift.TProtocol): void {
+        return PillarsResponseCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return PillarsResponseCodec.encode(this, output);
     }
 }

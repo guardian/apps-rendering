@@ -5,50 +5,46 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IPullquoteElementFields {
+    html?: string;
+    attribution?: string;
+    role?: string;
+}
 export interface IPullquoteElementFieldsArgs {
     html?: string;
     attribution?: string;
     role?: string;
 }
-export class PullquoteElementFields {
-    public html?: string;
-    public attribution?: string;
-    public role?: string;
-    constructor(args?: IPullquoteElementFieldsArgs) {
-        if (args != null && args.html != null) {
-            this.html = args.html;
-        }
-        if (args != null && args.attribution != null) {
-            this.attribution = args.attribution;
-        }
-        if (args != null && args.role != null) {
-            this.role = args.role;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const PullquoteElementFieldsCodec: thrift.IStructCodec<IPullquoteElementFieldsArgs, IPullquoteElementFields> = {
+    encode(args: IPullquoteElementFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            html: args.html,
+            attribution: args.attribution,
+            role: args.role
+        };
         output.writeStructBegin("PullquoteElementFields");
-        if (this.html != null) {
+        if (obj.html != null) {
             output.writeFieldBegin("html", thrift.TType.STRING, 1);
-            output.writeString(this.html);
+            output.writeString(obj.html);
             output.writeFieldEnd();
         }
-        if (this.attribution != null) {
+        if (obj.attribution != null) {
             output.writeFieldBegin("attribution", thrift.TType.STRING, 2);
-            output.writeString(this.attribution);
+            output.writeString(obj.attribution);
             output.writeFieldEnd();
         }
-        if (this.role != null) {
+        if (obj.role != null) {
             output.writeFieldBegin("role", thrift.TType.STRING, 3);
-            output.writeString(this.role);
+            output.writeString(obj.role);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): PullquoteElementFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IPullquoteElementFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -91,6 +87,41 @@ export class PullquoteElementFields {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new PullquoteElementFields(_args);
+        return {
+            html: _args.html,
+            attribution: _args.attribution,
+            role: _args.role
+        };
+    }
+};
+export class PullquoteElementFields extends thrift.StructLike implements IPullquoteElementFields {
+    public html?: string;
+    public attribution?: string;
+    public role?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IPullquoteElementFieldsArgs = {}) {
+        super();
+        if (args.html != null) {
+            const value_4: string = args.html;
+            this.html = value_4;
+        }
+        if (args.attribution != null) {
+            const value_5: string = args.attribution;
+            this.attribution = value_5;
+        }
+        if (args.role != null) {
+            const value_6: string = args.role;
+            this.role = value_6;
+        }
+    }
+    public static read(input: thrift.TProtocol): PullquoteElementFields {
+        return new PullquoteElementFields(PullquoteElementFieldsCodec.decode(input));
+    }
+    public static write(args: IPullquoteElementFieldsArgs, output: thrift.TProtocol): void {
+        return PullquoteElementFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return PullquoteElementFieldsCodec.encode(this, output);
     }
 }

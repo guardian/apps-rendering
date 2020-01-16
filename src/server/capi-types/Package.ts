@@ -7,76 +7,70 @@
 import * as thrift from "@creditkarma/thrift-server-core";
 import * as PackageArticle from "./PackageArticle";
 import * as CapiDateTime from "./CapiDateTime";
+export interface IPackage {
+    packageId: string;
+    articles: Array<PackageArticle.IPackageArticle>;
+    packageName: string;
+    lastModified: CapiDateTime.ICapiDateTime;
+}
 export interface IPackageArgs {
     packageId: string;
-    articles: Array<PackageArticle.PackageArticle>;
+    articles: Array<PackageArticle.IPackageArticleArgs>;
     packageName: string;
-    lastModified: CapiDateTime.CapiDateTime;
+    lastModified: CapiDateTime.ICapiDateTimeArgs;
 }
-export class Package {
-    public packageId: string;
-    public articles: Array<PackageArticle.PackageArticle>;
-    public packageName: string;
-    public lastModified: CapiDateTime.CapiDateTime;
-    constructor(args: IPackageArgs) {
-        if (args != null && args.packageId != null) {
-            this.packageId = args.packageId;
+export const PackageCodec: thrift.IStructCodec<IPackageArgs, IPackage> = {
+    encode(args: IPackageArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            packageId: args.packageId,
+            articles: args.articles,
+            packageName: args.packageName,
+            lastModified: args.lastModified
+        };
+        output.writeStructBegin("Package");
+        if (obj.packageId != null) {
+            output.writeFieldBegin("packageId", thrift.TType.STRING, 1);
+            output.writeString(obj.packageId);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[packageId] is unset!");
         }
-        if (args != null && args.articles != null) {
-            this.articles = args.articles;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[articles] is unset!");
-        }
-        if (args != null && args.packageName != null) {
-            this.packageName = args.packageName;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[packageName] is unset!");
-        }
-        if (args != null && args.lastModified != null) {
-            this.lastModified = args.lastModified;
-        }
-        else {
-            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[lastModified] is unset!");
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("Package");
-        if (this.packageId != null) {
-            output.writeFieldBegin("packageId", thrift.TType.STRING, 1);
-            output.writeString(this.packageId);
-            output.writeFieldEnd();
-        }
-        if (this.articles != null) {
+        if (obj.articles != null) {
             output.writeFieldBegin("articles", thrift.TType.LIST, 2);
-            output.writeListBegin(thrift.TType.STRUCT, this.articles.length);
-            this.articles.forEach((value_1: PackageArticle.PackageArticle): void => {
-                value_1.write(output);
+            output.writeListBegin(thrift.TType.STRUCT, obj.articles.length);
+            obj.articles.forEach((value_1: PackageArticle.IPackageArticleArgs): void => {
+                PackageArticle.PackageArticleCodec.encode(value_1, output);
             });
             output.writeListEnd();
             output.writeFieldEnd();
         }
-        if (this.packageName != null) {
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[articles] is unset!");
+        }
+        if (obj.packageName != null) {
             output.writeFieldBegin("packageName", thrift.TType.STRING, 3);
-            output.writeString(this.packageName);
+            output.writeString(obj.packageName);
             output.writeFieldEnd();
         }
-        if (this.lastModified != null) {
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[packageName] is unset!");
+        }
+        if (obj.lastModified != null) {
             output.writeFieldBegin("lastModified", thrift.TType.STRUCT, 4);
-            this.lastModified.write(output);
+            CapiDateTime.CapiDateTimeCodec.encode(obj.lastModified, output);
             output.writeFieldEnd();
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[lastModified] is unset!");
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): Package {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IPackage {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -96,11 +90,11 @@ export class Package {
                     break;
                 case 2:
                     if (fieldType === thrift.TType.LIST) {
-                        const value_3: Array<PackageArticle.PackageArticle> = new Array<PackageArticle.PackageArticle>();
+                        const value_3: Array<PackageArticle.IPackageArticle> = new Array<PackageArticle.IPackageArticle>();
                         const metadata_1: thrift.IThriftList = input.readListBegin();
                         const size_1: number = metadata_1.size;
                         for (let i_1: number = 0; i_1 < size_1; i_1++) {
-                            const value_4: PackageArticle.PackageArticle = PackageArticle.PackageArticle.read(input);
+                            const value_4: PackageArticle.IPackageArticle = PackageArticle.PackageArticleCodec.decode(input);
                             value_3.push(value_4);
                         }
                         input.readListEnd();
@@ -121,7 +115,7 @@ export class Package {
                     break;
                 case 4:
                     if (fieldType === thrift.TType.STRUCT) {
-                        const value_6: CapiDateTime.CapiDateTime = CapiDateTime.CapiDateTime.read(input);
+                        const value_6: CapiDateTime.ICapiDateTime = CapiDateTime.CapiDateTimeCodec.decode(input);
                         _args.lastModified = value_6;
                     }
                     else {
@@ -136,10 +130,67 @@ export class Package {
         }
         input.readStructEnd();
         if (_args.packageId !== undefined && _args.articles !== undefined && _args.packageName !== undefined && _args.lastModified !== undefined) {
-            return new Package(_args);
+            return {
+                packageId: _args.packageId,
+                articles: _args.articles,
+                packageName: _args.packageName,
+                lastModified: _args.lastModified
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read Package from input");
         }
+    }
+};
+export class Package extends thrift.StructLike implements IPackage {
+    public packageId: string;
+    public articles: Array<PackageArticle.IPackageArticle>;
+    public packageName: string;
+    public lastModified: CapiDateTime.ICapiDateTime;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IPackageArgs) {
+        super();
+        if (args.packageId != null) {
+            const value_7: string = args.packageId;
+            this.packageId = value_7;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[packageId] is unset!");
+        }
+        if (args.articles != null) {
+            const value_8: Array<PackageArticle.IPackageArticle> = new Array<PackageArticle.IPackageArticle>();
+            args.articles.forEach((value_11: PackageArticle.IPackageArticleArgs): void => {
+                const value_12: PackageArticle.IPackageArticle = new PackageArticle.PackageArticle(value_11);
+                value_8.push(value_12);
+            });
+            this.articles = value_8;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[articles] is unset!");
+        }
+        if (args.packageName != null) {
+            const value_9: string = args.packageName;
+            this.packageName = value_9;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[packageName] is unset!");
+        }
+        if (args.lastModified != null) {
+            const value_10: CapiDateTime.ICapiDateTime = new CapiDateTime.CapiDateTime(args.lastModified);
+            this.lastModified = value_10;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[lastModified] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): Package {
+        return new Package(PackageCodec.decode(input));
+    }
+    public static write(args: IPackageArgs, output: thrift.TProtocol): void {
+        return PackageCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return PackageCodec.encode(this, output);
     }
 }

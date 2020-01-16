@@ -5,6 +5,19 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IInteractiveElementFields {
+    url?: string;
+    originalUrl?: string;
+    source?: string;
+    caption?: string;
+    alt?: string;
+    scriptUrl?: string;
+    html?: string;
+    scriptName?: string;
+    iframeUrl?: string;
+    role?: string;
+    isMandatory?: boolean;
+}
 export interface IInteractiveElementFieldsArgs {
     url?: string;
     originalUrl?: string;
@@ -18,117 +31,84 @@ export interface IInteractiveElementFieldsArgs {
     role?: string;
     isMandatory?: boolean;
 }
-export class InteractiveElementFields {
-    public url?: string;
-    public originalUrl?: string;
-    public source?: string;
-    public caption?: string;
-    public alt?: string;
-    public scriptUrl?: string;
-    public html?: string;
-    public scriptName?: string;
-    public iframeUrl?: string;
-    public role?: string;
-    public isMandatory?: boolean;
-    constructor(args?: IInteractiveElementFieldsArgs) {
-        if (args != null && args.url != null) {
-            this.url = args.url;
-        }
-        if (args != null && args.originalUrl != null) {
-            this.originalUrl = args.originalUrl;
-        }
-        if (args != null && args.source != null) {
-            this.source = args.source;
-        }
-        if (args != null && args.caption != null) {
-            this.caption = args.caption;
-        }
-        if (args != null && args.alt != null) {
-            this.alt = args.alt;
-        }
-        if (args != null && args.scriptUrl != null) {
-            this.scriptUrl = args.scriptUrl;
-        }
-        if (args != null && args.html != null) {
-            this.html = args.html;
-        }
-        if (args != null && args.scriptName != null) {
-            this.scriptName = args.scriptName;
-        }
-        if (args != null && args.iframeUrl != null) {
-            this.iframeUrl = args.iframeUrl;
-        }
-        if (args != null && args.role != null) {
-            this.role = args.role;
-        }
-        if (args != null && args.isMandatory != null) {
-            this.isMandatory = args.isMandatory;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const InteractiveElementFieldsCodec: thrift.IStructCodec<IInteractiveElementFieldsArgs, IInteractiveElementFields> = {
+    encode(args: IInteractiveElementFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            url: args.url,
+            originalUrl: args.originalUrl,
+            source: args.source,
+            caption: args.caption,
+            alt: args.alt,
+            scriptUrl: args.scriptUrl,
+            html: args.html,
+            scriptName: args.scriptName,
+            iframeUrl: args.iframeUrl,
+            role: args.role,
+            isMandatory: args.isMandatory
+        };
         output.writeStructBegin("InteractiveElementFields");
-        if (this.url != null) {
+        if (obj.url != null) {
             output.writeFieldBegin("url", thrift.TType.STRING, 1);
-            output.writeString(this.url);
+            output.writeString(obj.url);
             output.writeFieldEnd();
         }
-        if (this.originalUrl != null) {
+        if (obj.originalUrl != null) {
             output.writeFieldBegin("originalUrl", thrift.TType.STRING, 2);
-            output.writeString(this.originalUrl);
+            output.writeString(obj.originalUrl);
             output.writeFieldEnd();
         }
-        if (this.source != null) {
+        if (obj.source != null) {
             output.writeFieldBegin("source", thrift.TType.STRING, 3);
-            output.writeString(this.source);
+            output.writeString(obj.source);
             output.writeFieldEnd();
         }
-        if (this.caption != null) {
+        if (obj.caption != null) {
             output.writeFieldBegin("caption", thrift.TType.STRING, 4);
-            output.writeString(this.caption);
+            output.writeString(obj.caption);
             output.writeFieldEnd();
         }
-        if (this.alt != null) {
+        if (obj.alt != null) {
             output.writeFieldBegin("alt", thrift.TType.STRING, 5);
-            output.writeString(this.alt);
+            output.writeString(obj.alt);
             output.writeFieldEnd();
         }
-        if (this.scriptUrl != null) {
+        if (obj.scriptUrl != null) {
             output.writeFieldBegin("scriptUrl", thrift.TType.STRING, 6);
-            output.writeString(this.scriptUrl);
+            output.writeString(obj.scriptUrl);
             output.writeFieldEnd();
         }
-        if (this.html != null) {
+        if (obj.html != null) {
             output.writeFieldBegin("html", thrift.TType.STRING, 7);
-            output.writeString(this.html);
+            output.writeString(obj.html);
             output.writeFieldEnd();
         }
-        if (this.scriptName != null) {
+        if (obj.scriptName != null) {
             output.writeFieldBegin("scriptName", thrift.TType.STRING, 8);
-            output.writeString(this.scriptName);
+            output.writeString(obj.scriptName);
             output.writeFieldEnd();
         }
-        if (this.iframeUrl != null) {
+        if (obj.iframeUrl != null) {
             output.writeFieldBegin("iframeUrl", thrift.TType.STRING, 9);
-            output.writeString(this.iframeUrl);
+            output.writeString(obj.iframeUrl);
             output.writeFieldEnd();
         }
-        if (this.role != null) {
+        if (obj.role != null) {
             output.writeFieldBegin("role", thrift.TType.STRING, 10);
-            output.writeString(this.role);
+            output.writeString(obj.role);
             output.writeFieldEnd();
         }
-        if (this.isMandatory != null) {
+        if (obj.isMandatory != null) {
             output.writeFieldBegin("isMandatory", thrift.TType.BOOL, 11);
-            output.writeBool(this.isMandatory);
+            output.writeBool(obj.isMandatory);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): InteractiveElementFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IInteractiveElementFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -243,6 +223,89 @@ export class InteractiveElementFields {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new InteractiveElementFields(_args);
+        return {
+            url: _args.url,
+            originalUrl: _args.originalUrl,
+            source: _args.source,
+            caption: _args.caption,
+            alt: _args.alt,
+            scriptUrl: _args.scriptUrl,
+            html: _args.html,
+            scriptName: _args.scriptName,
+            iframeUrl: _args.iframeUrl,
+            role: _args.role,
+            isMandatory: _args.isMandatory
+        };
+    }
+};
+export class InteractiveElementFields extends thrift.StructLike implements IInteractiveElementFields {
+    public url?: string;
+    public originalUrl?: string;
+    public source?: string;
+    public caption?: string;
+    public alt?: string;
+    public scriptUrl?: string;
+    public html?: string;
+    public scriptName?: string;
+    public iframeUrl?: string;
+    public role?: string;
+    public isMandatory?: boolean;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IInteractiveElementFieldsArgs = {}) {
+        super();
+        if (args.url != null) {
+            const value_12: string = args.url;
+            this.url = value_12;
+        }
+        if (args.originalUrl != null) {
+            const value_13: string = args.originalUrl;
+            this.originalUrl = value_13;
+        }
+        if (args.source != null) {
+            const value_14: string = args.source;
+            this.source = value_14;
+        }
+        if (args.caption != null) {
+            const value_15: string = args.caption;
+            this.caption = value_15;
+        }
+        if (args.alt != null) {
+            const value_16: string = args.alt;
+            this.alt = value_16;
+        }
+        if (args.scriptUrl != null) {
+            const value_17: string = args.scriptUrl;
+            this.scriptUrl = value_17;
+        }
+        if (args.html != null) {
+            const value_18: string = args.html;
+            this.html = value_18;
+        }
+        if (args.scriptName != null) {
+            const value_19: string = args.scriptName;
+            this.scriptName = value_19;
+        }
+        if (args.iframeUrl != null) {
+            const value_20: string = args.iframeUrl;
+            this.iframeUrl = value_20;
+        }
+        if (args.role != null) {
+            const value_21: string = args.role;
+            this.role = value_21;
+        }
+        if (args.isMandatory != null) {
+            const value_22: boolean = args.isMandatory;
+            this.isMandatory = value_22;
+        }
+    }
+    public static read(input: thrift.TProtocol): InteractiveElementFields {
+        return new InteractiveElementFields(InteractiveElementFieldsCodec.decode(input));
+    }
+    public static write(args: IInteractiveElementFieldsArgs, output: thrift.TProtocol): void {
+        return InteractiveElementFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return InteractiveElementFieldsCodec.encode(this, output);
     }
 }

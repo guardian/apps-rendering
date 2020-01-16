@@ -5,30 +5,30 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface ITextElementFields {
+    html?: string;
+}
 export interface ITextElementFieldsArgs {
     html?: string;
 }
-export class TextElementFields {
-    public html?: string;
-    constructor(args?: ITextElementFieldsArgs) {
-        if (args != null && args.html != null) {
-            this.html = args.html;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const TextElementFieldsCodec: thrift.IStructCodec<ITextElementFieldsArgs, ITextElementFields> = {
+    encode(args: ITextElementFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            html: args.html
+        };
         output.writeStructBegin("TextElementFields");
-        if (this.html != null) {
+        if (obj.html != null) {
             output.writeFieldBegin("html", thrift.TType.STRING, 1);
-            output.writeString(this.html);
+            output.writeString(obj.html);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): TextElementFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): ITextElementFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -53,6 +53,29 @@ export class TextElementFields {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new TextElementFields(_args);
+        return {
+            html: _args.html
+        };
+    }
+};
+export class TextElementFields extends thrift.StructLike implements ITextElementFields {
+    public html?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: ITextElementFieldsArgs = {}) {
+        super();
+        if (args.html != null) {
+            const value_2: string = args.html;
+            this.html = value_2;
+        }
+    }
+    public static read(input: thrift.TProtocol): TextElementFields {
+        return new TextElementFields(TextElementFieldsCodec.decode(input));
+    }
+    public static write(args: ITextElementFieldsArgs, output: thrift.TProtocol): void {
+        return TextElementFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return TextElementFieldsCodec.encode(this, output);
     }
 }

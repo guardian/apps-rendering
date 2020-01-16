@@ -5,46 +5,44 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IReference {
+    id: string;
+    type: string;
+}
 export interface IReferenceArgs {
     id: string;
     type: string;
 }
-export class Reference {
-    public id: string;
-    public type: string;
-    constructor(args: IReferenceArgs) {
-        if (args != null && args.id != null) {
-            this.id = args.id;
+export const ReferenceCodec: thrift.IStructCodec<IReferenceArgs, IReference> = {
+    encode(args: IReferenceArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            id: args.id,
+            type: args.type
+        };
+        output.writeStructBegin("Reference");
+        if (obj.id != null) {
+            output.writeFieldBegin("id", thrift.TType.STRING, 1);
+            output.writeString(obj.id);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
         }
-        if (args != null && args.type != null) {
-            this.type = args.type;
+        if (obj.type != null) {
+            output.writeFieldBegin("type", thrift.TType.STRING, 2);
+            output.writeString(obj.type);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[type] is unset!");
         }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("Reference");
-        if (this.id != null) {
-            output.writeFieldBegin("id", thrift.TType.STRING, 1);
-            output.writeString(this.id);
-            output.writeFieldEnd();
-        }
-        if (this.type != null) {
-            output.writeFieldBegin("type", thrift.TType.STRING, 2);
-            output.writeString(this.type);
-            output.writeFieldEnd();
-        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): Reference {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IReference {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -79,10 +77,45 @@ export class Reference {
         }
         input.readStructEnd();
         if (_args.id !== undefined && _args.type !== undefined) {
-            return new Reference(_args);
+            return {
+                id: _args.id,
+                type: _args.type
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read Reference from input");
         }
+    }
+};
+export class Reference extends thrift.StructLike implements IReference {
+    public id: string;
+    public type: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IReferenceArgs) {
+        super();
+        if (args.id != null) {
+            const value_3: string = args.id;
+            this.id = value_3;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[id] is unset!");
+        }
+        if (args.type != null) {
+            const value_4: string = args.type;
+            this.type = value_4;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[type] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): Reference {
+        return new Reference(ReferenceCodec.decode(input));
+    }
+    public static write(args: IReferenceArgs, output: thrift.TProtocol): void {
+        return ReferenceCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return ReferenceCodec.encode(this, output);
     }
 }

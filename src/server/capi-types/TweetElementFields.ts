@@ -5,6 +5,14 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface ITweetElementFields {
+    source?: string;
+    url?: string;
+    id?: string;
+    html?: string;
+    originalUrl?: string;
+    role?: string;
+}
 export interface ITweetElementFieldsArgs {
     source?: string;
     url?: string;
@@ -13,72 +21,54 @@ export interface ITweetElementFieldsArgs {
     originalUrl?: string;
     role?: string;
 }
-export class TweetElementFields {
-    public source?: string;
-    public url?: string;
-    public id?: string;
-    public html?: string;
-    public originalUrl?: string;
-    public role?: string;
-    constructor(args?: ITweetElementFieldsArgs) {
-        if (args != null && args.source != null) {
-            this.source = args.source;
-        }
-        if (args != null && args.url != null) {
-            this.url = args.url;
-        }
-        if (args != null && args.id != null) {
-            this.id = args.id;
-        }
-        if (args != null && args.html != null) {
-            this.html = args.html;
-        }
-        if (args != null && args.originalUrl != null) {
-            this.originalUrl = args.originalUrl;
-        }
-        if (args != null && args.role != null) {
-            this.role = args.role;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const TweetElementFieldsCodec: thrift.IStructCodec<ITweetElementFieldsArgs, ITweetElementFields> = {
+    encode(args: ITweetElementFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            source: args.source,
+            url: args.url,
+            id: args.id,
+            html: args.html,
+            originalUrl: args.originalUrl,
+            role: args.role
+        };
         output.writeStructBegin("TweetElementFields");
-        if (this.source != null) {
+        if (obj.source != null) {
             output.writeFieldBegin("source", thrift.TType.STRING, 1);
-            output.writeString(this.source);
+            output.writeString(obj.source);
             output.writeFieldEnd();
         }
-        if (this.url != null) {
+        if (obj.url != null) {
             output.writeFieldBegin("url", thrift.TType.STRING, 2);
-            output.writeString(this.url);
+            output.writeString(obj.url);
             output.writeFieldEnd();
         }
-        if (this.id != null) {
+        if (obj.id != null) {
             output.writeFieldBegin("id", thrift.TType.STRING, 3);
-            output.writeString(this.id);
+            output.writeString(obj.id);
             output.writeFieldEnd();
         }
-        if (this.html != null) {
+        if (obj.html != null) {
             output.writeFieldBegin("html", thrift.TType.STRING, 4);
-            output.writeString(this.html);
+            output.writeString(obj.html);
             output.writeFieldEnd();
         }
-        if (this.originalUrl != null) {
+        if (obj.originalUrl != null) {
             output.writeFieldBegin("originalUrl", thrift.TType.STRING, 5);
-            output.writeString(this.originalUrl);
+            output.writeString(obj.originalUrl);
             output.writeFieldEnd();
         }
-        if (this.role != null) {
+        if (obj.role != null) {
             output.writeFieldBegin("role", thrift.TType.STRING, 6);
-            output.writeString(this.role);
+            output.writeString(obj.role);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): TweetElementFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): ITweetElementFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -148,6 +138,59 @@ export class TweetElementFields {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new TweetElementFields(_args);
+        return {
+            source: _args.source,
+            url: _args.url,
+            id: _args.id,
+            html: _args.html,
+            originalUrl: _args.originalUrl,
+            role: _args.role
+        };
+    }
+};
+export class TweetElementFields extends thrift.StructLike implements ITweetElementFields {
+    public source?: string;
+    public url?: string;
+    public id?: string;
+    public html?: string;
+    public originalUrl?: string;
+    public role?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: ITweetElementFieldsArgs = {}) {
+        super();
+        if (args.source != null) {
+            const value_7: string = args.source;
+            this.source = value_7;
+        }
+        if (args.url != null) {
+            const value_8: string = args.url;
+            this.url = value_8;
+        }
+        if (args.id != null) {
+            const value_9: string = args.id;
+            this.id = value_9;
+        }
+        if (args.html != null) {
+            const value_10: string = args.html;
+            this.html = value_10;
+        }
+        if (args.originalUrl != null) {
+            const value_11: string = args.originalUrl;
+            this.originalUrl = value_11;
+        }
+        if (args.role != null) {
+            const value_12: string = args.role;
+            this.role = value_12;
+        }
+    }
+    public static read(input: thrift.TProtocol): TweetElementFields {
+        return new TweetElementFields(TweetElementFieldsCodec.decode(input));
+    }
+    public static write(args: ITweetElementFieldsArgs, output: thrift.TProtocol): void {
+        return TweetElementFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return TweetElementFieldsCodec.encode(this, output);
     }
 }

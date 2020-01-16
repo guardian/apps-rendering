@@ -5,46 +5,44 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IErrorResponse {
+    status: string;
+    message: string;
+}
 export interface IErrorResponseArgs {
     status: string;
     message: string;
 }
-export class ErrorResponse {
-    public status: string;
-    public message: string;
-    constructor(args: IErrorResponseArgs) {
-        if (args != null && args.status != null) {
-            this.status = args.status;
+export const ErrorResponseCodec: thrift.IStructCodec<IErrorResponseArgs, IErrorResponse> = {
+    encode(args: IErrorResponseArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            status: args.status,
+            message: args.message
+        };
+        output.writeStructBegin("ErrorResponse");
+        if (obj.status != null) {
+            output.writeFieldBegin("status", thrift.TType.STRING, 1);
+            output.writeString(obj.status);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
         }
-        if (args != null && args.message != null) {
-            this.message = args.message;
+        if (obj.message != null) {
+            output.writeFieldBegin("message", thrift.TType.STRING, 2);
+            output.writeString(obj.message);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[message] is unset!");
         }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("ErrorResponse");
-        if (this.status != null) {
-            output.writeFieldBegin("status", thrift.TType.STRING, 1);
-            output.writeString(this.status);
-            output.writeFieldEnd();
-        }
-        if (this.message != null) {
-            output.writeFieldBegin("message", thrift.TType.STRING, 2);
-            output.writeString(this.message);
-            output.writeFieldEnd();
-        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): ErrorResponse {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IErrorResponse {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -79,10 +77,45 @@ export class ErrorResponse {
         }
         input.readStructEnd();
         if (_args.status !== undefined && _args.message !== undefined) {
-            return new ErrorResponse(_args);
+            return {
+                status: _args.status,
+                message: _args.message
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read ErrorResponse from input");
         }
+    }
+};
+export class ErrorResponse extends thrift.StructLike implements IErrorResponse {
+    public status: string;
+    public message: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IErrorResponseArgs) {
+        super();
+        if (args.status != null) {
+            const value_3: string = args.status;
+            this.status = value_3;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[status] is unset!");
+        }
+        if (args.message != null) {
+            const value_4: string = args.message;
+            this.message = value_4;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[message] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): ErrorResponse {
+        return new ErrorResponse(ErrorResponseCodec.decode(input));
+    }
+    public static write(args: IErrorResponseArgs, output: thrift.TProtocol): void {
+        return ErrorResponseCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return ErrorResponseCodec.encode(this, output);
     }
 }

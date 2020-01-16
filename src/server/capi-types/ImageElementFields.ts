@@ -5,6 +5,22 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IImageElementFields {
+    caption?: string;
+    copyright?: string;
+    displayCredit?: boolean;
+    credit?: string;
+    source?: string;
+    photographer?: string;
+    alt?: string;
+    mediaId?: string;
+    mediaApiUri?: string;
+    picdarUrn?: string;
+    suppliersReference?: string;
+    imageType?: string;
+    comment?: string;
+    role?: string;
+}
 export interface IImageElementFieldsArgs {
     caption?: string;
     copyright?: string;
@@ -21,144 +37,102 @@ export interface IImageElementFieldsArgs {
     comment?: string;
     role?: string;
 }
-export class ImageElementFields {
-    public caption?: string;
-    public copyright?: string;
-    public displayCredit?: boolean;
-    public credit?: string;
-    public source?: string;
-    public photographer?: string;
-    public alt?: string;
-    public mediaId?: string;
-    public mediaApiUri?: string;
-    public picdarUrn?: string;
-    public suppliersReference?: string;
-    public imageType?: string;
-    public comment?: string;
-    public role?: string;
-    constructor(args?: IImageElementFieldsArgs) {
-        if (args != null && args.caption != null) {
-            this.caption = args.caption;
-        }
-        if (args != null && args.copyright != null) {
-            this.copyright = args.copyright;
-        }
-        if (args != null && args.displayCredit != null) {
-            this.displayCredit = args.displayCredit;
-        }
-        if (args != null && args.credit != null) {
-            this.credit = args.credit;
-        }
-        if (args != null && args.source != null) {
-            this.source = args.source;
-        }
-        if (args != null && args.photographer != null) {
-            this.photographer = args.photographer;
-        }
-        if (args != null && args.alt != null) {
-            this.alt = args.alt;
-        }
-        if (args != null && args.mediaId != null) {
-            this.mediaId = args.mediaId;
-        }
-        if (args != null && args.mediaApiUri != null) {
-            this.mediaApiUri = args.mediaApiUri;
-        }
-        if (args != null && args.picdarUrn != null) {
-            this.picdarUrn = args.picdarUrn;
-        }
-        if (args != null && args.suppliersReference != null) {
-            this.suppliersReference = args.suppliersReference;
-        }
-        if (args != null && args.imageType != null) {
-            this.imageType = args.imageType;
-        }
-        if (args != null && args.comment != null) {
-            this.comment = args.comment;
-        }
-        if (args != null && args.role != null) {
-            this.role = args.role;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const ImageElementFieldsCodec: thrift.IStructCodec<IImageElementFieldsArgs, IImageElementFields> = {
+    encode(args: IImageElementFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            caption: args.caption,
+            copyright: args.copyright,
+            displayCredit: args.displayCredit,
+            credit: args.credit,
+            source: args.source,
+            photographer: args.photographer,
+            alt: args.alt,
+            mediaId: args.mediaId,
+            mediaApiUri: args.mediaApiUri,
+            picdarUrn: args.picdarUrn,
+            suppliersReference: args.suppliersReference,
+            imageType: args.imageType,
+            comment: args.comment,
+            role: args.role
+        };
         output.writeStructBegin("ImageElementFields");
-        if (this.caption != null) {
+        if (obj.caption != null) {
             output.writeFieldBegin("caption", thrift.TType.STRING, 1);
-            output.writeString(this.caption);
+            output.writeString(obj.caption);
             output.writeFieldEnd();
         }
-        if (this.copyright != null) {
+        if (obj.copyright != null) {
             output.writeFieldBegin("copyright", thrift.TType.STRING, 2);
-            output.writeString(this.copyright);
+            output.writeString(obj.copyright);
             output.writeFieldEnd();
         }
-        if (this.displayCredit != null) {
+        if (obj.displayCredit != null) {
             output.writeFieldBegin("displayCredit", thrift.TType.BOOL, 3);
-            output.writeBool(this.displayCredit);
+            output.writeBool(obj.displayCredit);
             output.writeFieldEnd();
         }
-        if (this.credit != null) {
+        if (obj.credit != null) {
             output.writeFieldBegin("credit", thrift.TType.STRING, 4);
-            output.writeString(this.credit);
+            output.writeString(obj.credit);
             output.writeFieldEnd();
         }
-        if (this.source != null) {
+        if (obj.source != null) {
             output.writeFieldBegin("source", thrift.TType.STRING, 5);
-            output.writeString(this.source);
+            output.writeString(obj.source);
             output.writeFieldEnd();
         }
-        if (this.photographer != null) {
+        if (obj.photographer != null) {
             output.writeFieldBegin("photographer", thrift.TType.STRING, 6);
-            output.writeString(this.photographer);
+            output.writeString(obj.photographer);
             output.writeFieldEnd();
         }
-        if (this.alt != null) {
+        if (obj.alt != null) {
             output.writeFieldBegin("alt", thrift.TType.STRING, 7);
-            output.writeString(this.alt);
+            output.writeString(obj.alt);
             output.writeFieldEnd();
         }
-        if (this.mediaId != null) {
+        if (obj.mediaId != null) {
             output.writeFieldBegin("mediaId", thrift.TType.STRING, 8);
-            output.writeString(this.mediaId);
+            output.writeString(obj.mediaId);
             output.writeFieldEnd();
         }
-        if (this.mediaApiUri != null) {
+        if (obj.mediaApiUri != null) {
             output.writeFieldBegin("mediaApiUri", thrift.TType.STRING, 9);
-            output.writeString(this.mediaApiUri);
+            output.writeString(obj.mediaApiUri);
             output.writeFieldEnd();
         }
-        if (this.picdarUrn != null) {
+        if (obj.picdarUrn != null) {
             output.writeFieldBegin("picdarUrn", thrift.TType.STRING, 10);
-            output.writeString(this.picdarUrn);
+            output.writeString(obj.picdarUrn);
             output.writeFieldEnd();
         }
-        if (this.suppliersReference != null) {
+        if (obj.suppliersReference != null) {
             output.writeFieldBegin("suppliersReference", thrift.TType.STRING, 11);
-            output.writeString(this.suppliersReference);
+            output.writeString(obj.suppliersReference);
             output.writeFieldEnd();
         }
-        if (this.imageType != null) {
+        if (obj.imageType != null) {
             output.writeFieldBegin("imageType", thrift.TType.STRING, 12);
-            output.writeString(this.imageType);
+            output.writeString(obj.imageType);
             output.writeFieldEnd();
         }
-        if (this.comment != null) {
+        if (obj.comment != null) {
             output.writeFieldBegin("comment", thrift.TType.STRING, 13);
-            output.writeString(this.comment);
+            output.writeString(obj.comment);
             output.writeFieldEnd();
         }
-        if (this.role != null) {
+        if (obj.role != null) {
             output.writeFieldBegin("role", thrift.TType.STRING, 14);
-            output.writeString(this.role);
+            output.writeString(obj.role);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): ImageElementFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IImageElementFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -300,6 +274,107 @@ export class ImageElementFields {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new ImageElementFields(_args);
+        return {
+            caption: _args.caption,
+            copyright: _args.copyright,
+            displayCredit: _args.displayCredit,
+            credit: _args.credit,
+            source: _args.source,
+            photographer: _args.photographer,
+            alt: _args.alt,
+            mediaId: _args.mediaId,
+            mediaApiUri: _args.mediaApiUri,
+            picdarUrn: _args.picdarUrn,
+            suppliersReference: _args.suppliersReference,
+            imageType: _args.imageType,
+            comment: _args.comment,
+            role: _args.role
+        };
+    }
+};
+export class ImageElementFields extends thrift.StructLike implements IImageElementFields {
+    public caption?: string;
+    public copyright?: string;
+    public displayCredit?: boolean;
+    public credit?: string;
+    public source?: string;
+    public photographer?: string;
+    public alt?: string;
+    public mediaId?: string;
+    public mediaApiUri?: string;
+    public picdarUrn?: string;
+    public suppliersReference?: string;
+    public imageType?: string;
+    public comment?: string;
+    public role?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IImageElementFieldsArgs = {}) {
+        super();
+        if (args.caption != null) {
+            const value_15: string = args.caption;
+            this.caption = value_15;
+        }
+        if (args.copyright != null) {
+            const value_16: string = args.copyright;
+            this.copyright = value_16;
+        }
+        if (args.displayCredit != null) {
+            const value_17: boolean = args.displayCredit;
+            this.displayCredit = value_17;
+        }
+        if (args.credit != null) {
+            const value_18: string = args.credit;
+            this.credit = value_18;
+        }
+        if (args.source != null) {
+            const value_19: string = args.source;
+            this.source = value_19;
+        }
+        if (args.photographer != null) {
+            const value_20: string = args.photographer;
+            this.photographer = value_20;
+        }
+        if (args.alt != null) {
+            const value_21: string = args.alt;
+            this.alt = value_21;
+        }
+        if (args.mediaId != null) {
+            const value_22: string = args.mediaId;
+            this.mediaId = value_22;
+        }
+        if (args.mediaApiUri != null) {
+            const value_23: string = args.mediaApiUri;
+            this.mediaApiUri = value_23;
+        }
+        if (args.picdarUrn != null) {
+            const value_24: string = args.picdarUrn;
+            this.picdarUrn = value_24;
+        }
+        if (args.suppliersReference != null) {
+            const value_25: string = args.suppliersReference;
+            this.suppliersReference = value_25;
+        }
+        if (args.imageType != null) {
+            const value_26: string = args.imageType;
+            this.imageType = value_26;
+        }
+        if (args.comment != null) {
+            const value_27: string = args.comment;
+            this.comment = value_27;
+        }
+        if (args.role != null) {
+            const value_28: string = args.role;
+            this.role = value_28;
+        }
+    }
+    public static read(input: thrift.TProtocol): ImageElementFields {
+        return new ImageElementFields(ImageElementFieldsCodec.decode(input));
+    }
+    public static write(args: IImageElementFieldsArgs, output: thrift.TProtocol): void {
+        return ImageElementFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return ImageElementFieldsCodec.encode(this, output);
     }
 }

@@ -5,46 +5,44 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface ICrosswordCreator {
+    name: string;
+    webUrl: string;
+}
 export interface ICrosswordCreatorArgs {
     name: string;
     webUrl: string;
 }
-export class CrosswordCreator {
-    public name: string;
-    public webUrl: string;
-    constructor(args: ICrosswordCreatorArgs) {
-        if (args != null && args.name != null) {
-            this.name = args.name;
+export const CrosswordCreatorCodec: thrift.IStructCodec<ICrosswordCreatorArgs, ICrosswordCreator> = {
+    encode(args: ICrosswordCreatorArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            name: args.name,
+            webUrl: args.webUrl
+        };
+        output.writeStructBegin("CrosswordCreator");
+        if (obj.name != null) {
+            output.writeFieldBegin("name", thrift.TType.STRING, 1);
+            output.writeString(obj.name);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[name] is unset!");
         }
-        if (args != null && args.webUrl != null) {
-            this.webUrl = args.webUrl;
+        if (obj.webUrl != null) {
+            output.writeFieldBegin("webUrl", thrift.TType.STRING, 2);
+            output.writeString(obj.webUrl);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webUrl] is unset!");
         }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("CrosswordCreator");
-        if (this.name != null) {
-            output.writeFieldBegin("name", thrift.TType.STRING, 1);
-            output.writeString(this.name);
-            output.writeFieldEnd();
-        }
-        if (this.webUrl != null) {
-            output.writeFieldBegin("webUrl", thrift.TType.STRING, 2);
-            output.writeString(this.webUrl);
-            output.writeFieldEnd();
-        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): CrosswordCreator {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): ICrosswordCreator {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -79,10 +77,45 @@ export class CrosswordCreator {
         }
         input.readStructEnd();
         if (_args.name !== undefined && _args.webUrl !== undefined) {
-            return new CrosswordCreator(_args);
+            return {
+                name: _args.name,
+                webUrl: _args.webUrl
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read CrosswordCreator from input");
         }
+    }
+};
+export class CrosswordCreator extends thrift.StructLike implements ICrosswordCreator {
+    public name: string;
+    public webUrl: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: ICrosswordCreatorArgs) {
+        super();
+        if (args.name != null) {
+            const value_3: string = args.name;
+            this.name = value_3;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[name] is unset!");
+        }
+        if (args.webUrl != null) {
+            const value_4: string = args.webUrl;
+            this.webUrl = value_4;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[webUrl] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): CrosswordCreator {
+        return new CrosswordCreator(CrosswordCreatorCodec.decode(input));
+    }
+    public static write(args: ICrosswordCreatorArgs, output: thrift.TProtocol): void {
+        return CrosswordCreatorCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return CrosswordCreatorCodec.encode(this, output);
     }
 }

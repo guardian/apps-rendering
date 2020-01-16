@@ -5,52 +5,44 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
-import { Int64 } from "@creditkarma/thrift-server-core";
-export interface ICapiDateTimeArgs {
-    dateTime: number | Int64;
+export interface ICapiDateTime {
+    dateTime: thrift.Int64;
     iso8601: string;
 }
-export class CapiDateTime {
-    public dateTime: Int64;
-    public iso8601: string;
-    constructor(args: ICapiDateTimeArgs) {
-        if (args != null && args.dateTime != null) {
-            if (typeof args.dateTime === "number") {
-                this.dateTime = new Int64(args.dateTime);
-            }
-            else {
-                this.dateTime = args.dateTime;
-            }
+export interface ICapiDateTimeArgs {
+    dateTime: number | string | thrift.Int64;
+    iso8601: string;
+}
+export const CapiDateTimeCodec: thrift.IStructCodec<ICapiDateTimeArgs, ICapiDateTime> = {
+    encode(args: ICapiDateTimeArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            dateTime: (typeof args.dateTime === "number" ? new thrift.Int64(args.dateTime) : typeof args.dateTime === "string" ? thrift.Int64.fromDecimalString(args.dateTime) : args.dateTime),
+            iso8601: args.iso8601
+        };
+        output.writeStructBegin("CapiDateTime");
+        if (obj.dateTime != null) {
+            output.writeFieldBegin("dateTime", thrift.TType.I64, 1);
+            output.writeI64((typeof obj.dateTime === "number" ? new thrift.Int64(obj.dateTime) : typeof obj.dateTime === "string" ? thrift.Int64.fromDecimalString(obj.dateTime) : obj.dateTime));
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[dateTime] is unset!");
         }
-        if (args != null && args.iso8601 != null) {
-            this.iso8601 = args.iso8601;
+        if (obj.iso8601 != null) {
+            output.writeFieldBegin("iso8601", thrift.TType.STRING, 2);
+            output.writeString(obj.iso8601);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[iso8601] is unset!");
         }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("CapiDateTime");
-        if (this.dateTime != null) {
-            output.writeFieldBegin("dateTime", thrift.TType.I64, 1);
-            output.writeI64(this.dateTime);
-            output.writeFieldEnd();
-        }
-        if (this.iso8601 != null) {
-            output.writeFieldBegin("iso8601", thrift.TType.STRING, 2);
-            output.writeString(this.iso8601);
-            output.writeFieldEnd();
-        }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): CapiDateTime {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): ICapiDateTime {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -61,7 +53,7 @@ export class CapiDateTime {
             switch (fieldId) {
                 case 1:
                     if (fieldType === thrift.TType.I64) {
-                        const value_1: Int64 = input.readI64();
+                        const value_1: thrift.Int64 = input.readI64();
                         _args.dateTime = value_1;
                     }
                     else {
@@ -85,10 +77,45 @@ export class CapiDateTime {
         }
         input.readStructEnd();
         if (_args.dateTime !== undefined && _args.iso8601 !== undefined) {
-            return new CapiDateTime(_args);
+            return {
+                dateTime: _args.dateTime,
+                iso8601: _args.iso8601
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read CapiDateTime from input");
         }
+    }
+};
+export class CapiDateTime extends thrift.StructLike implements ICapiDateTime {
+    public dateTime: thrift.Int64;
+    public iso8601: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: ICapiDateTimeArgs) {
+        super();
+        if (args.dateTime != null) {
+            const value_3: thrift.Int64 = (typeof args.dateTime === "number" ? new thrift.Int64(args.dateTime) : typeof args.dateTime === "string" ? thrift.Int64.fromDecimalString(args.dateTime) : args.dateTime);
+            this.dateTime = value_3;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[dateTime] is unset!");
+        }
+        if (args.iso8601 != null) {
+            const value_4: string = args.iso8601;
+            this.iso8601 = value_4;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[iso8601] is unset!");
+        }
+    }
+    public static read(input: thrift.TProtocol): CapiDateTime {
+        return new CapiDateTime(CapiDateTimeCodec.decode(input));
+    }
+    public static write(args: ICapiDateTimeArgs, output: thrift.TProtocol): void {
+        return CapiDateTimeCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return CapiDateTimeCodec.encode(this, output);
     }
 }

@@ -5,43 +5,41 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IPodcastCategory {
+    main: string;
+    sub?: string;
+}
 export interface IPodcastCategoryArgs {
     main: string;
     sub?: string;
 }
-export class PodcastCategory {
-    public main: string;
-    public sub?: string;
-    constructor(args: IPodcastCategoryArgs) {
-        if (args != null && args.main != null) {
-            this.main = args.main;
+export const PodcastCategoryCodec: thrift.IStructCodec<IPodcastCategoryArgs, IPodcastCategory> = {
+    encode(args: IPodcastCategoryArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            main: args.main,
+            sub: args.sub
+        };
+        output.writeStructBegin("PodcastCategory");
+        if (obj.main != null) {
+            output.writeFieldBegin("main", thrift.TType.STRING, 1);
+            output.writeString(obj.main);
+            output.writeFieldEnd();
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[main] is unset!");
         }
-        if (args != null && args.sub != null) {
-            this.sub = args.sub;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
-        output.writeStructBegin("PodcastCategory");
-        if (this.main != null) {
-            output.writeFieldBegin("main", thrift.TType.STRING, 1);
-            output.writeString(this.main);
-            output.writeFieldEnd();
-        }
-        if (this.sub != null) {
+        if (obj.sub != null) {
             output.writeFieldBegin("sub", thrift.TType.STRING, 2);
-            output.writeString(this.sub);
+            output.writeString(obj.sub);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): PodcastCategory {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IPodcastCategory {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -76,10 +74,42 @@ export class PodcastCategory {
         }
         input.readStructEnd();
         if (_args.main !== undefined) {
-            return new PodcastCategory(_args);
+            return {
+                main: _args.main,
+                sub: _args.sub
+            };
         }
         else {
             throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Unable to read PodcastCategory from input");
         }
+    }
+};
+export class PodcastCategory extends thrift.StructLike implements IPodcastCategory {
+    public main: string;
+    public sub?: string;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IPodcastCategoryArgs) {
+        super();
+        if (args.main != null) {
+            const value_3: string = args.main;
+            this.main = value_3;
+        }
+        else {
+            throw new thrift.TProtocolException(thrift.TProtocolExceptionType.UNKNOWN, "Required field[main] is unset!");
+        }
+        if (args.sub != null) {
+            const value_4: string = args.sub;
+            this.sub = value_4;
+        }
+    }
+    public static read(input: thrift.TProtocol): PodcastCategory {
+        return new PodcastCategory(PodcastCategoryCodec.decode(input));
+    }
+    public static write(args: IPodcastCategoryArgs, output: thrift.TProtocol): void {
+        return PodcastCategoryCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return PodcastCategoryCodec.encode(this, output);
     }
 }

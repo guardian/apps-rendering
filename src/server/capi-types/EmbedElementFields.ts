@@ -5,60 +5,54 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IEmbedElementFields {
+    html?: string;
+    safeEmbedCode?: boolean;
+    alt?: string;
+    isMandatory?: boolean;
+}
 export interface IEmbedElementFieldsArgs {
     html?: string;
     safeEmbedCode?: boolean;
     alt?: string;
     isMandatory?: boolean;
 }
-export class EmbedElementFields {
-    public html?: string;
-    public safeEmbedCode?: boolean;
-    public alt?: string;
-    public isMandatory?: boolean;
-    constructor(args?: IEmbedElementFieldsArgs) {
-        if (args != null && args.html != null) {
-            this.html = args.html;
-        }
-        if (args != null && args.safeEmbedCode != null) {
-            this.safeEmbedCode = args.safeEmbedCode;
-        }
-        if (args != null && args.alt != null) {
-            this.alt = args.alt;
-        }
-        if (args != null && args.isMandatory != null) {
-            this.isMandatory = args.isMandatory;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const EmbedElementFieldsCodec: thrift.IStructCodec<IEmbedElementFieldsArgs, IEmbedElementFields> = {
+    encode(args: IEmbedElementFieldsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            html: args.html,
+            safeEmbedCode: args.safeEmbedCode,
+            alt: args.alt,
+            isMandatory: args.isMandatory
+        };
         output.writeStructBegin("EmbedElementFields");
-        if (this.html != null) {
+        if (obj.html != null) {
             output.writeFieldBegin("html", thrift.TType.STRING, 1);
-            output.writeString(this.html);
+            output.writeString(obj.html);
             output.writeFieldEnd();
         }
-        if (this.safeEmbedCode != null) {
+        if (obj.safeEmbedCode != null) {
             output.writeFieldBegin("safeEmbedCode", thrift.TType.BOOL, 2);
-            output.writeBool(this.safeEmbedCode);
+            output.writeBool(obj.safeEmbedCode);
             output.writeFieldEnd();
         }
-        if (this.alt != null) {
+        if (obj.alt != null) {
             output.writeFieldBegin("alt", thrift.TType.STRING, 3);
-            output.writeString(this.alt);
+            output.writeString(obj.alt);
             output.writeFieldEnd();
         }
-        if (this.isMandatory != null) {
+        if (obj.isMandatory != null) {
             output.writeFieldBegin("isMandatory", thrift.TType.BOOL, 4);
-            output.writeBool(this.isMandatory);
+            output.writeBool(obj.isMandatory);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): EmbedElementFields {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IEmbedElementFields {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -110,6 +104,47 @@ export class EmbedElementFields {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new EmbedElementFields(_args);
+        return {
+            html: _args.html,
+            safeEmbedCode: _args.safeEmbedCode,
+            alt: _args.alt,
+            isMandatory: _args.isMandatory
+        };
+    }
+};
+export class EmbedElementFields extends thrift.StructLike implements IEmbedElementFields {
+    public html?: string;
+    public safeEmbedCode?: boolean;
+    public alt?: string;
+    public isMandatory?: boolean;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IEmbedElementFieldsArgs = {}) {
+        super();
+        if (args.html != null) {
+            const value_5: string = args.html;
+            this.html = value_5;
+        }
+        if (args.safeEmbedCode != null) {
+            const value_6: boolean = args.safeEmbedCode;
+            this.safeEmbedCode = value_6;
+        }
+        if (args.alt != null) {
+            const value_7: string = args.alt;
+            this.alt = value_7;
+        }
+        if (args.isMandatory != null) {
+            const value_8: boolean = args.isMandatory;
+            this.isMandatory = value_8;
+        }
+    }
+    public static read(input: thrift.TProtocol): EmbedElementFields {
+        return new EmbedElementFields(EmbedElementFieldsCodec.decode(input));
+    }
+    public static write(args: IEmbedElementFieldsArgs, output: thrift.TProtocol): void {
+        return EmbedElementFieldsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return EmbedElementFieldsCodec.encode(this, output);
     }
 }

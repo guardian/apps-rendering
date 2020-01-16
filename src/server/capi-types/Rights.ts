@@ -5,50 +5,46 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 */
 import * as thrift from "@creditkarma/thrift-server-core";
+export interface IRights {
+    syndicatable?: boolean;
+    subscriptionDatabases?: boolean;
+    developerCommunity?: boolean;
+}
 export interface IRightsArgs {
     syndicatable?: boolean;
     subscriptionDatabases?: boolean;
     developerCommunity?: boolean;
 }
-export class Rights {
-    public syndicatable?: boolean = false;
-    public subscriptionDatabases?: boolean = false;
-    public developerCommunity?: boolean = false;
-    constructor(args?: IRightsArgs) {
-        if (args != null && args.syndicatable != null) {
-            this.syndicatable = args.syndicatable;
-        }
-        if (args != null && args.subscriptionDatabases != null) {
-            this.subscriptionDatabases = args.subscriptionDatabases;
-        }
-        if (args != null && args.developerCommunity != null) {
-            this.developerCommunity = args.developerCommunity;
-        }
-    }
-    public write(output: thrift.TProtocol): void {
+export const RightsCodec: thrift.IStructCodec<IRightsArgs, IRights> = {
+    encode(args: IRightsArgs, output: thrift.TProtocol): void {
+        const obj: any = {
+            syndicatable: (args.syndicatable != null ? args.syndicatable : false),
+            subscriptionDatabases: (args.subscriptionDatabases != null ? args.subscriptionDatabases : false),
+            developerCommunity: (args.developerCommunity != null ? args.developerCommunity : false)
+        };
         output.writeStructBegin("Rights");
-        if (this.syndicatable != null) {
+        if (obj.syndicatable != null) {
             output.writeFieldBegin("syndicatable", thrift.TType.BOOL, 1);
-            output.writeBool(this.syndicatable);
+            output.writeBool(obj.syndicatable);
             output.writeFieldEnd();
         }
-        if (this.subscriptionDatabases != null) {
+        if (obj.subscriptionDatabases != null) {
             output.writeFieldBegin("subscriptionDatabases", thrift.TType.BOOL, 2);
-            output.writeBool(this.subscriptionDatabases);
+            output.writeBool(obj.subscriptionDatabases);
             output.writeFieldEnd();
         }
-        if (this.developerCommunity != null) {
+        if (obj.developerCommunity != null) {
             output.writeFieldBegin("developerCommunity", thrift.TType.BOOL, 3);
-            output.writeBool(this.developerCommunity);
+            output.writeBool(obj.developerCommunity);
             output.writeFieldEnd();
         }
         output.writeFieldStop();
         output.writeStructEnd();
         return;
-    }
-    public static read(input: thrift.TProtocol): Rights {
-        input.readStructBegin();
+    },
+    decode(input: thrift.TProtocol): IRights {
         let _args: any = {};
+        input.readStructBegin();
         while (true) {
             const ret: thrift.IThriftField = input.readFieldBegin();
             const fieldType: thrift.TType = ret.fieldType;
@@ -91,6 +87,41 @@ export class Rights {
             input.readFieldEnd();
         }
         input.readStructEnd();
-        return new Rights(_args);
+        return {
+            syndicatable: (_args.syndicatable != null ? _args.syndicatable : false),
+            subscriptionDatabases: (_args.subscriptionDatabases != null ? _args.subscriptionDatabases : false),
+            developerCommunity: (_args.developerCommunity != null ? _args.developerCommunity : false)
+        };
+    }
+};
+export class Rights extends thrift.StructLike implements IRights {
+    public syndicatable?: boolean = false;
+    public subscriptionDatabases?: boolean = false;
+    public developerCommunity?: boolean = false;
+    public readonly _annotations: thrift.IThriftAnnotations = {};
+    public readonly _fieldAnnotations: thrift.IFieldAnnotations = {};
+    constructor(args: IRightsArgs = {}) {
+        super();
+        if (args.syndicatable != null) {
+            const value_4: boolean = args.syndicatable;
+            this.syndicatable = value_4;
+        }
+        if (args.subscriptionDatabases != null) {
+            const value_5: boolean = args.subscriptionDatabases;
+            this.subscriptionDatabases = value_5;
+        }
+        if (args.developerCommunity != null) {
+            const value_6: boolean = args.developerCommunity;
+            this.developerCommunity = value_6;
+        }
+    }
+    public static read(input: thrift.TProtocol): Rights {
+        return new Rights(RightsCodec.decode(input));
+    }
+    public static write(args: IRightsArgs, output: thrift.TProtocol): void {
+        return RightsCodec.encode(args, output);
+    }
+    public write(output: thrift.TProtocol): void {
+        return RightsCodec.encode(this, output);
     }
 }
