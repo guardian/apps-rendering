@@ -69,6 +69,9 @@ const isReview = (content: Content): boolean =>
 const isAnalysis = (content: Content): boolean =>
     content.tags.some(tag => tag.id === 'tone/analysis');
 
+const isRecipe = (content: Content): boolean =>
+    content.tags.some(tag => tag.id === 'tone/recipes')
+
 const isSingleContributor = (contributors: Contributor[]): boolean =>
     contributors.length === 1;
 
@@ -125,6 +128,7 @@ export {
     isFeature,
     isReview,
     isAnalysis,
+    isRecipe,
     isSingleContributor,
     articleSeries,
     articleContributors,

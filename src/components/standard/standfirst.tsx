@@ -23,7 +23,8 @@ const FeatureStyles = `
 function Styles({ layout }: Article): SerializedStyles {
     const includeFeatureStyles = layout === Layout.Feature
         || layout === Layout.Review
-        || layout === Layout.Opinion;
+        || layout === Layout.Opinion
+        || layout === Layout.Recipe;
 
     return css`
         padding-bottom: 6px;

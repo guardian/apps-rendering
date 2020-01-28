@@ -4,7 +4,7 @@ import { Pillar, pillarFromString } from 'pillar';
 import { IContent as Content } from 'mapiThriftModels/Content';
 import { IBlockElement as BlockElement } from 'mapiThriftModels/BlockElement';
 import { ITag as Tag } from 'mapiThriftModels/Tag';
-import { isFeature, isAnalysis, isImmersive, isReview, articleMainImage, articleContributors, articleSeries } from 'capi';
+import { isFeature, isAnalysis, isImmersive, isReview, articleMainImage, articleContributors, articleSeries, isRecipe } from 'capi';
 import { Option, fromNullable, None, Some } from 'types/option';
 import { Err, Ok, Result } from 'types/result';
 import { IBlock as Block, ICapiDateTime as CapiDateTime, ContentType, ElementType } from 'mapiThriftModels';
@@ -24,6 +24,7 @@ const enum Layout {
     Picture,
     Video,
     Audio,
+    Recipe
 }
 
 interface ArticleFields {
@@ -54,10 +55,15 @@ type Standard = ArticleFieldsWithBody & {
     layout: Exclude<Layout, Layout.Liveblog | Layout.Review>;
 }
 
+type Recipe = ArticleFieldsWithBody & {
+    layout: Layout.Recipe;
+};
+
 type Article
     = Liveblog
     | Review
-    | Standard;
+    | Standard
+    | Recipe;
 
 const enum ElementKind {
     Text,
@@ -274,7 +280,9 @@ const fromCapi = (docParser: DocParser) => (content: Content): Article => {
     const { tags, pillarId, fields } = content;
     switch (content.type) {
         case ContentType.ARTICLE:
-            if (pillarFromString(pillarId) === Pillar.opinion || containsOpinionTags(tags)) {
+            if (isRecipe(content)) {
+                return { layout: Layout.Recipe, ...articleFieldsWithBody(docParser, content) };
+            } else if (pillarFromString(pillarId) === Pillar.opinion || containsOpinionTags(tags)) {
                 return { layout: Layout.Opinion, ...articleFieldsWithBody(docParser, content) };
 
             } else if (isImmersive(content)) {

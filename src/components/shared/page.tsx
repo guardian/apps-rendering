@@ -7,6 +7,7 @@ import Standard from 'components/standard/article';
 import LiveblogArticle from 'components/liveblog/article';
 import Opinion from 'components/opinion/article';
 import Immersive from 'components/immersive/article';
+import RecipeArticle from 'components/recipe/article';
 
 import { IContent as Content } from 'mapiThriftModels/Content';
 import { includesTweets } from 'capi';
@@ -93,6 +94,7 @@ function ArticleBody({ capi, imageSalt }: BodyProps): React.ReactElement {
     
     const articleScript = '/assets/article.js';
     const liveblogScript = '/assets/liveblog.js';
+    const recipeScript = '/assets/recipe.js';
 
     switch (article.layout) {
         case Layout.Opinion:
@@ -139,6 +141,17 @@ function ArticleBody({ capi, imageSalt }: BodyProps): React.ReactElement {
                     <LiveblogArticle article={article} imageSalt={imageSalt} />
                 </WithScript>
             );
+        case Layout.Recipe:
+            const recipeBody = partition(article.body).oks;
+            const recipeContent = renderAll(imageSalt)(article.pillar, recipeBody);
+
+            return (
+                <WithScript src={recipeScript}>
+                    <RecipeArticle article={article} imageSalt={imageSalt}>
+                        { recipeContent }
+                    </RecipeArticle>
+                </WithScript>
+            )
         default:
             return <p>{capi.type} not implemented yet</p>;
     }

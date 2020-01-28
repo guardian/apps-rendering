@@ -98,6 +98,7 @@ const clientConfig = {
     entry: {
         article: 'client/article.ts',
         liveblog: 'client/liveblog.ts',
+        recipe: 'client/recipe.ts',
     },
     target: 'web',
     output: {
