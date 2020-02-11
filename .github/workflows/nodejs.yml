@@ -36,3 +36,5 @@ jobs:
         CI_COMMIT_MESSAGE: message
         CI_COMMIT_SHA: $GITHUB_SHA
         CI: true
+        BUNDLESIZE_GITHUB_TOKEN: ${{ secrets.BUNDLESIZE_GITHUB_TOKEN }}
+
