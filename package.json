@@ -19,7 +19,7 @@
     "build:client": "webpack --config webpack.config.js --config-name client",
     "storybook": "start-storybook -s ./",
     "deploy-storybook": "storybook-to-ghpages && ./.storybook/pushFonts.sh",
-    "bundlesize": "bundlesize --config config/bundlesize.json"
+    "bundlesize": "npm run build:client && bundlesize --config config/bundlesize.json"
   },
   "author": "",
   "license": "ISC",
