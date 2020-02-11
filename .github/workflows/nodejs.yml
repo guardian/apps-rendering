@@ -34,7 +34,7 @@ jobs:
         CI_REPO_OWNER: guardian
         CI_REPO_NAME: apps-rendering
         CI_COMMIT_MESSAGE: message
-        CI_COMMIT_SHA: $GITHUB_SHA
+        CI_COMMIT_SHA: ${GITHUB_SHA}
         CI: true
         BUNDLESIZE_GITHUB_TOKEN: ${{ secrets.BUNDLESIZE_GITHUB_TOKEN }}
 
