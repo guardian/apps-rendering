@@ -31,10 +31,10 @@ jobs:
     - name: bundlesize
       run: npm run bundlesize
       env:
-        CI_REPO_OWNER: guardian
-        CI_REPO_NAME: apps-rendering
-        CI_COMMIT_MESSAGE: message
-        CI_COMMIT_SHA: ${GITHUB_SHA}
         CI: true
+        CI_REPO_NAME: ${{ github.event.repository.name }}
+        CI_REPO_OWNER: ${{ github.event.organization.login }}
+        CI_COMMIT_SHA: ${{ github.event.after }}
+        CI_BRANCH: ${{ github.head_ref }}
         BUNDLESIZE_GITHUB_TOKEN: ${{ secrets.BUNDLESIZE_GITHUB_TOKEN }}
 
