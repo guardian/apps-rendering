@@ -1,0 +1,8 @@
+{
+    "files": [
+      {
+        "path": "./dist/assets/article.js",
+        "maxSize": "100 kB"
+      }
+    ]
+  }

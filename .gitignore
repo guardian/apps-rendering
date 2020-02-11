@@ -16,4 +16,7 @@ node_modules
 .DS_Store
 
 # Built files
-dist
+dist/*
+
+# used to track client bundle sizes
+!dist/assets/
