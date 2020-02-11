@@ -30,3 +30,10 @@ jobs:
       run: npm run test:run
     - name: bundlesize
       run: npm run bundlesize
+      env:
+        CI_REPO_OWNER: guardian
+        CI_REPO_NAME: apps-rendering
+        CI_COMMIT_MESSAGE: message
+        CI_COMMIT_SHA: guardian
+        CI_REPO_OWNER: ${{ GITHUB_SHA }}
+        CI: true

@@ -17,3 +17,6 @@ node_modules
 
 # Built files
 dist/*
+
+# used to track client bundle sizes
+!dist/assets/
