@@ -37,4 +37,4 @@ jobs:
         CI_REPO_OWNER: ${{ github.event.organization.login }}
         CI_COMMIT_SHA: ${{ github.event.after }}
         CI_BRANCH: ${{ github.head_ref }}
-
+        TEST: test
