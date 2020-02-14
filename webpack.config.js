@@ -85,6 +85,12 @@ const serverConfig = env => {
             ignored: /node_modules/,
         },
         ...config,
+        resolve: {
+            alias: {
+                logger: path.resolve(__dirname, 'src/logger/server')
+            },
+            ...config.resolve
+        },
         plugins: (env && env.watch) ? [ ...config.plugins, new LaunchServerPlugin() ] : config.plugins,
     }
 }

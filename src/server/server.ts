@@ -17,6 +17,7 @@ import { getConfigValue } from 'server/ssmConfig';
 import { CapiError, capiEndpoint, getContent } from 'capi';
 import Page from 'components/shared/page';
 import { ErrorResponse } from 'mapiThriftModels';
+import { logger } from 'logger';
 
 // ----- Setup ----- //
 
@@ -139,7 +140,7 @@ app.all('*', (request, response, next) => {
   const start = Date.now();
   response.once('finish', () => {
     const duration = Date.now() - start;
-    console.log(`HTTP ${request.method} ${request.path} returned ${response.statusCode} in ${duration}ms`)
+    logger.info(`HTTP ${request.method} ${request.path} returned ${response.statusCode} in ${duration}ms`)
   });
 
   next();
