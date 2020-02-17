@@ -61,7 +61,12 @@ const serverConfig = env => {
         watchOptions: {
             ignored: /node_modules/,
         },
-        resolve,
+        resolve: {
+            alias: {
+                logger: path.resolve(__dirname, 'src/logger/server')
+            },
+            ...resolve
+        },
         plugins: plugins,
         module: {
             rules: [
@@ -100,7 +105,12 @@ const clientConfig = {
         path: path.resolve(__dirname, 'dist/assets'),
         filename: '[name].js',
     },
-    resolve,
+    resolve: {
+        alias: {
+            logger: path.resolve(__dirname, 'src/logger/clientDev')
+        },
+        ...resolve
+    },
     devServer: {
         publicPath: '/assets/',
         proxy: {
