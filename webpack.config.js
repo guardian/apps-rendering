@@ -34,46 +34,23 @@ const resolve = {
     ],
 };
 
-const nodeConfig = test => ({
-    target: 'node',
-    resolve,
-    // Does not try to require the 'canvas' package,
-    // an optional dependency of jsdom that we aren't using.
-    plugins: [ new webpack.IgnorePlugin(/^canvas$/) ],
-    module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                use: [
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: [
-                                '@babel/preset-react',
-                                '@emotion/babel-preset-css-prop',
-                            ],
-                        },
-                    },
-                    {
-                        loader: 'ts-loader',
-                        options: { configFile: test ? 'config/tsconfig.test.json' : 'config/tsconfig.server.json' }
-                    }
-                ],
-            },
-        ]
-    },
-});
-
-
 // ----- Configs ----- //
 
 const serverConfig = env => {
     const isTest = env && env.test;
-    const config = nodeConfig(isTest);
+
+    // Does not try to require the 'canvas' package,
+    // an optional dependency of jsdom that we aren't using.
+    const plugins = [ new webpack.IgnorePlugin(/^canvas$/) ];
+    if (env && env.watch) {
+        plugins.push(new LaunchServerPlugin());
+    }
+
     return {
         name: 'server',
         mode: 'development',
         entry: 'server/server.ts',
+        target: 'node',
         node: {
             __dirname: false,
         },
@@ -84,14 +61,30 @@ const serverConfig = env => {
         watchOptions: {
             ignored: /node_modules/,
         },
-        ...config,
-        resolve: {
-            alias: {
-                logger: path.resolve(__dirname, 'src/logger/server')
-            },
-            ...config.resolve
+        resolve,
+        plugins: plugins,
+        module: {
+            rules: [
+                {
+                    test: /\.tsx?$/,
+                    use: [
+                        {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: [
+                                    '@babel/preset-react',
+                                    '@emotion/babel-preset-css-prop',
+                                ],
+                            },
+                        },
+                        {
+                            loader: 'ts-loader',
+                            options: { configFile: isTest ? 'config/tsconfig.test.json' : 'config/tsconfig.server.json' }
+                        }
+                    ],
+                },
+            ]
         },
-        plugins: (env && env.watch) ? [ ...config.plugins, new LaunchServerPlugin() ] : config.plugins,
     }
 }
 
