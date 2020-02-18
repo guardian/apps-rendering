@@ -134,7 +134,8 @@ async function serveArticle(req: Request, res: ExpressResponse): Promise<void> {
 
 // ----- App ----- //
 logger.info(`Starting ${App} in ${Stage} for the stack ${Stack}`);
-if (process.env.NODE_ENV === "production") {
+logger.info(`NODE_ENV: ${process.env.NODE_ENV}`);
+if (process.env.NODE_ENV == "production") {
   logger.info("Node is running in production mode")
 }
 const app = express();
