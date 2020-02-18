@@ -18,6 +18,7 @@ import { CapiError, capiEndpoint, getContent } from 'capi';
 import Page from 'components/shared/page';
 import { ErrorResponse } from 'mapiThriftModels';
 import { logger } from 'logger';
+import {App, Stack, Stage} from "./appIdentity";
 
 // ----- Setup ----- //
 
@@ -132,7 +133,7 @@ async function serveArticle(req: Request, res: ExpressResponse): Promise<void> {
 }
 
 // ----- App ----- //
-
+logger.info(`Starting ${App} in ${Stage} for the stack ${Stack}`)
 const app = express();
 app.use(bodyParser.raw({limit: '50mb'}));
 
