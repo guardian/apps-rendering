@@ -133,7 +133,10 @@ async function serveArticle(req: Request, res: ExpressResponse): Promise<void> {
 }
 
 // ----- App ----- //
-logger.info(`Starting ${App} in ${Stage} for the stack ${Stack}`)
+logger.info(`Starting ${App} in ${Stage} for the stack ${Stack}`);
+if (process.env.NODE_ENV === "production") {
+  logger.info("Node is running in production mode")
+}
 const app = express();
 app.use(bodyParser.raw({limit: '50mb'}));
 
@@ -162,5 +165,7 @@ app.post('/article', bodyParser.raw(), serveArticlePost);
 const port = 3040;
 app.listen(port, () => {
   logger.info(`Server listening on port ${port}!`);
-  logger.info(`If you're in dev mode, webpack dev server is listening on port 8080`);
+  if (process.env.NODE_ENV !== "production") {
+    logger.info(`If you're in dev mode, webpack dev server is listening on port 8080`);
+  }
 });
