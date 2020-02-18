@@ -314,7 +314,7 @@ Resources:
 
           mkdir -p /usr/share/${App}/logs
           chown -R ${App}:mapi /usr/share/${App}
-          ln -s /usr/share/${App}/logs /var/log/${App}/
+          ln -s /usr/share/${App}/logs /var/log/${App}
           chown -R ${App}:mapi /var/log/${App}
           export PM2_HOME="/usr/share/${App}"
 
