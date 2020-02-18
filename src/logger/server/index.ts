@@ -8,50 +8,68 @@ class ServerLogger implements ILogger {
     underlyingLogger: winston.Logger;
 
     constructor() {
-        let fileTransport;
+        let winstonConfig: winston.LoggerOptions;
         if (process.env.NODE_ENV === 'production') {
-            fileTransport = new DailyRotateFile({
-                filename: `${App}.log`,
-                dirname: `/var/log/${App}`,
-                zippedArchive: true,
-                maxSize: '50m',
-                maxFiles: '7d',
-                utc: true
-            });
+            winstonConfig = {
+                level: 'info',
+                defaultMeta: {
+                    app: App,
+                    stack: Stack,
+                    stage: Stage
+                },
+                transports: [new DailyRotateFile({
+                    filename: `${App}.log`,
+                    dirname: `/var/log/${App}`,
+                    zippedArchive: true,
+                    maxSize: '50m',
+                    maxFiles: '7d',
+                    utc: true
+                })],
+                format: winston.format.json()
+            }
         } else {
-            fileTransport = new winston.transports.Console({
-                format: winston.format.simple()
-            });
+            winstonConfig = {
+                level: 'debug',
+                defaultMeta: {
+                    app: App,
+                    stack: Stack,
+                    stage: Stage
+                },
+                transports: [new winston.transports.Console()],
+                format: winston.format.printf((logObject) => {
+                    const timestamp = logObject["@timestamp"];
+                    const stackTrace = (logObject["stack_trace"]) ? `, ${logObject["stack_trace"]}` : "";
+                    return `${timestamp} [${logObject.level}] ${logObject.message}${stackTrace}`;
+                })
+            };
         }
 
-        this.underlyingLogger = winston.createLogger({
-            level: 'info',
-            format: winston.format.json(),
-            defaultMeta: {
-                app: App,
-                stack: Stack,
-                stage: Stage
-            },
-            transports: [fileTransport]
+        this.underlyingLogger = winston.createLogger(winstonConfig);
+    }
+
+    private log(logObject: any): void {
+        this.underlyingLogger.log({
+            "@timestamp": new Date().toISOString(),
+            ...logObject
         });
     }
 
     debug(message: string): void {
-        this.underlyingLogger.log({
+        this.log({
             level: 'debug',
             message
         })
     }
 
     info(message: string): void {
-        this.underlyingLogger.log({
+        this.log({
             level: 'info',
             message
         })
     }
 
     warn(message: string, error?: Error): void {
-        this.underlyingLogger.log({
+        this.log({
             level: 'warn',
             message,
             stack_trace: error?.stack
@@ -59,7 +77,7 @@ class ServerLogger implements ILogger {
     }
 
     error(message: string, error?: Error): void {
-        this.underlyingLogger.log({
+        this.log({
             level: 'error',
             message,
             stack_trace: error?.stack
