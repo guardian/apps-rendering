@@ -46,9 +46,11 @@ const serverConfig = env => {
         plugins.push(new LaunchServerPlugin());
     }
 
+    const mode = (env && env.production) ? "production" : "development";
+
     return {
         name: 'server',
-        mode: 'development',
+        mode: mode,
         entry: 'server/server.ts',
         target: 'node',
         node: {
