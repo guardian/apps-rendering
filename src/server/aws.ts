@@ -11,6 +11,6 @@ const credentialProvider = new CredentialProviderChain([
 ]);
 
 export const ssm: SSM  = new SSM({
-    region: Region ,
+    region: Region,
     credentialProvider: credentialProvider
 });

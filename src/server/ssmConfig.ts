@@ -1,6 +1,9 @@
 import { ssm } from './aws';
 import { App, Stack, Stage } from './appIdentity';
 import { Option, Some, None } from 'types/option';
+import fs from 'fs';
+import os from 'os';
+import { logger } from 'logger';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Config = {[key: string]: any};
@@ -43,6 +46,18 @@ async function fetchConfig(): Promise<Config> {
 }
 
 export async function getConfigValue<A>(key: string, defaultValue?: A): Promise<A> {
+    if (process.env.NODE_ENV === 'development') {
+        try {
+            let rawdata = fs.readFileSync(`${os.homedir}/.gu/mobile-apps-rendering.json`).toString()
+            let config = JSON.parse(rawdata);
+            if (config[key]) {
+                return config[key];
+            }
+        } catch(e) {
+            logger.error(e);
+        }
+    }
+
     const conf = await fetchConfig();
     if (conf[key]) {
         return conf[key];
