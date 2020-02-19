@@ -37,8 +37,7 @@ function insertAds(): void {
     const callback = function(): void {
         const currentAdSlots = getAdSlots();
         if (JSON.stringify(adSlots) !== JSON.stringify(currentAdSlots)) {
-            // TODO: add this to mobile-apps-thrift and implement client side
-            // nativeClient.updateAdverts(currentAdSlots);
+            nativeClient.updateAdverts(currentAdSlots);
             adSlots = currentAdSlots;
         }
     };
