@@ -13,25 +13,26 @@ import {
 } from '@creditkarma/thrift-server-core'
 
 import * as uuid from 'uuid';
-import { Message } from './message';
 
 declare global {
     interface Window {
         nativeConnections: { [id: string]: NativeConnection };
-        AndroidWebViewRequest?: (message: Message) => {};
-        AndroidNativeResponse?: (message: Message) => {};
+        android?: {
+            postMessage: (data: string, connectionId: string) => {};
+        };
         webkit: {
             messageHandlers: {
-                iOSWebViewRequest: {
-                    postMessage: (message: Message) => {};
-                };
-                iOSNativeResponse: {
-                    postMessage: (message: Message) => {};
+                iOSWebViewMessage: {
+                    postMessage: (message: NativeMessage) => {};
                 };
             };
         };
-        receiveNativeRequest: (message: Message) => void;
     }
+}
+
+export interface NativeMessage {
+    data: string;
+    connectionId: string;
 }
 
 interface PromiseResponse {
@@ -42,10 +43,20 @@ interface PromiseResponse {
 
 const ACTION_TIMEOUT_MS = 30000;
 
+function sendNativeRequest(message: NativeMessage): void {
+    if (window.android) {
+        window.android.postMessage(message.connectionId, message.data)
+    } else if (window.webkit) {
+        window.webkit.messageHandlers.iOSWebViewMessage.postMessage(message)
+    } else {
+        console.warn('No native APIs available');
+    }
+}
+
 export class NativeConnection<Context = void> extends ThriftConnection {
     connectionId = uuid.v4();
     promises: PromiseResponse[] = [];
-    outBuffer: Message[] = [];
+    outBuffer: NativeMessage[] = [];
 
     constructor(Transport: ITransportConstructor, Protocol: IProtocolConstructor) {
         super(Transport, Protocol);
@@ -66,7 +77,7 @@ export class NativeConnection<Context = void> extends ThriftConnection {
         }
     }
 
-    receive(message: Message): void {
+    receive(message: NativeMessage): void {
         const resolver = this.promises.shift();
         if (resolver) {
             clearTimeout(resolver.timeoutId)
@@ -80,17 +91,7 @@ export class NativeConnection<Context = void> extends ThriftConnection {
         const message = this.outBuffer.shift();
         if (message) {
             console.log("Sending next message")
-            this.sendNativeRequest(message)
-        }
-    }
-
-    private sendNativeRequest(message: Message): void {
-        if (window.AndroidWebViewRequest) {
-            window.AndroidWebViewRequest(message)
-        } else if (window?.webkit?.messageHandlers?.iOSWebViewRequest?.postMessage) {
-            window.webkit.messageHandlers.iOSWebViewRequest.postMessage(message)
-        } else {
-            console.warn('No native APIs available');
+            sendNativeRequest(message)
         }
     }
 
@@ -104,13 +105,13 @@ export class NativeConnection<Context = void> extends ThriftConnection {
                 reject: rej,
                 timeoutId: setTimeout(function() { connection.reset(id); }, ACTION_TIMEOUT_MS)
             });
-            const message: Message = {
+            const message: NativeMessage = {
                 data: dataToSend.toString("base64"),
                 connectionId: id
             }
             if (connection.promises.length === 1) {
                 console.log("Sending message immediately")
-                connection.sendNativeRequest(message);
+                sendNativeRequest(message);
             } else {
                 console.log("Queing message because others in flight")
                 connection.outBuffer.push(message);
