@@ -10,6 +10,7 @@ import * as Webview from 'mobile-apps-thrift-typescript/Webview';
 import { WebviewHandler } from 'native/webviewApi';
 import { Message } from 'native/thrift/message';
 import { formatDate } from 'date';
+import {logger} from "../logger";
 
 // ----- Run ----- //
 
@@ -40,9 +41,8 @@ function insertAds(): void {
     const callback = function(): void {
         const currentAdSlots = getAdSlots();
         if (JSON.stringify(adSlots) !== JSON.stringify(currentAdSlots)) {
-            // TODO: add this to mobile-apps-thrift and implement client side
-            // nativeClient.updateAdverts(currentAdSlots);
             adSlots = currentAdSlots;
+            nativeClient.updateAdverts(currentAdSlots);
         }
     };
 
@@ -68,7 +68,7 @@ function topicClick(e: Event): void {
     const id = follow?.getAttribute('data-id');
 
     if (!id) {
-        console.error('No id for topic');
+        logger.error('No id for topic');
         return;
     }
 
@@ -95,7 +95,7 @@ function topics(): void {
     const id = follow?.getAttribute('data-id');
 
     if (!id) {
-        console.error('No id for topic');
+        logger.error('No id for topic');
         return;
     }
 
@@ -142,7 +142,7 @@ function formatDates(): void {
                     time.textContent = formatDate(new Date(timestamp))
                 }
             } catch (e) {
-                console.error(e);
+                logger.error(`Unable to parse and format date ${time}`, e);
             }
         })
 }

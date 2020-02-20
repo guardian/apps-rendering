@@ -16,7 +16,7 @@
     "watch:server": "webpack --config webpack.config.js --config-name server --env.watch",
     "watch:client": "webpack-dev-server --config webpack.config.js --config-name client",
     "watch": "npm run watch:server & npm run watch:client",
-    "build:server": "webpack --config webpack.config.js --config-name server",
+    "build:server": "webpack --config webpack.config.js --config-name server --env.production",
     "build:client": "webpack --config webpack.config.js --config-name client",
     "build:client:prod": "webpack --config webpack.config.js --config-name clientProduction",
     "storybook": "start-storybook -s ./",
@@ -66,7 +66,7 @@
     "emotion": "^10.0.27",
     "express": "^4.17.1",
     "jsdom": "^15.2.1",
-    "mobile-apps-thrift-typescript": "^0.38.0",
+    "mobile-apps-thrift-typescript": "^0.40.0",
     "node-fetch": "^2.6.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -101,6 +101,8 @@
     "ts-loader": "^6.2.1",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1"
+    "webpack-dev-server": "^3.10.1",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.4.2"
   }
 }
