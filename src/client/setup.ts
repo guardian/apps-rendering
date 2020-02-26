@@ -1,6 +1,18 @@
 // ----- Procedures ----- //
 
 import {logger} from "../logger";
+// import { nativeClient } from 'native/nativeApi';
+
+// REPLACE by `nativeClient.getFontSize()`
+function getFontSize() {
+    return new Promise(resolve => setTimeout(() => resolve(67.5), 200));
+}
+
+async function fontSize() {
+    const fontSize = await getFontSize();
+    document.documentElement.style.fontSize = `${fontSize}%`;
+    document.body.style.display = 'block';
+}
 
 function handleMessage(interactive: HTMLIFrameElement, message: string): void {
 
@@ -41,6 +53,7 @@ function twitter(): void {
 
 function setup(): void {
 
+    fontSize();
     interactives();
     twitter();
 

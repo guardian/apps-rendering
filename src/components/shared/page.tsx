@@ -10,13 +10,14 @@ import Immersive from 'components/immersive/article';
 
 import { IContent as Content } from 'mapiThriftModels/Content';
 import { includesTweets } from 'capi';
-import { fontFace } from 'styles';
+import { fontFace, darkModeCss } from 'styles';
 import { None, Some } from 'types/option';
 import { renderAll } from 'renderer';
 import { JSDOM } from 'jsdom';
 import { partition } from 'types/result';
 import { getAdPlaceholderInserter } from 'ads';
 import { fromCapi, Design, Display } from 'item';
+import { background, neutral } from '@guardian/src-foundations';
 
 
 // ----- Components ----- //
@@ -48,7 +49,7 @@ const PageStyles = css`
     ${fontFace("Guardian Icons", new None, new None, "/public/fonts/icons.otf")}
 
     font-size: 62.5%;
-    background: white;
+    background: ${neutral[97]};
 
     body {
         margin: 0;
@@ -56,6 +57,7 @@ const PageStyles = css`
         font-size: 1.6em;
         line-height: 1.5em;
         overflow-x: hidden;
+        display: none;
     }
 
     figure.element-embed {
@@ -75,6 +77,10 @@ const PageStyles = css`
     .element-audio iframe {
         width: 100%;
     }
+`;
+
+const DarkPageStyles = darkModeCss`
+    background: ${background.inverse};
 `;
 
 interface BodyProps {
@@ -172,7 +178,7 @@ function Page({ content, imageSalt }: Props): ElementWithResources {
     const { element, resources } = ArticleBody({ imageSalt, capi: content})
 
     return { element: (
-        <html lang="en" css={PageStyles}>
+        <html lang="en" css={[PageStyles, DarkPageStyles]}>
             <head>
                 <title>{content.id}</title>
                 <meta charSet="UTF-8" />
