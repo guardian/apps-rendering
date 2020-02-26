@@ -52,11 +52,9 @@ function twitter(): void {
 }
 
 function setup(): void {
-
     fontSize();
     interactives();
     twitter();
-
 }
 
 
