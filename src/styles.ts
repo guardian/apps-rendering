@@ -1,12 +1,19 @@
 import { neutral } from '@guardian/src-foundations/palette';
 import { from, until } from '@guardian/src-foundations/mq';
-import { remSpace } from '@guardian/src-foundations';
+import { space } from '@guardian/src-foundations';
 import { css, SerializedStyles } from '@emotion/core'
 import { Option } from 'types/option';
 
 const BASE_PADDING = 8;
 
 export const baseMultiply = (value: number): number => value * BASE_PADDING;
+
+// We've changed the root font size to 62.5%, which equates to 10px.
+const pxToRem = (px: number): string =>
+    `${px/10}rem`;
+
+export const spaceToRem = (size: keyof (typeof space)): string =>
+    pxToRem(space[size]);
 
 export const basePx = (...values: Array<number>): string => values.map(baseMultiply).join("px ") + "px";
 
@@ -17,8 +24,8 @@ export const headlineFontStyles = css`
 `;
 
 export const textPadding = css`
-    padding-left: ${remSpace[2]};
-    padding-right: ${remSpace[2]};
+    padding-left: ${spaceToRem(2)};
+    padding-right: ${spaceToRem(2)};
 
     ${from.wide} {
         padding-left: 0;
