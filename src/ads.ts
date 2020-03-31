@@ -1,17 +1,13 @@
 import { createElement as h, ReactNode, ReactElement } from 'react';
-import { logger } from 'logger';
+import Paragraph from 'components/paragraph';
 
 function insertPlaceholders(reactNodes: ReactNode[]): ReactNode[] {
     const adIndices = [3, 9];
     const flattenedNodes = reactNodes.flat();
 
-    const isPara = (node: { type: { name?: string } }): boolean => {
-        logger.info('----------node: ' + node);
-        logger.info('----------node.type.name: ' + node?.type?.name);
-        logger.info('----------isPara: '  + (node?.type?.name === 'Paragraph').toString());
+    const isPara = (node: ReactElement): boolean =>
+        node.type === Paragraph;
 
-        return node?.type?.name === 'Paragraph';
-    }
     const numParas = flattenedNodes.filter(isPara).length;
 
     const className = numParas < 15 ? 'ad-placeholder hidden short' : 'ad-placeholder hidden';
