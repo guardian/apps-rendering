@@ -17,6 +17,7 @@ import { JSDOM } from 'jsdom';
 import { partition } from 'types/result';
 import { getAdPlaceholderInserter } from 'ads';
 import { fromCapi, Design, Display } from 'item';
+import { logger } from 'logger/server';
 
 
 // ----- Components ----- //
@@ -92,7 +93,7 @@ const WithScript = (props: { src: string; children: ReactNode }): ReactElement =
     </>
 
 function ArticleBody({ capi, imageSalt, getAssetLocation }: BodyProps): ElementWithResources {
-
+    logger.info('----------shouldHideAdverts is: '  + capi.fields?.shouldHideAdverts);
     const insertAdPlaceholders = getAdPlaceholderInserter(capi.fields?.shouldHideAdverts ?? false);
 
     const item = fromCapi(JSDOM.fragment)(capi);
