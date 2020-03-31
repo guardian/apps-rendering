@@ -6,7 +6,7 @@ function insertPlaceholders(reactNodes: ReactNode[]): ReactNode[] {
     const flattenedNodes = reactNodes.flat();
 
     const isPara = (node: ReactElement): boolean =>
-        node.type === Paragraph;
+        node?.type === Paragraph;
 
     const numParas = flattenedNodes.filter(isPara).length;
 
