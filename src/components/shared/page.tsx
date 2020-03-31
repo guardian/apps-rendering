@@ -17,7 +17,7 @@ import { JSDOM } from 'jsdom';
 import { partition } from 'types/result';
 import { getAdPlaceholderInserter } from 'ads';
 import { fromCapi, Design, Display } from 'item';
-import { logger } from 'logger/server';
+import { logger } from 'logger';
 
 
 // ----- Components ----- //

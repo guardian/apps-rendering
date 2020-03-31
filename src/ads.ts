@@ -1,5 +1,5 @@
 import { createElement as h, ReactNode, ReactElement } from 'react';
-import { logger } from 'logger/server';
+import { logger } from 'logger';
 
 function insertPlaceholders(reactNodes: ReactNode[]): ReactNode[] {
     const adIndices = [3, 9];
