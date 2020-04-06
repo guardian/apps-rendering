@@ -12,4 +12,6 @@ sbt scroogeGen
 # typescript package
 # pull from 4 repos and join
 # thrift --gen js:ts models/src/main/thrift/content/v1.thrift
+# OR
+# `node_modules/.bin/thrift-typescript --target thrift-server --outDir definitions models/src/main/thrift/content/v1.thrift`
 # we can use these files inside: src/mapiThriftModels
