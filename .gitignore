@@ -17,6 +17,7 @@ node_modules
 
 # Built files
 dist
+thriftFiles
 
 # Istanbul/Jest code coverage
 coverage
