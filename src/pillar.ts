@@ -36,11 +36,11 @@ export const pillarColours: PillarColours = {
         liveblogBackground: palette.news[300],
     },
     [Pillar.opinion]: {
-        kicker: palette.opinion[400],
-        featureHeadline: palette.opinion[300],
+        kicker: palette.opinion[300],
+        featureHeadline: palette.opinion[200],
         soft: palette.opinion[800],
         inverted: palette.opinion[500],
-        liveblogBackground: palette.opinion[300],
+        liveblogBackground: palette.opinion[200],
     },
     [Pillar.sport]: {
         kicker: palette.sport[400],
@@ -50,11 +50,11 @@ export const pillarColours: PillarColours = {
         liveblogBackground: palette.sport[300],
     },
     [Pillar.arts]: {
-        kicker: palette.culture[400],
-        featureHeadline: palette.culture[300],
+        kicker: palette.culture[300],
+        featureHeadline: palette.culture[200],
         soft: palette.culture[800],
         inverted: palette.culture[500],
-        liveblogBackground: palette.culture[300],
+        liveblogBackground: palette.culture[200],
     },
     [Pillar.lifestyle]: {
         kicker: palette.lifestyle[400],
