@@ -21,7 +21,7 @@ interface CaptionProps {
     image: Image;
 }
 
-const Caption: FC<CaptionProps> = ({ format, image }) => {
+const Caption: FC<CaptionProps> = ({ format, image }: CaptionProps) => {
     switch (format.display) {
         case Display.Immersive:
             return null;
