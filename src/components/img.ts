@@ -1,7 +1,8 @@
 // ----- Imports ----- //
 
 import { FC } from 'react';
-import { jsx as styledH, SerializedStyles } from '@emotion/core';
+import { jsx as styledH, SerializedStyles, css } from '@emotion/core';
+import { neutral } from '@guardian/src-foundations/palette';
 
 import { ImageMappings } from 'components/shared/page';
 import { srcset, src } from 'image';
@@ -21,6 +22,10 @@ interface Props {
     className?: SerializedStyles;
 }
 
+const styles = css`
+    background-color: ${neutral[97]};
+`;
+
 const Img: FC<Props> = ({
     sizes, url, imageMappings, alt, className, caption, credit,
 }) =>
@@ -30,7 +35,7 @@ const Img: FC<Props> = ({
         src: src(imageMappings, url, 500),
         alt,
         className: 'js-launch-slideshow',
-        css: className,
+        css: [styles, className],
         'data-caption': caption,
         'data-credit': credit,
     });
