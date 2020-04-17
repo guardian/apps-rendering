@@ -12,6 +12,7 @@ jobs:
             - run: |
                   npm i
             - uses: chromaui/action@v1
+              continue-on-error: true
               with:
                   appCode: ${{ secrets.CHROMATIC_APP_CODE }}
                   token: ${{ secrets.GITHUB_TOKEN }}
