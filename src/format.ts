@@ -1,6 +1,6 @@
 // ----- Imports ----- //
 
-import { Pillar, Design, Display, Format } from '@guardian/types/format'
+import { Pillar, Design, Display, Format } from '@guardian/types/Format'
 
 
 // ----- Exports ----- //
