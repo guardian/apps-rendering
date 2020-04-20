@@ -5,6 +5,7 @@ import { textSans } from '@guardian/src-foundations/typography';
 import { neutral, brandAlt } from '@guardian/src-foundations/palette';
 import { from } from '@guardian/src-foundations/mq';
 import { remSpace } from '@guardian/src-foundations';
+import { Option } from 'types/option';
 
 const captionId = 'header-image-caption';
 
@@ -75,14 +76,14 @@ const HeaderImageCaptionStyles = css`
 
 interface HeaderImageCaptionProps {
 	caption: string;
-	credit: string;
+	credit: Option<string>;
 }
 
 const HeaderImageCaption = ({ caption, credit }: HeaderImageCaptionProps): JSX.Element => (
 	<figcaption css={HeaderImageCaptionStyles}>
 		<details>
 			<summary><span>Click to see figure caption</span></summary>
-			<span id={captionId}>{caption} {credit}</span>
+			<span id={captionId}>{caption} {credit.withDefault('')}</span>
 		</details>
 	</figcaption>
 )
