@@ -23,7 +23,7 @@
     "build:server:prod": "webpack --config webpack.config.js --config-name server --env.production",
     "build:client:prod": "webpack --config webpack.config.js --config-name clientProduction",
     "storybook": "start-storybook -s ./ -p 8181 --ci",
-    "build-storybook": "node --max-old-space-size=4096 $(npm bin)/build-storybook -o dist",
+    "build-storybook": "build-storybook -o dist",
     "deploy-storybook": "storybook-to-ghpages && ./.storybook/pushFonts.sh"
   },
   "jest": {
