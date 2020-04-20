@@ -80,6 +80,7 @@ const parseImage = (docParser: (html: string) => DocumentFragment) =>
     return fromNullable(masterAsset).andThen(asset => {
         if (
             asset?.file === undefined ||
+            asset.file === '' ||
             asset?.typeData?.width === undefined ||
             asset?.typeData?.height === undefined
         ) {
