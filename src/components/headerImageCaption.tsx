@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, ReactElement } from 'react';
 import { css } from '@emotion/core';
 import { basePx, icons, wideContentWidth, darkModeCss } from 'styles';
 import { textSans } from '@guardian/src-foundations/typography';
@@ -74,19 +74,20 @@ const HeaderImageCaptionStyles = css`
 	}
 `;
 
-interface HeaderImageCaptionProps {
-	caption: string;
+interface Props {
+	caption: Option<string>;
 	credit: Option<string>;
 }
 
-const HeaderImageCaption = ({ caption, credit }: HeaderImageCaptionProps): JSX.Element => (
-	<figcaption css={HeaderImageCaptionStyles}>
-		<details>
-			<summary><span>Click to see figure caption</span></summary>
-			<span id={captionId}>{caption} {credit.withDefault('')}</span>
-		</details>
-	</figcaption>
-)
+const HeaderImageCaption: FC<Props> = ({ caption, credit }: Props) => 
+	caption.fmap<ReactElement | null>(cap =>
+		<figcaption css={HeaderImageCaptionStyles}>
+			<details>
+				<summary><span>Click to see figure caption</span></summary>
+				<span id={captionId}>{cap} {credit.withDefault('')}</span>
+			</details>
+		</figcaption>
+	).withDefault(null);
 
 export default HeaderImageCaption;
 

@@ -36,7 +36,7 @@ interface Image {
     height: number;
     caption: Option<DocumentFragment>;
     credit: Option<string>;
-    nativeCaption: string;
+    nativeCaption: Option<string>;
     role: Option<Role>;
 }
 
@@ -96,7 +96,7 @@ const parseImage = (docParser: (html: string) => DocumentFragment) =>
             credit: fromNullable(data?.credit).andThen<string>(
                 c => data?.displayCredit ? new Some(c) : new None()
             ),
-            nativeCaption: data?.caption ?? '',
+            nativeCaption: fromNullable(data?.caption),
             role: fromNullable(data?.role).andThen<Role>(
                 r => r === 'thumbnail' ? new Some(Role.Thumbnail) : new None()
             ),

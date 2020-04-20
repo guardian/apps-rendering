@@ -29,7 +29,7 @@ const Img: FC<Props> = ({ image, sizes, imageMappings, className }) =>
         alt: image.alt,
         className: 'js-launch-slideshow',
         css: [styles, className],
-        'data-caption': image.nativeCaption,
+        'data-caption': image.nativeCaption.withDefault(''),
         'data-credit': image.credit.withDefault(''),
     });
 
