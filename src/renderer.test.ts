@@ -28,7 +28,7 @@ const imageElement = (): BodyElement =>
         src: 'https://gu.com/img.png',
         alt: new Some("alt tag"),
         caption: new Some(JSDOM.fragment('this caption contains <em>html</em>')),
-        nativeCaption: 'caption',
+        nativeCaption: new Some('caption'),
         credit: new Some('credit'),
         width: 500,
         height: 500,

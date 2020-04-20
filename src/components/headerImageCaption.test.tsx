@@ -10,8 +10,8 @@ describe('HeaderImageCaption component renders as expected', () => {
     it('Caption formatted correctly', () => {
         const headerImageCaption = shallow(
             <HeaderImageCaption
-                caption="Here is a caption."
-                credit={new Some("Photograph: cameraman")}
+                caption={new Some('Here is a caption.')}
+                credit={new Some('Photograph: cameraman')}
             />
         );
         expect(headerImageCaption.find(`#${captionId}`).text()).toBe("Here is a caption. Photograph: cameraman")
