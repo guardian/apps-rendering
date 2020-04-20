@@ -40,7 +40,7 @@ const image: Image = {
     height: 0,
     caption: new None(),
     credit: new None(),
-    nativeCaption: '',
+    nativeCaption: new None(),
     role: new None(),
 }
 
