@@ -8,14 +8,13 @@ import LiveblogKeyEvents from 'components/liveblog/keyEvents';
 import LiveblogBody from 'components/liveblog/body';
 import HeaderImage from 'components/headerImage';
 import Tags from 'components/shared/tags';
-import { darkModeCss } from 'styles';
+import { darkModeCss, wideColumnWidth } from 'styles';
 import { css, SerializedStyles } from '@emotion/core'
 import { neutral, background } from '@guardian/src-foundations/palette';
 import { from } from '@guardian/src-foundations/mq';
 import { PillarStyles, getPillarStyles } from 'pillarStyles';
 import { Liveblog, getFormat } from 'item';
 import { ImageMappings } from 'components/shared/page';
-import LeftColumn from 'components/shared/leftColumn';
 
 const LiveblogArticleStyles: SerializedStyles = css`
     background: ${neutral[97]};
@@ -35,6 +34,7 @@ const headerImageStyles = (pillarStyles: PillarStyles): SerializedStyles => css`
 
     ${from.wide} {
         padding-bottom: 12px;
+        padding-left: ${wideColumnWidth}px;
     }
 `;
 
@@ -51,13 +51,13 @@ const LiveblogArticle = ({ item, imageMappings }: LiveblogArticleProps): JSX.Ele
                 <LiveblogHeadline headline={item.headline} pillar={item.pillar} />
                 <LiveblogStandfirst standfirst={item.standfirst} pillar={item.pillar} />
                 <Metadata item={item} imageMappings={imageMappings} />
-                <LeftColumn className={headerImageStyles(getPillarStyles(item.pillar))}>
+                <div css={headerImageStyles(getPillarStyles(item.pillar))}>
                     <HeaderImage
                         image={item.mainImage}
                         imageMappings={imageMappings}
                         format={getFormat(item)}
                     />
-                </LeftColumn>
+                </div>
                 <LiveblogKeyEvents blocks={item.blocks} pillar={item.pillar} />
                 <LiveblogBody
                     blocks={item.blocks}
