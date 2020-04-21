@@ -5,10 +5,9 @@ import { text, withKnobs } from '@storybook/addon-knobs';
 
 import { selectPillar } from 'storybookHelpers';
 import Byline from './byline';
-import { Design, Display } from 'item';
+import { Pillar, Design, Display } from 'format';
 import { Option } from 'types/option';
 import { parse } from 'client/parser';
-import { Pillar } from 'pillar';
 
 
 // ----- Setup ----- //
@@ -34,7 +33,7 @@ const mockBylineHtml = (): Option<DocumentFragment> =>
 
 const Default: FC = () =>
     <Byline
-        pillar={selectPillar(Pillar.news)}
+        pillar={selectPillar(Pillar.News)}
         design={Design.Article}
         display={Display.Standard}
         bylineHtml={mockBylineHtml()}
@@ -42,7 +41,7 @@ const Default: FC = () =>
 
 const Comment: FC = () =>
     <Byline
-        pillar={selectPillar(Pillar.opinion)}
+        pillar={selectPillar(Pillar.Opinion)}
         design={Design.Comment}
         display={Display.Standard}
         bylineHtml={mockBylineHtml()}

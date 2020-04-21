@@ -5,7 +5,7 @@ import { css, SerializedStyles } from '@emotion/core';
 import { background } from '@guardian/src-foundations/palette';
 import { from, breakpoints } from '@guardian/src-foundations/mq';
 
-import HeaderImage from 'components/immersive/headerImage';
+import HeaderImage from 'components/headerImage';
 import Series from 'components/immersive/series';
 import Headline from 'components/immersive/headline';
 import Standfirst from 'components/standfirst';
@@ -13,8 +13,9 @@ import ArticleBody from 'components/shared/articleBody';
 import Tags from 'components/shared/tags';
 import { articleWidthStyles, basePx, darkModeCss } from 'styles';
 import { Keyline } from 'components/shared/keyline';
-import { getPillarStyles, Pillar } from 'pillar';
-import { Item } from 'item';
+import { getPillarStyles } from 'pillarStyles';
+import { Pillar } from 'format';
+import { Item, getFormat } from 'item';
 import { ImageMappings } from 'components/shared/page';
 import Metadata from 'components/metadata';
 
@@ -63,16 +64,6 @@ const DropCapStyles = (pillar: Pillar): SerializedStyles => {
     `;
 }
 
-const HeaderImageStyles = css`
-    figure {
-        margin: 0;
-
-        ${from.wide} {
-            margin: 0 auto;
-        }
-    }
-`;
-
 
 // ----- Component ----- //
 
@@ -86,13 +77,12 @@ const Immersive = ({ imageMappings, item, children }: Props): JSX.Element =>
     <main css={DarkStyles}>
         <article css={BorderStyles}>
             <header>
+                <HeaderImage
+                    image={item.mainImage}
+                    imageMappings={imageMappings}
+                    format={getFormat(item)}
+                />
                 <div css={articleWidthStyles}>
-                    <HeaderImage
-                        image={item.mainImage}
-                        imageMappings={imageMappings}
-                        className={HeaderImageStyles}
-                        pillar={item.pillar}
-                    />
                     <Series series={item.series} pillar={item.pillar}/>
                     <Headline headline={item.headline}/>
                     <Standfirst item={item} />

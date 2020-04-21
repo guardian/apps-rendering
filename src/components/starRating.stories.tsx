@@ -4,15 +4,15 @@ import React, { ReactElement } from 'react';
 import { withKnobs, radios } from '@storybook/addon-knobs';
 
 import StarRating from './starRating';
-import { Item, Design, Display } from 'item';
-import { Pillar } from 'pillar';
+import { Item } from 'item';
+import { Pillar, Design, Display } from 'format';
 import { None } from 'types/option';
 
 
 // ----- Setup ----- //
 
 const item: Item = {
-    pillar: Pillar.news,
+    pillar: Pillar.News,
     design: Design.Article,
     display: Display.Standard,
     body: [],

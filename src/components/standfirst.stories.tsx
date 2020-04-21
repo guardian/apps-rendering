@@ -4,8 +4,8 @@ import { select, withKnobs, boolean } from '@storybook/addon-knobs';
 import React, { ReactElement } from 'react';
 
 import Standfirst from './standfirst';
-import { Item, Design, Display } from 'item';
-import { Pillar } from 'pillar';
+import { Item } from 'item';
+import { Pillar, Design, Display } from 'format';
 import { Option, None } from 'types/option';
 import { parse } from 'client/parser';
 
@@ -20,7 +20,7 @@ const standfirst: Option<DocumentFragment> =
         .toOption();
 
 const item: Item = {
-    pillar: Pillar.news,
+    pillar: Pillar.News,
     design: Design.Article,
     display: Display.Standard,
     body: [],
@@ -45,11 +45,11 @@ const item: Item = {
 };
 
 const pillarOptions = {
-    News: Pillar.news,
-    Opinion: Pillar.opinion,
-    Sport: Pillar.sport,
-    Culture: Pillar.arts,
-    Lifestyle: Pillar.lifestyle,
+    News: Pillar.News,
+    Opinion: Pillar.Opinion,
+    Sport: Pillar.Sport,
+    Culture: Pillar.Culture,
+    Lifestyle: Pillar.Lifestyle,
 };
 
 
@@ -59,7 +59,7 @@ const Default = (): ReactElement =>
     <Standfirst item={{
         ...item,
         display: boolean('Immersive', false) ? Display.Immersive : Display.Standard,
-        pillar: select('Pillar', pillarOptions, Pillar.news),
+        pillar: select('Pillar', pillarOptions, Pillar.News),
     }} />
 
 const Review = (): ReactElement =>
@@ -68,7 +68,7 @@ const Review = (): ReactElement =>
         design: Design.Review,
         starRating: 4,
         display: boolean('Immersive', false) ? Display.Immersive : Display.Standard,
-        pillar: select('Pillar', pillarOptions, Pillar.arts),
+        pillar: select('Pillar', pillarOptions, Pillar.Culture),
     }} />
 
 const Feature = (): ReactElement =>
@@ -76,7 +76,7 @@ const Feature = (): ReactElement =>
         ...item,
         design: Design.Feature,
         display: boolean('Immersive', false) ? Display.Immersive : Display.Standard,
-        pillar: select('Pillar', pillarOptions, Pillar.sport),
+        pillar: select('Pillar', pillarOptions, Pillar.Sport),
     }} />
 
 const Comment = (): ReactElement =>
@@ -84,7 +84,7 @@ const Comment = (): ReactElement =>
         ...item,
         design: Design.Comment,
         display: boolean('Immersive', false) ? Display.Immersive : Display.Standard,
-        pillar: select('Pillar', pillarOptions, Pillar.opinion),
+        pillar: select('Pillar', pillarOptions, Pillar.Opinion),
     }} />
 
 

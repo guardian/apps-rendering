@@ -5,10 +5,11 @@ import { css, jsx as styledH, SerializedStyles } from '@emotion/core';
 import { from, until } from '@guardian/src-foundations/mq';
 import { neutral } from '@guardian/src-foundations/palette';
 import { Option, fromNullable, Some, None } from 'types/option';
-import { srcset, src } from 'image';
 import { basePx, icons, darkModeCss } from 'styles';
-import { getPillarStyles, Pillar } from 'pillar';
-import { ElementKind, BodyElement, Role } from 'item';
+import { getPillarStyles } from 'pillarStyles';
+import { Pillar } from 'format';
+import { ElementKind, BodyElement } from 'item';
+import { Role } from 'image';
 import { body, headline, textSans } from '@guardian/src-foundations/typography';
 import { remSpace } from '@guardian/src-foundations';
 import { ImageMappings } from 'components/shared/page';
@@ -251,51 +252,6 @@ const text = (doc: DocumentFragment, pillar: Pillar): ReactNode[] =>
 const standfirstText = (doc: DocumentFragment, pillar: Pillar): ReactNode[] =>
     Array.from(doc.childNodes).map(standfirstTextElement(pillar));
 
-interface ImageProps {
-    url: string;
-    alt: string;
-    imageMappings: ImageMappings;
-    sizes: string;
-    width: number;
-    height: number;
-    captionString: string;
-    caption: DocumentFragment;
-    credit: string;
-    pillar: Pillar;
-}
-
-const imageStyles = (width: number, height: number): SerializedStyles => css`
-    height: calc(100vw * ${height / width});
-    background: ${neutral[97]};
-
-    ${from.phablet} {
-        height: calc(620px * ${height / width});
-    }
-
-    ${darkModeCss`
-        background: ${neutral[20]};
-    `}
-`;
-
-const ImageElement = (props: ImageProps): ReactElement | null => {
-    const { url, sizes, alt, width, height, credit, captionString, imageMappings } = props;
-
-    if (!url) {
-        return null;
-    }
-
-    return styledH('img', {
-        sizes,
-        srcSet: srcset(url, imageMappings),
-        alt,
-        className: 'js-launch-slideshow',
-        src: src(imageMappings, url, width),
-        css: imageStyles(width, height),
-        caption: captionString,
-        credit,
-    });
-};
-
 const pullquoteStyles = (colour: string): SerializedStyles => css`
     color: ${colour};
     margin: 0;
@@ -389,9 +345,9 @@ const RichLink = (props: { url: string; linkText: string; pillar: Pillar }): Rea
         h(Anchor, { href: props.url, pillar: props.pillar, text: 'Read more' }),
     );
 
-const Interactive = (props: { url: string }): ReactElement =>
+const Interactive = (props: { url: string; title?: string }): ReactElement =>
     styledH('figure', { className: 'interactive' },
-        h('iframe', { src: props.url, height: 500 }, null)
+        h('iframe', { src: props.url, height: 500, title: props.title ?? "" }, null)
     );
 
 const Tweet = (props: { content: NodeList; pillar: Pillar; key: number }): ReactElement => {
@@ -407,25 +363,16 @@ const render = (pillar: Pillar, imageMappings: ImageMappings) =>
             return text(element.doc, pillar);
 
         case ElementKind.Image: {
-            const { file, alt, caption, captionString, credit, width, height, role } = element;
+            const { caption, credit, role } = element;
             const ImageComponent = role
                 .fmap(imageRole => imageRole === Role.Thumbnail ? BodyImageThumbnail : BodyImage)
                 .withDefault(BodyImage);
 
-            const figcaption = captionString
-                ? h(FigCaption, { pillar, text: text(caption, pillar) }) : null;
+            const figcaption = caption.fmap<ReactNode>(c =>
+                h(FigCaption, { pillar, text: text(c, pillar), credit })
+            ).withDefault(null);
             
-            return h(ImageComponent, {
-                image: {
-                    url: file,
-                    alt,
-                    imageMappings,
-                    width,
-                    height,
-                    caption: captionString,
-                    credit,
-                },
-            }, figcaption);
+            return h(ImageComponent, { image: element, imageMappings }, figcaption);
         }
 
         case ElementKind.Pullquote: {
@@ -441,7 +388,7 @@ const render = (pillar: Pillar, imageMappings: ImageMappings) =>
         }
 
         case ElementKind.Interactive:
-            return h(Interactive, { url: element.url, key });
+            return h(Interactive, { url: element.url, key, title: element.alt });
 
         case ElementKind.Tweet:
             return h(Tweet, { content: element.content, pillar, key });
@@ -475,26 +422,24 @@ const renderCaption = (doc: DocumentFragment, pillar: Pillar): ReactNode[] =>
 const renderMedia = (imageMappings: ImageMappings) =>
     (pillar: Pillar, elements: BodyElement[]): ReactNode[] =>
         elements.map((element) => {
-            if(element.kind === ElementKind.Image) {
-                const { file, alt, caption, captionString, credit, width, height } = element;
 
-                const figcaption = captionString
-                    ? h(MediaFigCaption, { text: renderCaption(caption, pillar) }) : null;
+            if (element.kind === ElementKind.Image) {
+                const { caption, credit } = element;
+
+                const figcaption = caption.fmap<ReactNode>(c => 
+                    h(MediaFigCaption, { text: renderCaption(c, pillar), credit })
+                ).withDefault(null);
 
                 return h(BodyImage, {
-                        image: {
-                            url: file,
-                            alt,
-                            imageMappings,
-                            width,
-                            height,
-                            caption: captionString,
-                            credit,
-                        },
-                    }, figcaption);
+                    image: element,
+                    imageMappings,
+                }, figcaption);
+
             }
+
             return null;
-            });
+
+        });
 
 // ----- Exports ----- //
 
@@ -502,7 +447,6 @@ export {
     renderAll,
     text as renderText,
     standfirstText as renderStandfirstText,
-    ImageElement,
     getHref,
     renderMedia
 };

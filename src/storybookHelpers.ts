@@ -2,17 +2,17 @@
 
 import { select } from '@storybook/addon-knobs';
 
-import { Pillar } from 'pillar';
+import { Pillar } from 'format';
 
 
 // ----- Helpers ----- //
 
 const pillarOptions = {
-    News: Pillar.news,
-    Opinion: Pillar.opinion,
-    Sport: Pillar.sport,
-    Culture: Pillar.arts,
-    Lifestyle: Pillar.lifestyle,
+    News: Pillar.News,
+    Opinion: Pillar.Opinion,
+    Sport: Pillar.Sport,
+    Culture: Pillar.Culture,
+    Lifestyle: Pillar.Lifestyle,
 };
 
 const selectPillar = (initial: Pillar): Pillar =>

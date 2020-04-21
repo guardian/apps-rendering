@@ -1,10 +1,11 @@
-import { ImageElement, renderMedia, renderStandfirstText, renderText } from './renderer';
+import { renderMedia, renderStandfirstText, renderText } from './renderer';
 import { JSDOM } from 'jsdom';
-import { Pillar } from 'pillar';
-import { createElement as h, ReactNode } from 'react';
+import { Pillar } from 'format';
+import { ReactNode } from 'react';
 import { renderAll } from 'renderer';
 import { compose } from 'lib';
-import { BodyElement, ElementKind, Role } from 'item';
+import { BodyElement, ElementKind } from 'item';
+import { Role } from 'image';
 import { configure, shallow } from 'enzyme';
 import { None, Some } from 'types/option';
 import Adapter from 'enzyme-adapter-react-16';
@@ -24,11 +25,11 @@ const textElement = (nodes: string[]): BodyElement =>
 const imageElement = (): BodyElement =>
     ({
         kind: ElementKind.Image,
-        file: "https://gu.com/img.png",
-        alt: "alt tag",
-        caption: JSDOM.fragment('this caption contains <em>html</em>'),
-        captionString: "caption",
-        credit: "credit",
+        src: 'https://gu.com/img.png',
+        alt: new Some("alt tag"),
+        caption: new Some(JSDOM.fragment('this caption contains <em>html</em>')),
+        nativeCaption: new Some('caption'),
+        credit: new Some('credit'),
         width: 500,
         height: 500,
         role: new None()
@@ -73,51 +74,16 @@ const instagramElement = (): BodyElement =>
     })
 
 const render = (element: BodyElement): ReactNode[] =>
-    renderAll({})(Pillar.news, [element]);
+    renderAll({})(Pillar.News, [element]);
 
 const renderCaption = (element: BodyElement): ReactNode[] =>
-    renderMedia({})(Pillar.news, [element]);
+    renderMedia({})(Pillar.News, [element]);
 
 const renderTextElement = compose(render, textElement);
 
 const renderCaptionElement = compose(renderCaption, imageElement)
 
 describe('renderer returns expected content', () => {
-    test('ImageElement returns null for no url', () => {
-        const imageProps = {
-            url: '',
-            alt: "alt",
-            imageMappings: {},
-            sizes: "sizes",
-            width: 500,
-            height: 500,
-            captionString: "caption",
-            caption: JSDOM.fragment('this caption contains <em>html</em>'),
-            credit: "credit",
-            pillar: Pillar.news,
-        };
-        expect(ImageElement(imageProps)).toBe(null);
-    });
-
-    test('ImageElement returns image', () => {
-        const imageProps = {
-            url: 'https://media.guim.co.uk/image.jpg',
-            alt: "alt",
-            imageMappings: {},
-            sizes: "sizes",
-            width: 500,
-            height: 500,
-            captionString: "caption",
-            caption: JSDOM.fragment('this caption contains <em>html</em>'),
-            credit: "credit",
-            pillar: Pillar.news,
-        };
-        const image = shallow(h(ImageElement, imageProps));
-
-        expect(image.html()).toContain('img');
-        expect(image.prop('alt')).toBe('alt');
-    });
-
     test('Renders supported node types for text elements', () => {
         const text = renderTextElement([
             '<h2></h2>',
@@ -193,7 +159,7 @@ describe('Renders different types of elements', () => {
     test('ElementKind.Interactive', () => {
         const nodes = render(interactiveElement())
         const interactive = shallow(nodes.flat()[0]);
-        expect(interactive.html()).toContain('<iframe src="https://gu.com/interactive" height="500"></iframe>');
+        expect(interactive.html()).toContain('<iframe src="https://gu.com/interactive" height="500" title=""></iframe>');
     })
 
     test('ElementKind.Tweet', () => {
@@ -212,14 +178,14 @@ describe('Renders different types of elements', () => {
 describe('Paragraph tags rendered correctly', () => {
     test('Contains no styles in standfirsts', () => {
         const fragment = JSDOM.fragment('<p>Parapraph tag</p><span>1</span>');
-        const nodes = renderStandfirstText(fragment, Pillar.news);
+        const nodes = renderStandfirstText(fragment, Pillar.News);
         const html = shallow(nodes.flat()[0]).html();
         expect(html).toBe('<p>Parapraph tag</p>')
     });
 
     test('Contains styles in article body', () => {
         const fragment = JSDOM.fragment('<p>Parapraph tag</p><span>1</span>');
-        const nodes = renderText(fragment, Pillar.news);
+        const nodes = renderText(fragment, Pillar.News);
         const html = shallow(nodes.flat()[0]).html();
         expect(html).not.toBe('<p>Parapraph tag</p>')
     });

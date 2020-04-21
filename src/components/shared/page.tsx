@@ -17,7 +17,7 @@ import { JSDOM } from 'jsdom';
 import { partition } from 'types/result';
 import { getAdPlaceholderInserter } from 'ads';
 import { fromCapi } from 'item';
-import { sign } from 'components/image';
+import { sign } from 'image';
 import {
     ElementType,
     TagType,
@@ -265,7 +265,8 @@ function Page({ content, imageSalt, getAssetLocation }: Props): ElementWithResou
             <head>
                 <title>{content.id}</title>
                 <meta id="twitter-theme" name="twitter:widgets:theme" content="light" />
-                <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+                <meta name="viewport" content="initial-scale=1, maximum-scale=5" />
+                <link rel="stylesheet" href="native://fontSize.css" />
             </head>
             <body>
                 { element }
