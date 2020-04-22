@@ -28,11 +28,11 @@ export const pillarColours: PillarColours = {
         liveblogBackground: palette.news[300],
     },
     [Pillar.Opinion]: {
-        kicker: palette.opinion[300],
-        featureHeadline: palette.opinion[200],
+        kicker: palette.opinion[400],
+        featureHeadline: palette.opinion[300],
         soft: palette.opinion[800],
         inverted: palette.opinion[500],
-        liveblogBackground: palette.opinion[200],
+        liveblogBackground: palette.opinion[300],
     },
     [Pillar.Sport]: {
         kicker: palette.sport[400],
