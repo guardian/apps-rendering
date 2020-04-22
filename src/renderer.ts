@@ -107,7 +107,7 @@ interface AnchorProps {
     format: Format;
 }
 
-const Anchor: FC<AnchorProps> = ({ format, text, href}): ReactElement =>
+const Anchor: FC<AnchorProps> = ({ format, text, href }): ReactElement =>
     styledH(
         'a',
         { css: anchorStyles(getPillarStyles(format.pillar).kicker), href },
