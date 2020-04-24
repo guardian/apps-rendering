@@ -24,7 +24,7 @@ const triangleStyles = ({ kicker }: PillarStyles): SerializedStyles => css`
     padding-right: ${remSpace[1]};
 `;
 
-const Triangle: FC<TriangleProps> = ({ format }) => {
+const Triangle: FC<TriangleProps> = ({ format }: TriangleProps) => {
     switch (format.design) {
         case Design.Media:
             return null;
@@ -66,7 +66,7 @@ const mediaStyles = css`
     `}
 `;
 
-const getStyles = (format: Format) => {
+const getStyles = (format: Format): SerializedStyles => {
     switch (format.design) {
         case Design.Media:
             return mediaStyles;
