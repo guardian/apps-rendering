@@ -64,6 +64,8 @@ const captionElement = (format: Format) => (node: Node, key: number): ReactNode 
             return <h2 css={captionHeadingStyles} key={key}>{children}</h2>;
         case 'BR':
             return null;
+        case 'EM':
+            return <em key={key}>{children}</em>
         case 'A':
             return (
                 <Anchor
