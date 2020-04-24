@@ -42,6 +42,21 @@ const Triangle: FC<TriangleProps> = ({ format }: TriangleProps) => {
     }
 }
 
+interface CreditProps {
+    credit: Option<string>;
+    format: Format;
+}
+
+const Credit: FC<CreditProps> = ({ format, credit }: CreditProps) =>
+    credit.fmap<ReactElement | null>(cred => {
+        switch (format.design) {
+            case Design.Media:
+                return <p>{cred}</p>;
+            default:
+                return <> {cred}</>;
+        }
+    }).withDefault(null);
+
 const captionHeadingStyles = css`
     ${headline.xxxsmall()}
     color: ${neutral[86]};
@@ -119,7 +134,7 @@ const FigCaption: FC<Props> = ({ format, caption, credit }: Props) =>
         <figcaption css={getStyles(format)}>
             <Triangle format={format} />
             {renderCaption(cap, format)}
-            {credit.fmap<ReactElement | null>(cred => <p>{cred}</p>).withDefault(null)}
+            <Credit format={format} credit={credit} />
         </figcaption>
     ).withDefault(null);
 
