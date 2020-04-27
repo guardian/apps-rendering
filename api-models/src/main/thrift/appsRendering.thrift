@@ -1,6 +1,6 @@
 include "content/v1.thrift"
 
-namespace scala com.gu.mobile.ssr.models
+namespace scala com.gu.mobile.ar.models
 
 struct appsRendering {
 
