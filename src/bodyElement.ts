@@ -232,5 +232,7 @@ const parseElements =
 export {
     ElementKind,
     BodyElement,
+    Audio,
+    Video,
     parseElements,
 };
