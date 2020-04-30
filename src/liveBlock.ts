@@ -2,16 +2,12 @@
 
 import { IBlock as Block } from 'mapiThriftModels/Block';
 import { Option } from 'types/option';
-import { Result } from 'types/result';
 import DocParser from 'types/docParser';
-import { BodyElement, parseElements } from 'bodyElement';
+import { Body, parseElements } from 'bodyElement';
 import { maybeCapiDate } from 'capi';
 
 
 // ----- Types ----- //
-
-type Body =
-    Result<string, BodyElement>[];
 
 type LiveBlock = {
     id: string;
@@ -42,7 +38,6 @@ const parseLiveBlocks = (docParser: DocParser) => (blocks: Block[]): LiveBlock[]
 // ----- Exports ----- //
 
 export {
-    Body,
     LiveBlock,
     parseLiveBlocks,
 };

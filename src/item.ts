@@ -13,8 +13,8 @@ import {
 } from 'mapiThriftModels';
 import { Format, Pillar, Design, Display } from 'format';
 import { Image as ImageData, parseImage } from 'image';
-import { LiveBlock, Body as LiveBody, parseLiveBlocks } from 'liveBlock';
-import { parseElements } from 'bodyElement';
+import { LiveBlock, parseLiveBlocks } from 'liveBlock';
+import { Body, parseElements } from 'bodyElement';
 
 
 // ----- Item Type ----- //
@@ -41,20 +41,20 @@ interface Liveblog extends Fields {
 
 interface Review extends Fields {
     design: Design.Review;
-    body: LiveBody;
+    body: Body;
     starRating: number;
 }
 
 interface Comment extends Fields {
     design: Design.Comment;
-    body: LiveBody;
+    body: Body;
 }
 
 // Catch-all for other Designs for now. As coverage of Designs increases,
 // this will likely be split out into each Design type.
 interface Standard extends Fields {
     design: Exclude<Design, Design.Live | Design.Review | Design.Comment>;
-    body: LiveBody;
+    body: Body;
     shouldHideReaderRevenue: boolean;
 }
 
@@ -74,7 +74,7 @@ type ItemFields =
     Omit<Fields, 'design'>;
 
 type ItemFieldsWithBody =
-    ItemFields & { body: LiveBody };
+    ItemFields & { body: Body };
 
 
 // ----- Functions ----- //

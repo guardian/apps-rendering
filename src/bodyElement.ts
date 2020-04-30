@@ -71,6 +71,9 @@ type BodyElement = {
 
 type Elements = BlockElement[] | undefined;
 
+type Body =
+    Result<string, BodyElement>[];
+
 
 // ----- Functions ----- //
 
@@ -234,5 +237,6 @@ export {
     BodyElement,
     Audio,
     Video,
+    Body,
     parseElements,
 };
