@@ -1,0 +1,58 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.14.1
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - '@creditkarma/thrift-server-core > lodash':
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > @jest/transform > @babel/core > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - '@guardian/node-riffraff-artifact > archiver > async > lodash':
+        patched: '2020-05-01T07:10:24.790Z'
+    - jsdom > request-promise-native > request-promise-core > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - '@emotion/babel-preset-css-prop > @babel/plugin-transform-react-jsx > @babel/helper-builder-react-jsx > @babel/types > lodash':
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > @jest/transform > @babel/core > @babel/traverse > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - '@emotion/styled > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2020-05-01T07:10:24.790Z'
+    - emotion > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > babel-plugin-istanbul > istanbul-lib-instrument > @babel/traverse > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > @jest/transform > @babel/core > @babel/helpers > @babel/traverse > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > babel-plugin-istanbul > istanbul-lib-instrument > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - '@emotion/core > @emotion/css > babel-plugin-emotion > @babel/helper-module-imports > @babel/types > lodash':
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > babel-preset-jest > babel-plugin-jest-hoist > @types/babel__traverse > @babel/types > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > @jest/transform > babel-plugin-istanbul > istanbul-lib-instrument > @babel/traverse > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > @jest/transform > @babel/core > @babel/helpers > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > babel-plugin-istanbul > istanbul-lib-instrument > @babel/core > @babel/helpers > @babel/traverse > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > @jest/transform > babel-plugin-istanbul > istanbul-lib-instrument > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > @jest/transform > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > babel-plugin-istanbul > istanbul-lib-instrument > @babel/core > @babel/helpers > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > @jest/transform > babel-plugin-istanbul > istanbul-lib-instrument > @babel/core > @babel/helpers > @babel/traverse > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > babel-plugin-istanbul > istanbul-lib-instrument > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > @jest/transform > babel-plugin-istanbul > istanbul-lib-instrument > @babel/core > @babel/helpers > @babel/traverse > @babel/generator > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > @jest/transform > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > @jest/transform > babel-plugin-istanbul > istanbul-lib-instrument > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > babel-plugin-istanbul > istanbul-lib-instrument > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
+    - babel-jest > @jest/transform > babel-plugin-istanbul > istanbul-lib-instrument > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash:
+        patched: '2020-05-01T07:10:24.790Z'
