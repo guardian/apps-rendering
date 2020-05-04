@@ -57,6 +57,7 @@ const PageStyles = css`
     ${fontFace("Guardian Icons", new None, new None, "/assets/fonts/icons.otf")}
 
     background: white;
+    -webkit-font-smoothing: antialiased;
 
     body {
         margin: 0;
