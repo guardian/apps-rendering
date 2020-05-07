@@ -7,6 +7,8 @@ struct appsRendering {
     1: required v1.Content content
 
     2: optional i32 commentCount 
+
+    3: optional bool specialReport
 }
 
 struct appsRenderingBlocks {
