@@ -1,5 +1,9 @@
 import ReleaseTransformations._
 
+import scala.sys.process.Process
+
+lazy val runThrift = taskKey[Unit]("Run the thrift command line")
+
 lazy val apiModels = project.in(file("api-models"))
   .settings(
     name := "apps-rendering-api-models",
@@ -46,5 +50,18 @@ lazy val apiModels = project.in(file("api-models"))
       setNextVersion,
       commitNextVersion,
       pushChanges
-    )
+    ),
+
+    Compile / runThrift := {
+      val appsRenderingFile = baseDirectory.value / "src" / "main" / "thrift" / "appsRendering.thrift"
+      val importDirectoriesOptions = (Compile / scroogeUnpackDeps).value.map { dependency =>
+        s"-I ${dependency.getPath}"
+      }.mkString(" ")
+      val outputDirOption = s"-o ${target.value}"
+      val exitCode = Process(s"thrift --gen js:ts ${importDirectoriesOptions} ${outputDirOption} ${appsRenderingFile.getPath}", baseDirectory.value) !
+
+      if (exitCode != 0) {
+        throw new Exception("Error during thrift compilation")
+      }
+    }
   )
