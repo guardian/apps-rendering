@@ -1,6 +1,5 @@
 // ----- Imports ----- //
 
-import { SerializedStyles, css } from '@emotion/core';
 import {
     text,
     background,
@@ -13,14 +12,18 @@ import {
 } from '@guardian/src-foundations/palette';
 import { Format, Design, Display, Pillar } from '@guardian/types/Format';
 
-import { compose } from 'lib';
-
 
 // ----- Types ----- //
 
 interface Colour {
     light: string;
     dark: string;
+}
+
+interface Palette {
+    headlineFont: Colour;
+    headlineBackground: Colour;
+    border: Colour;
 }
 
 
@@ -80,32 +83,20 @@ const border = (format: Format): Colour => {
     }
 }
 
-const fontColour = (colour: Colour): SerializedStyles =>
-    css`
-        color: ${colour.light};
-
-        @media (prefers-color-scheme: dark) {
-            color: ${colour.dark};
-        }
-    `;
-
-const backgroundColour = (colour: Colour): SerializedStyles =>
-    css`
-        background-color: ${colour.light};
-
-        @media (prefers-color-scheme: dark) {
-            background-color: ${colour.dark};
-        }
-    `;
-
-const headlineFontColour = compose(fontColour, headlineFont);
-const headlineBackgroundColour = compose(backgroundColour, headlineBackground);
+const palette = (format: Format): Palette =>
+    ({
+        headlineFont: headlineFont(format),
+        headlineBackground: headlineBackground(format),
+        border: border(format),
+    });
 
 
 // ----- Exports ----- //
 
 export {
-    headlineFontColour,
-    headlineBackgroundColour,
+    Colour,
+    headlineFont,
+    headlineBackground,
     border,
+    palette,
 };

@@ -10,7 +10,8 @@ import { Format, Display, Design } from '@guardian/types/Format';
 import { Item } from 'item';
 import { wideContentWidth, articleWidthStyles } from 'styles';
 import StarRating from 'components/starRating';
-import { headlineFontColour, headlineBackgroundColour, border } from 'editorialPalette';
+import { border } from 'editorialPalette';
+import { headlineFontColour, headlineBackgroundColour } from 'editorialStyles';
 
 
 // ----- Component ----- //
