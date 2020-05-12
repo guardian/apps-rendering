@@ -21,7 +21,7 @@ interface Colour {
 }
 
 interface Palette {
-    headlineFont: Colour;
+    headlineText: Colour;
     headlineBackground: Colour;
     border: Colour;
 }
@@ -29,7 +29,7 @@ interface Palette {
 
 // ----- Functions ----- //
 
-const headlineFont = (format: Format): Colour => {
+const headlineText = (format: Format): Colour => {
     const light = text.primary;
     const dark = neutral[86];
 
@@ -85,7 +85,7 @@ const border = (format: Format): Colour => {
 
 const palette = (format: Format): Palette =>
     ({
-        headlineFont: headlineFont(format),
+        headlineText: headlineText(format),
         headlineBackground: headlineBackground(format),
         border: border(format),
     });
@@ -95,7 +95,7 @@ const palette = (format: Format): Palette =>
 
 export {
     Colour,
-    headlineFont,
+    headlineText,
     headlineBackground,
     border,
     palette,

@@ -11,7 +11,7 @@ import { Item } from 'item';
 import { wideContentWidth, articleWidthStyles } from 'styles';
 import StarRating from 'components/starRating';
 import { border } from 'editorialPalette';
-import { headlineFontColour, headlineBackgroundColour } from 'editorialStyles';
+import { headlineTextColour, headlineBackgroundColour } from 'editorialStyles';
 
 
 // ----- Component ----- //
@@ -22,7 +22,7 @@ interface Props {
 
 const styles = (format: Format): SerializedStyles => css`
     ${headline.medium()}
-    ${headlineFontColour(format)}
+    ${headlineTextColour(format)}
     ${headlineBackgroundColour(format)}
     padding-bottom: ${remSpace[9]};
     margin: 0;

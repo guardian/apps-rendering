@@ -3,12 +3,12 @@
 import { SerializedStyles, css } from '@emotion/core';
 
 import { compose } from 'lib';
-import { Colour, headlineFont, headlineBackground } from 'editorialPalette';
+import { Colour, headlineText, headlineBackground } from 'editorialPalette';
 
 
 // ----- Functions ----- //
 
-const fontColour = (colour: Colour): SerializedStyles =>
+const textColour = (colour: Colour): SerializedStyles =>
     css`
         color: ${colour.light};
 
@@ -26,13 +26,13 @@ const backgroundColour = (colour: Colour): SerializedStyles =>
         }
     `;
 
-const headlineFontColour = compose(fontColour, headlineFont);
+const headlineTextColour = compose(textColour, headlineText);
 const headlineBackgroundColour = compose(backgroundColour, headlineBackground);
 
 
 // ----- Exports ----- //
 
 export {
-    headlineFontColour,
+    headlineTextColour,
     headlineBackgroundColour,
 };
