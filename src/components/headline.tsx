@@ -62,7 +62,7 @@ const analysisStyles = (format: Format): SerializedStyles => css`
     ${headline.medium({ lineHeight: 'regular', fontWeight: 'light' })}
 
     span {
-        box-shadow: inset 0 -0.1rem ${border(format).light};
+        box-shadow: inset 0 -0.1rem ${border.primary(format)};
         padding-bottom: 0.2rem;
     }
 `;

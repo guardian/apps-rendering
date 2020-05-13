@@ -1,8 +1,8 @@
 // ----- Imports ----- //
 
 import {
-    text,
-    background,
+    text as coreText,
+    background as coreBackground,
     neutral,
     news,
     opinion,
@@ -15,79 +15,114 @@ import { Format, Design, Display, Pillar } from '@guardian/types/Format';
 
 // ----- Types ----- //
 
-interface Colour {
-    light: string;
-    dark: string;
-}
+type Colour = string;
 
 interface Palette {
-    headlineText: Colour;
-    headlineBackground: Colour;
-    border: Colour;
+    text: {
+        headlinePrimary: string;
+        headlineInverse: string;
+    };
+    background: {
+        headlinePrimary: string;
+        headlineInverse: string;
+    };
+    border: {
+        primary: string;
+        inverse: string;
+    };
 }
 
 
 // ----- Functions ----- //
 
-const headlineText = (format: Format): Colour => {
-    const light = text.primary;
-    const dark = neutral[86];
-
+const textHeadlinePrimary = (format: Format): Colour => {
     if (format.display === Display.Immersive || format.design === Design.Media) {
-        return ({ light: neutral[100], dark });
+        return neutral[100];
     }
 
     if (format.design === Design.Feature) {
         switch (format.pillar) {
             case Pillar.Opinion:
-                return ({ light: opinion[300], dark });
+                return opinion[300];
             case Pillar.Sport:
-                return ({ light: sport[300], dark });
+                return sport[300];
             case Pillar.Culture:
-                return ({ light: culture[300], dark });
+                return culture[300];
             case Pillar.Lifestyle:
-                return ({ light: lifestyle[300], dark });
+                return lifestyle[300];
             case Pillar.News:
             default:
-                return ({ light: news[300], dark });
+                return news[300];
         }
     }
 
-    return { light, dark };
+    return coreText.primary;
 }
 
-const headlineBackground = (format: Format): Colour => {
-    const light = background.primary;
-    const dark = background.inverse;
+const textHeadlineInverse = (_: Format): Colour =>
+    neutral[86];
 
+const backgroundHeadlinePrimary = (format: Format): Colour => {
     if (format.display === Display.Immersive) {
-        return ({ light: neutral[7], dark });
+        return neutral[7];
     }
 
-    return { light, dark };
+    return coreBackground.primary;
 }
 
-const border = (format: Format): Colour => {
+const backgroundHeadlineInverse = (_: Format): Colour =>
+    coreBackground.inverse;
+
+const borderPrimary = (format: Format): Colour => {
     switch (format.pillar) {
         case Pillar.Opinion:
-            return ({ light: opinion[400], dark: opinion[400] });
+            return opinion[400];
         case Pillar.Sport:
-            return ({ light: sport[400], dark: sport[400] });
+            return sport[400];
         case Pillar.Culture:
-            return ({ light: culture[400], dark: culture[400] });
+            return culture[400];
         case Pillar.Lifestyle:
-            return ({ light: lifestyle[400], dark: lifestyle[400] });
+            return lifestyle[400];
         case Pillar.News:
         default:
-            return ({ light: news[400], dark: news[400] });
+            return news[400];
     }
 }
+
+const borderInverse = borderPrimary;
+
+
+// ----- API ----- //
+
+const text = {
+    headlinePrimary: textHeadlinePrimary,
+    headlineInverse: textHeadlineInverse,
+};
+
+const background = {
+    headlinePrimary: backgroundHeadlinePrimary,
+    headlineInverse: backgroundHeadlineInverse,
+};
+
+const border = {
+    primary: borderPrimary,
+    inverse: borderInverse,
+};
 
 const palette = (format: Format): Palette =>
     ({
-        headlineText: headlineText(format),
-        headlineBackground: headlineBackground(format),
-        border: border(format),
+        text: {
+            headlinePrimary: text.headlinePrimary(format),
+            headlineInverse: text.headlineInverse(format),
+        },
+        background: {
+            headlinePrimary: background.headlinePrimary(format),
+            headlineInverse: background.headlineInverse(format),
+        },
+        border: {
+            primary: border.primary(format),
+            inverse: border.inverse(format),
+        },
     });
 
 
@@ -95,8 +130,8 @@ const palette = (format: Format): Palette =>
 
 export {
     Colour,
-    headlineText,
-    headlineBackground,
+    text,
+    background,
     border,
     palette,
 };
