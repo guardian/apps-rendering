@@ -12,7 +12,6 @@ import { ElementKind, BodyElement } from 'bodyElement';
 import { Role, BodyImageProps } from 'image';
 import { body, headline, textSans } from '@guardian/src-foundations/typography';
 import { remSpace } from '@guardian/src-foundations';
-import { ImageMappings } from 'components/shared/page';
 import Audio from 'components/audio';
 import Video from 'components/video';
 import Paragraph from 'components/paragraph';
@@ -363,7 +362,7 @@ const imageComponentFromRole = (role: Role): FC<BodyImageProps> => {
     }
 }
 
-const render = (format: Format, imageMappings: ImageMappings, excludeStyles = false) =>
+const render = (format: Format, excludeStyles = false) =>
     (element: BodyElement, key: number): ReactNode => {
     switch (element.kind) {
 
@@ -382,7 +381,7 @@ const render = (format: Format, imageMappings: ImageMappings, excludeStyles = fa
                 ? h(FigCaption, { format, caption, credit })
                 : null;
 
-            return h(ImageComponent, { image: element, imageMappings }, figcaption);
+            return h(ImageComponent, { image: element }, figcaption);
         }
 
         case ElementKind.Pullquote:
@@ -431,12 +430,12 @@ const render = (format: Format, imageMappings: ImageMappings, excludeStyles = fa
     }
 };
 
-const renderAll = (imageMappings: ImageMappings) =>
-    (format: Format, elements: BodyElement[]): ReactNode[] =>
-        elements.map(render(format, imageMappings));
+const renderAll = (format: Format, elements: BodyElement[]): ReactNode[] =>
+    elements.map(render(format));
 
 const renderAllWithoutStyles = (format: Format, elements: BodyElement[]): ReactNode[] =>
-        elements.map(render(format, {}, true));
+    elements.map(render(format, true));
+
 
 // ----- Exports ----- //
 
