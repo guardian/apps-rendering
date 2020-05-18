@@ -19,16 +19,16 @@ type Colour = string;
 
 interface Palette {
     text: {
-        headlinePrimary: string;
-        headlineInverse: string;
+        headlinePrimary: Colour;
+        headlineInverse: Colour;
     };
     background: {
-        headlinePrimary: string;
-        headlineInverse: string;
+        headlinePrimary: Colour;
+        headlineInverse: Colour;
     };
     border: {
-        primary: string;
-        inverse: string;
+        primary: Colour;
+        inverse: Colour;
     };
 }
 
