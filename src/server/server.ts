@@ -37,7 +37,7 @@ function getPrefetchHeader(resources: string[]): string {
     return resources.reduce((linkHeader, resource) => linkHeader + `<${resource}>; rel=prefetch,`, '');
 }
 
-const capiRequest = (articleId: string) => (key: string) =>
+const capiRequest = (articleId: string) => (key: string): Promise<Response> =>
     fetch(capiEndpoint(articleId, key));
 
 const parseCapiResponse = (articleId: string) =>
