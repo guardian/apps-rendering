@@ -10,10 +10,3 @@ struct appsRendering {
 
     3: optional bool specialReport
 }
-
-struct appsRenderingBlocks {
-
-    1: required v1.Blocks blocks
-
-    2: required map<string,string> imageMappings 
-}
