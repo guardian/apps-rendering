@@ -26,7 +26,7 @@ import {
     newBlocksSince,
     updatedBlocksSince,
     recentBlocks,
-    toSerialisable as serialiseLiveBlock,
+    toSerialisable as serialiseLiveBlocks,
 } from 'liveBlock';
 import { JSDOM } from 'jsdom';
 import JsonSerialisable from 'types/jsonSerialisable';
@@ -149,12 +149,12 @@ async function serveArticle(req: Request, res: ExpressResponse): Promise<void> {
 }
 
 const liveBlockUpdates = (since: number, content: Content, context: Context): LiveUpdates => ({
-    newBlocks: serialiseLiveBlock(newBlocksSince(since)(content)(context)),
-    updatedBlocks: serialiseLiveBlock(updatedBlocksSince(since)(content)(context)),
+    newBlocks: serialiseLiveBlocks(newBlocksSince(since)(content)(context)),
+    updatedBlocks: serialiseLiveBlocks(updatedBlocksSince(since)(content)(context)),
 });
 
 const recentLiveBlocks = (content: Content, context: Context): LiveUpdates => ({
-    newBlocks: serialiseLiveBlock(recentBlocks(10)(content)(context)),
+    newBlocks: serialiseLiveBlocks(recentBlocks(10)(content)(context)),
     updatedBlocks: [],
 });
 
