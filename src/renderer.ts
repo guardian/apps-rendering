@@ -459,7 +459,7 @@ const render = (format: Format, excludeStyles = false) =>
                         <body>
                             ${html}
                             <script>
-                                ${js}
+                                ${js.withDefault('')}
                                 function resize() {
                                     window.frameElement.height = document.body.offsetHeight;
                                 }
