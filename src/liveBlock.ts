@@ -71,9 +71,9 @@ const filterBlocks = (filterFunc: (block: Block) => boolean) => (content: Conten
 
 const blocksSince =
     (getDate: (block: Block) => CapiDateTime | undefined) =>
-    (since: number): (content: Content) => (context: Context) => LiveBlock[] =>
+    (since: Date): (content: Content) => (context: Context) => LiveBlock[] =>
 {
-    const isRecent = compose(moreRecentThan(new Date(since)), getDate);
+    const isRecent = compose(moreRecentThan(since), getDate);
 
     return compose(parseMany, filterBlocks(isRecent));
 }

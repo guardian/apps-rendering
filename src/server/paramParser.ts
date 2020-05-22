@@ -1,3 +1,8 @@
+// ----- Imports ----- //
+
+import { isValidDate } from 'date';
+
+
 // ----- Types ----- //
 
 enum Param {
@@ -21,12 +26,12 @@ type QueryParam<A> = {
 // Disabled because the point of this function is to convert the `any`
 // provided by Express to a stricter type
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function parseNumber(param: any): QueryParam<number> {
+function parseDate(param: any): QueryParam<Date> {
     if (param === undefined) {
         return { kind: Param.None };
     }
-    const num = Number(param);
-    return isNaN(num) ? { kind: Param.Valid, value: num } : { kind: Param.Invalid };
+    const date = new Date(param);
+    return isValidDate(date) ? { kind: Param.Valid, value: date } : { kind: Param.Invalid };
 }
 
 
@@ -34,5 +39,5 @@ function parseNumber(param: any): QueryParam<number> {
 
 export {
     Param,
-    parseNumber,
+    parseDate,
 };

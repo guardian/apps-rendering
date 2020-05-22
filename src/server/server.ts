@@ -30,7 +30,7 @@ import {
 } from 'liveBlock';
 import { JSDOM } from 'jsdom';
 import JsonSerialisable from 'types/jsonSerialisable';
-import { parseNumber, Param } from 'server/paramParser';
+import { parseDate, Param } from 'server/paramParser';
 import { Context } from 'types/parserContext';
 
 
@@ -148,7 +148,7 @@ async function serveArticle(req: Request, res: ExpressResponse): Promise<void> {
     }
 }
 
-const liveBlockUpdates = (since: number, content: Content, context: Context): LiveUpdates => ({
+const liveBlockUpdates = (since: Date, content: Content, context: Context): LiveUpdates => ({
     newBlocks: serialiseLiveBlocks(newBlocksSince(since)(content)(context)),
     updatedBlocks: serialiseLiveBlocks(updatedBlocksSince(since)(content)(context)),
 });
@@ -162,7 +162,7 @@ async function liveBlocks(req: Request, res: ExpressResponse): Promise<void> {
     try {
         const articleId = req.params.articleId || defaultId;
         const imageSalt = await getConfigValue<string>('apis.img.salt');
-        const since = parseNumber(req.query.since);
+        const since = parseDate(req.query.since);
 
         if (since.kind === Param.Invalid) {
             logger.warn(`I couldn't get liveblog updates for: ${articleId}, I didn't understand this timestamp: ${since}`);
