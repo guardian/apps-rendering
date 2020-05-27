@@ -14,7 +14,7 @@ interface LiveblogBodyProps {
 
 const LoadMore = ({ total, pillar }: { total: number; pillar: Pillar }): JSX.Element | null =>
     total > 7
-        ? <LiveblogLoadMore onLoadMore={() => Promise.resolve()} pillar={pillar}/>
+        ? <LiveblogLoadMore onLoadMore={(): Promise<void> => Promise.resolve()} pillar={pillar}/>
         : null;
 
 const LiveblogBody = (props: LiveblogBodyProps): JSX.Element => {

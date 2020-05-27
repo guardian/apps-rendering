@@ -134,6 +134,9 @@ function toSerialisable(elem: BodyElement): JsonSerialisable {
     }
 }
 
+// Disabled because the point of this function is to convert the `any`
+// provided by JSON.parse to a stricter type
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fromSerialisable = (docParser: DocParser) => (elem: any): BodyElement => {
     switch (elem.kind) {
         case ElementKind.Text:
