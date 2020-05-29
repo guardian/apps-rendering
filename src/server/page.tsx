@@ -34,7 +34,7 @@ const scriptName = ({ design, display }: Format): Option<string> => {
         case Design.Live:
             return new Some('liveblog.js');
         case Design.Interactive:
-            display !== Display.Immersive ? new Some('article.js') : new None();
+            return display !== Display.Immersive ? new Some('article.js') : new None();
         case Design.Comment:
         case Design.Feature:
         case Design.Analysis:

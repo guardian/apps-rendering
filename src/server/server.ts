@@ -32,6 +32,7 @@ import { JSDOM } from 'jsdom';
 import JsonSerialisable from 'types/jsonSerialisable';
 import { parseDate, Param } from 'server/paramParser';
 import { Context } from 'types/parserContext';
+import { toArray } from 'lib';
 
 
 // ----- Types ----- //
@@ -105,7 +106,7 @@ async function serveArticlePost(
         const imageSalt = await getConfigValue<string>('apis.img.salt');
 
         const { html, clientScript } = page(imageSalt, content, getAssetLocation);
-        res.set('Link', getPrefetchHeader(clientScript.fmap(Array.of).withDefault([])));
+        res.set('Link', getPrefetchHeader(clientScript.fmap(toArray).withDefault([])));
         res.write('<!DOCTYPE html>');
         res.write(renderToString(html));
         res.end();
@@ -129,7 +130,7 @@ async function serveArticle(req: Request, res: ExpressResponse): Promise<void> {
             errorStatus => { res.sendStatus(errorStatus) },
             content => {
                 const { html, clientScript } = page(imageSalt, content, getAssetLocation);
-                res.set('Link', getPrefetchHeader(clientScript.fmap(Array.of).withDefault([])));
+                res.set('Link', getPrefetchHeader(clientScript.fmap(toArray).withDefault([])));
                 res.write('<!DOCTYPE html>');
                 res.write('<meta charset="UTF-8" />');
                 res.write(renderToString(html));
