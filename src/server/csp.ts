@@ -29,7 +29,7 @@ const extractInteractiveAssets = (elements: BodyElement[]): Assets =>
                 styles: [ ...styles, elem.css ],
                 scripts: elem.js.fmap(js => [ ...scripts, js ]).withDefault(scripts),
             };
-        };
+        }
 
         return { scripts, styles };
     }, { scripts: [], styles: [] });
