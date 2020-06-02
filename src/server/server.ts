@@ -33,6 +33,7 @@ import JsonSerialisable from 'types/jsonSerialisable';
 import { parseDate, Param } from 'server/paramParser';
 import { Context } from 'types/parserContext';
 import { toArray } from 'lib';
+import DummyJson from 'server/dummy.json';
 
 
 // ----- Types ----- //
@@ -50,6 +51,8 @@ const defaultId =
     'cities/2019/sep/13/reclaimed-lakes-and-giant-airports-how-mexico-city-might-have-looked';
 const port = 3040;
 const docParser = JSDOM.fragment.bind(null);
+
+console.log(DummyJson);
 
 
 // ----- Functions ----- //
