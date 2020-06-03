@@ -2,7 +2,7 @@
 
 import { withKnobs, boolean } from '@storybook/addon-knobs';
 import React, { ReactElement } from 'react';
-import { Pillar, Display } from '@guardian/types/format';
+import { Pillar, Display } from '@guardian/types/Format';
 
 import Standfirst from './standfirst';
 import { Option } from 'types/option';
