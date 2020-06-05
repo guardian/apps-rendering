@@ -91,6 +91,9 @@ const serverConfig = env => {
                 }
             ]
         },
+        optimization: {
+            minimize: false
+        },
     }
 }
 
