@@ -1,6 +1,9 @@
 import ReleaseTransformations._
+import sbt.io
 
 import scala.sys.process.Process
+
+lazy val genPackageJson = taskKey[File]("Generate the package.json file")
 
 lazy val runThrift = taskKey[Unit]("Run the thrift command line")
 
@@ -52,16 +55,60 @@ lazy val apiModels = project.in(file("api-models"))
       pushChanges
     ),
 
+    Compile / genPackageJson := {
+      // TODO create a new package directory
+      val packageJson = target.value / "gen-nodejs" / "package.json"
+      val content = s"""
+                       |{
+                       |  "name": "${name.value}",
+                       |  "version": "${version.value}",
+                       |  "description": "${description.value}",
+                       |  "repository": {
+                       |    "type": "git",
+                       |    "url": "${scmInfo.value.map(_.browseUrl.toString).getOrElse("")}"
+                       |  },
+                       |  "author": "",
+                       |  "license": "Apache-2.0",
+                       |  "devDependencies": {
+                       |    "typescript": "^3.8.3"
+                       |  },
+                       |  "dependencies": {
+                       |    "@types/node-int64": "^0.4.29",
+                       |    "@types/thrift": "^0.10.9",
+                       |    "node-int64": "^0.4.0",
+                       |    "thrift": "^0.13.0"
+                       |  }
+                       |}""".stripMargin
+      io.IO.write(packageJson, content)
+      packageJson
+    },
+
     Compile / runThrift := {
-      val appsRenderingFile = baseDirectory.value / "src" / "main" / "thrift" / "appsRendering.thrift"
+      val appsRenderingFiles = (Compile / scroogeThriftSourceFolder).value ** "*.thrift"
       val importDirectoriesOptions = (Compile / scroogeUnpackDeps).value.map { dependency =>
         s"-I ${dependency.getPath}"
       }.mkString(" ")
-      val outputDirOption = s"-o ${target.value}"
-      val exitCode = Process(s"thrift --gen js:ts ${importDirectoriesOptions} ${outputDirOption} ${appsRenderingFile.getPath}", baseDirectory.value) !
+      val episodeFiles = (Compile / scroogeUnpackDeps).value.map { dependency =>
+        s"${dependency.getPath}"
+      }
+      val episodeFileOption = Some(episodeFiles).filter(_.nonEmpty).map(_.mkString("imports=", ":", "")).toSeq
 
-      if (exitCode != 0) {
-        throw new Exception("Error during thrift compilation")
+      val generationOptions = (Seq("ts", "node", "es6", s"thrift_package_output_directory=${name.value}") ++ episodeFileOption ).mkString("--gen js:", ",", "")
+
+      val outputDirOption = s"-o ${target.value}"
+      val returnCodes = appsRenderingFiles.get().map(thriftFile => {
+        val cmdline = s"thrift ${generationOptions} ${importDirectoriesOptions} ${outputDirOption} ${thriftFile.getPath}"
+        println(s"Generating definitions for ${thriftFile.getName}")
+        println(cmdline)
+        val returnCode = Process(cmdline, baseDirectory.value) !
+
+        io.IO.readLines(target.value / "gen-nodejs" / "thrift.js.episode").foreach(println)
+
+        returnCode
+      })
+
+      if (returnCodes.sum != 0) {
+        throw new Exception("Error during thrift compilation, check the output above")
       }
     }
   )
