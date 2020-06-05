@@ -1,6 +1,6 @@
 // ----- Imports ----- //
 
-import {TProtocol, TCompactProtocol, TBufferedTransport} from 'thrift';
+import {TProtocol, TCompactProtocol, TBufferedTransport, TTransport} from 'thrift';
 import { ContentSerde } from '@guardian/content-api-models/v1/content';
 import { ItemResponseSerde } from '@guardian/content-api-models/v1/itemResponse';
 import { ErrorResponseSerde } from '@guardian/content-api-models/v1/errorResponse';
@@ -15,11 +15,24 @@ interface ThriftDecoder<A> {
 
 // ----- Functions ----- //
 
-const decodeContent = <A>(decoder: ThriftDecoder<A>) => (content: Buffer | undefined): A => {
-    const transport = new TBufferedTransport(content);
-    const protocol = new TCompactProtocol(transport);
+async function toTransport(buffer: Buffer): Promise<TTransport> {
+    return new Promise((resolve, reject) => {
+        const writer = TBufferedTransport.receiver((transport, seqID) => {
+            resolve(transport)
+        }, 0);
+        writer(buffer);
+    });
+}
 
-    return decoder.read(protocol);
+const decodeContent = <A>(decoder: ThriftDecoder<A>) => async (content: Buffer | undefined): Promise<A> => {
+    if (content) {
+        const transport = await toTransport(content);
+        const protocol = new TCompactProtocol(transport);
+
+        return decoder.read(protocol);
+    } else {
+        return Promise.reject("Invalid request")
+    }
 }
 
 const capiDecoder = decodeContent(ItemResponseSerde);

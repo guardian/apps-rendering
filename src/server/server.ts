@@ -68,7 +68,7 @@ const parseCapiResponse = (articleId: string) =>
         
     switch (capiResponse.status) {
         case 200: {
-            const response = capiDecoder(buffer);
+            const response = await capiDecoder(buffer);
 
             if (response.content === undefined) {
                 logger.error(`CAPI returned a 200 for ${articleId}, but didn't give me any content`);
@@ -84,7 +84,7 @@ const parseCapiResponse = (articleId: string) =>
             return new Err(404);
 
         default: {
-            const response = errorDecoder(buffer);
+            const response = await errorDecoder(buffer);
 
             logger.error(`I received a ${status} code from CAPI with the message: ${response.message} for resource ${capiResponse.url}`);
             return new Err(500);
@@ -103,7 +103,7 @@ async function serveArticlePost(
     next: NextFunction,
 ): Promise<void> {
     try {
-        const content = mapiDecoder(body);
+        const content = await mapiDecoder(body);
         const imageSalt = await getConfigValue<string>('apis.img.salt');
 
         const { html, clientScript } = page(imageSalt, content, getAssetLocation);
