@@ -1,8 +1,8 @@
 // ----- Imports ----- //
 
-import { IBlockElement as BlockElement } from 'mapiThriftModels/BlockElement';
-import { IAtoms as Atoms } from 'mapiThriftModels/Atoms';
-import { ElementType } from 'mapiThriftModels/ElementType';
+import { BlockElement } from '@guardian/content-api-models/v1/blockElement';
+import { Atoms } from '@guardian/content-api-models/v1/atoms';
+import { ElementType } from '@guardian/content-api-models/v1/elementType';
 import {
     Option,
     fromNullable,
@@ -310,7 +310,7 @@ const parse = (context: Context, atoms?: Atoms) =>
             const id = element.contentAtomTypeData?.atomId
             const atom = atoms.interactives?.find(interactive => interactive.id === id);
 
-            if (!atom?.data?.interactive) {
+            if (atom?.data?.kind !== 'interactive') {
                 return new Err(`No atom matched this id: ${id}`);
             }
 

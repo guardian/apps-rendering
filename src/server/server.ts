@@ -19,8 +19,8 @@ import { getMappedAssetLocation } from './assets';
 import { response } from './liveblogResponse';
 import { mapiDecoder, capiDecoder, errorDecoder } from 'server/decoders';
 import { Result, Ok, Err } from 'types/result';
-import { IContent as Content } from 'mapiThriftModels/Content';
-import { ContentType } from 'mapiThriftModels/ContentType';
+import { Content } from '@guardian/content-api-models/v1/content';
+import { ContentType } from '@guardian/content-api-models/v1/contentType';
 import {
     newBlocksSince,
     updatedBlocksSince,
