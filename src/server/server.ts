@@ -1,5 +1,7 @@
 // ----- Imports ----- //
 
+import 'source-map-support/register'; // activating the source map suport
+
 import path from 'path';
 import express, {
     NextFunction,
