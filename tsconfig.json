@@ -9,7 +9,7 @@
         "jsx": "react",
         // Allows discovery of node_modules packages
         "moduleResolution": "node",
-        "noUnusedLocals": true,
+        "noUnusedLocals": false,
         "noUnusedParameters": false,
         "baseUrl": "src/",
         "forceConsistentCasingInFileNames": true
