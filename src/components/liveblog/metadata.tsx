@@ -1,16 +1,16 @@
 import React, { ReactNode } from 'react';
-import { textSans, basePx } from 'styles';
+import { basePx } from 'styles';
 import { Keyline } from '../shared/keyline';
 import { css, SerializedStyles } from '@emotion/core';
 import { neutral } from '@guardian/src-foundations/palette';
+import { textSans } from '@guardian/src-foundations/typography';
 import Avatar from './avatar';
 import LeftColumn from 'components/shared/leftColumn';
-import { PillarStyles, getPillarStyles } from 'pillar';
+import { PillarStyles, getPillarStyles } from 'pillarStyles';
 import { CommentCount } from './commentCount';
-import { Liveblog } from 'item';
+import { Liveblog, getFormat } from 'item';
 import { renderText } from 'renderer';
 import Dateline from 'components/dateline';
-import { ImageMappings } from 'components/shared/page';
 
 const styles = ({ liveblogBackground }: PillarStyles): SerializedStyles => css`
     background: ${liveblogBackground};
@@ -34,7 +34,7 @@ const styles = ({ liveblogBackground }: PillarStyles): SerializedStyles => css`
         }
 
         time, .follow {
-            ${textSans}
+            ${textSans.small()};
         }
 
         time {
@@ -68,14 +68,13 @@ const commentCount = ({ liveblogBackground }: PillarStyles): SerializedStyles =>
 
 interface Props {
     item: Liveblog;
-    imageMappings: ImageMappings;
 }
 
-const Metadata = ({ item, imageMappings}: Props): JSX.Element => {
+const Metadata = ({ item }: Props): JSX.Element => {
     const pillarStyles = getPillarStyles(item.pillar);
 
     const byline = item.bylineHtml.fmap<ReactNode>(html =>
-        <address>{ renderText(html, item.pillar) }</address>
+        <address>{ renderText(html, getFormat(item)) }</address>
     ).withDefault(null);
 
     return (
@@ -87,7 +86,6 @@ const Metadata = ({ item, imageMappings}: Props): JSX.Element => {
                         <Avatar
                             contributors={item.contributors}
                             bgColour={pillarStyles.featureHeadline}
-                            imageMappings={imageMappings}
                         />
                         <div className="author">
                             { byline }

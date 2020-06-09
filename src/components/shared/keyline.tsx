@@ -3,7 +3,7 @@ import { css, SerializedStyles } from '@emotion/core'
 import { darkModeCss, wideContentWidth, wideColumnWidth } from 'styles';
 import { neutral } from '@guardian/src-foundations/palette';
 import { from } from '@guardian/src-foundations/mq';
-import { Design } from 'item';
+import { Design } from 'format';
 
 const BaseStyles = css`
     height: 10px;
@@ -35,7 +35,7 @@ const KeylineNewsStyles = css`
 const KeylineOpinionStyles = css`
     background-image: repeating-linear-gradient(${neutral[86]}, ${neutral[86]} 1px, transparent 1px, transparent 3px);
     height: 24px;
-    margin-top: 84px;
+    margin-top: 90px;
 `;
 
 const KeylineDarkStyles = darkModeCss`

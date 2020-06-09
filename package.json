@@ -11,8 +11,7 @@
     "upload": "node-riffraff-artifact",
     "copy-manifest": "cp dist/assets/manifest.json dist/server/manifest.json",
     "copy-fonts": "cp -R assets/fonts dist/assets/fonts",
-    "test:build": "webpack --config webpack.config.js --config-name server --env.test",
-    "test": "npm run test:build && jest --verbose",
+    "test": "jest --verbose",
     "test:coverage": "npm run test; open coverage/index.html",
     "lint": "node_modules/eslint/bin/eslint.js -c config/.eslintrc.js ./ --ext '.ts,.tsx'",
     "watch:server": "webpack --config webpack.config.js --config-name server --env.watch",
@@ -23,13 +22,12 @@
     "build:server:prod": "webpack --config webpack.config.js --config-name server --env.production",
     "build:client:prod": "webpack --config webpack.config.js --config-name clientProduction",
     "storybook": "start-storybook -s ./ -p 8181 --ci",
+    "build-storybook": "build-storybook -o dist",
     "deploy-storybook": "storybook-to-ghpages && ./.storybook/pushFonts.sh"
   },
   "jest": {
     "collectCoverage": true,
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
+    "preset": "ts-jest/presets/js-with-babel",
     "coverageThreshold": {
       "global": {
         "branches": 75,
@@ -50,36 +48,44 @@
     "moduleDirectories": [
       "node_modules",
       "src"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@guardian/src-foundations)/)"
     ]
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@babel/polyfill": "^7.8.3",
+    "@babel/polyfill": "^7.10.1",
     "@creditkarma/thrift-server-core": "^0.15.3",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@emotion/core": "^10.0.27",
     "@emotion/styled": "^10.0.27",
+    "@guardian/atoms-rendering": "^1.3.3",
+    "@guardian/bridget": "^0.58.0",
     "@guardian/node-riffraff-artifact": "^0.1.7",
-    "@guardian/src-button": "^0.13.0",
-    "@guardian/src-foundations": "^0.14.1",
-    "@guardian/bridget": "^0.52.0",
+    "@guardian/src-button": "^1.0.0",
+    "@guardian/src-foundations": "^1.0.0",
+    "@guardian/types": "^0.2.0",
     "@types/jsdom": "^12.2.4",
     "@types/uuid": "^3.4.6",
     "aws-sdk": "^2.604.0",
+    "babel-jest": "^26.0.1",
     "compression": "^1.7.4",
+    "create-emotion-server": "^10.0.27",
     "emotion": "^10.0.27",
+    "emotion-server": "^10.0.27",
     "express": "^4.17.1",
     "jsdom": "^15.2.1",
     "node-fetch": "^2.6.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.8.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "@babel/preset-react": "^7.8.3",
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-react": "^7.10.1",
     "@storybook/addon-knobs": "^5.3.4",
     "@storybook/react": "^5.3.4",
     "@storybook/storybook-deployer": "^2.8.5",
@@ -87,7 +93,7 @@
     "@types/enzyme": "^3.10.4",
     "@types/enzyme-adapter-react-16": "^1.0.5",
     "@types/express": "^4.17.2",
-    "@types/jest": "^24.9.0",
+    "@types/jest": "^25.2.3",
     "@types/node": "^12.12.24",
     "@types/node-fetch": "^2.5.4",
     "@types/react": "^16.9.17",
@@ -100,12 +106,13 @@
     "eslint": "^6.8.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.18.0",
-    "jest": "^25.1.0",
-    "ts-jest": "^25.2.0",
+    "jest": "^26.0.1",
+    "storybook-chromatic": "^3.5.3",
+    "ts-jest": "^26.1.0",
     "ts-loader": "^6.2.1",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.10.1",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0",
     "webpack-manifest-plugin": "^2.2.0",
     "winston": "^3.2.1",
     "winston-daily-rotate-file": "^4.4.2"

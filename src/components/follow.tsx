@@ -4,10 +4,11 @@ import React from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { textSans } from '@guardian/src-foundations/typography';
 
-import { Format } from 'item';
-import { getPillarStyles } from 'pillar';
+import { Format } from 'format';
+import { getPillarStyles } from 'pillarStyles';
 import { Contributor, isSingleContributor } from 'contributor';
 import { darkModeCss } from 'styles';
+import { Design } from '@guardian/types/Format';
 
 
 // ----- Component ----- //
@@ -40,11 +41,20 @@ function Follow({ contributors, ...format }: Props): JSX.Element | null {
 
     const [contributor] = contributors;
 
-    if (isSingleContributor(contributors) && contributor.apiUrl !== '') {
+    if (
+        isSingleContributor(contributors) &&
+        contributor.apiUrl !== '' &&
+        format.design !== Design.AdvertisementFeature
+    ) {
         return (
-            <button className="js-follow" css={getStyles(format)} data-id={contributor.id}>
+            <button
+                className="js-follow"
+                css={getStyles(format)}
+                data-id={contributor.id}
+                data-display-name={contributor.name}
+            >
                 <span className="js-status">Follow </span>
-                { contributor.webTitle }
+                { contributor.name }
             </button>
         );
     }

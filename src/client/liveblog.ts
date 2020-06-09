@@ -1,46 +1,50 @@
 // ----- Imports ----- //
 
+import ReactDOM from 'react-dom';
+import { createElement as h } from 'react';
+import { Format, Design, Display, Pillar } from '@guardian/types/Format';
 
 import setup from 'client/setup';
-import { fromCapiLiveBlog } from 'item';
-import ReactDOM from 'react-dom';
+import { fromSerialisable } from 'liveBlock';
+import { parse } from 'client/parser';
 import LiveblogBody from 'components/liveblog/body';
-import { createElement as h } from 'react';
-import { Content } from 'mapiThriftModels';
-import { parse } from './parser';
-import { ImageMappings } from 'components/shared/page';
+
+
+// ----- Setup ----- //
+
+const domParser = new DOMParser();
+
+const format: Format = {
+    design: Design.Live,
+    display: Display.Standard,
+    pillar: Pillar.News,
+}
+
+
+// ----- Functions ----- //
+
+const docParser = (html: string): DocumentFragment =>
+    parse(domParser)(html)
+        .toOption()
+        .withDefault(new DocumentFragment());
+
+const deserialise = fromSerialisable(docParser);
+
 
 // ----- Run ----- //
 
-declare global {
-    interface Window {
-        __INITIAL__DATA__: Content & {
-            imageMappings: ImageMappings;
-        };
-    }
-}
-
+// Set up interactives, Twitter embeds etc.
 setup();
 
-const browserParser = (html: string): DocumentFragment =>
-    parse(new DOMParser())(html)
-        .toOption()
-        .withDefault(new DocumentFragment())
+// Load the initial group of blocks.
+fetch(`${window.location}/live-blocks`)
+    .then(res => res.json())
+    .then(({ newBlocks }) => {
+        const blocks = deserialise(newBlocks);
 
-
-try {
-    const hydrationProps = JSON.parse(document.getElementById('hydrationProps')?.textContent ?? "");
-
-    if (hydrationProps) {
-        const {
-            pillar,
-            blocks,
-            totalBodyBlocks
-        } = fromCapiLiveBlog(browserParser)(hydrationProps);
-
-        const { imageMappings } = hydrationProps;
-        ReactDOM.hydrate(h(LiveblogBody, { pillar, blocks, imageMappings, totalBodyBlocks }), document.querySelector('#blocks'))
-    }
-} catch (e) {
-    console.error(`Unable to hydrate LiveblogBody: ${e}`)
-}
+        ReactDOM.render(
+            h(LiveblogBody, { format, blocks, totalBodyBlocks: 20 }),
+            document.getElementById('blocks'),
+        );
+    })
+    .catch(err => console.warn(`I couldn't load any live blocks because: ${err}`));

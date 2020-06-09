@@ -2,12 +2,17 @@ import { getAdPlaceholderInserter } from './ads';
 import { ReactNode } from 'react';
 import { renderAll } from 'renderer';
 import { JSDOM } from 'jsdom';
-import { Pillar } from 'pillar';
+import { Pillar, Format, Design, Display } from 'format';
 import { compose } from 'lib';
-import { ElementKind, BodyElement } from 'item';
+import { ElementKind, BodyElement } from 'bodyElement';
 
 const shouldHideAdverts = false;
 const insertAdPlaceholders = getAdPlaceholderInserter(shouldHideAdverts);
+const mockFormat: Format = {
+    pillar: Pillar.News,
+    design: Design.Article,
+    display: Display.Standard,
+};
 
 const textElement = (nodes: string[]): BodyElement =>
     ({
@@ -19,7 +24,7 @@ const generateParas = (paras: number): BodyElement =>
     textElement(Array(paras).fill('<p>foo</p>'));
 
 const render = (element: BodyElement): ReactNode[] =>
-    renderAll({})(Pillar.news, [element]);
+    renderAll(mockFormat, [element]);
 
 const renderParagraphs = compose(render, generateParas);
 
@@ -44,10 +49,22 @@ describe('Adds the correct number of ad placeholders', () => {
         expect(nineParagraphsAndTwoAds.length).toBe(11)
     });
 
-    test('Adds two placeholders for 50 paragraphs', () => {
+    test('Adds eight placeholders for 50 paragraphs', () => {
         const fiftyParagraphs = renderParagraphs(50)
-        const fiftyParagraphsAndTwoAd = insertAdPlaceholders(fiftyParagraphs);
-        expect(fiftyParagraphsAndTwoAd.length).toBe(52)
+        const fiftyParagraphsAndEightAds = insertAdPlaceholders(fiftyParagraphs);
+        expect(fiftyParagraphsAndEightAds.length).toBe(58)
+    });
+
+    test('Adds fifteen placeholders for 90 paragraphs', () => {
+        const ninetyParagraphs = renderParagraphs(90)
+        const ninetyParagraphsAndFifteenAds = insertAdPlaceholders(ninetyParagraphs);
+        expect(ninetyParagraphsAndFifteenAds.length).toBe(105)
+    });
+
+    test('Adds fifteen placeholders for 150 paragraphs', () => {
+        const hundredFifty = renderParagraphs(150)
+        const hundredFiftyAndFifteenAds = insertAdPlaceholders(hundredFifty);
+        expect(hundredFiftyAndFifteenAds.length).toBe(165)
     });
 });
 

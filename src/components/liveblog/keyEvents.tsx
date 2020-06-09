@@ -3,8 +3,9 @@ import { icons, basePx } from 'styles';
 import { css, SerializedStyles } from '@emotion/core'
 import { neutral } from '@guardian/src-foundations/palette';
 import { makeRelativeDate } from 'date';
-import { PillarStyles, Pillar, getPillarStyles } from 'pillar';
-import { LiveBlock } from 'item';
+import { PillarStyles, getPillarStyles } from 'pillarStyles';
+import { Pillar } from 'format';
+import { LiveBlock } from 'liveBlock';
 import { body, headline } from '@guardian/src-foundations/typography';
 
 const LiveblogKeyEventsStyles = ({ kicker }: PillarStyles): SerializedStyles => css`

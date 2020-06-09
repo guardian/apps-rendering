@@ -1,11 +1,13 @@
 import React, { ReactNode, useState, useEffect } from 'react';
-import { textSans, icons, basePx, linkStyle } from 'styles';
+import { icons, basePx, linkStyle } from 'styles';
 import { css, SerializedStyles } from '@emotion/core'
 import { neutral, brandAlt } from '@guardian/src-foundations/palette';
+import { textSans } from '@guardian/src-foundations/typography';
 import { until, from } from '@guardian/src-foundations/mq';
 import { makeRelativeDate, formatDate } from 'date';
 import LeftColumn from 'components/shared/leftColumn';
-import { PillarStyles, Pillar, getPillarStyles } from 'pillar';
+import { PillarStyles, getPillarStyles } from 'pillarStyles';
+import { Pillar } from 'format';
 import { Option } from 'types/option';
 import { remSpace } from '@guardian/src-foundations';
 
@@ -18,18 +20,18 @@ const LiveblogBlockStyles = ({ kicker }: PillarStyles, highlighted: boolean): Se
 
     time {
         color: ${neutral[46]};
-        ${textSans}
+        ${textSans.small()}
         display: inline-block;
         margin: 0;
     }
 
     time {
-        margin-top: 1rem;
+        margin-top: ${remSpace[4]};
     }
 
     time:nth-child(1) {
         margin-top: 0;
-        margin-bottom: 1rem;
+        margin-bottom: ${remSpace[4]};
         padding-left: ${remSpace[2]};
     }
 

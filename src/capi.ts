@@ -1,43 +1,12 @@
 // ----- Imports ----- //
 
-import { Result, Ok, Err } from 'types/result';
 import { IContent as Content} from 'mapiThriftModels/Content';
 import { ITag as Tag } from 'mapiThriftModels/Tag';
 import { IBlockElement} from 'mapiThriftModels/BlockElement';
 import { ElementType } from 'mapiThriftModels/ElementType';
 import { Option, fromNullable } from 'types/option';
-import { TagType } from 'mapiThriftModels';
-
-// ----- Parsing ----- //
-
-const enum ErrorStatus {
-    NotFound,
-    Unknown,
-}
-
-type Error = {
-    status: ErrorStatus;
-    message: string;
-}
-
-function getContent(status: number, path: string, content: Content): Result<Error, Content> {
-    switch (status) {
-        case 200:
-            return new Ok(content);
-    
-        case 404:
-            return new Err({
-                status: ErrorStatus.NotFound,
-                message: `CAPI says that it doesn't recognise this resource: ${path}`,
-            });
-        default:
-            return new Err({
-                status: ErrorStatus.Unknown,
-                message: `When I tried to talk to CAPI I received a ${status}.`,
-            });
-    }
-
-}
+import { TagType, ContentType, ICapiDateTime as CapiDateTime } from 'mapiThriftModels';
+import { fromString as dateFromString } from 'date';
 
 
 // ----- Lookups ----- //
@@ -53,6 +22,12 @@ const tagsOfType = (tagType: TagType) => (tags: Tag[]): Tag[] =>
 const isImmersive = (content: Content): boolean =>
     content?.fields?.displayHint === 'immersive';
 
+const isInteractive = (content: Content): boolean =>
+    content.type === ContentType.INTERACTIVE;
+
+const isPhotoEssay = (content: Content): boolean =>
+    content?.fields?.displayHint === 'photoEssay';
+
 const isFeature = (content: Content): boolean =>
     content.tags.some(tag => tag.id === 'tone/features');
 
@@ -62,8 +37,8 @@ const isReview = (content: Content): boolean =>
 const isAnalysis = (content: Content): boolean =>
     content.tags.some(tag => tag.id === 'tone/analysis');
 
-const articleSeries = (content: Content): Tag =>
-    tagsOfType(TagType.SERIES)(content.tags)[0];
+const articleSeries = (content: Content): Option<Tag> =>
+    fromNullable(tagsOfType(TagType.SERIES)(content.tags)[0]);
 
 const articleContributors = (content: Content): Tag[] =>
     tagsOfType(TagType.CONTRIBUTOR)(content.tags);
@@ -97,7 +72,8 @@ const capiEndpoint = (articleId: string, key: string): string => {
         'bylineHtml',
         'firstPublicationDate',
         'shouldHideAdverts',
-        'shouldHideReaderRevenue'
+        'shouldHideReaderRevenue',
+        'displayHint'
     ];
 
     const params = new URLSearchParams({
@@ -113,14 +89,21 @@ const capiEndpoint = (articleId: string, key: string): string => {
     return `https://content.guardianapis.com/${articleId}?${params.toString()}`;
 }
 
+const capiDateTimeToDate = (date: CapiDateTime): Option<Date> =>
+    // Thrift definitions define some dates as CapiDateTime but CAPI returns strings
+    dateFromString(date.iso8601);
+
+const maybeCapiDate = (date: CapiDateTime | undefined): Option<Date> =>
+    fromNullable(date).andThen(capiDateTimeToDate);
+
 
 // ----- Exports ----- //
 
 export {
     Series,
-    ErrorStatus as CapiError,
-    getContent,
+    isPhotoEssay,
     isImmersive,
+    isInteractive,
     isFeature,
     isReview,
     isAnalysis,
@@ -129,4 +112,5 @@ export {
     articleMainImage,
     capiEndpoint,
     includesTweets,
+    maybeCapiDate,
 };

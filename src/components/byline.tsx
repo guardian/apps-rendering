@@ -2,12 +2,12 @@
 
 import React, { FC, ReactElement, ReactNode } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
-import { headline } from '@guardian/src-foundations/typography';
+import { headline, textSans } from '@guardian/src-foundations/typography';
 
-import { Design, Format } from 'item';
+import { Design, Format } from 'format';
 import { Option } from 'types/option';
-import { neutral } from '@guardian/src-foundations';
-import { getPillarStyles } from 'pillar';
+import { neutral, palette } from '@guardian/src-foundations';
+import { getPillarStyles } from 'pillarStyles';
 import { getHref } from 'renderer';
 import { darkModeCss } from 'styles';
 
@@ -16,7 +16,7 @@ import { darkModeCss } from 'styles';
 
 interface Props extends Format {
     bylineHtml: Option<DocumentFragment>;
-};
+}
 
 const styles = (kicker: string): SerializedStyles => css`
     ${headline.xxxsmall()}
@@ -24,19 +24,6 @@ const styles = (kicker: string): SerializedStyles => css`
 
     ${darkModeCss`
         color: ${neutral[60]};
-    `}
-`;
-
-const commentStyles = css`
-    ${headline.medium({ fontWeight: 'light', italic: true })}
-`;
-
-const commentAnchorStyles = (kicker: string, inverted: string): SerializedStyles => css`
-    color: ${kicker};
-    text-decoration: none;
-
-    ${darkModeCss`
-        color: ${inverted};
     `}
 `;
 
@@ -51,28 +38,83 @@ const anchorStyles = (kicker: string, inverted: string): SerializedStyles => css
     `}
 `;
 
+const commentStyles = (kicker: string): SerializedStyles => css`
+    color: ${kicker};
+    width: 75%;
+    ${headline.medium({ fontWeight: 'light', fontStyle: 'italic' })}
+`;
+
+const commentAnchorStyles = (kicker: string, inverted: string): SerializedStyles => css`
+    color: ${kicker};
+    text-decoration: none;
+
+    ${darkModeCss`
+        color: ${inverted};
+    `}
+`;
+
+const advertisementFeatureStyles = css`
+    ${textSans.medium( { lineHeight: 'regular' })}
+    color: ${palette.labs[300]};
+
+    ${darkModeCss`
+        color: ${palette.labs[400]};
+    `}
+`;
+
+const advertisementFeatureAnchorStyles = css`
+    font-weight: bold;
+    color: ${palette.labs[300]};
+    font-style: normal;
+    text-decoration: none;
+
+    ${darkModeCss`
+        color: ${palette.labs[400]};
+    `}
+`;
+
 const getStyles = (format: Format): SerializedStyles => {
     const { kicker } = getPillarStyles(format.pillar);
+
     switch (format.design) {
         case Design.Comment:
-            return commentStyles;
+            return commentStyles(kicker);
+
+        case Design.AdvertisementFeature:
+            return advertisementFeatureStyles;
 
         default:
             return styles(kicker);
     }
 }
 
-const toReact = (format: Format) => (node: Node): ReactNode => {
+const getAnchorStyles = (format: Format): SerializedStyles => {
     const { kicker, inverted } = getPillarStyles(format.pillar);
 
+    switch (format.design) {
+        case Design.Comment:
+            return commentAnchorStyles(kicker, inverted);
+
+        case Design.AdvertisementFeature:
+            return advertisementFeatureAnchorStyles;
+        
+        default:
+            return anchorStyles(kicker, inverted);
+    }
+}
+
+const getProfileLink = (node: Node): string => {
+    const href = getHref(node).withDefault('');
+    return href.startsWith('profile/')
+        ? `https://www.theguardian.com/${href}`
+        : href
+}
+
+const toReact = (format: Format) => (node: Node): ReactNode => {
     switch (node.nodeName) {
         case 'A':
-            const anchor = format.design === Design.Comment
-                ? commentAnchorStyles
-                : anchorStyles
-
             return (
-                <a href={getHref(node).withDefault('')} css={anchor(kicker, inverted)}>
+                <a href={getProfileLink(node)} css={getAnchorStyles(format)}>
                     {node.textContent ?? ''}
                 </a>
             );

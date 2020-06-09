@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { ThemeProvider } from 'emotion-theming'
 import { from } from '@guardian/src-foundations/mq';
-import palette, { brandAltBackground } from '@guardian/src-foundations/palette';
+import { brandAltBackground, neutral,  } from '@guardian/src-foundations/palette';
 import { remSpace } from '@guardian/src-foundations';
 import { SvgArrowRightStraight } from "@guardian/src-svgs"
 import { Button, buttonReaderRevenue } from '@guardian/src-button';
@@ -26,7 +26,7 @@ const EpicStyles = (): SerializedStyles => css`
         clear: both;
 
         border-top: 1px solid ${brandAltBackground.primary};
-        background: ${palette.neutral[97]};
+        background: ${neutral[97]};
         padding: ${remSpace[2]};
         ${body.medium()}
         clear: left;
@@ -100,9 +100,9 @@ function Epic({ title, body, firstButton, secondButton }: EpicProps): React.Reac
         }
     }, [impressionSeen]);
 
-    const epicButton = (text: string, action: () => void): JSX.Element =>
+    const epicButton = (text: string, action: () => Promise<void>): JSX.Element =>
         <Button onClick={action} iconSide="right" icon={<SvgArrowRightStraight />}>
-	        {text}
+            {text}
         </Button>
 
     return (
