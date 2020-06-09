@@ -1,9 +1,7 @@
 // ----- Imports ----- //
 
-import { commercialClient, userClient, notificationsClient, galleryClient, acquisitionsClient } from 'native/nativeApi';
-import { AdSlot } from '@guardian/bridget/AdSlot'
+import { notificationsClient, acquisitionsClient } from 'native/nativeApi';
 import { Topic } from '@guardian/bridget/Topic';
-import { Image } from '@guardian/bridget/Image';
 import { IMaybeEpic as MaybeEpic } from '@guardian/bridget/MaybeEpic';
 import { formatDate } from 'date';
 import { logger } from "../logger";
@@ -11,8 +9,12 @@ import { createElement as h } from 'react';
 import setup from 'client/setup';
 import Epic from 'components/shared/epic';
 import ReactDOM from 'react-dom';
+import { ads, slideshow } from 'client/nativeCommunication';
 
 // ----- Run ----- //
+
+const followText = 'Follow ';
+const followingText = 'Following ';
 
 interface FontFaceSet {
     readonly ready: Promise<FontFaceSet>;
@@ -24,131 +26,58 @@ declare global {
     }
 }
 
-function getAdSlots(): AdSlot[] {
-    const advertSlots = document.getElementsByClassName('ad-slot');
+function getTopic(follow: Element | null): Topic | null {
+    const id = follow?.getAttribute('data-id');
+    const displayName = follow?.getAttribute('data-display-name');
 
-    if (!advertSlots) {
-        return [];
+    if (!id) {
+        logger.error('No id for topic');
+        return null;
     }
 
-    const scrollLeft = document.scrollingElement 
-        ? document.scrollingElement.scrollLeft : document.body.scrollLeft;
-    const scrollTop = document.scrollingElement 
-        ? document.scrollingElement.scrollTop : document.body.scrollTop;
-
-    return Array.from(advertSlots).map(adSlot => {
-        const slotPosition = adSlot.getBoundingClientRect();
-        return new AdSlot({
-            x: slotPosition.left + scrollLeft,
-            y: slotPosition.top + scrollTop,
-            width: slotPosition.width,
-            height: slotPosition.height
-        })
-    });
-}
-
-function insertAds(): void {
-    let adSlots = getAdSlots();
-    if (adSlots.length > 0) {
-        commercialClient.insertAdverts(adSlots);
-        const targetNode = document.querySelector('body') as Node;
-        const config = { attributes: true, childList: true, subtree: true };
-        const callback = function(): void {
-            const currentAdSlots = getAdSlots();
-            if (JSON.stringify(adSlots) !== JSON.stringify(currentAdSlots)) {
-                adSlots = currentAdSlots;
-                commercialClient.updateAdverts(currentAdSlots);
-            }
-        };
-
-        const observer = new MutationObserver(callback);
-        observer.observe(targetNode, config);
-
-        try {
-            document.fonts.ready.then(() => commercialClient.updateAdverts(getAdSlots()));
-        } catch (e) {
-            logger.error(`font loading API not supported: ${e}`)
-        }
+    if (!displayName) {
+        logger.error('No display name for topic');
+        return null;
     }
-}
-
-function ads(): void {
-    userClient.isPremium().then(premiumUser => {
-        if (!premiumUser) {
-            Array.from(document.querySelectorAll('.ad-placeholder'))
-                 .forEach(placeholder => placeholder.classList.remove('hidden'))
-            insertAds();
-        }
-    })
+    return new Topic({ id, displayName, type: 'tag-contributor' });
 }
 
 function topicClick(e: Event): void {
     const follow = document.querySelector('.js-follow');
     const status = follow?.querySelector('.js-status');
     const statusText = status?.textContent;
-    const id = follow?.getAttribute('data-id');
+    const topic = getTopic(follow);
 
-    if (!id) {
-        logger.error('No id for topic');
-        return;
-    }
-
-    const topic = new Topic({ id });
-
-    if (statusText && statusText === 'Follow') {
-        notificationsClient.follow(topic).then(response => {
-            if (status?.textContent) {
-                status.textContent = "Following";
-            }
-        })
-    } else {
-        notificationsClient.unfollow(topic).then(response => {
-            if (status?.textContent) {
-                status.textContent = "Follow";
-            }
-        })
+    if (topic) {
+        if (statusText && statusText === followText) {
+            notificationsClient.follow(topic).then(success => {
+                if (status?.textContent && success) {
+                    status.textContent = followingText;
+                }
+            })
+        } else {
+            notificationsClient.unfollow(topic).then(success => {
+                if (status?.textContent && success) {
+                    status.textContent = followText;
+                }
+            })
+        }
     }
 }
 
 function topics(): void {
     const follow = document.querySelector('.js-follow');
     const status = follow?.querySelector('.js-status');
-    const id = follow?.getAttribute('data-id');
+    const topic = getTopic(follow);
 
-    if (!id) {
-        logger.error('No id for topic');
-        return;
+    if (topic) {
+        follow?.addEventListener('click', topicClick);
+        notificationsClient.isFollowing(topic).then(following => {
+            if (following && status?.textContent) {
+                status.textContent = followingText;
+            }
+        })
     }
-
-    const topic = new Topic({ id });
-    follow?.addEventListener('click', topicClick);
-    notificationsClient.isFollowing(topic).then(following => {
-        if (following && status?.textContent) {
-            status.textContent = "Following";
-        }
-    })
-}
-
-function launchSlideshow(src: string | null): void {
-    const images = Array.from(document.querySelectorAll('.js-launch-slideshow'));
-    const imagesWithCaptions: Image[] = images.flatMap((image: Element) => {
-        const url = image.getAttribute('src');
-        const caption =  image.getAttribute('data-caption') ?? undefined;
-        const credit = image.getAttribute('data-credit') ?? undefined;
-        return url ? new Image({ url, caption, credit }) : [];
-    });
-    const clickedImageIndex = images.findIndex((image: Element) => image.getAttribute('src') === src);
-    if (imagesWithCaptions.length && clickedImageIndex >= 0) {
-        galleryClient.launchSlideshow(imagesWithCaptions, clickedImageIndex);
-    }
-}
-
-function slideshow(): void {
-    const images = document.querySelectorAll('.js-launch-slideshow');
-    Array.from(images)
-        .forEach((image: Element) => image.addEventListener('click', (e: Event) => {
-            launchSlideshow(image.getAttribute('src'));
-        }));
 }
 
 function formatDates(): void {

@@ -1,29 +1,29 @@
 // ----- Imports ----- //
 
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 
 import { Contributor, isSingleContributor } from 'contributor';
-import { src } from 'image';
-import { ImageMappings } from 'components/shared/page';
-
-
-// ----- Constants ----- //
-
-const imageWidth = 68;
+import Img from 'components/img';
+import { darkModeCss } from 'styles';
 
 
 // ----- Styles ----- //
 
-const Styles = css`
+const styles = css`
     position: relative;
 `;
 
-const ImageStyles = css`
+const imageStyles = css`
     position: absolute;
     height: 160px;
     right: 0;
-    top: -54px;
+    top: -48px;
+    background: none;
+
+    ${darkModeCss`
+        background: none;
+    `}
 `;
 
 
@@ -31,24 +31,26 @@ const ImageStyles = css`
 
 interface Props {
     contributors: Contributor[];
-    imageMappings: ImageMappings;
     className: SerializedStyles;
 }
 
-const Cutout = ({ contributors, imageMappings, className }: Props): JSX.Element | null => {
+const Cutout = ({ contributors, className }: Props): JSX.Element | null => {
     const [contributor] = contributors;
 
-    if (isSingleContributor(contributors) && contributor.bylineLargeImageUrl) {
-        const imgSrc = src(imageMappings, contributor.bylineLargeImageUrl, imageWidth*3);
-        return (
-            <div css={[className, Styles]}>
-                <img css={ImageStyles} src={imgSrc} alt={contributor.webTitle}/>
-            </div>
-        );
+    if (!isSingleContributor(contributors)) {
+        return null;
     }
-    
-    return null;
 
+    return contributor.image.fmap<ReactElement | null>(image => {
+        return (
+            <div css={[className, styles]}>
+                <Img
+                    image={image}
+                    sizes="12rem"
+                    className={imageStyles}
+                />
+            </div>)
+    }).withDefault(null);
 }
 
 

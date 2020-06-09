@@ -2,7 +2,8 @@ import React from 'react';
 import { css, SerializedStyles } from '@emotion/core';
 import { neutral } from '@guardian/src-foundations/palette';
 import LeftColumn from 'components/shared/leftColumn';
-import { PillarStyles, Pillar, getPillarStyles } from 'pillar';
+import { PillarStyles, getPillarStyles } from 'pillarStyles';
+import { Format } from 'format';
 import { renderText } from 'renderer';
 import { Option } from 'types/option';
 
@@ -23,13 +24,13 @@ const StandfirstStyles = ({ liveblogBackground }: PillarStyles): SerializedStyle
 
 interface LiveblogStandfirstProps {
     standfirst: Option<DocumentFragment>;
-    pillar: Pillar;
+    format: Format;
 }
 
-const LiveblogStandfirst = ({ standfirst, pillar }: LiveblogStandfirstProps): JSX.Element | null =>
+const LiveblogStandfirst = ({ standfirst, format }: LiveblogStandfirstProps): JSX.Element | null =>
     standfirst.fmap<JSX.Element | null>(doc =>
-        <LeftColumn className={StandfirstStyles(getPillarStyles(pillar))}>
-            <div>{ renderText(doc, pillar) }</div>
+        <LeftColumn className={StandfirstStyles(getPillarStyles(format.pillar))}>
+            <div>{ renderText(doc, format) }</div>
         </LeftColumn>
     ).withDefault(null)
 

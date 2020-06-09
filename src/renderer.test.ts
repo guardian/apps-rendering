@@ -1,15 +1,21 @@
-import { ImageElement, renderStandfirstText, renderText } from './renderer';
+import { renderAll, renderStandfirstText, renderText, renderAllWithoutStyles } from 'renderer';
 import { JSDOM } from 'jsdom';
-import { Pillar } from 'pillar';
-import { ReactNode, createElement as h } from 'react';
-import { renderAll } from 'renderer';
+import { Pillar } from 'format';
+import { ReactNode } from 'react';
 import { compose } from 'lib';
-import { ElementKind, BodyElement, Role } from 'item';
-import { shallow, configure } from 'enzyme';
+import { BodyElement, ElementKind } from 'bodyElement';
+import { Role } from 'image';
+import { configure, shallow } from 'enzyme';
 import { None, Some } from 'types/option';
 import Adapter from 'enzyme-adapter-react-16';
+import { Format, Design, Display } from '@guardian/types/Format';
 
 configure({ adapter: new Adapter() });
+const mockFormat: Format = {
+    pillar: Pillar.News,
+    design: Design.Article,
+    display: Display.Standard,
+};
 
 beforeEach(() => {
     console.error = jest.fn()
@@ -24,14 +30,17 @@ const textElement = (nodes: string[]): BodyElement =>
 const imageElement = (): BodyElement =>
     ({
         kind: ElementKind.Image,
-        file: "https://gu.com/img.png",
-        alt: "alt tag",
-        caption: JSDOM.fragment('this caption contains <em>html</em>'),
-        captionString: "caption",
-        credit: "credit",
+        src: 'https://gu.com/img.png',
+        srcset: '',
+        dpr2Srcset: '',
+        alt: new Some("alt tag"),
+        caption: new Some(JSDOM.fragment('this caption contains <em>html</em>')),
+        nativeCaption: new Some('caption'),
+        credit: new Some('credit'),
         width: 500,
         height: 500,
-        role: new None()
+        role: new None(),
+        launchSlideshow: true
     });
 
 const imageElementWithRole = () =>
@@ -45,6 +54,14 @@ const pullquoteElement = (): BodyElement =>
         kind: ElementKind.Pullquote,
         quote: "quote",
         attribution: new None()
+    })
+
+
+const pullquoteWithAttributionElement = (): BodyElement =>
+    ({
+        kind: ElementKind.Pullquote,
+        quote: "quote",
+        attribution: new Some('attribution')
     })
 
 const richLinkElement = (): BodyElement =>
@@ -72,49 +89,55 @@ const instagramElement = (): BodyElement =>
         html: '<blockquote>Instagram</blockquote>',
     })
 
+const embedElement = (): BodyElement =>
+    ({
+        kind: ElementKind.Embed,
+        html: '<section>Embed</section>',
+        alt: new None
+    })
+
+const videoElement = (): BodyElement =>
+    ({
+        kind: ElementKind.Video,
+        src: "https://www.youtube.com/",
+        height: "300",
+        width: "500"
+    })
+
+const audioElement = (): BodyElement =>
+    ({
+        kind: ElementKind.Audio,
+        src: "https://www.spotify.com/",
+        height: "300",
+        width: "500"
+    })
+
+const atomElement = (): BodyElement =>
+    ({
+        kind: ElementKind.InteractiveAtom,
+        css: "main { background: yellow; }",
+        html: "<main>Some content</main>",
+        js: new Some("console.log('init')"),
+    })
+
 const render = (element: BodyElement): ReactNode[] =>
-    renderAll({})(Pillar.news, [element]);
+    renderAll(mockFormat, [element]);
+
+const renderWithoutStyles = (element: BodyElement): ReactNode[] =>
+    renderAllWithoutStyles(mockFormat, [element]);
+
+const renderCaption = (element: BodyElement): ReactNode[] =>
+    renderAll(mockFormat, [element]);
 
 const renderTextElement = compose(render, textElement);
 
+const renderTextElementWithoutStyles = compose(renderWithoutStyles, textElement);
+
+const renderCaptionElement = compose(renderCaption, imageElement)
+
 describe('renderer returns expected content', () => {
-    test('ImageElement returns null for no url', () => {
-        const imageProps = {
-            url: '',
-            alt: "alt",
-            imageMappings: {},
-            sizes: "sizes",
-            width: 500,
-            height: 500,
-            captionString: "caption",
-            caption: JSDOM.fragment('this caption contains <em>html</em>'),
-            credit: "credit",
-            pillar: Pillar.news,
-        };
-        expect(ImageElement(imageProps)).toBe(null);
-    });
-
-    test('ImageElement returns image', () => {
-        const imageProps = {
-            url: 'https://media.guim.co.uk/image.jpg',
-            alt: "alt",
-            imageMappings: {},
-            sizes: "sizes",
-            width: 500,
-            height: 500,
-            captionString: "caption",
-            caption: JSDOM.fragment('this caption contains <em>html</em>'),
-            credit: "credit",
-            pillar: Pillar.news,
-        };
-        const image = shallow(h(ImageElement, imageProps));
-
-        expect(image.html()).toContain('img');
-        expect(image.prop('alt')).toBe('alt');
-    });
-
     test('Renders supported node types for text elements', () => {
-        const text = renderTextElement([
+        const elements = [
             '<h2></h2>',
             '<blockquote></blockquote>',
             '<strong></strong>',
@@ -122,9 +145,20 @@ describe('renderer returns expected content', () => {
             '<br>',
             '<ul><li></li></ul>',
             '<mark></mark>'
-        ]);
+        ];
 
-        expect(text.flat().length).toBe(7);
+        expect(renderTextElement(elements).flat().length).toBe(7);
+        expect(renderTextElementWithoutStyles(elements).flat().length).toBe(7);
+    });
+
+    test ('Renders caption node types', () => {
+        const text = renderCaptionElement(JSDOM.fragment('this caption contains'));
+        expect(shallow(text.flat()[0]).html()).toContain('<p');
+    });
+
+    test ('Removes unsupported caption node types', () => {
+        const text = renderCaptionElement(JSDOM.fragment('this caption contains <blockquote>html</blockquote>'));
+        text.flatMap(element => expect(element).not.toContain("blockquote"))
     });
 });
 
@@ -168,6 +202,12 @@ describe('Renders different types of elements', () => {
         expect(pullquote.html()).toContain('<blockquote><p>quote</p></blockquote>');
     })
 
+    test('ElementKind.Pullquote with attribution', () => {
+        const nodes = render(pullquoteWithAttributionElement())
+        const pullquote = shallow(nodes.flat()[0]);
+        expect(pullquote.html()).toContain('<blockquote><p>quote</p><cite>attribution</cite></blockquote>');
+    })
+
     test('ElementKind.RichLink', () => {
         const nodes = render(richLinkElement())
         const richLink = shallow(nodes.flat()[0]);
@@ -178,7 +218,7 @@ describe('Renders different types of elements', () => {
     test('ElementKind.Interactive', () => {
         const nodes = render(interactiveElement())
         const interactive = shallow(nodes.flat()[0]);
-        expect(interactive.html()).toContain('<iframe src="https://gu.com/interactive" height="500"></iframe>');
+        expect(interactive.html()).toContain('<iframe src="https://gu.com/interactive" height="500" title=""></iframe>');
     })
 
     test('ElementKind.Tweet', () => {
@@ -192,19 +232,45 @@ describe('Renders different types of elements', () => {
         const instagram = shallow(nodes.flat()[0]);
         expect(instagram.html()).toBe('<div><blockquote>Instagram</blockquote></div>');
     })
+
+    test('ElementKind.Embed', () => {
+        const nodes = render(embedElement())
+        const embed = shallow(nodes.flat()[0]);
+        expect(embed.html()).toContain('<div><section>Embed</section></div>');
+    })
+
+    test('ElementKind.Audio', () => {
+        const nodes = render(audioElement())
+        const audio = shallow(nodes.flat()[0]);
+        expect(audio.html()).toContain('src="https://www.spotify.com/" sandbox="allow-scripts" height="300" width="500" title="Audio element"');
+    })
+
+    test('ElementKind.Video', () => {
+        const nodes = render(videoElement())
+        const video = shallow(nodes.flat()[0]);
+        expect(video.html()).toContain('src="https://www.youtube.com/" height="300" width="500" allowfullscreen="" title="Video element"');
+    })
+
+    test('ElementKind.InteractiveAtom', () => {
+        const nodes = render(atomElement())
+        const atom = shallow(nodes.flat()[0]);
+        expect(atom.html()).toContain('main { background: yellow; }');
+        expect(atom.html()).toContain("console.log(&#x27;init&#x27;)");
+        expect(atom.html()).toContain('Some content');
+    })
 });
 
 describe('Paragraph tags rendered correctly', () => {
     test('Contains no styles in standfirsts', () => {
         const fragment = JSDOM.fragment('<p>Parapraph tag</p><span>1</span>');
-        const nodes = renderStandfirstText(fragment, Pillar.news);
+        const nodes = renderStandfirstText(fragment, mockFormat);
         const html = shallow(nodes.flat()[0]).html();
         expect(html).toBe('<p>Parapraph tag</p>')
     });
 
     test('Contains styles in article body', () => {
         const fragment = JSDOM.fragment('<p>Parapraph tag</p><span>1</span>');
-        const nodes = renderText(fragment, Pillar.news);
+        const nodes = renderText(fragment, mockFormat);
         const html = shallow(nodes.flat()[0]).html();
         expect(html).not.toBe('<p>Parapraph tag</p>')
     });

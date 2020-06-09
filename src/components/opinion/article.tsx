@@ -5,8 +5,8 @@ import { css } from '@emotion/core';
 import { neutral, opinion, background } from '@guardian/src-foundations/palette';
 import { from, breakpoints } from '@guardian/src-foundations/mq';
 
-import HeaderImage from 'components/shared/headerImage';
-import ArticleSeries from 'components/shared/articleSeries';
+import HeaderImage from 'components/headerImage';
+import Series from 'components/series';
 import Headline from 'components/headline';
 import Standfirst from 'components/standfirst';
 import ArticleBody from 'components/shared/articleBody';
@@ -14,8 +14,7 @@ import Tags from 'components/shared/tags';
 import Cutout from 'components/opinion/cutout';
 import { darkModeCss, articleWidthStyles, basePx } from 'styles';
 import { Keyline } from 'components/shared/keyline';
-import { Comment } from 'item';
-import { ImageMappings } from 'components/shared/page';
+import { Comment, getFormat } from 'item';
 import Byline from 'components/byline';
 import Metadata from 'components/metadata';
 
@@ -40,16 +39,6 @@ const BorderStyles = css`
     }
 `;
 
-const HeaderImageStyles = css`
-    figure {
-        margin: 0;
-
-        ${from.wide} {
-            margin: 0 auto;
-        }
-    }
-`;
-
 const topBorder = css`
     border-top: solid 1px ${neutral[86]};
     margin-top: ${basePx(1)};
@@ -57,29 +46,31 @@ const topBorder = css`
     ${from.wide} {
         margin-top: ${basePx(1)};
     }
+
+    ${darkModeCss`
+        border-top: solid 1px ${neutral[20]};
+    `}
 `;
 
 
 // ----- Component ----- //
 
 interface Props {
-    imageMappings: ImageMappings;
     item: Comment;
     children: ReactNode[];
 }
 
-const Opinion = ({ imageMappings, item, children }: Props): JSX.Element =>
+const Opinion = ({ item, children }: Props): JSX.Element =>
     <main css={[Styles, DarkStyles]}>
         <article css={BorderStyles}>
             <header>
+                <Series item={item}/>
+                <Headline item={item} />
                 <div css={articleWidthStyles}>
-                    <ArticleSeries series={item.series} pillar={item.pillar}/>
-                    <Headline item={item} />
                     <Byline {...item} />
                 </div>
                 <Cutout 
                     contributors={item.contributors}
-                    imageMappings={imageMappings}
                     className={articleWidthStyles}
                 />
                 <Keyline {...item} />
@@ -93,12 +84,10 @@ const Opinion = ({ imageMappings, item, children }: Props): JSX.Element =>
 
                 <HeaderImage
                     image={item.mainImage}
-                    imageMappings={imageMappings}
-                    className={HeaderImageStyles}
-                    pillar={item.pillar}
+                    format={getFormat(item)}
                 />
             </header>
-            <ArticleBody pillar={item.pillar} className={[articleWidthStyles]}>
+            <ArticleBody className={[articleWidthStyles]}>
                 {children}
             </ArticleBody>
             <footer css={articleWidthStyles}>

@@ -1,16 +1,15 @@
 // ----- Imports ----- //
 
-import React, { FC, ReactElement, ReactNode } from 'react';
+import React, {FC, ReactElement, ReactNode} from 'react';
 import { css, SerializedStyles } from '@emotion/core';
-import { headline } from '@guardian/src-foundations/typography';
+import { headline, textSans } from '@guardian/src-foundations/typography';
 import { background, neutral, text } from '@guardian/src-foundations/palette';
-import { from } from '@guardian/src-foundations/mq';
 import { remSpace } from '@guardian/src-foundations';
 
-import { Item, Design, Display } from 'item';
-import { renderText, renderStandfirstText } from 'renderer';
+import { Item, getFormat } from 'item';
+import { renderStandfirstText } from 'renderer';
 import { darkModeCss as darkMode } from 'styles';
-import { PillarStyles, getPillarStyles } from 'pillar';
+import { Display, Design } from 'format';
 
 
 // ----- Component ----- //
@@ -25,7 +24,7 @@ const darkStyles: SerializedStyles = darkMode`
 
     a {
         color: ${neutral[60]};
-        border-bottom: 0.0625rem solid ${neutral[60]};
+        border-bottom: 0.0625rem solid ${neutral[46]};
     }
 `;
 
@@ -50,29 +49,36 @@ const normalHeadline = css`
 `;
 
 const thinHeadline = css`
-    ${headline.xxxsmall({ fontWeight: 'light' })}
-
-    ${from.tablet} {
-        ${headline.xxsmall({ fontWeight: 'light' })}
-    }
+    ${headline.xxsmall({ fontWeight: 'light' })}
 `;
 
-const immersive = (pillarStyles: PillarStyles): SerializedStyles => css`
+const immersive: SerializedStyles = css`
     ${styles}
     ${headline.xsmall({ fontWeight: 'light' })}
     margin-top: ${remSpace[3]};
+`;
 
-    a {
-        box-shadow: inset 0 -0.1rem ${pillarStyles.kicker};
-        padding-bottom: 0.2rem;
+const media = css`
+    color: ${neutral[86]};
+    p, ul, li {
+        ${headline.xxxsmall({ lineHeight: 'loose' })}
+        margin: 0;
+    }
+    
+    li:before {
+        height: 0.7rem;
+        width: 0.7rem;
     }
 `;
 
-const getStyles = (item: Item): SerializedStyles => {
-    const pillarStyles = getPillarStyles(item.pillar);
+const advertisementFeature = css`
+    ${styles}
+    ${textSans.medium()}
+`
 
+const getStyles = (item: Item): SerializedStyles => {
     if (item.display === Display.Immersive) {
-        return immersive(pillarStyles);
+        return immersive;
     }
 
     switch (item.design) {
@@ -80,6 +86,10 @@ const getStyles = (item: Item): SerializedStyles => {
         case Design.Feature:
         case Design.Comment:
             return css(styles, thinHeadline);
+        case Design.Media:
+            return media;
+        case Design.AdvertisementFeature:
+            return advertisementFeature;
 
         default:
             return css(styles, normalHeadline);
@@ -87,7 +97,8 @@ const getStyles = (item: Item): SerializedStyles => {
 }
 
 function content(standfirst: DocumentFragment, item: Item): ReactNode {
-    const rendered = renderStandfirstText(standfirst, item.pillar);
+    const format = getFormat(item);
+    const rendered = renderStandfirstText(standfirst, format);
 
     // Immersives append the byline to the standfirst.
     // Sometimes CAPI includes this within the standfirst HTML,
@@ -99,7 +110,7 @@ function content(standfirst: DocumentFragment, item: Item): ReactNode {
             <>
                 {rendered}
                 <address>
-                    <p>By {renderText(byline, item.pillar)}</p>
+                    <p>By {renderStandfirstText(byline, format)}</p>
                 </address>
             </>
         ).withDefault(rendered);

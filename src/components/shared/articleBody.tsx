@@ -7,7 +7,7 @@ import {
 } from 'styles';
 import { neutral, background } from '@guardian/src-foundations/palette';
 import { from } from '@guardian/src-foundations/mq';
-import { Pillar } from 'pillar';
+import { remSpace } from '@guardian/src-foundations';
 
 const richLinkWidth = '8.75rem';
 
@@ -27,10 +27,6 @@ const ArticleBodyStyles = css`
         }
     }
 
-    .interactive {
-        margin: 1rem 0;
-    }
-
     iframe {
         width: 100%;
         border: none;
@@ -38,8 +34,11 @@ const ArticleBodyStyles = css`
 
     ${adStyles}
 
-    twitter-widget {
-        margin: 1rem 0;
+    twitter-widget,
+    figure[data-atom-type="explainer"] {
+        margin: ${remSpace[4]} 0;
+        clear: both;
+        display: inline-block;
     }
 `;
 
@@ -69,13 +68,11 @@ const ArticleBodyDarkStyles: SerializedStyles = darkModeCss`
 `;
 
 interface ArticleBodyProps {
-    pillar: Pillar;
     className: SerializedStyles[];
     children: ReactNode[];
 }
 
 const ArticleBody = ({
-    pillar,
     className,
     children,
 }: ArticleBodyProps): JSX.Element =>
