@@ -1,6 +1,6 @@
 // ----- Imports ----- //
 
-import 'source-map-support/register'; // activating the source map suport
+import 'source-map-support/register'; // activating the source map support
 
 import path from 'path';
 import express, {
