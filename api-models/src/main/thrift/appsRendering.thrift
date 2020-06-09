@@ -9,4 +9,6 @@ struct appsRendering {
     2: optional i32 commentCount 
 
     3: optional bool specialReport
+
+    4: optional map<string,string> adTargeting
 }
