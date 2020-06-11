@@ -78,6 +78,7 @@ function src(salt: string, input: string, width: number, dpr: Dpr): string {
     const params = new URLSearchParams({
         width: width.toString(),
         quality: dpr === Dpr.Two ? lowerQuality.toString() : defaultQuality.toString(),
+        dpr: dpr === Dpr.Two ? "2" : "1",
         fit: 'bounds',
         'sig-ignores-params': 'true',
         s: sign(salt, url.pathname),
