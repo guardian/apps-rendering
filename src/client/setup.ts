@@ -43,7 +43,7 @@ function twitter(): void {
     }
 }
 
-function performanceMetrics() {
+function performanceMetrics(): void {
     window.addEventListener(
         'load',
         () => console.log('Metrics: ', metrics(performance.getEntries())),
