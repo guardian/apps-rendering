@@ -118,6 +118,8 @@ slideshow();
 formatDates();
 insertEpic();
 
-window.addEventListener('load', () =>
-    console.log('Metrics: ', metrics(performance.getEntries())),
+window.addEventListener(
+    'load',
+    () => console.log('Metrics: ', metrics(performance.getEntries())),
+    { once: true },
 );
