@@ -10,7 +10,6 @@ import setup from 'client/setup';
 import Epic from 'components/shared/epic';
 import ReactDOM from 'react-dom';
 import { ads, slideshow } from 'client/nativeCommunication';
-import { metrics } from 'client/metrics';
 
 
 // ----- Run ----- //
@@ -117,9 +116,3 @@ topics();
 slideshow();
 formatDates();
 insertEpic();
-
-window.addEventListener(
-    'load',
-    () => console.log('Metrics: ', metrics(performance.getEntries())),
-    { once: true },
-);
