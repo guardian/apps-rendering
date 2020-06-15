@@ -59,5 +59,7 @@ const metrics = (entries: PerformanceEntryList): Metric[] =>
 // ----- Exports ----- //
 
 export {
+    MetricKind,
+    Metric,
     metrics,
 };
