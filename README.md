@@ -91,6 +91,10 @@ Stories are deployed on [GitHub pages](https://guardian.github.io/apps-rendering
 
 ### Generating Apps rendering API models
 
+In order to release the models you'll need to:
+ - have a bintray account with access to the guardian organisation
+ - have an NPM account, part of the [@guardian](https://www.npmjs.com/org/guardian) org with a [configured token](https://docs.npmjs.com/creating-and-viewing-authentication-tokens)
+
 In the SBT repl:
 ```sbtshell
 project scalaApiModels
