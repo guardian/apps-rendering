@@ -1,4 +1,6 @@
-addSbtPlugin("com.twitter" % "scrooge-sbt-plugin" % "20.4.0")
+addSbtPlugin("com.twitter" % "scrooge-sbt-plugin" % "20.4.1")
+resolvers += "Guardian Platform Bintray" at "https://dl.bintray.com/guardian/platforms"
+addSbtPlugin("com.gu" % "sbt-scrooge-typescript" % "1.2.5")
 
 addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.5.6")
 

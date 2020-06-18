@@ -1,6 +1,7 @@
 include "content/v1.thrift"
 
 namespace scala com.gu.mobile.ar.models
+namespace typescript _at_guardian.apps_rendering_api_models
 
 struct AppsRendering {
 
