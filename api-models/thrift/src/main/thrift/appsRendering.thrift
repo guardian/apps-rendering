@@ -11,5 +11,5 @@ struct AppsRendering {
 
     3: optional bool specialReport
 
-    4: optional map<string,string> adTargeting
+    4: optional map<string,string> targetingParams
 }
