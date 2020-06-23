@@ -25,6 +25,7 @@ import { Design } from '@guardian/types/Format';
 import Blockquote from 'components/blockquote';
 import { isElement, pipe2, pipe } from 'lib';
 import { ExplainerAtom } from '@guardian/atoms-rendering';
+import LiveEventLink from 'components/liveEventLink';
 
 
 // ----- Renderer ----- //
@@ -454,6 +455,10 @@ const render = (format: Format, excludeStyles = false) =>
         case ElementKind.RichLink: {
             const { url, linkText } = element;
             return h(RichLink, { url, linkText, key, format });
+        }
+
+        case ElementKind.LiveEvent: {
+            return h(LiveEventLink, { ...element, key });
         }
 
         case ElementKind.Interactive:

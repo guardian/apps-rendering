@@ -18,9 +18,9 @@ import { capiEndpoint } from 'capi';
 import { logger } from 'logger';
 import { App, Stack, Stage } from './appIdentity';
 import { getMappedAssetLocation } from './assets';
-import { response } from './liveblogResponse';
 import { mapiDecoder, capiDecoder, errorDecoder } from 'server/decoders';
 import { Result, Ok, Err } from 'types/result';
+import { RenderingRequest } from '@guardian/apps-rendering-api-models/renderingRequest';
 import { Content } from '@guardian/content-api-models/v1/content';
 import { ContentType } from '@guardian/content-api-models/v1/contentType';
 import {
@@ -110,10 +110,10 @@ async function serveArticlePost(
     next: NextFunction,
 ): Promise<void> {
     try {
-        const content = await mapiDecoder(body);
+        const renderingRequest = await mapiDecoder(body);
         const imageSalt = await getConfigValue<string>('apis.img.salt');
 
-        const { html, clientScript } = page(imageSalt, content, getAssetLocation);
+        const { html, clientScript } = page(imageSalt, renderingRequest, getAssetLocation);
         res.set('Link', getPrefetchHeader(resourceList(clientScript)));
         res.write('<!DOCTYPE html>');
         res.write(html);
@@ -126,10 +126,6 @@ async function serveArticlePost(
 
 async function serveArticle(req: Request, res: ExpressResponse): Promise<void> {
     try {
-        // mock liveblog content from mapi
-        if (req.query.date || req.query.filter) {
-            res.json(response);
-        }
         const articleId = req.params[ 0 ] || defaultId;
         const imageSalt = await getConfigValue<string>('apis.img.salt');
         const capiContent = await askCapiFor(articleId);
@@ -137,7 +133,18 @@ async function serveArticle(req: Request, res: ExpressResponse): Promise<void> {
         capiContent.either(
             errorStatus => { res.sendStatus(errorStatus) },
             content => {
-                const { html, clientScript } = page(imageSalt, content, getAssetLocation);
+                const mockedRenderingRequest: RenderingRequest = {
+                    content,
+                    targetingParams: {
+                        "co": "Jane Smith",
+                        "k": "potato,tomato,avocado"
+                    }
+                };
+                const { html, clientScript } = page(
+                    imageSalt,
+                    mockedRenderingRequest,
+                    getAssetLocation
+                );
                 res.set('Link', getPrefetchHeader(resourceList(clientScript)));
                 res.write('<!DOCTYPE html>');
                 res.write('<meta charset="UTF-8" />');

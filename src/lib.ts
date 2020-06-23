@@ -15,6 +15,16 @@ function isElement(node: Node): node is Element {
 
 const toArray = Array.of.bind(null);
 
+function memoise<A>(fn: () => A): () => A {
+    let state: A | null = null;
+    const memoised: () => A = () => {
+        if (!state) {
+            state = fn();
+        }
+        return state;
+    };
+    return memoised;
+}
 
 // ----- Exports ----- //
 
@@ -26,4 +36,5 @@ export {
     identity,
     isElement,
     toArray,
+    memoise
 };
