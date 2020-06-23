@@ -5,12 +5,13 @@ import { css, SerializedStyles } from '@emotion/core';
 import { neutral } from '@guardian/src-foundations/palette';
 import { getPillarStyles, PillarStyles } from 'pillarStyles';
 import { Pillar } from 'format';
-import { Option } from 'types/option';
+import { Option, map, withDefault } from 'types/option';
 import { Item, getFormat } from 'item';
 import { textSans } from "@guardian/src-foundations/typography";
 import { renderText } from "../../renderer";
 import { remSpace } from "@guardian/src-foundations";
 import Dateline from 'components/dateline';
+import { pipe2 } from 'lib';
 
 
 // ----- Styles ----- //
@@ -47,9 +48,11 @@ interface Props {
 
 function Byline({ pillar, publicationDate, className, item }: Props): JSX.Element {
 
-    const byline = item.bylineHtml.fmap<ReactNode>(html =>
-        <address>{ renderText(html, getFormat(item)) }</address>
-    ).withDefault(null);
+    const byline = pipe2(
+        item.bylineHtml,
+        map(html => <address>{ renderText(html, getFormat(item)) }</address>),
+        withDefault<ReactNode>(null),
+    );
 
     return (
         <div css={[className, Styles(getPillarStyles(pillar))]}>

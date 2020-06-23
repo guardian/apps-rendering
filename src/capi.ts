@@ -7,8 +7,9 @@ import { TagType } from '@guardian/content-api-models/v1/tagType';
 import { BlockElement} from '@guardian/content-api-models/v1/blockElement';
 import { ElementType } from '@guardian/content-api-models/v1/elementType';
 import { CapiDateTime } from '@guardian/content-api-models/v1/capiDateTime'
-import { Option, fromNullable } from 'types/option';
+import { Option, fromNullable, andThen } from 'types/option';
 import { fromString as dateFromString } from 'date';
+import { pipe2 } from 'lib';
 
 
 // ----- Lookups ----- //
@@ -96,7 +97,7 @@ const capiDateTimeToDate = (date: CapiDateTime): Option<Date> =>
     dateFromString(date.iso8601);
 
 const maybeCapiDate = (date: CapiDateTime | undefined): Option<Date> =>
-    fromNullable(date).andThen(capiDateTimeToDate);
+    pipe2(date, fromNullable, andThen(capiDateTimeToDate));
 
 
 // ----- Exports ----- //
