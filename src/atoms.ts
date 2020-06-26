@@ -1,6 +1,6 @@
 import { Atoms } from "@guardian/content-api-models/v1/atoms";
 import { BlockElement } from "@guardian/content-api-models/v1/blockElement";
-import { Result, Err, Ok } from "types/result";
+import { Result, err, ok } from 'types/result';
 import { BodyElement, ElementKind } from "bodyElement";
 import { fromNullable } from "types/option";
 
@@ -12,16 +12,16 @@ function parseAtom(element: BlockElement, atoms: Atoms): Result<string, BodyElem
             const atom = atoms.interactives?.find(interactive => interactive.id === id);
 
             if (atom?.data?.kind !== "interactive") {
-                return new Err(`No atom matched this id: ${id}`);
+                return err(`No atom matched this id: ${id}`);
             }
 
             const { html, css, mainJS: js } = atom?.data?.interactive;
 
             if (!html || !css) {
-                return new Err(`No html or css for atom: ${id}`);
+                return err(`No html or css for atom: ${id}`);
             }
 
-            return new Ok({
+            return ok({
                 kind: ElementKind.InteractiveAtom,
                 html,
                 css,
@@ -33,20 +33,20 @@ function parseAtom(element: BlockElement, atoms: Atoms): Result<string, BodyElem
             const atom = atoms.explainers?.find(explainer => explainer.id === id);
 
             if (atom?.data?.kind !== "explainer" || !id) {
-                return new Err(`No atom matched this id: ${id}`);
+                return err(`No atom matched this id: ${id}`);
             }
 
             const { title, body } = atom?.data?.explainer;
 
             if (!title || !body) {
-                return new Err(`No title or body for atom: ${id}`);
+                return err(`No title or body for atom: ${id}`);
             }
 
-            return new Ok({ kind: ElementKind.ExplainerAtom, html: body, title, id });
+            return ok({ kind: ElementKind.ExplainerAtom, html: body, title, id });
         }
 
         default: {
-            return new Err(`Atom type not supported: ${element.contentAtomTypeData?.atomType}`);
+            return err(`Atom type not supported: ${element.contentAtomTypeData?.atomType}`);
         }
     }
 }
