@@ -33,11 +33,13 @@ function getAdSlots(): AdSlot[] {
     return Array.from(advertSlots).map(adSlot => {
         const slotPosition = adSlot.getBoundingClientRect();
         return new AdSlot({
-            x: slotPosition.left + scrollLeft,
-            y: slotPosition.top + scrollTop,
-            width: slotPosition.width,
-            height: slotPosition.height,
-            targetingParams
+            rect: {
+                x: slotPosition.left + scrollLeft,
+                y: slotPosition.top + scrollTop,
+                width: slotPosition.width,
+                height: slotPosition.height,
+            },
+            targetingParams,
         })
     });
 }
