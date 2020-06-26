@@ -585,7 +585,7 @@ describe('audio elements', () => {
         const item = f(articleContentWith(audioElement)) as Standard;
         pipe2(
             item.body[0],
-            map<string, BodyElement, Audio>(element => element as Audio),
+            map<BodyElement, Audio>(element => element as Audio),
             map(({ src, width, height }) => {
                 expect(src).toContain('https://open.spotify.com/embed/track/');
                 expect(width).toContain('300');
@@ -645,7 +645,7 @@ describe('video elements', () => {
         const item = f(articleContentWith(videoElement)) as Standard;
         pipe2(
             item.body[0],
-            map<string, BodyElement, Video>(element => element as Video),
+            map<BodyElement, Video>(element => element as Video),
             map(({ src, width, height }) => {
                 expect(src).toBe('https://www.youtube-nocookie.com/embed/');
                 expect(width).toBe('460');
