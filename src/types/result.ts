@@ -90,7 +90,7 @@ const toOption = <E, A>(result: Result<E, A>): Option<A> =>
  * @param f The function to apply if this is an `Ok`
  * @param result The Result
  */
-const map = <E, A, B>(f: (a: A) => B) => (result: Result<E, A>): Result<E, B> =>
+const map = <A, B>(f: (a: A) => B) => <E>(result: Result<E, A>): Result<E, B> =>
     result.kind === ResultKind.Ok ? ok(f(result.value)) : result;
 
 /**
