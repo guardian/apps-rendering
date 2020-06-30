@@ -48,11 +48,13 @@ function twitter(): void {
 function performanceMetrics(): void {
     window.addEventListener(
         'load',
-        () => pipe2(
-            performance.getEntries(),
-            metrics,
-            metricsClient.sendMetrics,
-        ),
+        () => {
+            pipe2(
+                performance.getEntries(),
+                metrics,
+                metricsClient.sendMetrics.bind(null),
+            );
+        },
         { once: true },
     );
 }
