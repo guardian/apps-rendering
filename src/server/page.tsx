@@ -26,7 +26,7 @@ import { Option, some, none, map, withDefault } from 'types/option';
 import { compose, pipe2 } from 'lib';
 import { csp } from 'server/csp';
 import { remSpace, background } from '@guardian/src-foundations';
-import { atomCss, atomScript } from "components/atoms/interactiveAtom";
+import { atomScript } from "components/atoms/interactiveAtom";
 
 
 // ----- Setup ----- //
@@ -180,10 +180,7 @@ function page(
         </CacheProvider>
     );
 
-    const cspString = csp(item, {
-        scripts: [atomScript],
-        styles: [styles(getFormat(item)), css, atomCss]
-    }, hasTweets);
+    const cspString = csp(item, { scripts: [atomScript] }, hasTweets);
 
     const html = `
         <html lang="en">

@@ -14,7 +14,6 @@ import { map, withDefault } from 'types/option';
 
 interface Assets {
     scripts: string[];
-    styles: string[];
 }
 
 
@@ -24,16 +23,15 @@ const assetHash = (asset: string): string =>
     createHash('sha256').update(asset).digest('base64');
 
 const extractInteractiveAssets = (elements: BodyElement[]): Assets =>
-    elements.reduce<Assets>(({ scripts, styles }, elem) => {
+    elements.reduce<Assets>(({ scripts }, elem) => {
         if (elem.kind === ElementKind.InteractiveAtom) {
             return {
-                styles: [ ...styles, elem.css ],
                 scripts: pipe2(elem.js, map(js => [ ...scripts, js ]), withDefault(scripts)),
             };
         }
 
-        return { scripts, styles };
-    }, { scripts: [], styles: [] });
+        return { scripts };
+    }, { scripts: [] });
 
 const getElements = (item: Item): Result<string, BodyElement>[] =>
     item.design === Design.Live ? item.blocks.flatMap(block => block.body) : item.body;
@@ -58,9 +56,9 @@ const assetHashes = (assets: string[]): string =>
 //     child-src https: blob:
 // `.trim()
 
-const buildCsp = ({ styles, scripts }: Assets, twitter: boolean): string => `
+const buildCsp = ({ scripts }: Assets, twitter: boolean): string => `
     default-src 'self';
-    style-src ${assetHashes(styles)} https://static.formstack.com https://interactive.guim.co.uk ${twitter ? 'https://platform.twitter.com' : ''};
+    style-src https: 'unsafe-inline';
     img-src 'self' https://static.theguardian.com https://*.guim.co.uk ${twitter ? 'https://platform.twitter.com https://syndication.twitter.com https://pbs.twimg.com data:' : ''};
     script-src 'self' ${assetHashes(scripts)} https://static.formstack.com https://guardiannewsandmedia.formstack.com http://www.instagram.com/embed.js https://interactive.guim.co.uk https://s16.tiktokcdn.com https://www.tiktok.com/embed.js ${twitter ? 'https://platform.twitter.com https://cdn.syndication.twimg.com' : ''};
     frame-src https://www.theguardian.com https://www.scribd.com https://www.instagram.com https://www.tiktok.com https://interactive.guim.co.uk https://open.spotify.com https://www.youtube-nocookie.com ${twitter ? 'https://platform.twitter.com https://syndication.twitter.com https://twitter.com' : ''};
@@ -70,8 +68,8 @@ const buildCsp = ({ styles, scripts }: Assets, twitter: boolean): string => `
 
 function csp(item: Item, additionalAssets: Assets, twitter: boolean): string {
     const interactives = interactiveAssets(item);
+
     const assets = {
-        styles: [ ...interactives.styles, ...additionalAssets.styles ],
         scripts: [ ...interactives.scripts, ...additionalAssets.scripts ],
     };
 
