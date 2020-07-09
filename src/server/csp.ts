@@ -60,7 +60,7 @@ const assetHashes = (assets: string[]): string =>
 
 const buildCsp = ({ styles, scripts }: Assets, twitter: boolean): string => `
     default-src 'self';
-    style-src ${assetHashes(styles)} https://interactive.guim.co.uk ${twitter ? 'https://platform.twitter.com' : ''};
+    style-src ${assetHashes(styles)} https://static.formstack.com https://interactive.guim.co.uk ${twitter ? 'https://platform.twitter.com' : ''};
     img-src 'self' https://static.theguardian.com https://*.guim.co.uk ${twitter ? 'https://platform.twitter.com https://syndication.twitter.com https://pbs.twimg.com data:' : ''};
     script-src 'self' ${assetHashes(scripts)} https://static.formstack.com https://guardiannewsandmedia.formstack.com http://www.instagram.com/embed.js https://interactive.guim.co.uk https://s16.tiktokcdn.com https://www.tiktok.com/embed.js ${twitter ? 'https://platform.twitter.com https://cdn.syndication.twimg.com' : ''};
     frame-src https://www.theguardian.com https://www.scribd.com https://www.instagram.com https://www.tiktok.com https://interactive.guim.co.uk https://open.spotify.com https://www.youtube-nocookie.com ${twitter ? 'https://platform.twitter.com https://syndication.twitter.com https://twitter.com' : ''};
