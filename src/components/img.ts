@@ -21,14 +21,24 @@ interface Props {
 }
 
 const styles = (role: Option<Role>, format?: Format): SerializedStyles => {
-    const backgroundColour = format?.design === Design.Media ? neutral[20] : neutral[97];
+    const backgroundColour = () => {
+    switch (format?.design) {
+        case Design.Media:
+            return neutral[20];
+        case Design.Comment:
+            return neutral[86];
+        default:
+            return neutral[97];
+    }
+    };
+    // const backgroundColour = format?.design === Design.Media ? neutral[20] : neutral[97];
     return pipe2(
         role,
         map(imageRole => imageRole),
         withDefault(Role.HalfWidth),
     ) === Role.Thumbnail ? css`color: ${neutral[60]};`
         : css`
-            background-color: ${backgroundColour};
+            background-color: ${backgroundColour()};
             ${darkModeCss`background-color: ${neutral[20]};`}
             color: ${neutral[60]};
         `;

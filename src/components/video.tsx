@@ -10,13 +10,12 @@ export interface VideoProps {
 }
 
 const videoStyles = css`
-    background: ${neutral[97]};
+    background: red;
     padding-bottom: 56.25%;
     width: 100%;
     position: relative;
     overflow: hidden;
-    margin: ${remSpace[4]} 0;
-
+    margin: ${remSpace[4]}; 
     iframe {
         border: none;
         width: 100%;
