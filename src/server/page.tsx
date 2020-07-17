@@ -100,7 +100,7 @@ function renderHead(
             ${JSON.stringify(request.targetingParams)}
         </script>
     `;
-};
+}
 
 const renderBody = (item: Item, request: RenderingRequest): EmotionCritical =>
     compose(extractCritical, renderToString)(
