@@ -4,7 +4,8 @@ import { remSpace } from '@guardian/src-foundations';
 import { css, SerializedStyles } from '@emotion/core'
 import { Option, some, none, map, withDefault } from '@guardian/types/option';
 import { textSans } from '@guardian/src-foundations/typography';
-import { pipe2 } from 'lib';
+import { pipe2 }  from 'lib';
+import { Format, Design } from '@guardian/types/Format';
 
 const BASE_PADDING = 8;
 
@@ -64,14 +65,17 @@ export const articleWidthStyles = css`
 
 const adHeight = '258px';
 
-export const adStyles = css`
+export const adStyles  = (format: Format): SerializedStyles => {
+    const backgroundColour = format.design === Design.Comment ? neutral[86] : neutral[97];
+
+    return css`
     .ad-placeholder {
         &.hidden {
             display: none;
         }
 
         color: ${neutral[20]};
-        background: ${neutral[97]};
+        background: ${backgroundColour};
 
         ${darkModeCss`
             color: ${neutral[60]};
@@ -152,6 +156,7 @@ export const adStyles = css`
         }
     }
 `
+}
 
 export const fontFace = (
     family: string,
