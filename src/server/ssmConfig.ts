@@ -3,7 +3,6 @@ import { App, Stack, Stage } from './appIdentity';
 import { Option, some, none, map, withDefault } from '@guardian/types/option';
 import { pipe2 } from 'lib';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Config = {[key: string]: string | undefined};
 
 async function recursivelyFetchConfig(nextToken?: string, currentConfig?: Config): Promise<Config> {
