@@ -58,7 +58,7 @@ function Byline({ pillar, publicationDate, className, item }: Props): JSX.Elemen
             <div>
                 <div className="author">
                     { byline }
-                    <Dateline date={publicationDate} pillar={item.pillar}/>
+                    <Dateline date={publicationDate} />
                 </div>
             </div>
         </div>
