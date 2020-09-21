@@ -9,6 +9,7 @@ import { LiveBlock } from 'liveBlock';
 import { body, headline } from '@guardian/src-foundations/typography';
 import { map, withDefault } from '@guardian/types/option';
 import { pipe2 } from 'lib';
+import { SvgChevronDownSingle } from '@guardian/src-icons';
 
 const LiveblogKeyEventsStyles = ({ kicker }: PillarStyles): SerializedStyles => css`
     background: ${neutral[100]};
@@ -112,8 +113,8 @@ const LiveblogKeyEventsStyles = ({ kicker }: PillarStyles): SerializedStyles => 
         }
 
         &::after {
-            ${icons}
-            content: "\\e002";
+            /* ${icons}
+            content: "\\e002"; */
             font-size: 16px;
             position: absolute;
             top: ${basePx(1)};
@@ -153,7 +154,7 @@ const LiveblogKeyEvents: FC<LiveblogKeyEventsProps> = ({ pillar, blocks }) => {
     return (
         <section css={LiveblogKeyEventsStyles(getPillarStyles(pillar))}>
             <details>
-                <summary><h2>Key Events ({keyEvents.length})</h2></summary>
+                <summary><h2>Key Events ({keyEvents.length})<SvgChevronDownSingle/></h2></summary>
                 <ul>
                     {keyEvents.map(event => {
                         const relativeDate: JSX.Element | null = pipe2(
