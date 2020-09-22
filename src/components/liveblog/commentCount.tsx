@@ -28,19 +28,19 @@ const CommentCountStyles = (colour: string): SerializedStyles => css`
     }
 
     button {
-        padding: ${basePx(1, 1, 0, 0)};
+        padding: ${basePx(0, 1.25, 0.25, 0.25)};
         font-weight: 600;
         font-size: 1.4rem;
         line-height: 1.4rem;
         border: none;
         color: ${colour};
-        margin-top: -10px;
+        margin-top: -11px;
         margin-left: -5px;
     }
 
     svg {
 
-            width: 2.0rem;
+            width: 1.9rem;
             fill: ${colour};
             padding-top: 3px;
         
