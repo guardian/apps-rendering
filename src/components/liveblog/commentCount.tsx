@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { SerializedStyles, css } from '@emotion/core';
-import { basePx, icons } from 'styles';
+import { basePx } from 'styles';
 import { neutral } from '@guardian/src-foundations/palette';
 import { SvgSpeechBubble } from '@guardian/src-icons';
 
@@ -15,42 +15,45 @@ const CommentCountStyles = (colour: string): SerializedStyles => css`
     display: inline-block;
     text-align: right;
     margin-top: -6px;
+    margin-right: -2px;
     border-left: 1px solid ${neutral[86]};
     box-sizing: border-box;
 
     span::before {
-        ${icons};
+       
         display: block;
         font-size: 1.4rem;
-        content: '\\e03c';
+       
         color: ${colour};
     }
 
     button {
-        padding: ${basePx(1, 1, 2, 1)};
+        padding: ${basePx(1, 1, 0, 0)};
         font-weight: 600;
         font-size: 1.4rem;
         line-height: 1.4rem;
         border: none;
         color: ${colour};
+        margin-top: -10px;
+        margin-left: -5px;
     }
 
     svg {
-        
-            background-color: pink;
-            width: 1.8rem;
-            height: 3.9rem;
+
+            width: 2.0rem;
+            fill: ${colour};
+            padding-top: 3px;
         
     }
 `
 
-const greg = css `
-    fill: green;
+// const greg = css `
+//     fill: green;
 
-`
+// `
 export const CommentCount: FC<CommentCountProps> = ({ count, colour, className }) => {
     return <div css={[CommentCountStyles(colour), className]}>
-        <span css={greg}><SvgSpeechBubble/></span>
+        <div><SvgSpeechBubble/></div>
         <button>{count}</button>
     </div>
 }

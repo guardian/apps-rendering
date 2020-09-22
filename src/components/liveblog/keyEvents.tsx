@@ -112,7 +112,6 @@ const LiveblogKeyEventsStyles = ({ kicker }: PillarStyles): SerializedStyles => 
             ${headline.xxxsmall()}
 
             svg {
-            
                 font-size: 16px;
                 position: absolute;
                 top: ${basePx(1)};
