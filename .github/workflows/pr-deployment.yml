@@ -28,10 +28,9 @@ jobs:
       run: |
         npm install -g ngrok
         npm run watch & 
-        timeout 1h ngrok http 8080 -log=stdout -host-header=rewrite | \
-          grep --line-buffered -o 'https://.*' | \
-          xargs -L1 -I{} -t \
-            curl -X POST -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }} -d "{\"state\":\"success\", \"target_url\":\"{}\", \"context\":\"PR deployment\", \"description\":\"This PR is now live until `date -d "+1 hour" "+%a %H:%M"`. Click details to access it ->\"}"
+        URL=$(timeout 1h ngrok http 8080 -log=stdout -host-header=rewrite | grep --line-buffered -o 'https://.*')
+        echo "${URL}"
+        #curl -X POST -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }} -d "{\"state\":\"success\", \"target_url\":\"{}\", \"context\":\"PR deployment\", \"description\":\"This PR is now live until `date -d "+1 hour" "+%a %H:%M"`. Click details to access it ->\"}"
       env: 
         APIS_IMG_SALT: ${{ secrets.APIS_IMG_SALT }}  
         CAPI_KEY: ${{ secrets.CAPI_KEY }}
