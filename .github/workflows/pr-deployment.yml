@@ -32,9 +32,10 @@ jobs:
           grep --line-buffered -o 'https://.*' | \
           xargs -L1 -I{} -t \
             curl -X POST -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }} -d "{\"state\":\"success\", \"target_url\":\"{}\", \"context\":\"PR deployment\", \"description\":\"This PR is now live until `date -d "+1 hour" "+%a %H:%M"`. Click details to access it ->\"}" &
+        echo "same step test"
       env: 
         APIS_IMG_SALT: ${{ secrets.APIS_IMG_SALT }}  
         CAPI_KEY: ${{ secrets.CAPI_KEY }}
         TZ: "/usr/share/zoneinfo/Europe/London" 
     - name: next
-      run: echo "test" 
+      run: echo "next step test" 
