@@ -11,17 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
-      with:
-        node-version: 12
-    - uses: actions/cache@v2
-      with:
-        path: ~/.npm
-        key: node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: node-    
-    - name: install
-      run: npm ci
+    - uses: actions/checkout@v2
+    - name: setup dependencies
+      uses: ./.github/actions/setup-apps-rendering/action.yml
     - name: lint
       run: npm run lint
     - name: test
