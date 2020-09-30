@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: setup dependencies
-      uses: ./.github/actions/setup-apps-rendering/action.yml
+      uses: .github/actions/setup-apps-rendering/action.yml
     - name: lint
       run: npm run lint
     - name: test
