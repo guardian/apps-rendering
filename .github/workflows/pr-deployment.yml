@@ -33,7 +33,10 @@ jobs:
       with:
         url: http://localhost:8080/
     - name: Upload screenshot
-      uses: actions/upload-artifact@v2
+      run: echo "to do"
+    - name: post onto PR
+      uses: mshick/add-pr-comment@v1
       with:
-        path: screenshots/screenshot-*.png
-        name: screenshot.png
+        message: |
+          ![image](https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/edb8f441ce8df55b2296a58492d402f100692118/politics/2020/oct/01/brexit-eu-launches-legal-action-against-uk-for-breaching-withdrawal-agreement/screenshot.png)
+        repo-token: ${{ secrets.GITHUB_TOKEN }}  
