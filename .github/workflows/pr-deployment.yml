@@ -44,10 +44,20 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.CI_IMAGE_UPLOADER_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_IMAGE_UPLOADER_SECRET_ACCESS_KEY }}
-    - name: post onto PR
+    - name: Prepare image urls
+      id: image-urls
+      if: ${{ github.ref != 'main' }}
+      run: |
+        MAIN_COMMIT_SHA=$(git show-ref main --hash)
+        echo "::set-output name=before::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/$MAIN_COMMIT_SHA/screenshot.png"
+        echo "::set-output name=after::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/${{ github.sha }}/screenshot.png"
+    - name: Post onto PR
       if: ${{ github.ref != 'main' }}
       uses: mshick/add-pr-comment@v1
       with:
         message: |
-          ![image](https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/${{ github.sha }}/screenshot.png)
+          ![image]()
+          | Before | After |
+          | --- | --- |
+          | <img src="${{ steps.image-urls.outputs.before }}" width="300px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="300px" /> |
         repo-token: ${{ secrets.GITHUB_TOKEN }}  
