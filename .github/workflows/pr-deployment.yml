@@ -6,17 +6,18 @@ on:
       - main
   pull_request:
     branches:
-      - main    
+      - main
 
 jobs:
   screenshots:
-    
+
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+        ref: main
     - uses: actions/setup-node@v1
       with:
         node-version: 12
@@ -24,38 +25,22 @@ jobs:
       with:
         path: ~/.npm
         key: node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: node-    
+        restore-keys: node-
     - name: install
       run: npm ci
     - name: run
       run: |
-        npm run watch & 
+        npm run watch &
         sleep 60s
-      env: 
-        APIS_IMG_SALT: ${{ secrets.APIS_IMG_SALT }}  
+      env:
+        APIS_IMG_SALT: ${{ secrets.APIS_IMG_SALT }}
         CAPI_KEY: ${{ secrets.CAPI_KEY }}
     - name: Take screenshot of apps-rendering
       uses: "lannonbr/puppeteer-screenshot-action@1.3.0"
       with:
         url: http://localhost:8080/
     - name: Upload screenshot
-      run: aws s3 cp screenshots/screenshot*.png s3://gu-mobile-pr-images/${{ github.sha }}/screenshot.png --acl public-read
+      run: aws s3 cp screenshots/screenshot*.png s3://gu-mobile-pr-images/8a293ad6dae4620d19dd3ee9985f0f58f896f5e1/screenshot.png --acl public-read
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.CI_IMAGE_UPLOADER_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_IMAGE_UPLOADER_SECRET_ACCESS_KEY }}
-    - name: Prepare image urls
-      id: image-urls
-      if: ${{ github.ref != 'main' }}
-      run: |
-        MAIN_COMMIT_SHA=$(git show-ref main --hash)
-        echo "::set-output name=before::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/$MAIN_COMMIT_SHA/screenshot.png"
-        echo "::set-output name=after::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/${{ github.sha }}/screenshot.png"
-    - name: Post screenshots onto PR
-      if: ${{ github.ref != 'main' }}
-      uses: mshick/add-pr-comment@v1
-      with:
-        message: |
-          | Before | After |
-          | --- | --- |
-          | <img src="${{ steps.image-urls.outputs.before }}" width="300px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="300px" /> |
-        repo-token: ${{ secrets.GITHUB_TOKEN }}  
