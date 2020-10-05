@@ -102,6 +102,18 @@ const includesTweets = (content: Content): boolean => {
         .some(Boolean)
 }
 
+const includesInstagram = (content: Content): boolean => {
+    const body = content?.blocks?.body;
+
+    if (!body) {
+        return false
+    }
+
+    return body
+        .flatMap(block => block.elements.some(element => element.type === ElementType.INSTAGRAM))
+        .some(Boolean)
+}
+
 const paidContentLogo = (tags: Tag[]): Option<Logo> => {
     const sponsorship = tags
         .find(tag => tag.type === TagType.PAID_CONTENT)?.activeSponsorships?.pop();
@@ -142,7 +154,7 @@ const capiEndpoint = (articleId: string, key: string): string => {
       'show-elements': 'all',
       'show-related': 'true'
     })
-  
+
     return `https://content.guardianapis.com/${articleId}?${params.toString()}`;
 }
 
@@ -170,6 +182,7 @@ export {
     articleMainMedia,
     capiEndpoint,
     includesTweets,
+    includesInstagram,
     maybeCapiDate,
     paidContentLogo,
     articleMainImage

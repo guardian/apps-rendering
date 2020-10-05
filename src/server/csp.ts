@@ -58,24 +58,24 @@ const assetHashes = (assets: string[]): string =>
 //     child-src https: blob:
 // `.trim()
 
-const buildCsp = ({ styles, scripts }: Assets, twitter: boolean): string => `
+const buildCsp = ({ styles, scripts }: Assets, twitter: boolean, instagram: boolean): string => `
     default-src 'self';
     style-src ${assetHashes(styles)} https://interactive.guim.co.uk ${twitter ? 'https://platform.twitter.com' : ''};
     img-src 'self' https://static.theguardian.com https://*.guim.co.uk ${twitter ? 'https://platform.twitter.com https://syndication.twitter.com https://pbs.twimg.com data:' : ''};
-    script-src 'self' ${assetHashes(scripts)} http://www.instagram.com/embed.js https://interactive.guim.co.uk https://s16.tiktokcdn.com https://www.tiktok.com/embed.js ${twitter ? 'https://platform.twitter.com https://cdn.syndication.twimg.com' : ''};
+    script-src 'self' ${assetHashes(scripts)} ${instagram ? 'http://www.instagram.com/embed.js' : ''} https://interactive.guim.co.uk https://s16.tiktokcdn.com https://www.tiktok.com/embed.js ${twitter ? 'https://platform.twitter.com https://cdn.syndication.twimg.com' : ''};
     frame-src https://www.theguardian.com https://www.scribd.com https://www.instagram.com https://www.tiktok.com https://interactive.guim.co.uk https://open.spotify.com https://www.youtube-nocookie.com https://player.vimeo.com/ ${twitter ? 'https://platform.twitter.com https://syndication.twitter.com https://twitter.com' : ''};
     font-src 'self' https://interactive.guim.co.uk;
     connect-src 'self' https://callouts.code.dev-guardianapis.com/formstack-campaign/submit https://interactive.guim.co.uk https://sf-hs-sg.ibytedtos.com/ https://gdn-cdn.s3.amazonaws.com/
 `.trim();
 
-function csp(item: Item, additionalAssets: Assets, twitter: boolean): string {
+function csp(item: Item, additionalAssets: Assets, twitter: boolean, instagram: boolean): string {
     const interactives = interactiveAssets(item);
     const assets = {
         styles: [ ...interactives.styles, ...additionalAssets.styles ],
         scripts: [ ...interactives.scripts, ...additionalAssets.scripts ],
     };
 
-    return buildCsp(assets, twitter);
+    return buildCsp(assets, twitter, instagram);
 }
 
 
