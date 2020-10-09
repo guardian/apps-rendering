@@ -32,7 +32,7 @@ export const darkModeCss = (
         ${styles
         .map((style, i) => `${style}${placeholders[i] ? placeholders[i] : ''}`)
         .join('')
-    }
+}
     }
 `;
 
