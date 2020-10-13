@@ -140,7 +140,7 @@ async function serveArticlePost(
     try {
         const renderingRequest = await mapiDecoder(body);
         
-        serveArticle(renderingRequest, res);
+        void serveArticle(renderingRequest, res);
     } catch (e) {
         logger.error(`This error occurred`, e);
         next(e);
@@ -165,7 +165,7 @@ async function serveArticleGet(req: Request, res: ExpressResponse): Promise<void
                     relatedContent
                 };
 
-                serveArticle(mockedRenderingRequest, res);
+                void serveArticle(mockedRenderingRequest, res);
             },
         )(capiContent);
     } catch (e) {
