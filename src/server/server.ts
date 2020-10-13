@@ -133,7 +133,6 @@ async function serveArticlePost(
 
         const { html, clientScript } = render(imageSalt, renderingRequest, getAssetLocation);
         res.set('Link', getPrefetchHeader(resourceList(clientScript)));
-        res.write('<!DOCTYPE html>');
         res.write(html);
         res.end();
     } catch (e) {
