@@ -172,8 +172,6 @@ async function serveArticle(req: Request, res: ExpressResponse): Promise<void> {
                 );
 
                 res.set('Link', getPrefetchHeader(resourceList(clientScript)));
-                res.write('<!DOCTYPE html>');
-                res.write('<meta charset="UTF-8" />');
                 res.write(html);
                 res.end();
             },
