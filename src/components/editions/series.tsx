@@ -27,7 +27,7 @@ const Series: FC<Props> = ({ item }) =>
     maybeRender(item.series, series =>
         <nav css={styles}>
             {series.webTitle}
-        </nav>                            
+        </nav>
     )
 
 

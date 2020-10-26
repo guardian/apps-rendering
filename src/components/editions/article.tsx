@@ -36,7 +36,7 @@ const Article: FC<Props> = ({ item }) => {
     if (item.design === Design.Live) {
         return <p>Not implemented</p>
     }
-    
+
     return (
         <main>
             <article>
