@@ -15,7 +15,7 @@ import { maybeRender } from 'lib';
 const styles = css`
     ${titlepiece.small()}
     color: ${news[400]};
-    font-size: 17px;
+    font-size: 1.0625rem;
     padding: ${remSpace[1]} 0 ${remSpace[2]};
 `;
 
