@@ -6,7 +6,7 @@ import { createHash } from 'crypto';
 import path from 'path';
 import CleanCSS from 'clean-css';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import type { Compiler, Configuration, Resolve } from 'webpack';
+import type { Compiler, Configuration } from 'webpack';
 import webpack from 'webpack';
 import ManifestPlugin from 'webpack-manifest-plugin';
 import nodeExternals from 'webpack-node-externals';
@@ -32,7 +32,11 @@ class LaunchServerPlugin {
 }
 
 // ----- Shared Config ----- //
-
+interface Resolve {
+	extensions: Array<string>;
+	modules: Array<string>;
+	alias: {logger: string};
+}
 function resolve(loggerName: string): Resolve {
 	return {
 		extensions: ['.ts', '.tsx', '.js'],
@@ -52,7 +56,8 @@ const serverConfig = (
 	const isWatch = env?.watch;
 	// Does not try to require the 'canvas' package,
 	// an optional dependency of jsdom that we aren't using.
-	const plugins = [new webpack.IgnorePlugin(/^canvas$/)];
+	type Plugins = webpack.IgnorePlugin | LaunchServerPlugin
+	const plugins: Array<Plugins> = [new webpack.IgnorePlugin({ resourceRegExp: /^canvas$/ })];
 	if (isWatch) {
 		plugins.push(new LaunchServerPlugin());
 	}
@@ -119,13 +124,12 @@ export const clientConfig: Configuration = {
 		article: 'client/article.ts',
 		media: 'client/media.ts',
 	},
-	target: 'web',
+	target: ["web", "es5"],
 	devtool: 'inline-cheap-source-map',
 	output: {
 		path: path.resolve(__dirname, 'dist/assets'),
-		filename: '[name].js',
 	},
-	plugins: [new ManifestPlugin({ writeToFileEmit: true })],
+	plugins: [new ManifestPlugin({ writeToFileEmit: true }) as webpack.WebpackPluginInstance],
 	resolve: resolve('clientDev'),
 	devServer: {
 		publicPath: '/assets/',
