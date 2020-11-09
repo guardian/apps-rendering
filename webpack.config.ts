@@ -131,7 +131,8 @@ export const clientConfig: Configuration = {
 	output: {
 		path: path.resolve(__dirname, 'dist/assets'),
 	},
-	plugins: [new ManifestPlugin({ writeToFileEmit: true }) as webpack.WebpackPluginInstance],
+	plugins: [new ManifestPlugin({ writeToFileEmit: true }) as webpack.WebpackPluginInstance, 
+		new webpack.ProvidePlugin({ Buffer: ['buffer', 'Buffer'] })],
 	resolve: resolve('clientDev'),
 	devServer: {
 		publicPath: '/assets/',

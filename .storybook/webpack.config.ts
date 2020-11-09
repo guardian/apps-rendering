@@ -8,7 +8,6 @@ export default async ({
 }): Promise<Configuration> => {
 	return {
 		...config,
-		target: clientConfig?.target,
 		resolve: clientConfig?.resolve,
 		module: {
 			rules: clientConfig?.module?.rules ?? [],
