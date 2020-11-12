@@ -15,9 +15,8 @@ jobs:
             matrix:
                 url:
                     [
-                        'http://localhost:8080/',
-                        'http://localhost:8080/news/2020/nov/12/western-travel-influencers-social-media-pakistan-politics',
-                        'http://localhost:8080/uk-news/2020/nov/12/stonehenge-road-tunnel-given-go-ahead-despite-backlash',
+                        'http://localhost:8080/news/2020/nov/12/western-travel-influencers-social-media-pakistan-politics?immersive',
+                        'http://localhost:8080/uk-news/2020/nov/12/stonehenge-road-tunnel-given-go-ahead-despite-backlash?standard',
                     ]
 
         steps:
@@ -47,7 +46,9 @@ jobs:
               with:
                   url: ${{ matrix.url }}
             - name: Upload screenshot
-              run: aws s3 cp screenshots/screenshot*.png s3://gu-mobile-pr-images/${{ github.sha }}/screenshot.png --acl public-read
+              run: |
+                  ARTICLE_TYPE = "$(echo "${{ matrix.url }}" | sed 's/.*\(\?[a-z]*\)$/\1/' | sed 's/^?//')"
+                  aws s3 cp screenshots/screenshot*.png s3://gu-mobile-pr-images/${{ github.sha }}/${ARTICLE_TYPE}/screenshot.png --acl public-read
               env:
                   AWS_ACCESS_KEY_ID: ${{ secrets.CI_IMAGE_UPLOADER_ACCESS_KEY_ID }}
                   AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_IMAGE_UPLOADER_SECRET_ACCESS_KEY }}
@@ -55,9 +56,10 @@ jobs:
               id: image-urls
               if: ${{ github.ref != 'main' }}
               run: |
+                  ARTICLE_TYPE = "$(echo "${{ matrix.url }}" | sed 's/.*\(\?[a-z]*\)$/\1/' | sed 's/^?//')"
                   MAIN_COMMIT_SHA=$(git show-ref main --hash)
                   echo "::set-output name=before::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/$MAIN_COMMIT_SHA/screenshot.png"
-                  echo "::set-output name=after::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/${{ github.sha }}/screenshot.png"
+                  echo "::set-output name=after::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/${{ github.sha }}/${ARTICLE_TYPE}/screenshot.png"
             - name: Search for previous screenshot comment
               if: ${{ github.event_name == 'pull_request' }}
               uses: peter-evans/find-comment@v1
