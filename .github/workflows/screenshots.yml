@@ -77,7 +77,7 @@ jobs:
                       | Before | After |
                       | --- | --- |
                       | <img src="${{ steps.image-urls.outputs.before }}" width="300px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="300px" /> |
-            - name: Update comment if necessary
+            - name: Update comment if necessary # This will probably append more screenshots
               if: ${{ github.event_name == 'pull_request' && steps.fc.outputs.comment-id != '' }}
               uses: peter-evans/create-or-update-comment@v1
               with:
