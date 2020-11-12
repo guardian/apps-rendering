@@ -47,7 +47,7 @@ jobs:
                   url: ${{ matrix.url }}
             - name: Upload screenshot
               run: |
-                  ARTICLE_TYPE = "$(echo "${{ matrix.url }}" | sed 's/.*\(\?[a-z]*\)$/\1/' | sed 's/^?//')"
+                  ARTICLE_TYPE="$(echo "${{ matrix.url }}" | sed 's/.*\(\?[a-z]*\)$/\1/' | sed 's/^?//')"
                   aws s3 cp screenshots/screenshot*.png s3://gu-mobile-pr-images/${{ github.sha }}/${ARTICLE_TYPE}/screenshot.png --acl public-read
               env:
                   AWS_ACCESS_KEY_ID: ${{ secrets.CI_IMAGE_UPLOADER_ACCESS_KEY_ID }}
@@ -56,7 +56,7 @@ jobs:
               id: image-urls
               if: ${{ github.ref != 'main' }}
               run: |
-                  ARTICLE_TYPE = "$(echo "${{ matrix.url }}" | sed 's/.*\(\?[a-z]*\)$/\1/' | sed 's/^?//')"
+                  ARTICLE_TYPE="$(echo "${{ matrix.url }}" | sed 's/.*\(\?[a-z]*\)$/\1/' | sed 's/^?//')"
                   MAIN_COMMIT_SHA=$(git show-ref main --hash)
                   echo "::set-output name=before::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/$MAIN_COMMIT_SHA/screenshot.png"
                   echo "::set-output name=after::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/${{ github.sha }}/${ARTICLE_TYPE}/screenshot.png"
