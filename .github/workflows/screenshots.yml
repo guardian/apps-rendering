@@ -11,6 +11,13 @@ on:
 jobs:
     screenshots:
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                url:
+                    [
+                        'http://localhost:8080/',
+                        'http://localhost:8080/news/2020/nov/12/western-travel-influencers-social-media-pakistan-politics',
+                    ]
 
         steps:
             - uses: actions/checkout@v2
@@ -37,7 +44,7 @@ jobs:
             - name: Take screenshot of apps-rendering
               uses: 'lannonbr/puppeteer-screenshot-action@1.3.0'
               with:
-                  url: http://localhost:8080/news/2020/nov/12/western-travel-influencers-social-media-pakistan-politics
+                  url: ${{ matrix.url }}
             - name: Upload screenshot
               run: aws s3 cp screenshots/screenshot*.png s3://gu-mobile-pr-images/${{ github.sha }}/screenshot.png --acl public-read
               env:
