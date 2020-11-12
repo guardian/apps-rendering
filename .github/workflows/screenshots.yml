@@ -15,8 +15,8 @@ jobs:
             matrix:
                 url:
                     [
-                        'http://localhost:8080/news/2020/nov/12/western-travel-influencers-social-media-pakistan-politics?immersive',
                         'http://localhost:8080/uk-news/2020/nov/12/stonehenge-road-tunnel-given-go-ahead-despite-backlash?standard',
+                        'http://localhost:8080/news/2020/nov/12/western-travel-influencers-social-media-pakistan-politics?immersive',
                     ]
 
         steps:
@@ -68,7 +68,7 @@ jobs:
                   issue-number: ${{ github.event.pull_request.number }}
                   body-includes: <!-- github-actions-screenshots -->
             - name: Create comment if necessary
-              # if: ${{ github.event_name == 'pull_request' && steps.fc.outputs.comment-id == '' }}
+              if: ${{ github.event_name == 'pull_request' && steps.fc.outputs.comment-id == '' }}
               uses: peter-evans/create-or-update-comment@v1
               with:
                   issue-number: ${{ github.event.pull_request.number }}
