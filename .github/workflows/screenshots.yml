@@ -12,7 +12,7 @@ jobs:
     # delete previous screenshots
     # One synchronous add for standard articles (Create)
     # Parrallelised for remaining articles (All can be append)
-    screenshots:
+    delete_screenshots:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
@@ -27,6 +27,61 @@ jobs:
                   type: delete
                   comment_id: ${{ steps.fc.outputs.comment-id }}
                   token: ${{ secrets.GITHUB_TOKEN }}
+
+    standard_screenshot:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 12
+            - uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: node-
+            - name: install
+              run: npm ci
+            - name: run
+              run: |
+                  npm run watch &
+                  sleep 60s
+              env:
+                  APIS_IMG_SALT: ${{ secrets.APIS_IMG_SALT }}
+                  CAPI_KEY: ${{ secrets.CAPI_KEY }}
+
+            - name: Take screenshot of apps-rendering
+              uses: 'lannonbr/puppeteer-screenshot-action@1.3.0'
+              with:
+                  url: 'http://localhost:8080/uk-news/2020/nov/12/stonehenge-road-tunnel-given-go-ahead-despite-backlash'
+            - name: Upload screenshot
+              id: upload
+              run: |
+                  aws s3 cp screenshots/screenshot*.png s3://gu-mobile-pr-images/${{ github.sha }}/standard/screenshot.png --acl public-read
+              env:
+                  AWS_ACCESS_KEY_ID: ${{ secrets.CI_IMAGE_UPLOADER_ACCESS_KEY_ID }}
+                  AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_IMAGE_UPLOADER_SECRET_ACCESS_KEY }}
+            - name: Prepare image urls
+              id: image-urls
+              if: ${{ github.ref != 'main' }}
+              run: |
+                  MAIN_COMMIT_SHA=$(git show-ref main --hash)
+                  echo "::set-output name=before::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/$MAIN_COMMIT_SHA/standard/screenshot.png"
+                  echo "::set-output name=after::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/${{ github.sha }}/standard/screenshot.png"
+            - name: Create comment if necessary
+              if: ${{ github.event_name == 'pull_request' }}
+              uses: peter-evans/create-or-update-comment@v1
+              with:
+                  issue-number: ${{ github.event.pull_request.number }}
+                  body: |
+                      <!-- github-actions-screenshots -->
+                      ### Standard
+                      | Before | After |
+                      | --- | --- |
+                      | <img src="${{ steps.image-urls.outputs.before }}" width="350px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="350px" /> |
+
     # screenshots:
     #     runs-on: ubuntu-latest
     #     strategy:
