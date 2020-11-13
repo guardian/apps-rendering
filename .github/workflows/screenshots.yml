@@ -76,6 +76,7 @@ jobs:
                   issue-number: ${{ github.event.pull_request.number }}
                   body: |
                       <!-- github-actions-screenshots -->
+                      ### ${{ steps.upload.outputs.article_type }}
                       | Before | After |
                       | --- | --- |
                       | <img src="${{ steps.image-urls.outputs.before }}" width="300px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="300px" /> |
@@ -86,6 +87,7 @@ jobs:
                   comment-id: ${{ steps.fc.outputs.comment-id }}
                   body: |
                       <!-- github-actions-screenshots -->
+                      ### ${{ steps.upload.outputs.article_type }}
                       | Before | After |
                       | --- | --- |
                       | <img src="${{ steps.image-urls.outputs.before }}" width="300px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="300px" /> |
@@ -97,6 +99,7 @@ jobs:
                   comment-id: ${{ steps.fc.outputs.comment-id }}
                   body: |
                       <!-- github-actions-screenshots -->
+                      ### ${{ steps.upload.outputs.article_type }}
                       | Before | After |
                       | --- | --- |
                       | <img src="${{ steps.image-urls.outputs.before }}" width="300px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="300px" /> |
