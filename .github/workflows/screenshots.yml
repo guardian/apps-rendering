@@ -15,8 +15,8 @@ jobs:
     delete_previous_screenshots:
         runs-on: ubuntu-latest
         steps:
-            if: ${{ github.event_name == 'pull_request' }}
             uses: peter-evans/find-comment@v1
+            if: ${{ github.event_name == 'pull_request' }}
             id: fc
             with:
                 issue-number: ${{ github.event.pull_request.number }}
