@@ -93,7 +93,7 @@ jobs:
                       | <img src="${{ steps.image-urls.outputs.before }}" width="300px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="300px" /> |
                   edit-mode: replace
             - name: Append following screenshots to comment if necessary
-              if: ${{  github.event_name == 'pull_request' && steps.fc.outputs.comment-id != '' }}
+              if: ${{  github.event_name == 'pull_request' && steps.fc.outputs.comment-id != '' && steps.upload.outputs.article_type != 'standard' }}
               uses: peter-evans/create-or-update-comment@v1
               with:
                   comment-id: ${{ steps.fc.outputs.comment-id }}
