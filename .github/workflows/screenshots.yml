@@ -14,6 +14,7 @@ jobs:
     # Parrallelised for remaining articles (All can be append)
     delete_previous_screenshots:
         runs-on: ubuntu-latest
+
         steps:
             - name: Search for previous screenshot comment
             if: ${{ github.event_name == 'pull_request' }}
