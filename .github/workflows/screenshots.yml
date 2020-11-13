@@ -135,6 +135,12 @@ jobs:
                   MAIN_COMMIT_SHA=$(git show-ref main --hash)
                   echo "::set-output name=before::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/$MAIN_COMMIT_SHA/${{ steps.upload.outputs.article_type }}/screenshot.png"
                   echo "::set-output name=after::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/${{ github.sha }}/${{ steps.upload.outputs.article_type }}/screenshot.png"
+            - uses: peter-evans/find-comment@v1
+              if: ${{ github.event_name == 'pull_request' }}
+              id: fc
+              with:
+                  issue-number: ${{ github.event.pull_request.number }}
+                  body-includes: <!-- github-actions-screenshots -->
             - name: Append screenshot to existing comment
               if: ${{  github.event_name == 'pull_request' && steps.fc.outputs.comment-id != '' }}
               uses: peter-evans/create-or-update-comment@v1
