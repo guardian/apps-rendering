@@ -15,14 +15,12 @@ jobs:
     delete_previous_screenshots:
         runs-on: ubuntu-latest
         steps:
-            - name: Search for previous screenshot comment
             if: ${{ github.event_name == 'pull_request' }}
             uses: peter-evans/find-comment@v1
             id: fc
             with:
                 issue-number: ${{ github.event.pull_request.number }}
                 body-includes: <!-- github-actions-screenshots -->
-            - name: Delete comment
             uses: jungwinter/comment@v1
             with:
               type: delete
