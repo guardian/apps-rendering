@@ -28,6 +28,7 @@ jobs:
 
     standard_screenshot:
         runs-on: ubuntu-latest
+        needs: delete_screenshots
         steps:
             - uses: actions/checkout@v2
               with:
@@ -82,8 +83,9 @@ jobs:
 
     other_article_screenshots:
         runs-on: ubuntu-latest
+        needs: standard_screenshot
         strategy:
-            max-parallel: 1
+            # max-parallel: 1
             matrix:
                 url:
                     [
