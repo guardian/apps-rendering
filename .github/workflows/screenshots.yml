@@ -12,6 +12,7 @@ jobs:
     screenshots:
         runs-on: ubuntu-latest
         strategy:
+            max-parallel: 1
             matrix:
                 url:
                     [
@@ -58,12 +59,12 @@ jobs:
               env:
                   AWS_ACCESS_KEY_ID: ${{ secrets.CI_IMAGE_UPLOADER_ACCESS_KEY_ID }}
                   AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_IMAGE_UPLOADER_SECRET_ACCESS_KEY }}
-            - name: Prepare image urls # TODO: add ${{ steps.upload.outputs.article_type }} to before
+            - name: Prepare image urls
               id: image-urls
               if: ${{ github.ref != 'main' }}
               run: |
                   MAIN_COMMIT_SHA=$(git show-ref main --hash)
-                  echo "::set-output name=before::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/$MAIN_COMMIT_SHA/screenshot.png"
+                  echo "::set-output name=before::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/$MAIN_COMMIT_SHA/${{ steps.upload.outputs.article_type }}/screenshot.png"
                   echo "::set-output name=after::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/${{ github.sha }}/${{ steps.upload.outputs.article_type }}/screenshot.png"
             - name: Search for previous screenshot comment
               if: ${{ github.event_name == 'pull_request' }}
