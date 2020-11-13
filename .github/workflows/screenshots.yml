@@ -46,20 +46,21 @@ jobs:
               with:
                   url: ${{ matrix.url }}
             - name: Upload screenshot
+              id: upload
               run: |
                   ARTICLE_TYPE="$(echo "${{ matrix.url }}" | sed 's/.*\(\?[a-z]*\)$/\1/' | sed 's/^?//')"
+                  echo "::set-output name=article_type::$ARTICLE_TYPE"
                   aws s3 cp screenshots/screenshot*.png s3://gu-mobile-pr-images/${{ github.sha }}/${ARTICLE_TYPE}/screenshot.png --acl public-read
               env:
                   AWS_ACCESS_KEY_ID: ${{ secrets.CI_IMAGE_UPLOADER_ACCESS_KEY_ID }}
                   AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_IMAGE_UPLOADER_SECRET_ACCESS_KEY }}
-            - name: Prepare image urls
+            - name: Prepare image urls # TODO: add ${{ steps.upload.outputs.article_type }} to before
               id: image-urls
               if: ${{ github.ref != 'main' }}
               run: |
-                  ARTICLE_TYPE="$(echo "${{ matrix.url }}" | sed 's/.*\(\?[a-z]*\)$/\1/' | sed 's/^?//')"
                   MAIN_COMMIT_SHA=$(git show-ref main --hash)
                   echo "::set-output name=before::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/$MAIN_COMMIT_SHA/screenshot.png"
-                  echo "::set-output name=after::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/${{ github.sha }}/${ARTICLE_TYPE}/screenshot.png"
+                  echo "::set-output name=after::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/${{ github.sha }}/${{ steps.upload.outputs.article_type }}/screenshot.png"
             - name: Search for previous screenshot comment
               if: ${{ github.event_name == 'pull_request' }}
               uses: peter-evans/find-comment@v1
@@ -77,8 +78,19 @@ jobs:
                       | Before | After |
                       | --- | --- |
                       | <img src="${{ steps.image-urls.outputs.before }}" width="300px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="300px" /> |
-            - name: Update comment if necessary # This will probably append more screenshots
-              if: ${{ github.event_name == 'pull_request' && steps.fc.outputs.comment-id != '' }}
+            - name: Replace comment for first screenshot if necessary
+              if: ${{  github.event_name == 'pull_request' && steps.fc.outputs.comment-id != '' && steps.upload.outputs.article_type == 'standard' }}
+              uses: peter-evans/create-or-update-comment@v1
+              with:
+                  comment-id: ${{ steps.fc.outputs.comment-id }}
+                  body: |
+                      <!-- github-actions-screenshots -->
+                      | Before | After |
+                      | --- | --- |
+                      | <img src="${{ steps.image-urls.outputs.before }}" width="300px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="300px" /> |
+                  edit-mode: replace
+            - name: Append following screenshots to comment if necessary
+              if: ${{  github.event_name == 'pull_request' && steps.fc.outputs.comment-id != '' }}
               uses: peter-evans/create-or-update-comment@v1
               with:
                   comment-id: ${{ steps.fc.outputs.comment-id }}
