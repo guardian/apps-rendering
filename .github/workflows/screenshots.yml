@@ -17,6 +17,7 @@ jobs:
                     [
                         'http://localhost:8080/uk-news/2020/nov/12/stonehenge-road-tunnel-given-go-ahead-despite-backlash?standard',
                         'http://localhost:8080/news/2020/nov/12/western-travel-influencers-social-media-pakistan-politics?immersive',
+                        'http://localhost:8080/full-of-beanz/2020/jan/30/healthy-eating-seven-small-changes-that-can-make-a-big-difference?labs',
                     ]
 
         steps:
