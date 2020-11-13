@@ -20,6 +20,7 @@ jobs:
                         'http://localhost:8080/full-of-beanz/2020/jan/30/healthy-eating-seven-small-changes-that-can-make-a-big-difference?Labs',
                         'http://localhost:8080/fashion/2020/nov/12/rainbow-bright-how-the-symbol-of-optimism-and-joy-spread-across-our-clothes-homes-and-lives-in-2020?Feature',
                         'http://localhost:8080/news/gallery/2020/nov/12/morning-fog-and-a-dog-in-deep-water-thursdays-best-photos?Gallery',
+                        'http://localhost:8080/commentisfree/2020/nov/12/trump-election-concede-republicans-democrats?Opinion',
                     ]
 
         steps:
