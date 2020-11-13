@@ -18,6 +18,8 @@ jobs:
                         'http://localhost:8080/uk-news/2020/nov/12/stonehenge-road-tunnel-given-go-ahead-despite-backlash?Standard',
                         'http://localhost:8080/news/2020/nov/12/western-travel-influencers-social-media-pakistan-politics?Immersive',
                         'http://localhost:8080/full-of-beanz/2020/jan/30/healthy-eating-seven-small-changes-that-can-make-a-big-difference?Labs',
+                        'http://localhost:8080/fashion/2020/nov/12/rainbow-bright-how-the-symbol-of-optimism-and-joy-spread-across-our-clothes-homes-and-lives-in-2020?Feature',
+                        'http://localhost:8080/news/gallery/2020/nov/12/morning-fog-and-a-dog-in-deep-water-thursdays-best-photos?Gallery',
                     ]
 
         steps:
@@ -49,7 +51,7 @@ jobs:
             - name: Upload screenshot
               id: upload
               run: |
-                  ARTICLE_TYPE="$(echo "${{ matrix.url }}" | sed 's/.*\(\?[a-z]*\)$/\1/' | sed 's/^?//')"
+                  ARTICLE_TYPE="$(echo "${{ matrix.url }}" | sed 's/.*\(\?[a-Z]*\)$/\1/' | sed 's/^?//')"
                   echo "::set-output name=article_type::$ARTICLE_TYPE"
                   aws s3 cp screenshots/screenshot*.png s3://gu-mobile-pr-images/${{ github.sha }}/${ARTICLE_TYPE}/screenshot.png --acl public-read
               env:
