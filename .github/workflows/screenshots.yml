@@ -12,20 +12,21 @@ jobs:
     # delete previous screenshots
     # One synchronous add for standard articles (Create)
     # Parrallelised for remaining articles (All can be append)
-    delete_previous_screenshots:
+    screenshots:
         runs-on: ubuntu-latest
         steps:
-            uses: peter-evans/find-comment@v1
-            if: ${{ github.event_name == 'pull_request' }}
-            id: fc
-            with:
-                issue-number: ${{ github.event.pull_request.number }}
-                body-includes: <!-- github-actions-screenshots -->
-            uses: jungwinter/comment@v1
-            with:
-              type: delete
-              comment_id: ${{ steps.fc.outputs.comment-id }}
-              token: ${{ secrets.GITHUB_TOKEN }}
+            - uses: actions/checkout@v2
+            - uses: peter-evans/find-comment@v1
+              if: ${{ github.event_name == 'pull_request' }}
+              id: fc
+              with:
+                  issue-number: ${{ github.event.pull_request.number }}
+                  body-includes: <!-- github-actions-screenshots -->
+            - uses: jungwinter/comment@v1
+              with:
+                  type: delete
+                  comment_id: ${{ steps.fc.outputs.comment-id }}
+                  token: ${{ secrets.GITHUB_TOKEN }}
     # screenshots:
     #     runs-on: ubuntu-latest
     #     strategy:
@@ -56,7 +57,7 @@ jobs:
     #           run: npm ci
     #         - name: run
     #           run: |
-    #               npm run watch & 
+    #               npm run watch &
     #               sleep 60s
     #           env:
     #               APIS_IMG_SALT: ${{ secrets.APIS_IMG_SALT }}
