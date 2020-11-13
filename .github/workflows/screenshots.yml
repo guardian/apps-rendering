@@ -147,6 +147,9 @@ jobs:
                     ]
 
         steps:
+            - uses: actions/checkout@v2
+              with:
+              fetch-depth: 0
             - name: Prepare image urls
               id: image-urls
               if: ${{ github.ref != 'main' }}
