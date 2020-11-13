@@ -155,7 +155,7 @@ jobs:
                   fetch-depth: 0
             - name: Set type
               id: type
-                run: |
+              run: |
                   ARTICLE_TYPE="$(echo "${{ matrix.url }}" | sed 's/.*\(\?[a-zA-Z]*\)$/\1/' | sed 's/^?//')"
                   echo "::set-output name=article_type::$ARTICLE_TYPE"
             - name: Prepare image urls
