@@ -85,7 +85,7 @@ jobs:
         runs-on: ubuntu-latest
         needs: standard_screenshot
         strategy:
-            # max-parallel: 1
+            max-parallel: 1
             matrix:
                 url:
                     [
