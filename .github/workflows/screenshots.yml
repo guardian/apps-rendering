@@ -9,9 +9,6 @@ on:
             - main
 
 jobs:
-    # delete previous screenshots
-    # One synchronous add for standard articles (Create)
-    # Parrallelised for remaining articles (All can be append)
     delete_screenshots:
         runs-on: ubuntu-latest
         steps:
@@ -83,82 +80,70 @@ jobs:
                       | --- | --- |
                       | <img src="${{ steps.image-urls.outputs.before }}" width="350px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="350px" /> |
 
-    # screenshots:
-    #     runs-on: ubuntu-latest
-    #     strategy:
-    #         matrix:
-    #             url:
-    #                 [
-    #                     'http://localhost:8080/uk-news/2020/nov/12/stonehenge-road-tunnel-given-go-ahead-despite-backlash?Standard',
-    #                     'http://localhost:8080/news/2020/nov/12/western-travel-influencers-social-media-pakistan-politics?Immersive',
-    #                     'http://localhost:8080/full-of-beanz/2020/jan/30/healthy-eating-seven-small-changes-that-can-make-a-big-difference?Labs',
-    #                     'http://localhost:8080/fashion/2020/nov/12/rainbow-bright-how-the-symbol-of-optimism-and-joy-spread-across-our-clothes-homes-and-lives-in-2020?Feature',
-    #                     'http://localhost:8080/news/gallery/2020/nov/12/morning-fog-and-a-dog-in-deep-water-thursdays-best-photos?Gallery',
-    #                     'http://localhost:8080/commentisfree/2020/nov/12/trump-election-concede-republicans-democrats?Opinion',
-    #                 ]
+    other_article_screenshots:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                url:
+                    [
+                        'http://localhost:8080/news/2020/nov/12/western-travel-influencers-social-media-pakistan-politics?Immersive',
+                        'http://localhost:8080/full-of-beanz/2020/jan/30/healthy-eating-seven-small-changes-that-can-make-a-big-difference?Labs',
+                        'http://localhost:8080/fashion/2020/nov/12/rainbow-bright-how-the-symbol-of-optimism-and-joy-spread-across-our-clothes-homes-and-lives-in-2020?Feature',
+                        'http://localhost:8080/news/gallery/2020/nov/12/morning-fog-and-a-dog-in-deep-water-thursdays-best-photos?Gallery',
+                        'http://localhost:8080/commentisfree/2020/nov/12/trump-election-concede-republicans-democrats?Opinion',
+                    ]
 
-    #     steps:
-    #         - uses: actions/checkout@v2
-    #           with:
-    #               fetch-depth: 0
-    #         - uses: actions/setup-node@v1
-    #           with:
-    #               node-version: 12
-    #         - uses: actions/cache@v2
-    #           with:
-    #               path: ~/.npm
-    #               key: node-${{ hashFiles('**/package-lock.json') }}
-    #               restore-keys: node-
-    #         - name: install
-    #           run: npm ci
-    #         - name: run
-    #           run: |
-    #               npm run watch &
-    #               sleep 60s
-    #           env:
-    #               APIS_IMG_SALT: ${{ secrets.APIS_IMG_SALT }}
-    #               CAPI_KEY: ${{ secrets.CAPI_KEY }}
+        steps:
+            - uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 12
+            - uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: node-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: node-
+            - name: install
+              run: npm ci
+            - name: run
+              run: |
+                  npm run watch &
+                  sleep 60s
+              env:
+                  APIS_IMG_SALT: ${{ secrets.APIS_IMG_SALT }}
+                  CAPI_KEY: ${{ secrets.CAPI_KEY }}
 
-    #         - name: Take screenshot of apps-rendering
-    #           uses: 'lannonbr/puppeteer-screenshot-action@1.3.0'
-    #           with:
-    #               url: ${{ matrix.url }}
-    #         - name: Upload screenshot
-    #           id: upload
-    #           run: |
-    #               ARTICLE_TYPE="$(echo "${{ matrix.url }}" | sed 's/.*\(\?[a-zA-Z]*\)$/\1/' | sed 's/^?//')"
-    #               echo "::set-output name=article_type::$ARTICLE_TYPE"
-    #               aws s3 cp screenshots/screenshot*.png s3://gu-mobile-pr-images/${{ github.sha }}/${ARTICLE_TYPE}/screenshot.png --acl public-read
-    #           env:
-    #               AWS_ACCESS_KEY_ID: ${{ secrets.CI_IMAGE_UPLOADER_ACCESS_KEY_ID }}
-    #               AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_IMAGE_UPLOADER_SECRET_ACCESS_KEY }}
-    #         - name: Prepare image urls
-    #           id: image-urls
-    #           if: ${{ github.ref != 'main' }}
-    #           run: |
-    #               MAIN_COMMIT_SHA=$(git show-ref main --hash)
-    #               echo "::set-output name=before::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/$MAIN_COMMIT_SHA/${{ steps.upload.outputs.article_type }}/screenshot.png"
-    #               echo "::set-output name=after::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/${{ github.sha }}/${{ steps.upload.outputs.article_type }}/screenshot.png"
-
-    #         - name: Replace comment for first screenshot
-    #           if: ${{  github.event_name == 'pull_request' && steps.fc.outputs.comment-id == '' }}
-    #           uses: peter-evans/create-or-update-comment@v1
-    #           with:
-    #               comment-id: ${{ steps.fc.outputs.comment-id }}
-    #               body: |
-    #                   <!-- github-actions-screenshots --> ### ${{ steps.upload.outputs.article_type }}
-    #                   | Before | After |
-    #                   | --- | --- |
-    #                   | <img src="${{ steps.image-urls.outputs.before }}" width="300px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="300px" /> |
-    #               edit-mode: replace
-    #         - name: Append following screenshots to comment if necessary
-    #           if: ${{  github.event_name == 'pull_request' && steps.fc.outputs.comment-id != '' }}
-    #           uses: peter-evans/create-or-update-comment@v1
-    #           with:
-    #               comment-id: ${{ steps.fc.outputs.comment-id }}
-    #               body: |
-    #                   <!-- github-actions-screenshots --> ### ${{ steps.upload.outputs.article_type }}
-    #                   | Before | After |
-    #                   | --- | --- |
-    #                   | <img src="${{ steps.image-urls.outputs.before }}" width="300px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="300px" /> |
-    #               edit-mode: append
+            - name: Take screenshot of apps-rendering
+              uses: 'lannonbr/puppeteer-screenshot-action@1.3.0'
+              with:
+                  url: ${{ matrix.url }}
+            - name: Upload screenshot
+              id: upload
+              run: |
+                  ARTICLE_TYPE="$(echo "${{ matrix.url }}" | sed 's/.*\(\?[a-zA-Z]*\)$/\1/' | sed 's/^?//')"
+                  echo "::set-output name=article_type::$ARTICLE_TYPE"
+                  aws s3 cp screenshots/screenshot*.png s3://gu-mobile-pr-images/${{ github.sha }}/${ARTICLE_TYPE}/screenshot.png --acl public-read
+              env:
+                  AWS_ACCESS_KEY_ID: ${{ secrets.CI_IMAGE_UPLOADER_ACCESS_KEY_ID }}
+                  AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_IMAGE_UPLOADER_SECRET_ACCESS_KEY }}
+            - name: Prepare image urls
+              id: image-urls
+              if: ${{ github.ref != 'main' }}
+              run: |
+                  MAIN_COMMIT_SHA=$(git show-ref main --hash)
+                  echo "::set-output name=before::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/$MAIN_COMMIT_SHA/${{ steps.upload.outputs.article_type }}/screenshot.png"
+                  echo "::set-output name=after::https://gu-mobile-pr-images.s3-eu-west-1.amazonaws.com/${{ github.sha }}/${{ steps.upload.outputs.article_type }}/screenshot.png"
+            - name: Append screenshot to existing comment
+              if: ${{  github.event_name == 'pull_request' && steps.fc.outputs.comment-id != '' }}
+              uses: peter-evans/create-or-update-comment@v1
+              with:
+                  comment-id: ${{ steps.fc.outputs.comment-id }}
+                  body: |
+                      <!-- github-actions-screenshots -->
+                      ### ${{ steps.upload.outputs.article_type }}
+                      | Before | After |
+                      | --- | --- |
+                      | <img src="${{ steps.image-urls.outputs.before }}" width="350px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="350px" /> |
+                  edit-mode: append
