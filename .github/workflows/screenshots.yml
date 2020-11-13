@@ -85,7 +85,6 @@ jobs:
         runs-on: ubuntu-latest
         needs: standard_screenshot
         strategy:
-            max-parallel: 1
             matrix:
                 url:
                     [
@@ -131,6 +130,23 @@ jobs:
               env:
                   AWS_ACCESS_KEY_ID: ${{ secrets.CI_IMAGE_UPLOADER_ACCESS_KEY_ID }}
                   AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_IMAGE_UPLOADER_SECRET_ACCESS_KEY }}
+
+    append_to_comment:
+        runs-on: ubuntu-latest
+        needs: other_article_screenshots
+        strategy:
+        max-parallel: 1
+            matrix:
+                url:
+                    [
+                      'http://localhost:8080/news/2020/nov/12/western-travel-influencers-social-media-pakistan-politics?Immersive',
+                      'http://localhost:8080/full-of-beanz/2020/jan/30/healthy-eating-seven-small-changes-that-can-make-a-big-difference?Labs',
+                      'http://localhost:8080/fashion/2020/nov/12/rainbow-bright-how-the-symbol-of-optimism-and-joy-spread-across-our-clothes-homes-and-lives-in-2020?Feature',
+                      'http://localhost:8080/news/gallery/2020/nov/12/morning-fog-and-a-dog-in-deep-water-thursdays-best-photos?Gallery',
+                      'http://localhost:8080/commentisfree/2020/nov/12/trump-election-concede-republicans-democrats?Opinion',
+                    ]
+
+        steps:
             - name: Prepare image urls
               id: image-urls
               if: ${{ github.ref != 'main' }}
