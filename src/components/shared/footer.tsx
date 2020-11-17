@@ -50,7 +50,17 @@ const renderContent = (ccpaStatus: boolean): JSX.Element | null => {
 			</>
 		);
 	} else {
-		return null;
+		return (
+			<>
+				<a
+					css={anchor}
+					href="https://www.theguardian.com/help/privacy-policy"
+				>
+					Privacy Settings
+				</a>
+				&nbsp;&#183;&nbsp;
+			</>
+		);
 	}
 };
 
