@@ -143,7 +143,7 @@ function footerInit(): void {
 	if (footer && isAndroid) {
 		footer.innerHTML = '';
 	} else {
-		setTimeout(isCCPA,5000);
+		setTimeout(isCCPA, 5000);
 	}
 }
 
