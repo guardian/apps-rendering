@@ -143,15 +143,15 @@ function footerInit(): void {
 	if (footer && isAndroid) {
 		footer.innerHTML = '';
 	} else {
-		setTimeout(isCCPA, 5000);
+		isCCPA();
 	}
 }
 
 function isCCPA(): void {
 	userClient
 		.doesCcpaApply()
-		.then((isOptedIn) => {
-			const comp = h(FooterCcpa, { isCcpa: isOptedIn });
+		.then((isCcpa) => {
+			const comp = h(FooterCcpa, { isCcpa });
 			ReactDOM.render(comp, document.getElementById('articleFooter'));
 		})
 		.catch((error) => {
@@ -353,11 +353,11 @@ reportNativeElementPositionChanges();
 topics();
 slideshow();
 formatDates();
+footerInit();
 insertEpic();
 callouts();
 hasSeenCards();
 initAudioAtoms();
 hydrateQuizAtoms();
-footerInit();
 localDates();
 richLinks();

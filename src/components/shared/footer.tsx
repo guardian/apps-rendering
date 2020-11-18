@@ -54,7 +54,7 @@ const renderContent = (ccpaStatus: boolean): JSX.Element | null => {
 			<>
 				<a
 					css={anchor}
-					href="https://www.theguardian.com/help/privacy-policy"
+					href="https://www.theguardian.com/help/privacy-settings"
 				>
 					Privacy Settings
 				</a>
