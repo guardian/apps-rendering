@@ -112,7 +112,7 @@ jobs:
                   body-includes: <!-- github-actions-screenshots -->
 
             - name: Create comment is necessary
-              if: ${{ github.event_name == 'pull_request' && steps.fc.outputs.comment-id == '' && matrix.article.format == 'Standard' }}
+              if: ${{ github.event_name == 'pull_request' && steps.find.outputs.comment-id == '' && matrix.article.format == 'Standard' }}
               uses: peter-evans/create-or-update-comment@v1
               with:
                   issue-number: ${{ github.event.pull_request.number }}
@@ -124,7 +124,7 @@ jobs:
                       | <img src="${{ steps.image-urls.outputs.before }}" width="350px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="350px" /> |
 
             - name: Update comment is necessary
-              if: ${{ github.event_name == 'pull_request' && steps.fc.outputs.comment-id != '' && matrix.article.format == 'Standard' }}
+              if: ${{ github.event_name == 'pull_request' && steps.find.outputs.comment-id != '' && matrix.article.format == 'Standard' }}
               uses: peter-evans/create-or-update-comment@v1
               with:
                   comment-id: ${{ steps.find.outputs.comment-id }}
