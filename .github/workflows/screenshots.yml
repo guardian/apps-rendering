@@ -83,7 +83,7 @@ jobs:
 
     other_article_screenshots:
         runs-on: ubuntu-latest
-        needs: standard_screenshotx
+        needs: standard_screenshot
         strategy:
             matrix:
                 article:
