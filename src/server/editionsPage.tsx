@@ -2,7 +2,8 @@
 
 import { CacheProvider } from '@emotion/core';
 import type { RenderingRequest } from '@guardian/apps-rendering-api-models/renderingRequest';
-import { map, Option, some } from '@guardian/types/option';
+import { map, some } from '@guardian/types/option';
+import type { Option } from '@guardian/types/option';
 import { getThirdPartyEmbeds } from 'capi';
 import Article from 'components/editions/article';
 import Scripts from 'components/scripts';
@@ -13,7 +14,8 @@ import type { Item } from 'item';
 import { fromCapi } from 'item';
 import { JSDOM } from 'jsdom';
 import { compose } from 'lib';
-import React, { ReactElement } from 'react';
+import React from 'react';
+import type { ReactElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { assetHashes } from 'server/csp';
 import { pageFonts } from 'styles';
