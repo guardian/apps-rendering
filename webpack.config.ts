@@ -120,6 +120,7 @@ export const clientConfig: Configuration = {
 	entry: {
 		article: 'client/article.ts',
 		media: 'client/media.ts',
+		editions: 'client/editions.ts',
 	},
 	target: 'web',
 	devtool: 'inline-cheap-source-map',

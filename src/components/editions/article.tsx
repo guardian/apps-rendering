@@ -39,7 +39,7 @@ const Article: FC<Props> = ({ item }) => {
 	return (
 		<main>
 			<article>
-				<header css={headerStyles}>
+				<header css={headerStyles} className="js-header">
 					<HeaderImage item={item} />
 					<Series item={item} />
 					<Headline item={item} />
@@ -47,7 +47,7 @@ const Article: FC<Props> = ({ item }) => {
 					<Lines />
 					<Byline item={item} />
 				</header>
-				<section css={bodyStyles}>
+				<section css={bodyStyles} className="js-body">
 					{renderAll(item, partition(item.body).oks)}
 				</section>
 			</article>
