@@ -134,7 +134,7 @@ jobs:
                       | Before | After |
                       | --- | --- |
                       | <img src="${{ steps.image-urls.outputs.before }}" width="350px" /> | <img src="${{ steps.image-urls.outputs.after }}" width="350px" /> |
-                    edit-mode: replace
+                  edit-mode: replace
 
             - name: Append other article screenshots
               if: ${{  github.event_name == 'pull_request' && matrix.article.format != 'Standard' }}
