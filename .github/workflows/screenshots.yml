@@ -83,20 +83,14 @@ jobs:
 
     other_article_screenshots:
         runs-on: ubuntu-latest
-        needs: standard_screenshot
+        needs: standard_screenshotx
         strategy:
             matrix:
-                url:
-                    [
-                        'http://localhost:8080/news/2020/nov/12/western-travel-influencers-social-media-pakistan-politics?Immersive',
-                        'http://localhost:8080/full-of-beanz/2020/jan/30/healthy-eating-seven-small-changes-that-can-make-a-big-difference?Labs',
-                        'http://localhost:8080/fashion/2020/nov/12/rainbow-bright-how-the-symbol-of-optimism-and-joy-spread-across-our-clothes-homes-and-lives-in-2020?Feature',
-                        'http://localhost:8080/news/gallery/2020/nov/12/morning-fog-and-a-dog-in-deep-water-thursdays-best-photos?Gallery',
-                        'http://localhost:8080/commentisfree/2020/nov/12/lee-cain-no-10-boris-johnson-chief-of-staff-britain?Opinion',
-                        'http://localhost:8080/film/2020/nov/12/billie-review-singer-documentary-historical-voice-harassment-exploitation?Review',
-                        'http://localhost:8080/empowering-business/2020/oct/31/why-would-i-ever-go-back-to-shopping-new-how-vintage-has-become-the-future-of-buying-ethically?ImmersiveLab',
-                        'http://localhost:8080/us-news/2020/nov/13/joe-biden-cabinet-selection-trump-obstruction?Analysis',
-                    ]
+                article:
+                    - format: Immersive
+                      url: 'http://localhost:8080/news/2020/nov/12/western-travel-influencers-social-media-pakistan-politics'
+                    - format: Labs
+                      url: 'http://localhost:8080/full-of-beanz/2020/jan/30/healthy-eating-seven-small-changes-that-can-make-a-big-difference'
 
         steps:
             - uses: actions/checkout@v2
