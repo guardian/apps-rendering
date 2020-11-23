@@ -31,13 +31,14 @@ import { render as renderEditions } from 'server/editionsPage';
 import { render } from 'server/page';
 import { getConfigValue } from 'server/ssmConfig';
 import { App, Stack, Stage } from './appIdentity';
-import { getMappedAssetLocation } from './assets';
+import { getInlineScript, getMappedAssetLocation } from './assets';
 
 // ----- Setup ----- //
 
 const getAssetLocation: (
 	assetName: string,
 ) => string = getMappedAssetLocation();
+const editionsInlineScript = getInlineScript(getAssetLocation);
 const defaultId =
 	'cities/2019/sep/13/reclaimed-lakes-and-giant-airports-how-mexico-city-might-have-looked';
 const port = 3040;
@@ -121,18 +122,23 @@ async function serveArticle(
 	res: ExpressResponse,
 	isEditions = false,
 ): Promise<void> {
+	let renderedContent;
 	const imageSalt = await getConfigValue('apis.img.salt');
 
 	if (imageSalt === undefined) {
 		throw new Error('Could not get image salt');
 	}
 
-	const renderer = isEditions ? renderEditions : render;
-	const { html, clientScript } = await renderer(
-		imageSalt,
-		request,
-		getAssetLocation,
-	);
+	if (isEditions) {
+		renderedContent = await renderEditions(
+			imageSalt,
+			request,
+			await editionsInlineScript,
+		);
+	} else {
+		renderedContent = await render(imageSalt, request, getAssetLocation);
+	}
+	const { html, clientScript } = renderedContent;
 
 	res.set('Link', getPrefetchHeader(resourceList(clientScript)));
 	res.write(html);

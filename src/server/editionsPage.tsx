@@ -2,7 +2,7 @@
 
 import { CacheProvider } from '@emotion/core';
 import type { RenderingRequest } from '@guardian/apps-rendering-api-models/renderingRequest';
-import { map, OptionKind, some, none } from '@guardian/types/option';
+import { OptionKind, none } from '@guardian/types/option';
 import type { Option } from '@guardian/types/option';
 import Article from 'components/editions/article';
 import type { EmotionCritical } from 'create-emotion-server';
@@ -16,8 +16,6 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { assetHashes } from 'server/csp';
 import { pageFonts } from 'styles';
-import fs from 'fs';
-import util from 'util';
 
 // ----- Types ----- //
 
@@ -101,25 +99,18 @@ const buildHtml = (
 async function render(
 	imageSalt: string,
 	request: RenderingRequest,
-	getAssetLocation: (assetName: string) => string,
+	editionsInlineScript: Option<string>,
 ): Promise<Page> {
 	const item = fromCapi({ docParser, salt: imageSalt })(request);
 	const body = renderBody(item);
-	const clientScript = map(getAssetLocation)(some('editions.js'));
-	let inlineScript: Option<string> = none;
-
-	if (clientScript.kind === OptionKind.Some) {
-		const readFilePromise = util.promisify(fs.readFile);
-
-		const inlineScriptBuffer = await readFilePromise(
-			`${__dirname}${clientScript.value}`,
-		);
-		inlineScript = some(inlineScriptBuffer.toString());
-	}
 
 	return {
-		html: buildHtml(renderHead(request, body), body.html, inlineScript),
-		clientScript,
+		html: buildHtml(
+			renderHead(request, body),
+			body.html,
+			editionsInlineScript,
+		),
+		clientScript: none,
 	};
 }
 

@@ -1,6 +1,9 @@
-import fs from 'fs';
 import { isObject } from 'lib';
 import { logger } from 'logger';
+import { map, OptionKind, some, none } from '@guardian/types/option';
+import type { Option } from '@guardian/types/option';
+import fs from 'fs';
+import util from 'util';
 
 type AssetMapping = Record<string, string | undefined> | null;
 
@@ -48,4 +51,25 @@ export function getMappedAssetLocation(): (assetName: string) => string {
 	} else {
 		return (assetName: string): string => `/assets/${assetName}`;
 	}
+}
+
+export async function getInlineScript(
+	getAssetLocation: (assetName: string) => string,
+): Promise<Option<string>> {
+	const clientScript = map(getAssetLocation)(some('editions.js'));
+	let inlineScript: Option<string> = none;
+
+	if (clientScript.kind === OptionKind.Some) {
+		const readFilePromise = util.promisify(fs.readFile);
+		try {
+			const inlineScriptBuffer = await readFilePromise(
+				`${__dirname}${clientScript.value}`,
+			);
+			inlineScript = some(inlineScriptBuffer.toString());
+		} catch (e) {
+			console.error(e);
+		}
+	}
+
+	return inlineScript;
 }
