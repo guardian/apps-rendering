@@ -89,7 +89,11 @@ const buildHtml = (
         </head>
         <body>
 			${body}
-			${map((inline) => `<script>${inline}</script>`)(inlineScript)}
+			${
+				inlineScript.kind === OptionKind.Some
+					? `<script>${inlineScript.value}</script>`
+					: ''
+			}
         </body>
     </html>
 `;
