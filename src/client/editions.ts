@@ -27,7 +27,7 @@ Array.from(body?.querySelectorAll('.js-launch-slideshow') ?? []).forEach(
 			window.ReactNativeWebView.postMessage(
 				JSON.stringify({
 					type: 'openLightbox',
-					index: index + 1,
+					index,
 					isMainImage: 'false',
 				}),
 			);
