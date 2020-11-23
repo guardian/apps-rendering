@@ -128,7 +128,7 @@ async function serveArticle(
 	}
 
 	const renderer = isEditions ? renderEditions : render;
-	const { html, clientScript } = renderer(
+	const { html, clientScript } = await renderer(
 		imageSalt,
 		request,
 		getAssetLocation,

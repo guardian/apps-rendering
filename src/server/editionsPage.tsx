@@ -2,11 +2,9 @@
 
 import { CacheProvider } from '@emotion/core';
 import type { RenderingRequest } from '@guardian/apps-rendering-api-models/renderingRequest';
-import { map, some } from '@guardian/types/option';
+import { map, OptionKind, some, none } from '@guardian/types/option';
 import type { Option } from '@guardian/types/option';
-import { getThirdPartyEmbeds } from 'capi';
 import Article from 'components/editions/article';
-import Scripts from 'components/scripts';
 import type { EmotionCritical } from 'create-emotion-server';
 import { cache } from 'emotion';
 import { extractCritical } from 'emotion-server';
@@ -15,10 +13,11 @@ import { fromCapi } from 'item';
 import { JSDOM } from 'jsdom';
 import { compose } from 'lib';
 import React from 'react';
-import type { ReactElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { assetHashes } from 'server/csp';
 import { pageFonts } from 'styles';
+import fs from 'fs';
+import util from 'util';
 
 // ----- Types ----- //
 
@@ -80,7 +79,7 @@ const renderBody = (item: Item): EmotionCritical =>
 const buildHtml = (
 	head: string,
 	body: string,
-	scripts: ReactElement,
+	inlineScript: Option<string>,
 ): string => `
     <!DOCTYPE html>
     <html lang="en">
@@ -90,30 +89,32 @@ const buildHtml = (
         </head>
         <body>
 			${body}
-			${renderToString(scripts)}
+			${map((inline) => `<script>${inline}</script>`)(inlineScript)}
         </body>
     </html>
 `;
 
-function render(
+async function render(
 	imageSalt: string,
 	request: RenderingRequest,
 	getAssetLocation: (assetName: string) => string,
-): Page {
+): Promise<Page> {
 	const item = fromCapi({ docParser, salt: imageSalt })(request);
 	const body = renderBody(item);
-	const thirdPartyEmbeds = getThirdPartyEmbeds(request.content);
 	const clientScript = map(getAssetLocation)(some('editions.js'));
+	let inlineScript: Option<string> = none;
 
-	const scripts = (
-		<Scripts
-			clientScript={clientScript}
-			twitter={thirdPartyEmbeds.twitter}
-		/>
-	);
+	if (clientScript.kind === OptionKind.Some) {
+		const readFilePromise = util.promisify(fs.readFile);
+
+		const inlineScriptBuffer = await readFilePromise(
+			`${__dirname}${clientScript.value}`,
+		);
+		inlineScript = some(inlineScriptBuffer.toString());
+	}
 
 	return {
-		html: buildHtml(renderHead(request, body), body.html, scripts),
+		html: buildHtml(renderHead(request, body), body.html, inlineScript),
 		clientScript,
 	};
 }
