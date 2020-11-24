@@ -130,14 +130,14 @@ async function serveArticle(
 	}
 
 	if (isEditions) {
-		renderedContent = await renderEditions(
+		renderedContent = renderEditions(
 			imageSalt,
 			request,
 			getAssetLocation,
 			await editionsInlineScript,
 		);
 	} else {
-		renderedContent = await render(imageSalt, request, getAssetLocation);
+		renderedContent = render(imageSalt, request, getAssetLocation);
 	}
 	const { html, clientScript } = renderedContent;
 

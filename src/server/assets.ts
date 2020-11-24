@@ -1,9 +1,9 @@
-import { isObject } from 'lib';
-import { logger } from 'logger';
-import { map, OptionKind, some, none } from '@guardian/types/option';
-import type { Option } from '@guardian/types/option';
 import fs from 'fs';
 import util from 'util';
+import { map, none, OptionKind, some } from '@guardian/types/option';
+import type { Option } from '@guardian/types/option';
+import { isObject } from 'lib';
+import { logger } from 'logger';
 
 type AssetMapping = Record<string, string | undefined> | null;
 

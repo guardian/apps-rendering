@@ -2,9 +2,11 @@
 
 import { CacheProvider } from '@emotion/core';
 import type { RenderingRequest } from '@guardian/apps-rendering-api-models/renderingRequest';
-import { OptionKind, none, map, some } from '@guardian/types/option';
+import { map, none, OptionKind, some } from '@guardian/types/option';
 import type { Option } from '@guardian/types/option';
+import { getThirdPartyEmbeds } from 'capi';
 import Article from 'components/editions/article';
+import Scripts from 'components/scripts';
 import type { EmotionCritical } from 'create-emotion-server';
 import { cache } from 'emotion';
 import { extractCritical } from 'emotion-server';
@@ -13,12 +15,10 @@ import { fromCapi } from 'item';
 import { JSDOM } from 'jsdom';
 import { compose } from 'lib';
 import React from 'react';
+import type { ReactElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { assetHashes } from 'server/csp';
 import { pageFonts } from 'styles';
-import { getThirdPartyEmbeds } from 'capi';
-import Scripts from 'components/scripts';
-import { ReactElement } from 'react';
 
 // ----- Types ----- //
 
@@ -100,12 +100,12 @@ const buildHtml = (
     </html>
 `;
 
-async function render(
+function render(
 	imageSalt: string,
 	request: RenderingRequest,
 	getAssetLocation: (assetName: string) => string,
 	editionsInlineScript: Option<string>,
-): Promise<Page> {
+): Page {
 	const item = fromCapi({ docParser, salt: imageSalt })(request);
 	const clientScript = map(getAssetLocation)(some('editions.js'));
 	const thirdPartyEmbeds = getThirdPartyEmbeds(request.content);
