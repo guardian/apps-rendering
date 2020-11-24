@@ -57,19 +57,19 @@ export async function getInlineScript(
 	getAssetLocation: (assetName: string) => string,
 ): Promise<Option<string>> {
 	const clientScript = map(getAssetLocation)(some('editions.js'));
-	let inlineScript: Option<string> = none;
 
 	if (clientScript.kind === OptionKind.Some) {
 		const readFilePromise = util.promisify(fs.readFile);
+		const file = `${__dirname}${clientScript.value}`;
 		try {
-			const inlineScriptBuffer = await readFilePromise(
-				`${__dirname}${clientScript.value}`,
-			);
-			inlineScript = some(inlineScriptBuffer.toString());
+			const inlineScriptBuffer = await readFilePromise(file);
+			return some(inlineScriptBuffer.toString());
 		} catch (e) {
-			console.error(e);
+			console.error(
+				`Unable to find the file: ${file}. Falling back to fetching editions.js file`,
+			);
 		}
 	}
 
-	return inlineScript;
+	return none;
 }

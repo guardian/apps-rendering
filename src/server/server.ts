@@ -133,6 +133,7 @@ async function serveArticle(
 		renderedContent = await renderEditions(
 			imageSalt,
 			request,
+			getAssetLocation,
 			await editionsInlineScript,
 		);
 	} else {

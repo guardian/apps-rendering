@@ -2,7 +2,7 @@
 
 import { CacheProvider } from '@emotion/core';
 import type { RenderingRequest } from '@guardian/apps-rendering-api-models/renderingRequest';
-import { OptionKind, none } from '@guardian/types/option';
+import { OptionKind, none, map, some } from '@guardian/types/option';
 import type { Option } from '@guardian/types/option';
 import Article from 'components/editions/article';
 import type { EmotionCritical } from 'create-emotion-server';
@@ -16,6 +16,9 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { assetHashes } from 'server/csp';
 import { pageFonts } from 'styles';
+import { getThirdPartyEmbeds } from 'capi';
+import Scripts from 'components/scripts';
+import { ReactElement } from 'react';
 
 // ----- Types ----- //
 
@@ -77,6 +80,7 @@ const renderBody = (item: Item): EmotionCritical =>
 const buildHtml = (
 	head: string,
 	body: string,
+	scripts: ReactElement,
 	inlineScript: Option<string>,
 ): string => `
     <!DOCTYPE html>
@@ -90,7 +94,7 @@ const buildHtml = (
 			${
 				inlineScript.kind === OptionKind.Some
 					? `<script>${inlineScript.value}</script>`
-					: ''
+					: renderToString(scripts)
 			}
         </body>
     </html>
@@ -99,15 +103,24 @@ const buildHtml = (
 async function render(
 	imageSalt: string,
 	request: RenderingRequest,
+	getAssetLocation: (assetName: string) => string,
 	editionsInlineScript: Option<string>,
 ): Promise<Page> {
 	const item = fromCapi({ docParser, salt: imageSalt })(request);
+	const clientScript = map(getAssetLocation)(some('editions.js'));
+	const thirdPartyEmbeds = getThirdPartyEmbeds(request.content);
 	const body = renderBody(item);
-
+	const scripts = (
+		<Scripts
+			clientScript={clientScript}
+			twitter={thirdPartyEmbeds.twitter}
+		/>
+	);
 	return {
 		html: buildHtml(
 			renderHead(request, body),
 			body.html,
+			scripts,
 			editionsInlineScript,
 		),
 		clientScript: none,
