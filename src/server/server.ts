@@ -32,14 +32,13 @@ import { render } from 'server/page';
 import { getConfigValue } from 'server/ssmConfig';
 import { App, Stack, Stage } from './appIdentity';
 import { getMappedAssetLocation } from './assets';
+import { getDefaultArticleIds } from './aws';
 
 // ----- Setup ----- //
 
 const getAssetLocation: (
 	assetName: string,
 ) => string = getMappedAssetLocation();
-const defaultId =
-	'cities/2019/sep/13/reclaimed-lakes-and-giant-airports-how-mexico-city-might-have-looked';
 const port = 3040;
 type CapiReturn = Promise<Result<number, [Content, RelatedContent]>>;
 
@@ -190,7 +189,13 @@ async function serveArticleGet(
 	res: ExpressResponse,
 ): Promise<void> {
 	try {
-		const articleId = req.params[0] || defaultId;
+		const randomIds = await getDefaultArticleIds();
+		const randomArticleId =
+			randomIds[Math.floor(Math.random() * randomIds.length)];
+		const articleId =
+			req.params[0] ||
+			randomArticleId ||
+			'cities/2019/sep/13/reclaimed-lakes-and-giant-airports-how-mexico-city-might-have-looked';
 		const isEditions = req.query.editions === '';
 		const capiContent = await askCapiFor(articleId);
 

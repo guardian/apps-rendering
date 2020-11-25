@@ -1,4 +1,5 @@
 import SSM from 'aws-sdk/clients/ssm';
+import DynamoDB from 'aws-sdk/clients/dynamodb';
 import type { Credentials } from 'aws-sdk/lib/core';
 import {
 	CredentialProviderChain,
@@ -16,3 +17,19 @@ export const ssm: SSM = new SSM({
 	region: Region,
 	credentialProvider: credentialProvider,
 });
+
+export async function getDefaultArticleIds(): Promise<
+	Array<string | undefined>
+> {
+	const db: DynamoDB = new DynamoDB({
+		region: Region,
+		credentialProvider: credentialProvider,
+	});
+
+	const params = {
+		TableName: 'random-article-ids',
+	};
+
+	const data = await db.scan(params).promise();
+	return data?.Items?.map((item) => item.articleId.S) ?? [];
+}
