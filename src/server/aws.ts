@@ -21,6 +21,10 @@ export const ssm: SSM = new SSM({
 export async function getDefaultArticleIds(): Promise<
 	Array<string | undefined>
 > {
+	if (process.env.CI) {
+		return Promise.resolve([]);
+	}
+
 	const db: DynamoDB = new DynamoDB({
 		region: Region,
 		credentialProvider: credentialProvider,
