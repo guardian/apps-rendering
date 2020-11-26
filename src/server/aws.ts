@@ -35,5 +35,5 @@ export async function getDefaultArticleIds(): Promise<
 	};
 
 	const data = await db.scan(params).promise();
-	return data.Items?.map((item) => item.articleId.S) ?? [];
+	return data.Items?.map((item) => item.ArticleId.S) ?? [];
 }
