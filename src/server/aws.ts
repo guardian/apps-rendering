@@ -1,5 +1,5 @@
-import SSM from 'aws-sdk/clients/ssm';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
+import SSM from 'aws-sdk/clients/ssm';
 import type { Credentials } from 'aws-sdk/lib/core';
 import {
 	CredentialProviderChain,
@@ -35,5 +35,5 @@ export async function getDefaultArticleIds(): Promise<
 	};
 
 	const data = await db.scan(params).promise();
-	return data?.Items?.map((item) => item.articleId.S) ?? [];
+	return data.Items?.map((item) => item.articleId.S) ?? [];
 }

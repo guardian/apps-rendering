@@ -185,7 +185,7 @@ async function serveArticlePost(
 }
 
 async function serveArticleGet(
-	req: Request,
+	req: Request<Array<string | undefined>>,
 	res: ExpressResponse,
 ): Promise<void> {
 	try {
@@ -193,8 +193,8 @@ async function serveArticleGet(
 		const randomArticleId =
 			randomIds[Math.floor(Math.random() * randomIds.length)];
 		const articleId =
-			req.params[0] ||
-			randomArticleId ||
+			req.params[0] ??
+			randomArticleId ??
 			'cities/2019/sep/13/reclaimed-lakes-and-giant-airports-how-mexico-city-might-have-looked';
 		const isEditions = req.query.editions === '';
 		const capiContent = await askCapiFor(articleId);
