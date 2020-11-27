@@ -165,7 +165,7 @@ const paidContentLogo = (tags: Tag[]): Option<Logo> => {
 
 // ----- Functions ----- //
 
-const capiEndpoint = (articleId: string, key: string): string => {
+const capiEndpoint = (articleId: string, key: string, internalPageCode?: string): string => {
 	// If you need a new field here, MAPI probably also needs updating
 	const fields = [
 		'headline',
@@ -193,7 +193,12 @@ const capiEndpoint = (articleId: string, key: string): string => {
 		'show-related': 'true',
 	});
 
-	return `https://content.guardianapis.com/${articleId}?${params.toString()}`;
+	if(internalPageCode) {
+		return `https://content.guardianapis.com/internal-code/page/${internalPageCode}?${params.toString()}`;
+	}
+	else {
+		return `https://content.guardianapis.com/${articleId}?${params.toString()}`;
+	}
 };
 
 const capiDateTimeToDate = (date: CapiDateTime): Option<Date> =>

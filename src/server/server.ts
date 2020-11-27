@@ -52,8 +52,8 @@ function getPrefetchHeader(resources: string[]): string {
 	);
 }
 
-const capiRequest = (articleId: string) => (key: string): Promise<Response> =>
-	fetch(capiEndpoint(articleId, key));
+const capiRequest = (articleId: string, internalPageCode?: string) => (key: string): Promise<Response> =>
+	fetch(capiEndpoint(articleId, key, internalPageCode));
 
 const parseCapiResponse = (articleId: string) => async (
 	capiResponse: Response,
@@ -100,7 +100,7 @@ const parseCapiResponse = (articleId: string) => async (
 	}
 };
 
-const askCapiFor = (articleId: string): CapiReturn =>
+const askCapiFor = (articleId: string, internalPageCode?: string): CapiReturn =>
 	getConfigValue('capi.key').then((key) => {
 		if (key === undefined) {
 			logger.error('Could not get CAPI key');
@@ -108,7 +108,7 @@ const askCapiFor = (articleId: string): CapiReturn =>
 			return err(500);
 		}
 
-		return capiRequest(articleId)(key).then(parseCapiResponse(articleId));
+		return capiRequest(articleId, internalPageCode)(key).then(parseCapiResponse(articleId));
 	});
 
 function resourceList(script: Option<string>): string[] {
@@ -185,6 +185,52 @@ async function serveArticlePost(
 	}
 }
 
+function handleCapiResponse(
+	req: Request,
+	res: ExpressResponse,
+	capiContent: CapiReturn, 
+	isEditions: boolean) {
+	either(
+		(errorStatus: number) => {
+			res.sendStatus(errorStatus);
+		},
+		([content, relatedContent]: [Content, RelatedContent]) => {
+			const mockedRenderingRequest: RenderingRequest = {
+				content,
+				targetingParams: {
+					co: 'Jane Smith',
+					k: 'potato,tomato,avocado',
+				},
+				commentCount: 30,
+				relatedContent,
+			};
+
+			const richLinkDetails = req.query.richlink === '';
+
+			if (richLinkDetails) {
+				void serveRichLinkDetails(mockedRenderingRequest, res);
+			} else {
+				void serveArticle(mockedRenderingRequest, res, isEditions);
+			}
+		},
+	)(capiContent);
+}
+
+async function serveArticleByInternalIdGet(
+	req: Request,
+	res: ExpressResponse,
+): Promise<void> {
+	try {
+		const internalPageCode = req.params['internalPageCode'] || undefined;
+		const isEditions = req.query.editions === '';
+		const capiContent = await askCapiFor('', internalPageCode);
+		handleCapiResponse(req, res, capiContent, isEditions)
+	} catch (e) {
+		logger.error(`This error occurred`, e);
+		res.sendStatus(500);
+	}
+}
+
 async function serveArticleGet(
 	req: Request,
 	res: ExpressResponse,
@@ -193,31 +239,7 @@ async function serveArticleGet(
 		const articleId = req.params[0] || defaultId;
 		const isEditions = req.query.editions === '';
 		const capiContent = await askCapiFor(articleId);
-
-		either(
-			(errorStatus: number) => {
-				res.sendStatus(errorStatus);
-			},
-			([content, relatedContent]: [Content, RelatedContent]) => {
-				const mockedRenderingRequest: RenderingRequest = {
-					content,
-					targetingParams: {
-						co: 'Jane Smith',
-						k: 'potato,tomato,avocado',
-					},
-					commentCount: 30,
-					relatedContent,
-				};
-
-				const richLinkDetails = req.query.richlink === '';
-
-				if (richLinkDetails) {
-					void serveRichLinkDetails(mockedRenderingRequest, res);
-				} else {
-					void serveArticle(mockedRenderingRequest, res, isEditions);
-				}
-			},
-		)(capiContent);
+		handleCapiResponse(req, res, capiContent, isEditions)
 	} catch (e) {
 		logger.error(`This error occurred`, e);
 		res.sendStatus(500);
@@ -258,6 +280,7 @@ app.get('/favicon.ico', (_, res) => res.status(404).end());
 app.get('/fontSize.css', (_, res) => res.status(404).end());
 
 app.get('/rendered-items/*', bodyParser.raw(), serveArticleGet);
+app.get('/rendered-item/:internalPageCode', bodyParser.raw(), serveArticleByInternalIdGet);
 app.get('/*', bodyParser.raw(), serveArticleGet);
 
 app.post('/article', bodyParser.raw(), serveArticlePost);
