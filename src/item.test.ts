@@ -8,13 +8,13 @@ import { AtomType } from '@guardian/content-atom-model/atomType';
 import { Atoms } from '@guardian/content-api-models/v1/atoms';
 import { fromCapi, Standard, Review, getFormat } from 'item';
 import { ElementKind, Audio, Video, BodyElement } from 'bodyElement';
-import { Design } from '@guardian/types/Format';
+import { Design } from '@guardian/types';
 import { JSDOM } from 'jsdom';
-import { Display } from '@guardian/types/Format';
-import { withDefault } from '@guardian/types/option';
+import { Display } from '@guardian/types';
+import { withDefault } from '@guardian/types';
 import { Content } from '@guardian/content-api-models/v1/content';
 import { pipe2 } from 'lib';
-import { toOption, map } from '@guardian/types/result';
+import { toOption, map } from '@guardian/types';
 import { articleContentWith } from 'helperTest';
 
 const articleContent = {

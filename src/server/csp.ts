@@ -1,10 +1,10 @@
 // ----- Imports ----- //
 
 import { createHash } from 'crypto';
-import { Design } from '@guardian/types/Format';
-import { map, withDefault } from '@guardian/types/option';
-import type { Result } from '@guardian/types/result';
-import { partition } from '@guardian/types/result';
+import { Design } from '@guardian/types';
+import { map, withDefault } from '@guardian/types';
+import type { Result } from '@guardian/types';
+import { partition } from '@guardian/types';
 import type { BodyElement } from 'bodyElement';
 import { ElementKind } from 'bodyElement';
 import type { ThirdPartyEmbeds } from 'capi';

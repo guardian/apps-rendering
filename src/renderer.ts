@@ -18,8 +18,8 @@ import { until } from '@guardian/src-foundations/mq';
 import type { Breakpoint } from '@guardian/src-foundations/mq';
 import { neutral, text as textColour } from '@guardian/src-foundations/palette';
 import { headline, textSans } from '@guardian/src-foundations/typography';
-import { Design } from '@guardian/types/Format';
-import type { Format } from '@guardian/types/Format';
+import { Design } from '@guardian/types';
+import type { Format } from '@guardian/types';
 import {
 	andThen,
 	fromNullable,
@@ -27,10 +27,10 @@ import {
 	none,
 	some,
 	withDefault,
-} from '@guardian/types/option';
-import type { Option } from '@guardian/types/option';
-import type { Result } from '@guardian/types/result';
-import { fromUnsafe, toOption } from '@guardian/types/result';
+} from '@guardian/types';
+import type { Option } from '@guardian/types';
+import type { Result } from '@guardian/types';
+import { fromUnsafe, toOption } from '@guardian/types';
 import { ElementKind } from 'bodyElement';
 import type { BodyElement } from 'bodyElement';
 import Anchor from 'components/anchor';
