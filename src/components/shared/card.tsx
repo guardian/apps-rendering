@@ -11,15 +11,15 @@ import {
 } from '@guardian/src-foundations/palette';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { SvgAudio, SvgCamera, SvgQuote, SvgVideo } from '@guardian/src-icons';
-import { Design, Display } from '@guardian/types';
-import type { Format } from '@guardian/types';
 import {
+	Design,
+	Display,
 	fromNullable,
 	map,
 	OptionKind,
 	withDefault,
 } from '@guardian/types';
-import type { Option } from '@guardian/types';
+import type { Format, Option } from '@guardian/types';
 import Img from 'components/img';
 import { stars } from 'components/starRating';
 import { formatSeconds, makeRelativeDate } from 'date';

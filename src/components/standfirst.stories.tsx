@@ -1,8 +1,7 @@
 // ----- Imports ----- //
 
-import { Display, Pillar } from '@guardian/types';
+import { Display, Pillar, toOption } from '@guardian/types';
 import type { Option } from '@guardian/types';
-import { toOption } from '@guardian/types';
 import { boolean, withKnobs } from '@storybook/addon-knobs';
 import { parse } from 'client/parser';
 import { article, comment, feature, review } from 'fixtures/item';

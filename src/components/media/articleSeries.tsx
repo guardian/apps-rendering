@@ -1,8 +1,7 @@
 import type { SerializedStyles } from '@emotion/core';
 import { css } from '@emotion/core';
 import { headline } from '@guardian/src-foundations/typography';
-import type { Theme } from '@guardian/types';
-import type { Option } from '@guardian/types';
+import type { Option, Theme } from '@guardian/types';
 import { map, withDefault } from '@guardian/types';
 import type { Series } from 'capi';
 import { pipe2 } from 'lib';

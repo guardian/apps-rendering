@@ -5,10 +5,14 @@ import { remSpace } from '@guardian/src-foundations';
 import { neutral, opinion, text } from '@guardian/src-foundations/palette';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { SvgQuote } from '@guardian/src-icons';
-import type { Format } from '@guardian/types';
-import { Design, Display } from '@guardian/types';
-import { fromNullable, map, withDefault } from '@guardian/types';
-import type { Option } from '@guardian/types';
+import type { Format, Option } from '@guardian/types';
+import {
+	Design,
+	Display,
+	fromNullable,
+	map,
+	withDefault,
+} from '@guardian/types';
 import { makeRelativeDate } from 'date';
 import { pipe2 } from 'lib';
 import React from 'react';

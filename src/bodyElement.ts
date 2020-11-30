@@ -6,10 +6,15 @@ import type { TimelineEvent } from '@guardian/atoms-rendering/dist/types';
 import type { Atoms } from '@guardian/content-api-models/v1/atoms';
 import type { BlockElement } from '@guardian/content-api-models/v1/blockElement';
 import { ElementType } from '@guardian/content-api-models/v1/elementType';
-import type { Option } from '@guardian/types';
-import { fromNullable, map, withDefault } from '@guardian/types';
-import type { Result } from '@guardian/types';
-import { err, ok, resultMap } from '@guardian/types';
+import type { Option, Result } from '@guardian/types';
+import {
+	err,
+	fromNullable,
+	map,
+	ok,
+	resultMap,
+	withDefault,
+} from '@guardian/types';
 import { parseAtom } from 'atoms';
 import { formatDate } from 'date';
 import type { Image as ImageData } from 'image';
