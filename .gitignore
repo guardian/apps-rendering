@@ -23,3 +23,6 @@ coverage
 
 # sbt
 target
+
+# VScode-Scala Metals
+.metals/
