@@ -6,8 +6,8 @@ import type { Sizes } from '@guardian/image-rendering';
 import { Img } from '@guardian/image-rendering';
 import { remSpace } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-import { Format, some } from '@guardian/types';
-import { Design, Display } from '@guardian/types';
+import type { Format } from '@guardian/types';
+import { Design, Display, some } from '@guardian/types';
 import HeaderImageCaption, { captionId } from 'components/headerImageCaption';
 import type { Image } from 'image';
 import type { FC } from 'react';
@@ -109,7 +109,7 @@ const getSizes = ({ display }: Format, image: Image): Sizes => {
 			};
 		default:
 			return {
-				mediaQueries: [ { breakpoint: 'wide', size: '620px' } ],
+				mediaQueries: [{ breakpoint: 'wide', size: '620px' }],
 				default: '100vw',
 			};
 	}
