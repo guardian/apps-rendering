@@ -13,6 +13,7 @@ import Standfirst from 'components/editions/standfirst';
 import type { Item } from 'item';
 import type { FC } from 'react';
 import { renderAll } from 'renderer';
+import HeaderVideo from "./headerVideo";
 
 // ----- Component ----- //
 
@@ -38,6 +39,7 @@ const Article: FC<Props> = ({ item }) => {
 		<main>
 			<article>
 				<header css={headerStyles}>
+                    <HeaderVideo item={item} />
 					<HeaderImage item={item} />
 					<Series item={item} />
 					<Headline item={item} />
