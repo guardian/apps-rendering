@@ -20,7 +20,7 @@ const styles = css`
 		bottom: 0;
 		left: 0;
 		${body.medium({ fontWeight: 'regular' })};
-		padding: 0px 5px 3px 5px;
+		padding: 0px ${remSpace[1]} ${remSpace[1]} ${remSpace[1]};
 	}
 `;
 
