@@ -62,10 +62,9 @@ function handleErrors(response: Response): Response | never {
 	}
 	return response;
 }
-		
-const index = (i: number) => <A>(arr: A[]): Option<A> =>
-    fromNullable(arr[i]);
-		
+
+const index = (i: number) => <A>(arr: A[]): Option<A> => fromNullable(arr[i]);
+
 // ----- Exports ----- //
 
 export {
