@@ -3,7 +3,7 @@
 import { css } from '@emotion/core';
 import { remSpace } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-import { border } from '@guardian/src-foundations/palette';
+import { background, border } from '@guardian/src-foundations/palette';
 import { Design, partition } from '@guardian/types';
 import type { Item } from 'item';
 import type { FC } from 'react';
@@ -30,6 +30,25 @@ const articleStyles = css`
 const bodyStyles = css`
 	border-top: 1px solid ${border.secondary};
 	padding-top: ${remSpace[4]};
+
+	figcaption {
+		background: ${background.primary};
+		padding-bottom: ${remSpace[2]};
+	}
+
+	p {
+		padding-right: ${remSpace[1]};
+	}
+
+	${from.phablet} {
+		border-right: 1px solid ${border.secondary};
+
+		p {
+			margin: 0;
+			padding-top: ${remSpace[2]};
+			padding-bottom: ${remSpace[2]};
+		}
+	}
 
 	${from.wide} {
 		margin: 0 auto;
