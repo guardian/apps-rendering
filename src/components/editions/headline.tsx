@@ -33,10 +33,14 @@ const styles = css`
 `;
 
 const reviewStyles = css`
-	${headline.small({ fontWeight: 'bold' })}
+	${headline.xsmall({ lineHeight: 'tight', fontWeight: 'bold' })}
+	
+	${from.mobileMedium} {
+		${headline.small({ lineHeight: 'tight', fontWeight: 'bold' })}
+	}
 
 	${from.tablet} {
-		${headline.large({ fontWeight: 'bold' })}
+		${headline.medium({ lineHeight: 'tight', fontWeight: 'bold' })}
 	}
 `;
 const getStyles = ({ design, display }: Format): SerializedStyles => {
