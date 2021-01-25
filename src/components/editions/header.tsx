@@ -1,6 +1,7 @@
 // ----- Imports ----- //
 
 import { css } from '@emotion/core';
+import { neutral } from '@guardian/src-foundations';
 import { Design, Display } from '@guardian/types';
 import Byline from 'components/editions/byline';
 import HeaderImage from 'components/editions/headerImage';
@@ -11,7 +12,6 @@ import Standfirst from 'components/editions/standfirst';
 import type { Item } from 'item';
 import type { FC, ReactElement } from 'react';
 import { sidePadding } from './styles';
-
 // ----- Component ----- //
 
 interface HeaderProps {
@@ -21,6 +21,9 @@ interface HeaderProps {
 const headerStyles = css`
 	${sidePadding}
 `;
+const whiteBackground = css`
+	background-color: ${neutral[100]};
+`
 
 const StandardHeader: FC<HeaderProps> = ({ item }) => (
 	<header css={headerStyles}>
@@ -59,8 +62,8 @@ const InterviewHeader: FC<HeaderProps> = ({ item }) => (
 		<HeaderImage item={item} />
 		<Headline item={item} />
 		<Standfirst item={item} />
-		<Lines />
-		<Byline item={item} />
+		<Lines className={whiteBackground} />
+		<Byline item={item} shareIcon />
 	</header>
 );
 
