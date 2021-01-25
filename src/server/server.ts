@@ -170,7 +170,7 @@ async function serveArticlePost(
 ): Promise<void> {
 	try {
 		const renderingRequest = await mapiDecoder(req.body);
-		const isEditions = req.query.testingParam === '';
+		const isEditions = req.query.editions === '';
 		const richLinkDetails = req.query.richlink === '';
 
 		if (richLinkDetails) {
