@@ -23,7 +23,7 @@ const headerStyles = css`
 `;
 const whiteBackground = css`
 	background-color: ${neutral[100]};
-`
+`;
 
 const StandardHeader: FC<HeaderProps> = ({ item }) => (
 	<header css={headerStyles}>

@@ -1,6 +1,7 @@
 // ----- Imports ----- //
 
-import { css, SerializedStyles } from '@emotion/core';
+import type { SerializedStyles } from '@emotion/core';
+import { css } from '@emotion/core';
 import { Lines } from '@guardian/src-ed-lines';
 import { from } from '@guardian/src-foundations/mq';
 import type { FC } from 'react';
