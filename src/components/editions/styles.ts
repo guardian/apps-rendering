@@ -77,5 +77,18 @@ export const headerBackgroundColour = (format: Format): Colour => {
 		}
 	}
 
+	if (format.design === Design.Interview) {
+		switch (format.theme) {
+			case Pillar.Lifestyle:
+				return Palette.lifestyle[800];
+			case Pillar.Sport:
+				return Palette.brandAlt[400];
+			case Pillar.Culture:
+				return Palette.culture[600];
+			default:
+				return Palette.neutral[100];
+		}
+	}
+
 	return Palette.neutral[100];
 };
