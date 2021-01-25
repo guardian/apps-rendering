@@ -1,7 +1,7 @@
 // ----- Imports ----- //
 import type { SerializedStyles } from '@emotion/core';
 import { css } from '@emotion/core';
-import { remSpace } from '@guardian/src-foundations';
+import { neutral, remSpace } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { body, headline } from '@guardian/src-foundations/typography';
 import type {
@@ -23,6 +23,7 @@ import { articleWidthStyles, sidePadding } from './styles';
 
 const interviewStyles = css`
 	${sidePadding}
+	background-color: ${neutral[100]};
 `;
 
 const showcaseStyles = css`
