@@ -3,7 +3,6 @@
 import { css } from '@emotion/core';
 import type { SerializedStyles } from '@emotion/core';
 import { from } from '@guardian/src-foundations/mq';
-import type { Format } from '@guardian/types';
 import { Design, Display } from '@guardian/types';
 import Byline from 'components/editions/byline';
 import HeaderImage from 'components/editions/headerImage';
@@ -15,6 +14,7 @@ import type { Item } from 'item';
 import type { FC, ReactElement } from 'react';
 import {
 	articleMarginStyles,
+	headerBackgroundColour,
 	interviewBackgroundColour,
 	sidePadding,
 	tabletArticleMargin,
@@ -31,16 +31,24 @@ const headerStyles = css`
 	${sidePadding}
 `;
 
-const interviewHeaderStyles = (item: Format): SerializedStyles => css`
-	${from.tablet} {
-		padding-left: ${tabletArticleMargin}px;
-	}
+const interviewHeaderStyles = (item: Item): SerializedStyles => {
+	const backgroundColour =
+		item.design === Design.Interview
+			? interviewBackgroundColour(item)
+			: headerBackgroundColour(item);
 
-	${from.wide} {
-		padding-left: ${wideArticleMargin}px;
-	}
-	background-color: ${interviewBackgroundColour(item)};
-`;
+	return css`
+		${from.tablet} {
+			padding-left: ${tabletArticleMargin}px;
+		}
+
+		${from.wide} {
+			padding-left: ${wideArticleMargin}px;
+		}
+
+		background-color: ${backgroundColour};
+	`;
+};
 
 const StandardHeader: FC<HeaderProps> = ({ item }) => (
 	<header css={headerStyles}>
@@ -96,9 +104,23 @@ const InterviewHeader: FC<HeaderProps> = ({ item }) => (
 	</header>
 );
 
+const ImmersiveHeader: FC<HeaderProps> = ({ item }) => (
+	<header>
+		<HeaderImage item={item} />
+		<div css={interviewHeaderStyles(item)}>
+			<Headline item={item} />
+			<Standfirst item={item} />
+			<Lines />
+		</div>
+		<Byline item={item} />
+	</header>
+);
+
 const renderArticleHeader = (item: Item): ReactElement<HeaderProps> => {
 	if (item.design === Design.Interview) {
 		return <InterviewHeader item={item} />;
+	} else if (item.display === Display.Immersive) {
+		return <ImmersiveHeader item={item} />;
 	} else if (item.display === Display.Showcase) {
 		return <ShowcaseHeader item={item} />;
 	} else if (item.design === Design.Analysis) {
