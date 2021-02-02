@@ -60,8 +60,8 @@ const parseImage = ({ docParser, salt }: Context) => (
 		fromNullable,
 		andThen((asset) => {
 			if (
-				asset.file === undefined ||
-				asset.file === '' ||
+				asset.typeData?.secureFile === undefined ||
+				asset.typeData?.secureFile === '' ||
 				asset.typeData?.width === undefined ||
 				asset.typeData.height === undefined
 			) {
@@ -69,8 +69,8 @@ const parseImage = ({ docParser, salt }: Context) => (
 			}
 
 			return some({
-				src: src(salt, asset.file, 500, Dpr.One),
-				...srcsets(asset.file, salt),
+				src: src(salt, asset.typeData.secureFile, 500, Dpr.One),
+				...srcsets(asset.typeData.secureFile, salt),
 				alt: fromNullable(data?.alt),
 				width: asset.typeData.width,
 				height: asset.typeData.height,
