@@ -61,8 +61,8 @@ const parseImage = ({ docParser, salt }: Context) => (
 		andThen((asset) => {
 			if (
 				asset.typeData?.secureFile === undefined ||
-				asset.typeData?.secureFile === '' ||
-				asset.typeData?.width === undefined ||
+				asset.typeData.secureFile === '' ||
+				asset.typeData.width === undefined ||
 				asset.typeData.height === undefined
 			) {
 				return none;
