@@ -55,22 +55,31 @@ const parseImage = ({ docParser, salt }: Context) => (
 	);
 	const data = element.imageTypeData;
 
+	console.log(
+		'!!!!!',
+		element.assets.map((asset) => asset.file),
+	);
+
 	return pipe2(
 		masterAsset,
 		fromNullable,
 		andThen((asset) => {
 			if (
-				asset.typeData?.secureFile === undefined ||
-				asset.typeData.secureFile === '' ||
-				asset.typeData.width === undefined ||
+				asset.file === undefined ||
+				asset.file === '' ||
+				asset.typeData?.width === undefined ||
 				asset.typeData.height === undefined
 			) {
 				return none;
 			}
-
 			return some({
-				src: src(salt, asset.typeData.secureFile, 500, Dpr.One),
-				...srcsets(asset.typeData.secureFile, salt),
+				src: src(
+					salt,
+					asset.typeData.secureFile ?? asset.file,
+					500,
+					Dpr.One,
+				),
+				...srcsets(asset.typeData.secureFile ?? asset.file, salt),
 				alt: fromNullable(data?.alt),
 				width: asset.typeData.width,
 				height: asset.typeData.height,
