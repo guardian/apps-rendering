@@ -55,11 +55,6 @@ const parseImage = ({ docParser, salt }: Context) => (
 	);
 	const data = element.imageTypeData;
 
-	console.log(
-		'!!!!!',
-		element.assets.map((asset) => asset.file),
-	);
-
 	return pipe2(
 		masterAsset,
 		fromNullable,
