@@ -19,6 +19,7 @@ import type { ReactElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { cspEditions } from 'server/csp';
 import { pageFonts } from 'styles';
+import { ItemProvider } from '../itemContext';
 
 // ----- Types ----- //
 
@@ -72,7 +73,9 @@ const renderBody = (item: Item): EmotionCritical =>
 		renderToString,
 	)(
 		<CacheProvider value={cache}>
-			<Article item={item} />
+			<ItemProvider value={item}>
+				<Article item={item} />
+			</ItemProvider>
 		</CacheProvider>,
 	);
 
