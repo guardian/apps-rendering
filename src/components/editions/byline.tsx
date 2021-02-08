@@ -12,8 +12,8 @@ import type {
 } from '@guardian/src-foundations/typography/types';
 import type { Format } from '@guardian/types';
 import { Design, Display } from '@guardian/types';
-import type { Item } from 'item';
 import { getFormat } from 'item';
+import { useItem } from 'itemContext';
 import { maybeRender } from 'lib';
 import type { FC, ReactNode } from 'react';
 import { getThemeStyles } from 'themeStyles';
@@ -192,7 +192,6 @@ const getStyles = (format: Format, kickerColor: string): SerializedStyles => {
 // ----- Component ----- //
 
 interface Props {
-	item: Item;
 	shareIcon?: boolean;
 	large?: boolean;
 	avatar?: boolean;
@@ -221,7 +220,8 @@ const renderText = (
 		}
 	});
 
-const Byline: FC<Props> = ({ item, shareIcon, large, avatar }) => {
+const Byline: FC<Props> = ({ shareIcon, large, avatar }) => {
+	const item = useItem();
 	const format = getFormat(item);
 	const { kicker: kickerColor } = getThemeStyles(format.theme);
 

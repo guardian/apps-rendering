@@ -6,7 +6,7 @@ import { neutral, remSpace, text } from '@guardian/src-foundations';
 import { body, headline } from '@guardian/src-foundations/typography';
 import type { Format } from '@guardian/types';
 import { Design, Display } from '@guardian/types';
-import type { Item } from 'item';
+import { useItem } from 'itemContext';
 import { maybeRender } from 'lib';
 import type { FC } from 'react';
 import { renderStandfirstText } from 'renderer';
@@ -76,7 +76,6 @@ const immersiveStyles = `
 `;
 
 interface Props {
-	item: Item;
 	shareIcon?: boolean;
 }
 
@@ -104,7 +103,8 @@ const getStyles = (format: Format): SerializedStyles => {
 	return styles(kickerColor);
 };
 
-const Standfirst: FC<Props> = ({ item, shareIcon }) => {
+const Standfirst: FC<Props> = ({ shareIcon }) => {
+	const item = useItem();
 	return maybeRender(item.standfirst, (standfirst) => (
 		<div css={getStyles(item)}>
 			{renderStandfirstText(standfirst, item, noLinks)}

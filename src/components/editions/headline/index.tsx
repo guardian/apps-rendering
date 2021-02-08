@@ -16,6 +16,7 @@ import { Design, Display } from '@guardian/types';
 import { headlineTextColour } from 'editorialStyles';
 import type { Item } from 'item';
 import { getFormat } from 'item';
+import { useItem } from 'itemContext';
 import type { FC } from 'react';
 import { getThemeStyles } from 'themeStyles';
 import Series from '../series';
@@ -216,11 +217,8 @@ const hasSeriesKicker = (format: Format): boolean =>
 
 // ----- Component ----- //
 
-interface Props {
-	item: Item;
-}
-
-const Headline: FC<Props> = ({ item }) => {
+const Headline: FC = () => {
+	const item = useItem();
 	const format = getFormat(item);
 	const { kicker: kickerColor } = getThemeStyles(format.theme);
 
@@ -228,7 +226,7 @@ const Headline: FC<Props> = ({ item }) => {
 		<div css={headlineWrapperStyles}>
 			{hasSeriesKicker(format) && (
 				<div css={seriesStyles}>
-					<Series item={item} />
+					<Series />
 				</div>
 			)}
 			<h1 css={getHeadlineStyles(format, kickerColor)}>

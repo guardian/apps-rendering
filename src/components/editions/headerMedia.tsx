@@ -14,8 +14,8 @@ import HeaderImageCaption, {
 import StarRating from 'components/editions/starRating';
 import { MainMediaKind } from 'headerMedia';
 import type { Image } from 'image';
-import type { Item } from 'item';
 import { getFormat, isPicture } from 'item';
+import { useItem } from 'itemContext';
 import { maybeRender } from 'lib';
 import type { FC } from 'react';
 import { getThemeStyles } from 'themeStyles';
@@ -146,10 +146,6 @@ const getImageStyle = (
 	`;
 };
 
-interface Props {
-	item: Item;
-}
-
 const sizes: Sizes = {
 	mediaQueries: [
 		{ breakpoint: 'tablet', size: '740px' },
@@ -163,7 +159,8 @@ const fullWidthSizes: Sizes = {
 	default: '100vw',
 };
 
-const HeaderMedia: FC<Props> = ({ item }) => {
+const HeaderMedia: FC = () => {
+	const item = useItem();
 	const format = getFormat(item);
 	const {
 		cameraIcon: iconColor,

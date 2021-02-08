@@ -8,6 +8,7 @@ import { titlepiece } from '@guardian/src-foundations/typography';
 import { Design, Display } from '@guardian/types';
 import type { Item } from 'item';
 import { getFormat } from 'item';
+import { useItem } from 'itemContext';
 import { maybeRender } from 'lib';
 import type { FC } from 'react';
 import { getThemeStyles } from 'themeStyles';
@@ -39,10 +40,6 @@ const interviewStyles = (kicker: string): SerializedStyles => css`
 	padding: ${remSpace[2]} ${remSpace[3]};
 `;
 
-interface Props {
-	item: Item;
-}
-
 const getStyles = (item: Item): SerializedStyles => {
 	const format = getFormat(item);
 	const { kicker } = getThemeStyles(format.theme);
@@ -55,10 +52,12 @@ const getStyles = (item: Item): SerializedStyles => {
 	return styles(kicker);
 };
 
-const Series: FC<Props> = ({ item }) =>
-	maybeRender(kickerPicker(item), (kicker) => (
+const Series: FC = () => {
+	const item = useItem();
+	return maybeRender(kickerPicker(item), (kicker) => (
 		<nav css={getStyles(item)}>{kicker}</nav>
 	));
+};
 
 // ----- Exports ----- //
 

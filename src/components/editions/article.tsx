@@ -127,7 +127,7 @@ const Article: FC<Props> = ({ item }) => {
 				<article css={articleWrapperStyles(item)}>
 					<div css={headerBackgroundStyles(item)}>
 						<section css={getSectionStyles(item)}>
-							<Header item={item} />
+							<Header />
 						</section>
 					</div>
 					<div

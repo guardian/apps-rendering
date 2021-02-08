@@ -13,7 +13,8 @@ import Series from 'components/editions/series';
 import Standfirst from 'components/editions/standfirst';
 import type { Item } from 'item';
 import { isPicture } from 'item';
-import type { FC, ReactElement } from 'react';
+import { useItem } from 'itemContext';
+import type { FC } from 'react';
 import {
 	articleMarginStyles,
 	headerBackgroundColour,
@@ -31,10 +32,6 @@ const wide = wideContentWidth + 12;
 const tablet = tabletContentWidth + 12;
 
 // ----- Component ----- //
-
-interface HeaderProps {
-	item: Item;
-}
 
 const headerStyles = css`
 	${sidePadding}
@@ -142,127 +139,126 @@ const linesBorderStyles = css`
 	border-right: 1px solid ${border.secondary};
 `;
 
-const StandardHeader: FC<HeaderProps> = ({ item }) => (
+const StandardHeader: FC = () => (
 	<header css={headerStyles}>
-		<HeaderMedia item={item} />
-		<Series item={item} />
-		<Headline item={item} />
-		<Standfirst item={item} />
+		<HeaderMedia />
+		<Series />
+		<Headline />
+		<Standfirst />
 		<Lines />
-		<Byline item={item} shareIcon />
+		<Byline shareIcon />
 	</header>
 );
 
-const ShowcaseHeader: FC<HeaderProps> = ({ item }) => (
+const ShowcaseHeader: FC = () => (
 	<header css={headerStyles}>
-		<Series item={item} />
-		<Headline item={item} />
-		<HeaderMedia item={item} />
-		<Standfirst item={item} />
+		<Series />
+		<Headline />
+		<HeaderMedia />
+		<Standfirst />
 		<Lines />
-		<Byline item={item} shareIcon />
+		<Byline shareIcon />
 	</header>
 );
 
-const AnalysisHeader: FC<HeaderProps> = ({ item }) => (
+const AnalysisHeader: FC = () => (
 	<header css={headerStyles}>
-		<HeaderMedia item={item} />
-		<Headline item={item} />
-		<Byline item={item} large />
+		<HeaderMedia />
+		<Headline />
+		<Byline large />
 		<Lines />
-		<Standfirst item={item} shareIcon />
+		<Standfirst shareIcon />
 	</header>
 );
 
-const CommentHeader: FC<HeaderProps> = ({ item }) => (
+const CommentHeader: FC = () => (
 	<header css={headerStyles}>
-		<HeaderMedia item={item} />
-		<Headline item={item} />
-		<Byline item={item} large avatar />
+		<HeaderMedia />
+		<Headline />
+		<Byline large avatar />
 		<Lines />
-		<Standfirst item={item} shareIcon />
+		<Standfirst shareIcon />
 	</header>
 );
 
-const InterviewHeader: FC<HeaderProps> = ({ item }) => (
-	<header>
-		<HeaderMedia item={item} />
-		<div css={interviewStyles(item)}>
-			<Headline item={item} />
-			<Standfirst item={item} />
-		</div>
-		<Lines className={linesBorderStyles} />
-		<Byline item={item} shareIcon />
-	</header>
-);
+const InterviewHeader: FC = () => {
+	const item = useItem();
+	return (
+		<header>
+			<HeaderMedia />
+			<div css={interviewStyles(item)}>
+				<Headline />
+				<Standfirst />
+			</div>
+			<Lines className={linesBorderStyles} />
+			<Byline shareIcon />
+		</header>
+	);
+};
 
-const GalleryHeader: FC<HeaderProps> = ({ item }) => (
+const GalleryHeader: FC = () => (
 	<header css={galleryHeaderStyles}>
-		<HeaderMedia item={item} />
+		<HeaderMedia />
 		<div css={galleryInnerHeaderStyles}>
-			<Headline item={item} />
+			<Headline />
 			<div css={galleryHeaderBorderStyles}>
-				<Standfirst item={item} />
+				<Standfirst />
 				<Lines className={galleryLinesStyles} />
-				<Byline item={item} shareIcon />
+				<Byline shareIcon />
 			</div>
 		</div>
 	</header>
 );
 
-const PictureHeader: FC<HeaderProps> = ({ item }) => (
+const PictureHeader: FC = () => (
 	<header css={pictureHeaderStyles}>
 		<div css={galleryInnerHeaderStyles}>
 			<div css={galleryHeaderBorderStyles}>
-				<Headline item={item} />
-				<Standfirst item={item} />
+				<Headline />
+				<Standfirst />
 				<Lines className={galleryLinesStyles} />
-				<Byline item={item} shareIcon />
+				<Byline shareIcon />
 			</div>
 		</div>
-		<HeaderMedia item={item} />
+		<HeaderMedia />
 	</header>
 );
 
-const ImmersiveHeader: FC<HeaderProps> = ({ item }) => (
-	<header>
-		<HeaderMedia item={item} />
-		<div css={immersiveHeadlineStyles(item)}>
-			<Headline item={item} />
-		</div>
-		<div css={immersiveStandfirstStyles}>
-			<Standfirst item={item} />
-			<Lines />
-		</div>
-		<Byline item={item} shareIcon />
-	</header>
-);
-
-const renderArticleHeader = (item: Item): ReactElement<HeaderProps> => {
-	// Display.Immersive needs to come before Design.Interview
-	if (item.display === Display.Immersive) {
-		return <ImmersiveHeader item={item} />;
-	} else if (item.design === Design.Interview) {
-		return <InterviewHeader item={item} />;
-	} else if (item.display === Display.Showcase) {
-		return <ShowcaseHeader item={item} />;
-	} else if (item.design === Design.Analysis) {
-		return <AnalysisHeader item={item} />;
-	} else if (item.design === Design.Comment) {
-		return <CommentHeader item={item} />;
-	} else if (item.design === Design.Media) {
-		return isPicture(item.tags) ? (
-			<PictureHeader item={item} />
-		) : (
-			<GalleryHeader item={item} />
-		);
-	} else {
-		return <StandardHeader item={item} />;
-	}
+const ImmersiveHeader: FC = () => {
+	const item = useItem();
+	return (
+		<header>
+			<HeaderMedia />
+			<div css={immersiveHeadlineStyles(item)}>
+				<Headline />
+			</div>
+			<div css={immersiveStandfirstStyles}>
+				<Standfirst />
+				<Lines />
+			</div>
+			<Byline shareIcon />
+		</header>
+	);
 };
 
-const Container: FC<HeaderProps> = ({ item }) => {
-	return <>{renderArticleHeader(item)}</>;
+const Container: FC = () => {
+	const { display, design, tags } = useItem();
+	// Display.Immersive needs to come before Design.Interview
+	if (display === Display.Immersive) {
+		return <ImmersiveHeader />;
+	} else if (design === Design.Interview) {
+		return <InterviewHeader />;
+	} else if (display === Display.Showcase) {
+		return <ShowcaseHeader />;
+	} else if (design === Design.Analysis) {
+		return <AnalysisHeader />;
+	} else if (design === Design.Comment) {
+		return <CommentHeader />;
+	} else if (design === Design.Media) {
+		return isPicture(tags) ? <PictureHeader /> : <GalleryHeader />;
+	} else {
+		return <StandardHeader />;
+	}
 };
 
 // ----- Exports ----- //
