@@ -182,11 +182,11 @@ const CommentHeader: FC = () => (
 );
 
 const InterviewHeader: FC = () => {
-	const item = useItemExtras();
+	const itemExtras = useItemExtras();
 	return (
 		<header>
 			<HeaderMedia />
-			<div css={interviewStyles(item)}>
+			<div css={interviewStyles(itemExtras)}>
 				<Headline />
 				<Standfirst />
 			</div>
@@ -225,11 +225,11 @@ const PictureHeader: FC = () => (
 );
 
 const ImmersiveHeader: FC = () => {
-	const item = useItemExtras();
+	const itemExtras = useItemExtras();
 	return (
 		<header>
 			<HeaderMedia />
-			<div css={immersiveHeadlineStyles(item)}>
+			<div css={immersiveHeadlineStyles(itemExtras)}>
 				<Headline />
 			</div>
 			<div css={immersiveStandfirstStyles}>
