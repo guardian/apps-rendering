@@ -3,17 +3,16 @@ import { css } from '@emotion/core';
 import { from } from '@guardian/src-foundations/mq';
 import { headline } from '@guardian/src-foundations/typography';
 import { SvgQuote } from '@guardian/src-icons/quote';
-import type { Format, Option } from '@guardian/types';
+import type { Option } from '@guardian/types';
 import { map, withDefault } from '@guardian/types';
+import { useItemExtras } from 'itemContext';
 import { pipe2 } from 'lib';
 import type { FC, ReactNode } from 'react';
-import { getThemeStyles } from 'themeStyles';
 
 export const pullquoteWidth = '10.875rem';
 const pullquoteTailSize = '1.5rem';
 
-const styles = (format: Format): SerializedStyles => {
-	const { kicker } = getThemeStyles(format.theme);
+const styles = (kickerColor: string): SerializedStyles => {
 	return css`
 		width: ${pullquoteWidth};
 		position: relative;
@@ -21,9 +20,9 @@ const styles = (format: Format): SerializedStyles => {
 		padding: 0 0.5rem 1.5rem 0.5rem;
 		margin: 0.375rem 1rem calc(1rem + ${pullquoteTailSize}) 0;
 
-		color: ${kicker};
-		border: 1px solid ${kicker};
-		border-top: 0.75rem solid ${kicker};
+		color: ${kickerColor};
+		border: 1px solid ${kickerColor};
+		border-top: 0.75rem solid ${kickerColor};
 		border-bottom: none;
 
 		float: left;
@@ -41,7 +40,7 @@ const styles = (format: Format): SerializedStyles => {
 			left: -1px;
 			width: ${pullquoteTailSize};
 			height: ${pullquoteTailSize};
-			border: 1px solid ${kicker};
+			border: 1px solid ${kickerColor};
 			border-top: none;
 			border-radius: 0 0 100% 0;
 		}
@@ -53,14 +52,12 @@ const styles = (format: Format): SerializedStyles => {
 			left: calc(${pullquoteTailSize} + 1px);
 			width: calc(100% - ${pullquoteTailSize});
 			height: 1px;
-			border-top: 1px solid ${kicker};
+			border-top: 1px solid ${kickerColor};
 		}
 	`;
 };
 
-const quoteStyles = (format: Format): SerializedStyles => {
-	const { kicker } = getThemeStyles(format.theme);
-
+const quoteStyles = (kickerColor: string): SerializedStyles => {
 	return css`
 		margin: 0;
 		${headline.xxsmall({ fontWeight: 'regular' })}
@@ -68,7 +65,7 @@ const quoteStyles = (format: Format): SerializedStyles => {
 			margin-bottom: -0.6rem;
 			height: 2rem;
 			margin-left: -0.3rem;
-			fill: ${kicker};
+			fill: ${kickerColor};
 		}
 	`;
 };
@@ -80,7 +77,6 @@ const citeStyles = css`
 
 type Props = {
 	quote: string;
-	format: Format;
 	attribution: Option<string>;
 };
 
@@ -88,9 +84,12 @@ const blockQuoteStyles = css`
 	margin: 0;
 `;
 
-const Pullquote: FC<Props> = ({ quote, attribution, format }) => {
+const Pullquote: FC<Props> = ({ quote, attribution }) => {
+	const {
+		themeStyles: { kicker },
+	} = useItemExtras();
 	const quoteElement = (
-		<p css={quoteStyles(format)}>
+		<p css={quoteStyles(kicker)}>
 			<SvgQuote />
 			{quote}
 		</p>
@@ -107,7 +106,7 @@ const Pullquote: FC<Props> = ({ quote, attribution, format }) => {
 	);
 
 	return (
-		<aside css={styles(format)}>
+		<aside css={styles(kicker)}>
 			<blockquote css={blockQuoteStyles}>{children}</blockquote>
 		</aside>
 	);

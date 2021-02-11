@@ -811,12 +811,12 @@ const renderEditions = (format: Format, excludeStyles = false) => (
 
 		case ElementKind.Image:
 			return format.design === Design.Media
-				? h(GalleryImage, { format, image: element })
+				? h(GalleryImage, { image: element })
 				: imageRenderer(format, element, key);
 
 		case ElementKind.Pullquote: {
 			const { quote, attribution } = element;
-			return h(EditionsPullquote, { quote, attribution, format, key });
+			return h(EditionsPullquote, { quote, attribution, key });
 		}
 
 		case ElementKind.RichLink: {

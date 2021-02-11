@@ -4,13 +4,12 @@ import type { SerializedStyles } from '@emotion/core';
 import { css } from '@emotion/core';
 import { neutral, remSpace, text } from '@guardian/src-foundations';
 import { body, headline } from '@guardian/src-foundations/typography';
-import type { Format } from '@guardian/types';
 import { Design, Display } from '@guardian/types';
+import type { ItemExtras } from 'itemContext';
 import { useItemExtras } from 'itemContext';
 import { maybeRender } from 'lib';
 import type { FC } from 'react';
 import { renderStandfirstText } from 'renderer';
-import { getThemeStyles } from 'themeStyles';
 import { ShareIcon } from './shareIcon';
 import { articleWidthStyles, sidePadding } from './styles';
 
@@ -81,8 +80,11 @@ interface Props {
 
 const noLinks = true;
 
-const getStyles = (format: Format): SerializedStyles => {
-	const { kicker: kickerColor } = getThemeStyles(format.theme);
+const getStyles = (itemExtras: ItemExtras): SerializedStyles => {
+	const {
+		format,
+		themeStyles: { kicker: kickerColor },
+	} = itemExtras;
 
 	// Display.Immersive needs to come before Design.Interview
 	if (format.display === Display.Immersive) {
@@ -104,10 +106,10 @@ const getStyles = (format: Format): SerializedStyles => {
 };
 
 const Standfirst: FC<Props> = ({ shareIcon }) => {
-	const item = useItemExtras();
-	return maybeRender(item.standfirst, (standfirst) => (
-		<div css={getStyles(item)}>
-			{renderStandfirstText(standfirst, item, noLinks)}
+	const itemExtras = useItemExtras();
+	return maybeRender(itemExtras.standfirst, (standfirst) => (
+		<div css={getStyles(itemExtras)}>
+			{renderStandfirstText(standfirst, itemExtras, noLinks)}
 			{shareIcon && (
 				<span className="js-share-button" role="button">
 					<ShareIcon />

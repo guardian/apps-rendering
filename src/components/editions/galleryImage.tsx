@@ -5,24 +5,22 @@ import { Img } from '@guardian/image-rendering';
 import { neutral, remSpace } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { textSans } from '@guardian/src-foundations/typography';
-import type { Format, Option } from '@guardian/types';
+import type { Option } from '@guardian/types';
 import { map, none, some, withDefault } from '@guardian/types';
 import type { Image } from 'bodyElement';
+import { useItemExtras } from 'itemContext';
 import { maybeRender, pipe2 } from 'lib';
 import type { FC } from 'react';
 import React from 'react';
-import { getThemeStyles } from 'themeStyles';
 
 const width = '100%';
 
 type Props = {
 	image: Image;
-	format: Format;
 };
 
 type CaptionProps = {
 	details: CaptionDetails;
-	format: Format;
 };
 
 type CaptionDetails = {
@@ -126,8 +124,10 @@ const CaptionDescription: FC<{ description: string }> = ({ description }) => {
 	return <p css={styles}>{description}</p>;
 };
 
-const GalleryImageCaption: FC<CaptionProps> = ({ details, format }) => {
-	const { kicker } = getThemeStyles(format.theme);
+const GalleryImageCaption: FC<CaptionProps> = ({ details }) => {
+	const {
+		themeStyles: { kicker },
+	} = useItemExtras();
 	const tabletWidth = '170px';
 	const styles = css`
 		${from.tablet} {
@@ -149,7 +149,8 @@ const GalleryImageCaption: FC<CaptionProps> = ({ details, format }) => {
 	);
 };
 
-const GalleryImage: FC<Props> = ({ image, format }) => {
+const GalleryImage: FC<Props> = ({ image }) => {
+	const { format } = useItemExtras();
 	return (
 		<figure css={styles} className="editions-gallery-figure">
 			<Img
@@ -164,10 +165,7 @@ const GalleryImage: FC<Props> = ({ image, format }) => {
 					credit: none,
 				})}
 			/>
-			<GalleryImageCaption
-				details={getCaptionDetails(image.caption)}
-				format={format}
-			/>
+			<GalleryImageCaption details={getCaptionDetails(image.caption)} />
 		</figure>
 	);
 };
