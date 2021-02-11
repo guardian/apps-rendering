@@ -7,7 +7,7 @@ import {
 } from '@guardian/src-foundations/palette';
 import { SvgStar } from '@guardian/src-icons';
 import { Design } from '@guardian/types';
-import { useItemExtras } from 'itemContext';
+import { useItemExtras } from 'itemExtrasContext';
 import type { FC, ReactNode } from 'react';
 
 // ----- Subcomponents ----- //

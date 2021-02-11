@@ -13,7 +13,7 @@ import Series from 'components/editions/series';
 import Standfirst from 'components/editions/standfirst';
 import type { Item } from 'item';
 import { isPicture } from 'item';
-import { useItemExtras } from 'itemContext';
+import { useItemExtras } from 'itemExtrasContext';
 import type { FC } from 'react';
 import {
 	articleMarginStyles,

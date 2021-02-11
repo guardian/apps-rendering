@@ -5,7 +5,7 @@ import { headline } from '@guardian/src-foundations/typography';
 import { SvgQuote } from '@guardian/src-icons/quote';
 import type { Option } from '@guardian/types';
 import { map, withDefault } from '@guardian/types';
-import { useItemExtras } from 'itemContext';
+import { useItemExtras } from 'itemExtrasContext';
 import { pipe2 } from 'lib';
 import type { FC, ReactNode } from 'react';
 

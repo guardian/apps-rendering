@@ -15,7 +15,7 @@ import StarRating from 'components/editions/starRating';
 import { MainMediaKind } from 'headerMedia';
 import type { Image } from 'image';
 import { isPicture } from 'item';
-import { useItemExtras } from 'itemContext';
+import { useItemExtras } from 'itemExtrasContext';
 import { maybeRender } from 'lib';
 import type { FC } from 'react';
 import {

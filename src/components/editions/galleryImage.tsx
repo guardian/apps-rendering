@@ -8,7 +8,7 @@ import { textSans } from '@guardian/src-foundations/typography';
 import type { Option } from '@guardian/types';
 import { map, none, some, withDefault } from '@guardian/types';
 import type { Image } from 'bodyElement';
-import { useItemExtras } from 'itemContext';
+import { useItemExtras } from 'itemExtrasContext';
 import { maybeRender, pipe2 } from 'lib';
 import type { FC } from 'react';
 import React from 'react';

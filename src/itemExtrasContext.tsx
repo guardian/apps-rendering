@@ -18,7 +18,7 @@ type Props = {
 	item: Item;
 };
 
-const ItemProvider: FC<Props> = ({ item, children }) => {
+const ItemExtrasProvider: FC<Props> = ({ item, children }) => {
 	const itemExtras: ItemExtras = {
 		...item,
 		format: getFormat(item),
@@ -27,4 +27,4 @@ const ItemProvider: FC<Props> = ({ item, children }) => {
 	return <ContextProvider value={itemExtras}>{children}</ContextProvider>;
 };
 
-export { useContext as useItemExtras, ItemProvider, ItemExtras };
+export { useContext as useItemExtras, ItemExtrasProvider, ItemExtras };

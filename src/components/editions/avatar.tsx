@@ -4,7 +4,7 @@ import { css } from '@emotion/core';
 import type { Sizes } from '@guardian/image-rendering';
 import { Img } from '@guardian/image-rendering';
 import { map, none, some, withDefault } from '@guardian/types';
-import { useItemExtras } from 'itemContext';
+import { useItemExtras } from 'itemExtrasContext';
 import { pipe2 } from 'lib';
 import type { FC, ReactElement } from 'react';
 

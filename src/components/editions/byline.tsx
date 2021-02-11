@@ -12,7 +12,7 @@ import type {
 } from '@guardian/src-foundations/typography/types';
 import type { Format } from '@guardian/types';
 import { Design, Display } from '@guardian/types';
-import { useItemExtras } from 'itemContext';
+import { useItemExtras } from 'itemExtrasContext';
 import { maybeRender } from 'lib';
 import type { FC, ReactNode } from 'react';
 import EditionsAvatar from './avatar';
