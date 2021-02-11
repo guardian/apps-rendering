@@ -73,7 +73,7 @@ const renderBody = (item: Item): EmotionCritical =>
 		renderToString,
 	)(
 		<CacheProvider value={cache}>
-			<ItemProvider value={item}>
+			<ItemProvider item={item}>
 				<Article item={item} />
 			</ItemProvider>
 		</CacheProvider>,
