@@ -13,7 +13,7 @@ import Series from 'components/editions/series';
 import Standfirst from 'components/editions/standfirst';
 import type { Item } from 'item';
 import { isPicture } from 'item';
-import { useItem } from 'itemContext';
+import { useItemExtras } from 'itemContext';
 import type { FC } from 'react';
 import {
 	articleMarginStyles,
@@ -182,7 +182,7 @@ const CommentHeader: FC = () => (
 );
 
 const InterviewHeader: FC = () => {
-	const item = useItem();
+	const item = useItemExtras();
 	return (
 		<header>
 			<HeaderMedia />
@@ -225,7 +225,7 @@ const PictureHeader: FC = () => (
 );
 
 const ImmersiveHeader: FC = () => {
-	const item = useItem();
+	const item = useItemExtras();
 	return (
 		<header>
 			<HeaderMedia />
@@ -242,7 +242,7 @@ const ImmersiveHeader: FC = () => {
 };
 
 const Container: FC = () => {
-	const { display, design, tags } = useItem();
+	const { display, design, tags } = useItemExtras();
 	// Display.Immersive needs to come before Design.Interview
 	if (display === Display.Immersive) {
 		return <ImmersiveHeader />;

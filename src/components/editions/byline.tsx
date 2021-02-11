@@ -13,7 +13,7 @@ import type {
 import type { Format } from '@guardian/types';
 import { Design, Display } from '@guardian/types';
 import { getFormat } from 'item';
-import { useItem } from 'itemContext';
+import { useItemExtras } from 'itemContext';
 import { maybeRender } from 'lib';
 import type { FC, ReactNode } from 'react';
 import { getThemeStyles } from 'themeStyles';
@@ -221,7 +221,7 @@ const renderText = (
 	});
 
 const Byline: FC<Props> = ({ shareIcon, large, avatar }) => {
-	const item = useItem();
+	const item = useItemExtras();
 	const format = getFormat(item);
 	const { kicker: kickerColor } = getThemeStyles(format.theme);
 

@@ -15,7 +15,7 @@ import StarRating from 'components/editions/starRating';
 import { MainMediaKind } from 'headerMedia';
 import type { Image } from 'image';
 import { getFormat, isPicture } from 'item';
-import { useItem } from 'itemContext';
+import { useItemExtras } from 'itemContext';
 import { maybeRender } from 'lib';
 import type { FC } from 'react';
 import { getThemeStyles } from 'themeStyles';
@@ -160,7 +160,7 @@ const fullWidthSizes: Sizes = {
 };
 
 const HeaderMedia: FC = () => {
-	const item = useItem();
+	const item = useItemExtras();
 	const format = getFormat(item);
 	const {
 		cameraIcon: iconColor,

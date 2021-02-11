@@ -8,7 +8,7 @@ import { titlepiece } from '@guardian/src-foundations/typography';
 import { Design, Display } from '@guardian/types';
 import type { Item } from 'item';
 import { getFormat } from 'item';
-import { useItem } from 'itemContext';
+import { useItemExtras } from 'itemContext';
 import { maybeRender } from 'lib';
 import type { FC } from 'react';
 import { getThemeStyles } from 'themeStyles';
@@ -53,7 +53,7 @@ const getStyles = (item: Item): SerializedStyles => {
 };
 
 const Series: FC = () => {
-	const item = useItem();
+	const item = useItemExtras();
 	return maybeRender(kickerPicker(item), (kicker) => (
 		<nav css={getStyles(item)}>{kicker}</nav>
 	));

@@ -6,7 +6,7 @@ import { neutral, remSpace, text } from '@guardian/src-foundations';
 import { body, headline } from '@guardian/src-foundations/typography';
 import type { Format } from '@guardian/types';
 import { Design, Display } from '@guardian/types';
-import { useItem } from 'itemContext';
+import { useItemExtras } from 'itemContext';
 import { maybeRender } from 'lib';
 import type { FC } from 'react';
 import { renderStandfirstText } from 'renderer';
@@ -104,7 +104,7 @@ const getStyles = (format: Format): SerializedStyles => {
 };
 
 const Standfirst: FC<Props> = ({ shareIcon }) => {
-	const item = useItem();
+	const item = useItemExtras();
 	return maybeRender(item.standfirst, (standfirst) => (
 		<div css={getStyles(item)}>
 			{renderStandfirstText(standfirst, item, noLinks)}
