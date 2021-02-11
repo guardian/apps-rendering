@@ -4,16 +4,11 @@ import { css } from '@emotion/core';
 import type { Sizes } from '@guardian/image-rendering';
 import { Img } from '@guardian/image-rendering';
 import { map, none, some, withDefault } from '@guardian/types';
-import type { Item } from 'item';
-import { getFormat } from 'item';
+import { useItemExtras } from 'itemContext';
 import { pipe2 } from 'lib';
 import type { FC, ReactElement } from 'react';
 
 // ----- Component ----- //
-
-interface Props {
-	item: Item;
-}
 
 const imgStyles = css`
 	background: none;
@@ -25,9 +20,11 @@ const sizes: Sizes = {
 	default: '105px',
 };
 
-const Avatar: FC<Props> = ({ item }) => {
-	const [contributor] = item.contributors;
-	const format = getFormat(item);
+const Avatar: FC = () => {
+	const {
+		contributors: [contributor],
+		format,
+	} = useItemExtras();
 
 	return pipe2(
 		contributor.image,

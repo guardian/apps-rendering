@@ -14,11 +14,10 @@ import HeaderImageCaption, {
 import StarRating from 'components/editions/starRating';
 import { MainMediaKind } from 'headerMedia';
 import type { Image } from 'image';
-import { getFormat, isPicture } from 'item';
+import { isPicture } from 'item';
 import { useItemExtras } from 'itemContext';
 import { maybeRender } from 'lib';
 import type { FC } from 'react';
-import { getThemeStyles } from 'themeStyles';
 import {
 	sidePadding,
 	tabletArticleMargin,
@@ -160,14 +159,18 @@ const fullWidthSizes: Sizes = {
 };
 
 const HeaderMedia: FC = () => {
-	const item = useItemExtras();
-	const format = getFormat(item);
+	const itemExtras = useItemExtras();
 	const {
-		cameraIcon: iconColor,
-		cameraIconBackground: iconBackgroundColor,
-	} = getThemeStyles(format.theme);
+		format,
+		mainMedia,
+		tags,
+		themeStyles: {
+			cameraIcon: iconColor,
+			cameraIconBackground: iconBackgroundColor,
+		},
+	} = itemExtras;
 
-	return maybeRender(item.mainMedia, (media) => {
+	return maybeRender(mainMedia, (media) => {
 		if (media.kind === MainMediaKind.Image) {
 			const {
 				image,
@@ -177,14 +180,14 @@ const HeaderMedia: FC = () => {
 				<figure
 					css={[
 						getStyles(format),
-						isPicture(item.tags) ? pictureStyles : null,
+						isPicture(tags) ? pictureStyles : null,
 					]}
 					aria-labelledby={captionId}
 				>
 					<Img
 						image={image}
 						sizes={getImageSizes(format)}
-						format={item}
+						format={format}
 						className={some(getImageStyle(image, format))}
 						supportsDarkMode
 						lightbox={some({
@@ -200,7 +203,7 @@ const HeaderMedia: FC = () => {
 						iconColor={iconColor}
 						iconBackgroundColor={iconBackgroundColor}
 					/>
-					<StarRating item={item} />
+					<StarRating />
 				</figure>
 			);
 		} else {

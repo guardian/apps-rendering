@@ -7,7 +7,7 @@ import {
 } from '@guardian/src-foundations/palette';
 import { SvgStar } from '@guardian/src-icons';
 import { Design } from '@guardian/types';
-import type { Item } from 'item';
+import { useItemExtras } from 'itemContext';
 import type { FC, ReactNode } from 'react';
 
 // ----- Subcomponents ----- //
@@ -47,19 +47,18 @@ export const stars = (rating: number): ReactNode =>
 
 // ----- Component ----- //
 
-interface Props {
-	item: Item;
-}
 const containerStyles = css`
 	position: absolute;
 	left: 0;
 	bottom: 0;
 `;
 
-const StarRating: FC<Props> = ({ item }) =>
-	item.design === Design.Review ? (
-		<div css={containerStyles}>{stars(item.starRating)}</div>
+const StarRating: FC = () => {
+	const itemExtras = useItemExtras();
+	return itemExtras.design === Design.Review ? (
+		<div css={containerStyles}>{stars(itemExtras.starRating)}</div>
 	) : null;
+};
 
 // ----- Exports ----- //
 

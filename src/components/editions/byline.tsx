@@ -12,11 +12,9 @@ import type {
 } from '@guardian/src-foundations/typography/types';
 import type { Format } from '@guardian/types';
 import { Design, Display } from '@guardian/types';
-import { getFormat } from 'item';
 import { useItemExtras } from 'itemContext';
 import { maybeRender } from 'lib';
 import type { FC, ReactNode } from 'react';
-import { getThemeStyles } from 'themeStyles';
 import EditionsAvatar from './avatar';
 import { ShareIcon } from './shareIcon';
 import {
@@ -221,16 +219,18 @@ const renderText = (
 	});
 
 const Byline: FC<Props> = ({ shareIcon, large, avatar }) => {
-	const item = useItemExtras();
-	const format = getFormat(item);
-	const { kicker: kickerColor } = getThemeStyles(format.theme);
+	const {
+		bylineHtml,
+		format,
+		themeStyles: { kicker: kickerColor },
+	} = useItemExtras();
 
 	const ignoreKickerColour = (format: Format): boolean =>
 		format.design === Design.Media || format.display === Display.Immersive;
 
 	const bylineColor = ignoreKickerColour(format) ? neutral[100] : kickerColor;
 
-	return maybeRender(item.bylineHtml, (byline) => (
+	return maybeRender(bylineHtml, (byline) => (
 		<div css={getStyles(format, bylineColor)}>
 			<address>{renderText(byline, bylineColor, large)}</address>
 			{shareIcon && (
@@ -240,7 +240,7 @@ const Byline: FC<Props> = ({ shareIcon, large, avatar }) => {
 			)}
 			{avatar && (
 				<div css={avatarWrapperStyles}>
-					<EditionsAvatar item={item} />
+					<EditionsAvatar />
 				</div>
 			)}
 		</div>

@@ -14,11 +14,9 @@ import { SvgQuote } from '@guardian/src-icons';
 import type { Format } from '@guardian/types';
 import { Design, Display } from '@guardian/types';
 import { headlineTextColour } from 'editorialStyles';
-import type { Item } from 'item';
-import { getFormat } from 'item';
+import type { ItemExtras } from 'itemContext';
 import { useItemExtras } from 'itemContext';
 import type { FC } from 'react';
-import { getThemeStyles } from 'themeStyles';
 import Series from '../series';
 import { articleWidthStyles } from '../styles';
 
@@ -127,16 +125,14 @@ const getSharedStyles = (format: Format): SerializedStyles => css`
 	margin: 0;
 `;
 
-const getQuoteStyles = (format: Format): SerializedStyles => {
-	const { kicker } = getThemeStyles(format.theme);
-
+const getQuoteStyles = (kickerColor: string): SerializedStyles => {
 	return css`
 		margin: 0;
 		svg {
 			margin-bottom: -0.65rem;
 			width: 40px;
 			margin-left: -0.3rem;
-			fill: ${kicker};
+			fill: ${kickerColor};
 		}
 
 		${from.tablet} {
@@ -148,22 +144,26 @@ const getQuoteStyles = (format: Format): SerializedStyles => {
 	`;
 };
 
-const getDecorativeStyles = (item: Item): JSX.Element | string => {
-	const format = getFormat(item);
+const getDecorativeStyles = (itemExtras: ItemExtras): JSX.Element | string => {
+	const {
+		design,
+		headline,
+		themeStyles: { kicker },
+	} = itemExtras;
 
-	if (item.design === Design.Interview) {
-		return <span css={interviewFontStyles}>{item.headline}</span>;
+	if (design === Design.Interview) {
+		return <span css={interviewFontStyles}>{headline}</span>;
 	}
 
-	if (item.design === Design.Comment) {
+	if (design === Design.Comment) {
 		return (
-			<span css={getQuoteStyles(format)}>
+			<span css={getQuoteStyles(kicker)}>
 				<SvgQuote />
-				{item.headline}
+				{headline}
 			</span>
 		);
 	}
-	return item.headline;
+	return headline;
 };
 
 const getHeadlineStyles = (
@@ -218,9 +218,11 @@ const hasSeriesKicker = (format: Format): boolean =>
 // ----- Component ----- //
 
 const Headline: FC = () => {
-	const item = useItemExtras();
-	const format = getFormat(item);
-	const { kicker: kickerColor } = getThemeStyles(format.theme);
+	const itemExtras = useItemExtras();
+	const {
+		format,
+		themeStyles: { kicker: kickerColor },
+	} = itemExtras;
 
 	return (
 		<div css={headlineWrapperStyles}>
@@ -230,7 +232,7 @@ const Headline: FC = () => {
 				</div>
 			)}
 			<h1 css={getHeadlineStyles(format, kickerColor)}>
-				{getDecorativeStyles(item)}
+				{getDecorativeStyles(itemExtras)}
 			</h1>
 		</div>
 	);

@@ -6,12 +6,10 @@ import { neutral, remSpace } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { titlepiece } from '@guardian/src-foundations/typography';
 import { Design, Display } from '@guardian/types';
-import type { Item } from 'item';
-import { getFormat } from 'item';
+import type { ItemExtras } from 'itemContext';
 import { useItemExtras } from 'itemContext';
 import { maybeRender } from 'lib';
 import type { FC } from 'react';
-import { getThemeStyles } from 'themeStyles';
 import { kickerPicker } from './kickerPicker';
 
 // ----- Component ----- //
@@ -40,22 +38,22 @@ const interviewStyles = (kicker: string): SerializedStyles => css`
 	padding: ${remSpace[2]} ${remSpace[3]};
 `;
 
-const getStyles = (item: Item): SerializedStyles => {
-	const format = getFormat(item);
-	const { kicker } = getThemeStyles(format.theme);
-	if (
-		item.design === Design.Interview ||
-		item.display === Display.Immersive
-	) {
+const getStyles = (itemExtras: ItemExtras): SerializedStyles => {
+	const {
+		themeStyles: { kicker },
+		design,
+		display,
+	} = itemExtras;
+	if (design === Design.Interview || display === Display.Immersive) {
 		return css(styles(kicker), interviewStyles(kicker));
 	}
 	return styles(kicker);
 };
 
 const Series: FC = () => {
-	const item = useItemExtras();
-	return maybeRender(kickerPicker(item), (kicker) => (
-		<nav css={getStyles(item)}>{kicker}</nav>
+	const itemExtras = useItemExtras();
+	return maybeRender(kickerPicker(itemExtras), (kicker) => (
+		<nav css={getStyles(itemExtras)}>{kicker}</nav>
 	));
 };
 
