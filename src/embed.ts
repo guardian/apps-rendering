@@ -50,10 +50,7 @@ interface Generic {
 /**
  * Represents any third-party embed.
  */
-type Embed =
-	| Generic
-	| Spotify
-	| YouTube;
+type Embed = Generic | Spotify | YouTube;
 
 interface IFrame {
 	src: string;
