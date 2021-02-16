@@ -1,0 +1,45 @@
+// ----- Imports ----- //
+
+import { css } from '@emotion/core';
+import { remSpace } from '@guardian/src-foundations';
+import { text } from '@guardian/src-foundations/palette';
+import { textSans } from '@guardian/src-foundations/typography';
+import { withDefault } from '@guardian/types';
+import type { Generic } from 'embed';
+import { maybeRender } from 'lib';
+import type { FC } from 'react';
+import React from 'react';
+import { darkModeCss } from 'styles';
+
+// ----- Component ----- //
+
+const styles = css`
+	margin: ${remSpace[4]} 0;
+
+	${darkModeCss`
+        background: white;
+        padding: ${remSpace[2]};
+    `}
+`;
+
+const captionStyles = css`
+	${textSans.xsmall()}
+	color: ${text.supporting};
+`;
+
+interface Props {
+	embed: Generic;
+}
+
+const GenericEmbed: FC<Props> = ({ embed }) => (
+	<figure css={styles}>
+		<iframe srcDoc={embed.html} title={withDefault('Embed')(embed.alt)} />
+		{maybeRender(embed.alt, (alt) => (
+			<figcaption css={captionStyles}>{alt}</figcaption>
+		))}
+	</figure>
+);
+
+// ----- Exports ----- //
+
+export default GenericEmbed;
