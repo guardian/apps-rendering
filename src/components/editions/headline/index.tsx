@@ -122,7 +122,6 @@ const getSharedStyles = (format: Format): SerializedStyles => css`
 	box-sizing: border-box;
 	border-top: 1px solid ${border.secondary};
 	padding-bottom: ${remSpace[4]};
-	padding-right: ${remSpace[2]};
 	margin: 0;
 `;
 

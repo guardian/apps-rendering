@@ -2,8 +2,10 @@
 
 import { Display, Pillar } from '@guardian/types';
 import { article, review } from 'fixtures/item';
-import type { ReactElement } from 'react';
+import type { FC, ReactElement } from 'react';
 import { selectPillar } from 'storybookHelpers';
+import Container from '../grid/Container';
+import Grid from '../grid/Grid';
 import HeaderMedia from './index';
 
 // ----- Setup ------ //
@@ -24,44 +26,58 @@ const video = {
 	},
 };
 
+const GridWrapper: FC = ({ children }) => (
+	<Container>
+		<Grid>{children}</Grid>
+	</Container>
+);
+
 // ----- Stories ----- //
 
 const Image = (): ReactElement => (
-	<HeaderMedia
-		item={{
-			...article,
-			theme: selectPillar(Pillar.News),
-		}}
-	/>
+	<GridWrapper>
+		<HeaderMedia
+			item={{
+				...article,
+				theme: selectPillar(Pillar.News),
+			}}
+		/>
+	</GridWrapper>
 );
 
 const FullScreen = (): ReactElement => (
-	<HeaderMedia
-		item={{
-			...article,
-			display: Display.Immersive,
-			theme: selectPillar(Pillar.News),
-		}}
-	/>
+	<GridWrapper>
+		<HeaderMedia
+			item={{
+				...article,
+				display: Display.Immersive,
+				theme: selectPillar(Pillar.News),
+			}}
+		/>
+	</GridWrapper>
 );
 
 const WithStarRating = (): ReactElement => (
-	<HeaderMedia
-		item={{
-			...review,
-			theme: selectPillar(Pillar.Culture),
-		}}
-	/>
+	<GridWrapper>
+		<HeaderMedia
+			item={{
+				...review,
+				theme: selectPillar(Pillar.Culture),
+			}}
+		/>
+	</GridWrapper>
 );
 
 const Video = (): ReactElement => (
-	<HeaderMedia
-		item={{
-			...article,
-			mainMedia: video,
-			theme: selectPillar(Pillar.News),
-		}}
-	/>
+	<GridWrapper>
+		<HeaderMedia
+			item={{
+				...article,
+				mainMedia: video,
+				theme: selectPillar(Pillar.News),
+			}}
+		/>
+	</GridWrapper>
 );
 
 // ----- Exports ----- //

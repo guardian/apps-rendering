@@ -3,14 +3,11 @@ import type { SerializedStyles } from '@emotion/core';
 import { css } from '@emotion/core';
 import { Lines } from '@guardian/src-ed-lines';
 import type { FC } from 'react';
-import { borderWidthStyles } from './styles';
 
 // ----- Component ----- //
 
 const styles = css`
 	box-sizing: border-box;
-
-	${borderWidthStyles}
 `;
 
 interface Props {

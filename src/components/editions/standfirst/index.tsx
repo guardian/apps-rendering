@@ -12,7 +12,7 @@ import type { FC } from 'react';
 import { renderStandfirstText } from 'renderer';
 import { getThemeStyles } from 'themeStyles';
 import ShareIcon from '../shareIcon';
-import { articleWidthStyles, sidePadding } from '../styles';
+import { sidePadding } from '../styles';
 
 // ----- Template Format Specific Styles ----- //
 
@@ -47,8 +47,6 @@ const styles = (kickerColor: string): SerializedStyles => css`
 	justify-content: space-between;
 	padding-bottom: ${remSpace[4]};
 	color: ${text.primary};
-
-	${articleWidthStyles}
 
 	p,
 	ul {
