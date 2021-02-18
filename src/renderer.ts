@@ -56,7 +56,7 @@ import CalloutForm from 'components/calloutForm';
 import Credit from 'components/credit';
 import GalleryImage from 'components/editions/galleryImage';
 import EditionsPullquote from 'components/editions/pullquote';
-import EmbedComponent from 'components/embed';
+import { EmbedComponentWrapper } from 'components/embedWrapper';
 import HorizontalRule from 'components/horizontalRule';
 import Interactive from 'components/interactive';
 import LiveEventLink from 'components/liveEventLink';
@@ -712,7 +712,7 @@ const render = (format: Format, excludeStyles = false) => (
 		}
 
 		case ElementKind.Embed:
-			return h(EmbedComponent, { embed: element.embed });
+			return h(EmbedComponentWrapper, { embed: element.embed });
 
 		case ElementKind.Instagram:
 			return instagramRenderer(element);
@@ -793,7 +793,7 @@ const renderEditions = (format: Format, excludeStyles = false) => (
 		}
 
 		case ElementKind.Embed:
-			return h(EmbedComponent, { embed: element.embed });
+			return h(EmbedComponentWrapper, { embed: element.embed });
 
 		case ElementKind.Instagram:
 			return instagramRenderer(element);

@@ -18,9 +18,9 @@ import type { DocParser } from 'types/parserContext';
 // ----- Types ----- //
 
 const enum EmbedKind {
-	Generic,
-	Spotify,
-	YouTube,
+	Generic = 'Generic',
+	Spotify = 'Spotify',
+	YouTube = 'YouTube',
 }
 
 interface YouTube {
@@ -28,6 +28,9 @@ interface YouTube {
 	id: string;
 	width: number;
 	height: number;
+	source?: string;
+	sourceDomain?: string;
+	tracking?: EmbedTracksType;
 }
 
 interface Spotify {
@@ -35,6 +38,9 @@ interface Spotify {
 	src: string;
 	width: number;
 	height: number;
+	source?: string;
+	sourceDomain?: string;
+	tracking?: EmbedTracksType;
 }
 
 interface Generic {
@@ -42,9 +48,9 @@ interface Generic {
 	alt: Option<string>;
 	html: string;
 	mandatory: boolean;
-	source: string;
-	sourceDomain: string;
-	tracking: EmbedTracksType;
+	source?: string;
+	sourceDomain?: string;
+	tracking?: EmbedTracksType;
 }
 
 /**
@@ -149,6 +155,9 @@ const parseYoutubeVideo = (element: BlockElement): Result<string, YouTube> =>
 			id,
 			width: element.videoTypeData?.width ?? 380,
 			height: element.videoTypeData?.height ?? 300,
+			source: 'YouTube',
+			sourceDomain: 'youtube.com',
+			tracking: EmbedTracksType.DOES_NOT_TRACK,
 		})),
 	);
 
@@ -163,6 +172,9 @@ const parseSpotifyAudio = (parser: DocParser) => (
 			src,
 			width,
 			height,
+			source: 'spotify',
+			sourceDomain: 'spotify.com',
+			tracking: EmbedTracksType.TRACKS,
 		})),
 	);
 
@@ -230,6 +242,6 @@ const parseGeneric = (element: BlockElement): Result<string, Embed> => {
 
 // ----- Exports ----- //
 
-export type { Embed, Generic };
+export type { Embed, Generic, Spotify, YouTube };
 
 export { EmbedKind, parseVideo, parseAudio, parseGeneric, youtubeUrl };

@@ -1,11 +1,11 @@
 // ----- Imports ----- //
-
 import 'regenerator-runtime/runtime.js';
 import { AudioAtom, QuizAtom } from '@guardian/atoms-rendering';
 import type { QuizAtomType } from '@guardian/atoms-rendering/dist/QuizAtom';
 import type { ICommentResponse as CommentResponse } from '@guardian/bridget';
 import { Topic } from '@guardian/bridget/Topic';
 import { App } from '@guardian/discussion-rendering/build/App';
+import { either } from '@guardian/types';
 import {
 	ads,
 	reportNativeElementPositionChanges,
@@ -13,6 +13,7 @@ import {
 	videos,
 } from 'client/nativeCommunication';
 import setup from 'client/setup';
+import { createEmbedComponentFromProps } from 'components/embedWrapper';
 import Epic from 'components/shared/epic';
 import FooterCcpa from 'components/shared/footer';
 import { formatDate, formatLocal, isValidDate } from 'date';
@@ -23,6 +24,7 @@ import {
 	notificationsClient,
 	userClient,
 } from 'native/nativeApi';
+import type { ReactElement } from 'react';
 import { createElement as h } from 'react';
 import ReactDOM from 'react-dom';
 import { logger } from '../logger';
@@ -438,6 +440,19 @@ function richLinks(): void {
 		});
 }
 
+function hydrateClickToView(): void {
+	document.querySelectorAll('.click-to-view-container').forEach((container) =>
+		either(
+			(error: string) => {
+				console.error(error);
+			},
+			(embedComponent: ReactElement) => {
+				ReactDOM.hydrate(embedComponent, container);
+			},
+		)(createEmbedComponentFromProps(container)),
+	);
+}
+
 setup();
 ads();
 videos();
@@ -455,3 +470,4 @@ hydrateQuizAtoms();
 footerInit();
 localDates();
 richLinks();
+hydrateClickToView();
