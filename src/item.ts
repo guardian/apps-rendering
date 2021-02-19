@@ -10,6 +10,7 @@ import type { Element } from '@guardian/content-api-models/v1/element';
 import { ElementType } from '@guardian/content-api-models/v1/elementType';
 import type { Tag } from '@guardian/content-api-models/v1/tag';
 import type { Format, Option } from '@guardian/types';
+import { Special } from '@guardian/types';
 import { Design, Display, fromNullable, map, Pillar } from '@guardian/types';
 import type { Body } from 'bodyElement';
 import { parseElements } from 'bodyElement';
@@ -70,8 +71,8 @@ interface Review extends Fields {
 	starRating: number;
 }
 
-interface AdvertisementFeature extends Fields {
-	design: Design.AdvertisementFeature;
+interface SpecialLabs extends Fields {
+	theme: Special.Labs;
 	body: Body;
 	logo: Option<Logo>;
 }
@@ -89,23 +90,11 @@ interface Interactive extends Fields {
 // Catch-all for other Designs for now. As coverage of Designs increases,
 // this will likely be split out into each Design type.
 interface Standard extends Fields {
-	design: Exclude<
-		Design,
-		| Design.Live
-		| Design.Review
-		| Design.Comment
-		| Design.AdvertisementFeature
-	>;
+	design: Exclude<Design, Design.Live | Design.Review | Design.Comment>;
 	body: Body;
 }
 
-type Item =
-	| Liveblog
-	| Review
-	| Comment
-	| Standard
-	| Interactive
-	| AdvertisementFeature;
+type Item = Liveblog | Review | Comment | Standard | Interactive | SpecialLabs;
 
 // ----- Convenience Types ----- //
 
@@ -259,7 +248,7 @@ const isGuardianView = hasTag('tone/editorials');
 
 const isQuiz = hasTag('tone/quizzes');
 
-const isAdvertisementFeature = hasTag('tone/advertisement-features');
+const isSpecialLabs = hasTag('tone/advertisement-features');
 
 const isPicture = hasTag('type/picture');
 
@@ -330,7 +319,7 @@ const fromCapi = (context: Context) => (request: RenderingRequest): Item => {
 		};
 	} else if (isGuardianView(tags)) {
 		return {
-			design: Design.GuardianView,
+			design: Design.Editorial,
 			...itemFieldsWithBody(context, request),
 		};
 	} else if (isQuiz(tags)) {
@@ -338,10 +327,11 @@ const fromCapi = (context: Context) => (request: RenderingRequest): Item => {
 			design: Design.Quiz,
 			...itemFieldsWithBody(context, request),
 		};
-	} else if (isAdvertisementFeature(tags)) {
+	} else if (isSpecialLabs(tags)) {
 		return {
-			design: Design.AdvertisementFeature,
+			design: Design.Article,
 			...itemFieldsWithBody(context, request),
+			theme: Special.Labs,
 			logo: paidContentLogo(tags),
 		};
 	}
@@ -359,13 +349,13 @@ export {
 	Comment,
 	Liveblog,
 	Review,
-	AdvertisementFeature,
+	SpecialLabs,
 	Standard,
 	ResizedRelatedContent,
 	fromCapi,
 	fromCapiLiveBlog,
 	getFormat,
-	isAdvertisementFeature,
+	isSpecialLabs,
 	isLive,
 	isComment,
 	isAudio,

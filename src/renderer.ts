@@ -26,6 +26,7 @@ import {
 	map,
 	none,
 	some,
+	Special,
 	toOption,
 	withDefault,
 } from '@guardian/types';
@@ -187,7 +188,7 @@ const listItemStyles = (format: Format): SerializedStyles[] => {
 
 const HeadingTwoStyles = (format: Format): SerializedStyles => {
 	const font =
-		format.design === Design.AdvertisementFeature
+		format.theme === Special.Labs
 			? textSans.large({ fontWeight: 'bold' })
 			: headline.xxsmall({ fontWeight: 'bold' });
 
@@ -297,7 +298,7 @@ const textElement = (format: Format) => (
 };
 
 const linkColourFromFormat = (format: Format): string => {
-	if (format.design === Design.AdvertisementFeature) {
+	if (format.theme === Special.Labs) {
 		return palette.labs[300];
 	}
 

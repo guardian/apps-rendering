@@ -39,7 +39,7 @@ const borderColor = (
 	type: RelatedItemType,
 	format: Format,
 ): SerializedStyles => {
-	if (type === RelatedItemType.ADVERTISEMENT_FEATURE) {
+	if (type === RelatedItemType.LABS) {
 		return css`1px solid ${palette.labs[300]}`;
 	} else {
 		return css`1px solid ${getThemeStyles(format.theme).kicker}`;
@@ -126,7 +126,7 @@ const headingWrapperStyles = css`
 `;
 
 const headingStyles = (type: RelatedItemType): SerializedStyles => {
-	if (type === RelatedItemType.ADVERTISEMENT_FEATURE) {
+	if (type === RelatedItemType.LABS) {
 		return css`
 			${textSans.medium({ lineHeight: 'regular' })}
 			margin: 0 0 ${remSpace[2]} 0;
@@ -227,7 +227,7 @@ const cardStyles = (
 			`;
 		}
 
-		case RelatedItemType.ADVERTISEMENT_FEATURE: {
+		case RelatedItemType.LABS: {
 			return css`
 				background-color: ${neutral[93]};
 				${textSans.large()}
@@ -406,7 +406,7 @@ const Card: FC<Props> = ({ relatedItem, image }) => {
 
 	const lastModified = relatedItem.lastModified?.iso8601;
 	const date =
-		lastModified && type !== RelatedItemType.ADVERTISEMENT_FEATURE
+		lastModified && type !== RelatedItemType.LABS
 			? relativeFirstPublished(fromNullable(new Date(lastModified)), type)
 			: null;
 	const starRating =

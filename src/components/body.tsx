@@ -2,7 +2,7 @@
 
 import { css } from '@emotion/core';
 import { remSpace } from '@guardian/src-foundations';
-import { Design, Display, partition } from '@guardian/types';
+import { Design, Display, partition, Special } from '@guardian/types';
 import type { Format } from '@guardian/types';
 import { getAdPlaceholderInserter } from 'ads';
 import type { BodyElement } from 'bodyElement';
@@ -48,6 +48,13 @@ const Body: FC<Props> = ({ item, shouldHideAds }) => {
 
 	const body = partition(item.body).oks;
 	const render = renderWithAds(shouldHideAds);
+	if (item.theme === Special.Labs) {
+		return (
+			<AdvertisementFeature item={item}>
+				{render(item, body)}
+			</AdvertisementFeature>
+		);
+	}
 
 	if (
 		item.design === Design.Interactive &&
@@ -80,14 +87,6 @@ const Body: FC<Props> = ({ item, shouldHideAds }) => {
 		item.design === Design.Quiz
 	) {
 		return <Standard item={item}>{render(item, body)}</Standard>;
-	}
-
-	if (item.design === Design.AdvertisementFeature) {
-		return (
-			<AdvertisementFeature item={item}>
-				{render(item, body)}
-			</AdvertisementFeature>
-		);
 	}
 
 	return notImplemented;

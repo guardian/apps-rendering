@@ -5,11 +5,11 @@ import type { Content } from '@guardian/content-api-models/v1/content';
 import { andThen, fromNullable, map, OptionKind } from '@guardian/types';
 import { articleMainImage, isAnalysis, isFeature, isReview } from 'capi';
 import {
-	isAdvertisementFeature,
 	isAudio,
 	isComment,
 	isGallery,
 	isLive,
+	isSpecialLabs,
 	isVideo,
 } from 'item';
 import { pipe, pipe2 } from 'lib';
@@ -32,8 +32,8 @@ const parseRelatedItemType = (content: Content): RelatedItemType => {
 		return RelatedItemType.VIDEO;
 	} else if (isGallery(tags)) {
 		return RelatedItemType.GALLERY;
-	} else if (isAdvertisementFeature(tags)) {
-		return RelatedItemType.ADVERTISEMENT_FEATURE;
+	} else if (isSpecialLabs(tags)) {
+		return RelatedItemType.LABS;
 	} else {
 		return RelatedItemType.ARTICLE;
 	}
