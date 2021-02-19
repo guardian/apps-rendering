@@ -72,7 +72,6 @@ interface Review extends Fields {
 }
 
 interface SpecialLabs extends Fields {
-	theme: Special.Labs;
 	body: Body;
 	logo: Option<Logo>;
 }

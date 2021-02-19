@@ -1,6 +1,14 @@
 // ----- Imports ----- //
 
-import { Design, Display, none, Pillar, some, toOption } from '@guardian/types';
+import {
+	Design,
+	Display,
+	none,
+	Pillar,
+	some,
+	Special,
+	toOption,
+} from '@guardian/types';
 import type { Option } from '@guardian/types';
 import type { Body } from 'bodyElement';
 import { parse } from 'client/parser';
@@ -245,10 +253,11 @@ const review: Review = {
 	...fields,
 };
 
-const advertisementFeature: Item = {
-	design: Design.AdvertisementFeature,
+const labs: Item = {
+	design: Design.Article,
 	logo: none,
 	...fields,
+	theme: Special.Labs,
 };
 
 const comment: Item = {
@@ -269,13 +278,4 @@ const media: Item = {
 
 // ----- Exports ----- //
 
-export {
-	article,
-	analysis,
-	feature,
-	review,
-	advertisementFeature,
-	comment,
-	interview,
-	media,
-};
+export { article, analysis, feature, review, labs, comment, interview, media };
