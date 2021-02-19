@@ -37,7 +37,6 @@ const image: Image = {
 	src: '',
 	srcset: '',
 	dpr2Srcset: '',
-	alt: none,
 	width: 0,
 	height: 0,
 	caption: none,

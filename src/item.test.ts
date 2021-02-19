@@ -8,7 +8,15 @@ import { AtomType } from '@guardian/content-atom-model/atomType';
 import { Atoms } from '@guardian/content-api-models/v1/atoms';
 import { fromCapi, Standard, Review, getFormat } from 'item';
 import { ElementKind, Audio, Video, BodyElement } from 'bodyElement';
-import { Design, Display, none, resultMap, toOption, withDefault } from '@guardian/types';
+import {
+	Design,
+	Display,
+	none,
+	resultMap,
+	Special,
+	toOption,
+	withDefault,
+} from '@guardian/types';
 import { JSDOM } from 'jsdom';
 import { Content } from '@guardian/content-api-models/v1/content';
 import { pipe2 } from 'lib';
@@ -179,7 +187,11 @@ const getFirstBody = (item: Review | Standard) =>
 	pipe2(
 		item.body[0],
 		toOption,
-		withDefault<BodyElement>({ kind: ElementKind.Interactive, url: '', alt: none }),
+		withDefault<BodyElement>({
+			kind: ElementKind.Interactive,
+			url: '',
+			alt: none,
+		}),
 	);
 
 describe('fromCapi returns correct Item', () => {
@@ -230,7 +242,7 @@ describe('fromCapi returns correct Item', () => {
 
 	test('guardianview', () => {
 		const item = f(contentWithTag('tone/editorials'));
-		expect(item.design).toBe(Design.GuardianView);
+		expect(item.design).toBe(Design.Editorial);
 	});
 
 	test('quiz', () => {
@@ -238,9 +250,9 @@ describe('fromCapi returns correct Item', () => {
 		expect(item.design).toBe(Design.Quiz);
 	});
 
-	test('advertisementfeature', () => {
+	test('speciallabs', () => {
 		const item = f(contentWithTag('tone/advertisement-features'));
-		expect(item.design).toBe(Design.AdvertisementFeature);
+		expect(item.theme).toBe(Special.Labs);
 	});
 
 	test('article', () => {
