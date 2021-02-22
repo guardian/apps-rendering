@@ -13,7 +13,7 @@ import FooterCcpa from 'components/shared/footer';
 import RelatedContent from 'components/shared/relatedContent';
 import Standfirst from 'components/standfirst';
 import HeaderMedia from 'headerMedia';
-import type { SpecialLabs as SpecialLabsItem } from 'item';
+import type { Labs as LabsItem } from 'item';
 import { pipe2 } from 'lib';
 import type { FC, ReactNode } from 'react';
 import {
@@ -47,7 +47,7 @@ const BorderStyles = css`
 // ----- Component ----- //
 
 interface Props {
-	item: SpecialLabsItem;
+	item: LabsItem;
 	children: ReactNode[];
 }
 
