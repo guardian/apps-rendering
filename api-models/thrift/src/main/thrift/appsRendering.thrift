@@ -14,7 +14,8 @@ enum RelatedItemType {
     VIDEO,
     REVIEW,
     ADVERTISEMENT_FEATURE,
-    COMMENT
+    COMMENT,
+    LABS,
 }
 
 struct Image {
