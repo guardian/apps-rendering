@@ -250,7 +250,7 @@ describe('fromCapi returns correct Item', () => {
 		expect(item.design).toBe(Design.Quiz);
 	});
 
-	test('speciallabs', () => {
+	test('labs', () => {
 		const item = f(contentWithTag('tone/advertisement-features'));
 		expect(item.theme).toBe(Special.Labs);
 	});

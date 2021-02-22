@@ -7,7 +7,7 @@ import type { Format } from '@guardian/types';
 import { getAdPlaceholderInserter } from 'ads';
 import type { BodyElement } from 'bodyElement';
 import { ElementKind } from 'bodyElement';
-import AdvertisementFeature from 'components/advertisementFeature/article';
+import Labs from 'components/labs/article';
 import Comment from 'components/comment/article';
 import Interactive from 'components/interactive/article';
 import Media from 'components/media/article';
@@ -49,11 +49,7 @@ const Body: FC<Props> = ({ item, shouldHideAds }) => {
 	const body = partition(item.body).oks;
 	const render = renderWithAds(shouldHideAds);
 	if (item.theme === Special.Labs) {
-		return (
-			<AdvertisementFeature item={item}>
-				{render(item, body)}
-			</AdvertisementFeature>
-		);
+		return <Labs item={item}>{render(item, body)}</Labs>;
 	}
 
 	if (
