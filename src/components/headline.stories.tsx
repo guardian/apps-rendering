@@ -2,7 +2,7 @@
 
 import { Display, Pillar } from '@guardian/types';
 import { boolean, radios, withKnobs } from '@storybook/addon-knobs';
-import { labs, analysis, article, feature, review } from 'fixtures/item';
+import { analysis, article, feature, labs, review } from 'fixtures/item';
 import type { ReactElement } from 'react';
 import { selectPillar } from 'storybookHelpers';
 import Headline from './headline';

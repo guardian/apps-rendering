@@ -10,8 +10,14 @@ import type { Element } from '@guardian/content-api-models/v1/element';
 import { ElementType } from '@guardian/content-api-models/v1/elementType';
 import type { Tag } from '@guardian/content-api-models/v1/tag';
 import type { Format, Option } from '@guardian/types';
-import { Special } from '@guardian/types';
-import { Design, Display, fromNullable, map, Pillar } from '@guardian/types';
+import {
+	Design,
+	Display,
+	fromNullable,
+	map,
+	Pillar,
+	Special,
+} from '@guardian/types';
 import type { Body } from 'bodyElement';
 import { parseElements } from 'bodyElement';
 import type { Logo } from 'capi';
@@ -71,7 +77,7 @@ interface Review extends Fields {
 	starRating: number;
 }
 
-interface SpecialLabs extends Fields {
+interface Labs extends Fields {
 	body: Body;
 	logo: Option<Logo>;
 }
@@ -93,7 +99,7 @@ interface Standard extends Fields {
 	body: Body;
 }
 
-type Item = Liveblog | Review | Comment | Standard | Interactive | SpecialLabs;
+type Item = Liveblog | Review | Comment | Standard | Interactive | Labs;
 
 // ----- Convenience Types ----- //
 
@@ -247,7 +253,7 @@ const isGuardianView = hasTag('tone/editorials');
 
 const isQuiz = hasTag('tone/quizzes');
 
-const isSpecialLabs = hasTag('tone/advertisement-features');
+const isLabs = hasTag('tone/advertisement-features');
 
 const isPicture = hasTag('type/picture');
 
@@ -326,7 +332,7 @@ const fromCapi = (context: Context) => (request: RenderingRequest): Item => {
 			design: Design.Quiz,
 			...itemFieldsWithBody(context, request),
 		};
-	} else if (isSpecialLabs(tags)) {
+	} else if (isLabs(tags)) {
 		return {
 			design: Design.Article,
 			...itemFieldsWithBody(context, request),
@@ -348,13 +354,13 @@ export {
 	Comment,
 	Liveblog,
 	Review,
-	SpecialLabs,
+	Labs,
 	Standard,
 	ResizedRelatedContent,
 	fromCapi,
 	fromCapiLiveBlog,
 	getFormat,
-	isSpecialLabs,
+	isLabs,
 	isLive,
 	isComment,
 	isAudio,
