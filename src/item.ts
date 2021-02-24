@@ -59,6 +59,7 @@ interface Fields extends Format {
 	internalShortId: Option<string>;
 	commentCount: Option<number>;
 	relatedContent: Option<ResizedRelatedContent>;
+	logo: Option<Logo>;
 }
 
 interface ResizedRelatedContent extends RelatedContent {
@@ -75,11 +76,6 @@ interface Review extends Fields {
 	design: Design.Review;
 	body: Body;
 	starRating: number;
-}
-
-interface Labs extends Fields {
-	body: Body;
-	logo: Option<Logo>;
 }
 
 interface Comment extends Fields {
@@ -99,7 +95,7 @@ interface Standard extends Fields {
 	body: Body;
 }
 
-type Item = Liveblog | Review | Comment | Standard | Interactive | Labs;
+type Item = Liveblog | Review | Comment | Standard | Interactive;
 
 // ----- Convenience Types ----- //
 
@@ -191,6 +187,7 @@ const itemFields = (
 				),
 			})),
 		),
+		logo: paidContentLogo(content.tags),
 	};
 };
 
@@ -337,7 +334,6 @@ const fromCapi = (context: Context) => (request: RenderingRequest): Item => {
 			design: Design.Article,
 			...itemFieldsWithBody(context, request),
 			theme: Special.Labs,
-			logo: paidContentLogo(tags),
 		};
 	}
 
@@ -354,7 +350,6 @@ export {
 	Comment,
 	Liveblog,
 	Review,
-	Labs,
 	Standard,
 	ResizedRelatedContent,
 	fromCapi,
