@@ -7,7 +7,6 @@ import {
 	map,
 	none,
 	ok,
-	ResultKind,
 	some,
 	withDefault,
 } from '@guardian/types';
@@ -78,24 +77,6 @@ const resultFromNullable = <E>(e: E) => <A>(
 	a: A | null | undefined,
 ): Result<E, A> => (a === null || a === undefined ? err(e) : ok(a));
 
-const resultMap3 = <A, B, C, D>(f: (a: A, b: B, c: C) => D) => <E>(
-	resultA: Result<E, A>,
-) => (resultB: Result<E, B>) => (resultC: Result<E, C>): Result<E, D> => {
-	if (resultA.kind === ResultKind.Err) {
-		return resultA;
-	}
-
-	if (resultB.kind === ResultKind.Err) {
-		return resultB;
-	}
-
-	if (resultC.kind === ResultKind.Err) {
-		return resultC;
-	}
-
-	return ok(f(resultA.value, resultB.value, resultC.value));
-};
-
 const parseIntOpt = (int: string): Option<number> => {
 	const parsed = parseInt(int);
 
@@ -119,6 +100,5 @@ export {
 	handleErrors,
 	index,
 	resultFromNullable,
-	resultMap3,
 	parseIntOpt,
 };

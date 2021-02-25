@@ -12,7 +12,7 @@ import {
 	withDefault,
 } from '@guardian/types';
 import type { Option, Result } from '@guardian/types';
-import { parseIntOpt, pipe2, pipe3, resultFromNullable, resultMap3 } from 'lib';
+import { parseIntOpt, pipe2, pipe3, resultFromNullable } from 'lib';
 import type { DocParser } from 'types/parserContext';
 
 // ----- Types ----- //
@@ -48,9 +48,9 @@ interface Generic {
 	alt: Option<string>;
 	html: string;
 	mandatory: boolean;
-	source?: string;
-	sourceDomain?: string;
-	tracking?: EmbedTracksType;
+	source: Option<string>;
+	sourceDomain: Option<string>;
+	tracking: EmbedTracksType;
 }
 
 /**
@@ -121,18 +121,6 @@ const extractGenericHtml = (element: BlockElement): Result<string, string> =>
 	resultFromNullable("I can't find an 'html' field for this generic embed")(
 		element.embedTypeData?.html,
 	);
-
-const extractGenericSource = (element: BlockElement): Result<string, string> =>
-	resultFromNullable("I can't find a 'source' field for this generic embed")(
-		element.embedTypeData?.source,
-	);
-
-const extractGenericSourceDomain = (
-	element: BlockElement,
-): Result<string, string> =>
-	resultFromNullable(
-		"I can't find a 'sourceDomain' field for this generic embed",
-	)(element.embedTypeData?.sourceDomain);
 
 const parseUrl = (url: string): Result<string, URL> =>
 	fromUnsafe(
@@ -223,21 +211,19 @@ const parseGeneric = (element: BlockElement): Result<string, Embed> => {
 		);
 	}
 
-	return resultMap3(
-		(html: string, source: string, sourceDomain: string): Generic => ({
+	return resultMap(
+		(html: string): Generic => ({
 			kind: EmbedKind.Generic,
 			alt: fromNullable(element.embedTypeData?.alt),
 			html,
 			mandatory: element.embedTypeData?.isMandatory ?? false,
-			source,
-			sourceDomain,
+			source: fromNullable(element.embedTypeData?.source),
+			sourceDomain: fromNullable(element.embedTypeData?.sourceDomain),
 			// If there's no tracking information the embed does not track
 			tracking:
 				element.tracking?.tracks ?? EmbedTracksType.DOES_NOT_TRACK,
 		}),
-	)(extractGenericHtml(element))(extractGenericSource(element))(
-		extractGenericSourceDomain(element),
-	);
+	)(extractGenericHtml(element));
 };
 
 // ----- Exports ----- //
