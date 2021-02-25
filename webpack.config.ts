@@ -184,6 +184,7 @@ export const clientConfig: Configuration = {
 						options: { configFile: 'config/tsconfig.client.json' },
 					},
 				],
+				type: 'javascript/auto',
 			},
 		],
 	},
