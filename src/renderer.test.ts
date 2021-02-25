@@ -95,8 +95,8 @@ const embedElement: BodyElement = {
 		html: '<section>Embed</section>',
 		alt: none,
 		mandatory: false,
-		source: 'mockSource',
-		sourceDomain: 'mockSourceDomain',
+		source: some('mockSource'),
+		sourceDomain: some('mockSourceDomain'),
 		tracking: EmbedTracksType.DOES_NOT_TRACK,
 	}
 };
