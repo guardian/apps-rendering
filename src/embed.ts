@@ -9,6 +9,7 @@ import {
 	fromUnsafe,
 	resultAndThen,
 	resultMap,
+	some,
 	withDefault,
 } from '@guardian/types';
 import type { Option, Result } from '@guardian/types';
@@ -28,9 +29,9 @@ interface YouTube {
 	id: string;
 	width: number;
 	height: number;
-	source?: string;
-	sourceDomain?: string;
-	tracking?: EmbedTracksType;
+	source: Option<string>;
+	sourceDomain: Option<string>;
+	tracking: EmbedTracksType;
 }
 
 interface Spotify {
@@ -38,9 +39,9 @@ interface Spotify {
 	src: string;
 	width: number;
 	height: number;
-	source?: string;
-	sourceDomain?: string;
-	tracking?: EmbedTracksType;
+	source: Option<string>;
+	sourceDomain: Option<string>;
+	tracking: EmbedTracksType;
 }
 
 interface Generic {
@@ -143,8 +144,8 @@ const parseYoutubeVideo = (element: BlockElement): Result<string, YouTube> =>
 			id,
 			width: element.videoTypeData?.width ?? 380,
 			height: element.videoTypeData?.height ?? 300,
-			source: 'YouTube',
-			sourceDomain: 'youtube.com',
+			source: some('YouTube'),
+			sourceDomain: some('youtube.com'),
 			tracking: EmbedTracksType.DOES_NOT_TRACK,
 		})),
 	);
@@ -160,8 +161,8 @@ const parseSpotifyAudio = (parser: DocParser) => (
 			src,
 			width,
 			height,
-			source: 'spotify',
-			sourceDomain: 'spotify.com',
+			source: some('spotify'),
+			sourceDomain: some('spotify.com'),
 			tracking: EmbedTracksType.TRACKS,
 		})),
 	);

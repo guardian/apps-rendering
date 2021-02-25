@@ -33,8 +33,16 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 				src: embed.src,
 				width: embed.width.toString(),
 				height: embed.height.toString(),
-				...(embed.source && { source: embed.source }),
-				...(embed.sourceDomain && { sourceDomain: embed.sourceDomain }),
+				...withDefault<Record<string, string>>({})(
+					map<string, Record<string, string>>((source) => {
+						return { source: source };
+					})(embed.source),
+				),
+				...withDefault<Record<string, string>>({})(
+					map<string, Record<string, string>>((sourceDomain) => {
+						return { 'source-domain': sourceDomain };
+					})(embed.sourceDomain),
+				),
 				...(embed.tracking && { tracking: embed.tracking.toString() }),
 			};
 		case EmbedKind.YouTube:
@@ -43,8 +51,16 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 				id: embed.id,
 				width: embed.width.toString(),
 				height: embed.height.toString(),
-				...(embed.source && { source: embed.source }),
-				...(embed.sourceDomain && { sourceDomain: embed.sourceDomain }),
+				...withDefault<Record<string, string>>({})(
+					map<string, Record<string, string>>((source) => {
+						return { source: source };
+					})(embed.source),
+				),
+				...withDefault<Record<string, string>>({})(
+					map<string, Record<string, string>>((sourceDomain) => {
+						return { 'source-domain': sourceDomain };
+					})(embed.sourceDomain),
+				),
 				...(embed.tracking && { tracking: embed.tracking.toString() }),
 			};
 		case EmbedKind.Generic: {
@@ -57,10 +73,16 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 				),
 				html: embed.html,
 				...(embed.mandatory && { mandatory: 'true' }),
-				...(embed.source && { source: embed.source }),
-				...(embed.sourceDomain && {
-					'source-domain': embed.sourceDomain,
-				}),
+				...withDefault<Record<string, string>>({})(
+					map<string, Record<string, string>>((source) => {
+						return { source: source };
+					})(embed.source),
+				),
+				...withDefault<Record<string, string>>({})(
+					map<string, Record<string, string>>((sourceDomain) => {
+						return { 'source-domain': sourceDomain };
+					})(embed.sourceDomain),
+				),
 				...(embed.tracking && { tracking: embed.tracking.toString() }),
 			};
 		}
@@ -68,15 +90,15 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 };
 
 const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
-	const parseTrackingParam = (
-		param?: string,
-	): EmbedTracksType | undefined => {
+	const parseTrackingParam = (param?: string): EmbedTracksType => {
 		switch (param) {
 			case '0':
 				return EmbedTracksType.UNKNOWN;
 			case '1':
 				return EmbedTracksType.TRACKS;
 			case '2':
+				return EmbedTracksType.DOES_NOT_TRACK;
+			default:
 				return EmbedTracksType.DOES_NOT_TRACK;
 		}
 	};
@@ -107,13 +129,13 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 					src,
 					width,
 					height,
-					source: container.getAttribute('source') ?? undefined,
-					sourceDomain:
-						container.getAttribute('source-domain') ?? undefined,
-					tracking:
-						parseTrackingParam(
-							container.getAttribute('tracking') ?? undefined,
-						) ?? undefined,
+					source: fromNullable(container.getAttribute('source')),
+					sourceDomain: fromNullable(
+						container.getAttribute('source-domain'),
+					),
+					tracking: parseTrackingParam(
+						container.getAttribute('tracking') ?? undefined,
+					),
 				}),
 			)(requiredStringParam(container, 'src'))(
 				requiredNumberParam(container, 'width'),
@@ -125,13 +147,13 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 					id,
 					width,
 					height,
-					source: container.getAttribute('source') ?? undefined,
-					sourceDomain:
-						container.getAttribute('source-domain') ?? undefined,
-					tracking:
-						parseTrackingParam(
-							container.getAttribute('tracking') ?? undefined,
-						) ?? undefined,
+					source: fromNullable(container.getAttribute('source')),
+					sourceDomain: fromNullable(
+						container.getAttribute('source-domain'),
+					),
+					tracking: parseTrackingParam(
+						container.getAttribute('tracking') ?? undefined,
+					),
 				}),
 			)(requiredStringParam(container, 'id'))(
 				requiredNumberParam(container, 'width'),
@@ -143,13 +165,13 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 					alt: fromNullable(container.getAttribute('alt')),
 					html,
 					mandatory: container.getAttribute('mandatory') === 'true',
-					source: container.getAttribute('source') ?? undefined,
-					sourceDomain:
-						container.getAttribute('source-domain') ?? undefined,
-					tracking:
-						parseTrackingParam(
-							container.getAttribute('tracking') ?? undefined,
-						) ?? undefined,
+					source: fromNullable(container.getAttribute('source')),
+					sourceDomain: fromNullable(
+						container.getAttribute('source-domain'),
+					),
+					tracking: parseTrackingParam(
+						container.getAttribute('tracking') ?? undefined,
+					),
 				}),
 			)(requiredStringParam(container, 'html'));
 		}
@@ -168,8 +190,10 @@ const createEmbedComponentFromProps = (
 
 const EmbedComponentInClickToView: FC<Props> = ({ embed }: Props) => {
 	return h(ClickToView, {
-		source: embed.source,
-		sourceDomain: embed.sourceDomain,
+		source: withDefault<string | undefined>(undefined)(embed.source),
+		sourceDomain: withDefault<string | undefined>(undefined)(
+			embed.sourceDomain,
+		),
 		children: h(EmbedComponent, { embed }),
 	});
 };
