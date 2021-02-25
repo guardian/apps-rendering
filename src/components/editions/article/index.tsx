@@ -10,7 +10,7 @@ import { Design, Display, partition } from '@guardian/types';
 import type { Item } from 'item';
 import type { FC } from 'react';
 import { renderEditionsAll } from 'renderer';
-import Header from './header';
+import Header from '../header';
 import {
 	articleMarginStyles,
 	articleWidthStyles,
@@ -18,7 +18,7 @@ import {
 	sidePadding,
 	tabletContentWidth,
 	wideContentWidth,
-} from './styles';
+} from '../styles';
 
 const wide = wideContentWidth + 12;
 const tablet = tabletContentWidth + 12;
@@ -46,7 +46,7 @@ const headerStyles = css`
 	${articleWidthStyles}
 	border-bottom: 1px solid ${border.secondary};
 
-	${from.phablet} {
+	${from.tablet} {
 		padding-right: ${remSpace[3]};
 		border-right: 1px solid ${border.secondary};
 	}
@@ -63,7 +63,7 @@ const bodyStyles = css`
 		padding-bottom: ${remSpace[2]};
 	}
 
-	${from.phablet} {
+	${from.tablet} {
 		p {
 			margin: 0;
 			padding-top: ${remSpace[2]};
@@ -75,12 +75,15 @@ const bodyStyles = css`
 `;
 
 const bodyWrapperStyles = css`
-	padding-right: ${remSpace[3]};
-	border-right: 1px solid ${border.secondary};
 	${articleWidthStyles}
+
+	${from.tablet} {
+		padding-right: ${remSpace[3]};
+		border-right: 1px solid ${border.secondary};
+	}
 `;
 
-const galleryWrapperStyles = css`
+export const galleryWrapperStyles = css`
 	box-sizing: border-box;
 	padding-top: ${remSpace[3]};
 	padding-right: 0;
@@ -92,7 +95,7 @@ const galleryWrapperStyles = css`
 		border-right: 1px solid ${neutral[100]};
 	}
 
-	${from.wide} {
+	${from.desktop} {
 		width: ${wide}px;
 	}
 `;

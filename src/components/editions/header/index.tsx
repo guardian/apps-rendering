@@ -25,7 +25,7 @@ import {
 	wideArticleMargin,
 	wideContentWidth,
 	wideImmersiveWidth,
-} from './styles';
+} from '../styles';
 
 const wide = wideContentWidth + 12;
 const tablet = tabletContentWidth + 12;
@@ -46,7 +46,7 @@ const galleryInnerHeaderStyles = css`
 		padding-left: ${tabletArticleMargin}px;
 	}
 
-	${from.wide} {
+	${from.desktop} {
 		padding-left: ${wideArticleMargin}px;
 	}
 `;
@@ -67,7 +67,7 @@ const galleryLinesStyles = css`
 		margin-left: 0;
 	}
 
-	${from.wide} {
+	${from.desktop} {
 		margin-left: 0;
 	}
 `;
@@ -78,7 +78,7 @@ const galleryHeaderBorderStyles = css`
 		border-right: 1px solid ${neutral[100]};
 		box-sizing: border-box;
 		width: ${tablet}px;
-		${from.wide} {
+		${from.desktop} {
 			width: ${wide}px;
 		}
 	}
@@ -92,7 +92,7 @@ const interviewStyles = (item: Item): SerializedStyles => {
 			padding-left: ${tabletArticleMargin}px;
 		}
 
-		${from.wide} {
+		${from.desktop} {
 			padding-left: ${wideArticleMargin}px;
 		}
 
@@ -115,7 +115,7 @@ const immersiveHeadlineStyles = (item: Item): SerializedStyles => {
 			width: ${tabletImmersiveWidth}px;
 		}
 
-		${from.wide} {
+		${from.desktop} {
 			padding-left: ${wideArticleMargin}px;
 			width: ${wideImmersiveWidth}px;
 		}
@@ -132,14 +132,17 @@ const immersiveStandfirstStyles = css`
 		padding-left: ${tabletArticleMargin}px;
 	}
 
-	${from.wide} {
+	${from.desktop} {
 		padding-left: ${wideArticleMargin}px;
 	}
 `;
 
 const linesBorderStyles = css`
 	${articleMarginStyles}
-	border-right: 1px solid ${border.secondary};
+
+	${from.tablet} {
+		border-right: 1px solid ${border.secondary};
+	}
 `;
 
 const StandardHeader: FC<HeaderProps> = ({ item }) => (
@@ -149,7 +152,7 @@ const StandardHeader: FC<HeaderProps> = ({ item }) => (
 		<Headline item={item} />
 		<Standfirst item={item} />
 		<Lines />
-		<Byline item={item} shareIcon />
+		<Byline item={item} />
 	</header>
 );
 
@@ -160,7 +163,7 @@ const ShowcaseHeader: FC<HeaderProps> = ({ item }) => (
 		<HeaderMedia item={item} />
 		<Standfirst item={item} />
 		<Lines />
-		<Byline item={item} shareIcon />
+		<Byline item={item} />
 	</header>
 );
 
@@ -168,7 +171,7 @@ const AnalysisHeader: FC<HeaderProps> = ({ item }) => (
 	<header css={headerStyles}>
 		<HeaderMedia item={item} />
 		<Headline item={item} />
-		<Byline item={item} large />
+		<Byline item={item} />
 		<Lines />
 		<Standfirst item={item} shareIcon />
 	</header>
@@ -178,7 +181,7 @@ const CommentHeader: FC<HeaderProps> = ({ item }) => (
 	<header css={headerStyles}>
 		<HeaderMedia item={item} />
 		<Headline item={item} />
-		<Byline item={item} large avatar />
+		<Byline item={item} />
 		<Lines />
 		<Standfirst item={item} shareIcon />
 	</header>
@@ -192,7 +195,7 @@ const InterviewHeader: FC<HeaderProps> = ({ item }) => (
 			<Standfirst item={item} />
 		</div>
 		<Lines className={linesBorderStyles} />
-		<Byline item={item} shareIcon />
+		<Byline item={item} />
 	</header>
 );
 
@@ -204,7 +207,7 @@ const GalleryHeader: FC<HeaderProps> = ({ item }) => (
 			<div css={galleryHeaderBorderStyles}>
 				<Standfirst item={item} />
 				<Lines className={galleryLinesStyles} />
-				<Byline item={item} shareIcon />
+				<Byline item={item} />
 			</div>
 		</div>
 	</header>
@@ -217,7 +220,7 @@ const PictureHeader: FC<HeaderProps> = ({ item }) => (
 				<Headline item={item} />
 				<Standfirst item={item} />
 				<Lines className={galleryLinesStyles} />
-				<Byline item={item} shareIcon />
+				<Byline item={item} />
 			</div>
 		</div>
 		<HeaderMedia item={item} />
@@ -234,7 +237,7 @@ const ImmersiveHeader: FC<HeaderProps> = ({ item }) => (
 			<Standfirst item={item} />
 			<Lines />
 		</div>
-		<Byline item={item} shareIcon />
+		<Byline item={item} />
 	</header>
 );
 

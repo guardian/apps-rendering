@@ -46,7 +46,7 @@ function memoise<A>(fn: () => A): () => A {
 }
 
 function errorToString(error: unknown, fallback: string): string {
-	if (typeof error === 'object') {
+	if (typeof error === 'object' && !Array.isArray(error)) {
 		return error?.toString() ?? fallback;
 	}
 
