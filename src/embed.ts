@@ -103,14 +103,14 @@ const parseIframe = (parser: DocParser) => (
 		resultAndThen(iframeAttributes),
 	);
 
-const genericHeight = (parser: DocParser): (html: string) => number =>
+const genericHeight = (parser: DocParser): ((html: string) => number) =>
 	compose(
 		either(
 			(_) => 300,
 			(attrs: IFrame) => attrs.height,
 		),
 		parseIframe(parser),
-	)
+	);
 
 const extractVideoUrl = (element: BlockElement): Result<string, string> =>
 	resultFromNullable("I can't find a 'url' field for this video embed")(
