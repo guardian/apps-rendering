@@ -4,6 +4,7 @@ import type { BlockElement } from '@guardian/content-api-models/v1/blockElement'
 import { EmbedTracksType } from '@guardian/content-api-models/v1/embedTracksType';
 import {
 	andThen,
+	either,
 	err,
 	fromNullable,
 	fromUnsafe,
@@ -12,7 +13,7 @@ import {
 	withDefault,
 } from '@guardian/types';
 import type { Option, Result } from '@guardian/types';
-import { parseIntOpt, pipe2, pipe3, resultFromNullable } from 'lib';
+import { compose, parseIntOpt, pipe2, pipe3, resultFromNullable } from 'lib';
 import type { DocParser } from 'types/parserContext';
 
 // ----- Types ----- //
@@ -41,6 +42,7 @@ interface Generic {
 	kind: EmbedKind.Generic;
 	alt: Option<string>;
 	html: string;
+	height: number;
 	mandatory: boolean;
 	source: Option<string>;
 	sourceDomain: Option<string>;
@@ -100,6 +102,15 @@ const parseIframe = (parser: DocParser) => (
 		),
 		resultAndThen(iframeAttributes),
 	);
+
+const genericHeight = (parser: DocParser): (html: string) => number =>
+	compose(
+		either(
+			(_) => 300,
+			(attrs: IFrame) => attrs.height,
+		),
+		parseIframe(parser),
+	)
 
 const extractVideoUrl = (element: BlockElement): Result<string, string> =>
 	resultFromNullable("I can't find a 'url' field for this video embed")(
@@ -192,7 +203,9 @@ const parseAudio = (parser: DocParser) => (
 	);
 };
 
-const parseGeneric = (element: BlockElement): Result<string, Embed> => {
+const parseGeneric = (parser: DocParser) => (
+	element: BlockElement,
+): Result<string, Embed> => {
 	if (element.embedTypeData === undefined) {
 		return err(
 			"I can't parse this generic embed, it has no 'embedTypeData' field",
@@ -204,6 +217,7 @@ const parseGeneric = (element: BlockElement): Result<string, Embed> => {
 			kind: EmbedKind.Generic,
 			alt: fromNullable(element.embedTypeData?.alt),
 			html,
+			height: genericHeight(parser)(html),
 			mandatory: element.embedTypeData?.isMandatory ?? false,
 			source: fromNullable(element.embedTypeData?.source),
 			sourceDomain: fromNullable(element.embedTypeData?.sourceDomain),

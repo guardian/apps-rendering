@@ -334,7 +334,7 @@ const parse = (context: Context, atoms?: Atoms, campaigns?: Campaign[]) => (
 				});
 			}
 
-			return compose(toEmbedElement, parseGeneric)(element);
+			return compose(toEmbedElement, parseGeneric(context.docParser))(element);
 		}
 
 		case ElementType.MEMBERSHIP: {
