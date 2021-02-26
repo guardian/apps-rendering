@@ -1,5 +1,5 @@
 import { Button } from '@guardian/src-button';
-import { space } from '@guardian/src-foundations';
+import { remSpace } from '@guardian/src-foundations';
 import { background, border } from '@guardian/src-foundations/palette';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { SvgCheckmark } from '@guardian/src-icons';
@@ -103,21 +103,21 @@ export const ClickToView = ({
 	if (!isOverlayClicked) {
 		return (
 			<div
-				className={css`
+				css={css`
 					width: 100%;
 					background: ${background.secondary};
 					border: 1px solid ${border.primary};
 					display: flex;
 					flex-direction: column;
 					justify-content: space-between;
-					padding: ${space[3]}px;
-					margin-bottom: 8px;
+					padding: ${remSpace[3]};
+					margin-bottom: ${remSpace[2]};
 				`}
 			>
 				<div
-					className={css`
+					css={css`
 						${roleHeadlineSize(role)}
-						margin-bottom: 8px;
+						margin-bottom: ${remSpace[2]};
 					`}
 				>
 					{source
@@ -125,13 +125,10 @@ export const ClickToView = ({
 						: 'Allow content provided by a third party?'}
 				</div>
 				<div
-					className={css`
+					css={css`
 						${textSize}
-						a {
-							${textSize}
-						}
 						p {
-							margin-bottom: 8px;
+							margin-bottom: ${remSpace[2]};
 						}
 					`}
 				>

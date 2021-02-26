@@ -444,7 +444,7 @@ function hydrateClickToView(): void {
 	document.querySelectorAll('.click-to-view-container').forEach((container) =>
 		either(
 			(error: string) => {
-				console.error(error);
+				logger.error(error);
 			},
 			(embedComponent: ReactElement) => {
 				ReactDOM.hydrate(embedComponent, container);
