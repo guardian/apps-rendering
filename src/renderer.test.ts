@@ -93,6 +93,7 @@ const embedElement: BodyElement = {
 	embed: {
 		kind: EmbedKind.Generic,
 		html: '<section>Embed</section>',
+		height: 300,
 		alt: none,
 		mandatory: false,
 		source: some('mockSource'),
@@ -354,7 +355,7 @@ describe('Renders different types of elements', () => {
 	test('ElementKind.Embed', () => {
 		const nodes = render(embedElement);
 		const embed = nodes.flat()[0];
-		expect(getHtml(embed)).toContain('<iframe srcDoc=\"&lt;section&gt;Embed&lt;/section&gt;\" title=\"Embed\"></iframe>');
+		expect(getHtml(embed)).toContain('<iframe srcDoc=\"&lt;section&gt;Embed&lt;/section&gt;\" title=\"Embed\" height=\"322\"></iframe>');
 	});
 
 	test('ElementKind.Audio', () => {
@@ -517,23 +518,6 @@ describe('Renders different types of Editions elements', () => {
 		expect(getHtml(pullquote)).toContain('quote');
 	});
 
-	test('ElementKind.RichLink', () => {
-		const nodes = renderEditions(richLinkElement());
-		const richLink = nodes.flat()[0];
-		expect(getHtml(richLink)).toContain(
-			'<h1>this links to a related article</h1>',
-		);
-		expect(getHtml(richLink)).toContain('href="https://theguardian.com"');
-	});
-
-	test('ElementKind.Interactive', () => {
-		const nodes = renderEditions(interactiveElement());
-		const interactive = nodes.flat()[0];
-		expect(getHtml(interactive)).toContain(
-			'<iframe src="https://theguardian.com" height="500" title=""></iframe>',
-		);
-	});
-
 	test('ElementKind.Tweet', () => {
 		const nodes = renderEditions(tweetElement());
 		const tweet = nodes.flat()[0];
@@ -551,7 +535,7 @@ describe('Renders different types of Editions elements', () => {
 	test('ElementKind.Embed', () => {
 		const nodes = renderEditions(embedElement);
 		const embed = nodes.flat()[0];
-		expect(getHtml(embed)).toContain('<iframe srcDoc=\"&lt;section&gt;Embed&lt;/section&gt;\" title=\"Embed\"></iframe>');
+		expect(getHtml(embed)).toContain('<iframe srcDoc=\"&lt;section&gt;Embed&lt;/section&gt;\" title=\"Embed\" height=\"322\"></iframe>');
 	});
 
 	test('ElementKind.Audio', () => {

@@ -7,7 +7,6 @@ import {
 	map,
 	none,
 	ok,
-	ResultKind,
 	some,
 	withDefault,
 } from '@guardian/types';
@@ -47,7 +46,7 @@ function memoise<A>(fn: () => A): () => A {
 }
 
 function errorToString(error: unknown, fallback: string): string {
-	if (typeof error === 'object') {
+	if (typeof error === 'object' && !Array.isArray(error)) {
 		return error?.toString() ?? fallback;
 	}
 
@@ -78,6 +77,12 @@ const resultFromNullable = <E>(e: E) => <A>(
 	a: A | null | undefined,
 ): Result<E, A> => (a === null || a === undefined ? err(e) : ok(a));
 
+const parseIntOpt = (int: string): Option<number> => {
+	const parsed = parseInt(int);
+
+	return isNaN(parsed) ? none : some(parsed);
+};
+
 const resultMap3 = <A, B, C, D>(f: (a: A, b: B, c: C) => D) => <E>(
 	resultA: Result<E, A>,
 ) => (resultB: Result<E, B>) => (resultC: Result<E, C>): Result<E, D> => {
@@ -94,12 +99,6 @@ const resultMap3 = <A, B, C, D>(f: (a: A, b: B, c: C) => D) => <E>(
 	}
 
 	return ok(f(resultA.value, resultB.value, resultC.value));
-};
-
-const parseIntOpt = (int: string): Option<number> => {
-	const parsed = parseInt(int);
-
-	return isNaN(parsed) ? none : some(parsed);
 };
 
 // ----- Exports ----- //
@@ -119,6 +118,6 @@ export {
 	handleErrors,
 	index,
 	resultFromNullable,
-	resultMap3,
 	parseIntOpt,
+	resultMap3,
 };

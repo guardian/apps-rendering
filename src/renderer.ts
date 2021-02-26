@@ -712,7 +712,7 @@ const render = (format: Format, excludeStyles = false) => (
 		}
 
 		case ElementKind.Embed:
-			return h(EmbedComponentWrapper, { embed: element.embed });
+			return h(EmbedComponent, { embed: element.embed });
 
 		case ElementKind.Instagram:
 			return instagramRenderer(element);
@@ -769,20 +769,8 @@ const renderEditions = (format: Format, excludeStyles = false) => (
 			return h(EditionsPullquote, { quote, attribution, format, key });
 		}
 
-		case ElementKind.RichLink: {
-			const { url, linkText } = element;
-			return h(RichLink, { url, linkText, key, format });
-		}
-
 		case ElementKind.LiveEvent:
 			return h(LiveEventLink, { ...element, key });
-
-		case ElementKind.Interactive:
-			return h(Interactive, {
-				url: element.url,
-				key,
-				title: element.alt,
-			});
 
 		case ElementKind.Tweet:
 			return h(Tweet, { content: element.content, format, key });
@@ -793,7 +781,7 @@ const renderEditions = (format: Format, excludeStyles = false) => (
 		}
 
 		case ElementKind.Embed:
-			return h(EmbedComponentWrapper, { embed: element.embed });
+			return h(EmbedComponent, { embed: element.embed });
 
 		case ElementKind.Instagram:
 			return instagramRenderer(element);
@@ -827,6 +815,9 @@ const renderEditions = (format: Format, excludeStyles = false) => (
 
 		case ElementKind.QuizAtom:
 			return quizAtomRenderer(format, element);
+
+		default:
+			return null;
 	}
 };
 
