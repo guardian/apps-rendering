@@ -93,6 +93,7 @@ const embedElement: BodyElement = {
 	embed: {
 		kind: EmbedKind.Generic,
 		html: '<section>Embed</section>',
+		height: 300,
 		alt: none,
 		mandatory: false,
 		source: some('mockSource'),
@@ -348,7 +349,7 @@ describe('Renders different types of elements', () => {
 	test('ElementKind.Embed', () => {
 		const nodes = render(embedElement);
 		const embed = nodes.flat()[0];
-		expect(getHtml(embed)).toContain('<iframe srcDoc=\"&lt;section&gt;Embed&lt;/section&gt;\" title=\"Embed\"></iframe>');
+		expect(getHtml(embed)).toContain('<iframe srcDoc=\"&lt;section&gt;Embed&lt;/section&gt;\" title=\"Embed\" height=\"322\"></iframe>');
 	});
 
 	test('ElementKind.Audio', () => {
@@ -528,7 +529,7 @@ describe('Renders different types of Editions elements', () => {
 	test('ElementKind.Embed', () => {
 		const nodes = renderEditions(embedElement);
 		const embed = nodes.flat()[0];
-		expect(getHtml(embed)).toContain('<iframe srcDoc=\"&lt;section&gt;Embed&lt;/section&gt;\" title=\"Embed\"></iframe>');
+		expect(getHtml(embed)).toContain('<iframe srcDoc=\"&lt;section&gt;Embed&lt;/section&gt;\" title=\"Embed\" height=\"322\"></iframe>');
 	});
 
 	test('ElementKind.Audio', () => {
