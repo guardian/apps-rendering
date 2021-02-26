@@ -9,7 +9,6 @@ import {
 	fromUnsafe,
 	resultAndThen,
 	resultMap,
-	some,
 	withDefault,
 } from '@guardian/types';
 import type { Option, Result } from '@guardian/types';
@@ -144,9 +143,10 @@ const parseYoutubeVideo = (element: BlockElement): Result<string, YouTube> =>
 			id,
 			width: element.videoTypeData?.width ?? 380,
 			height: element.videoTypeData?.height ?? 300,
-			source: some('YouTube'),
-			sourceDomain: some('youtube.com'),
-			tracking: EmbedTracksType.DOES_NOT_TRACK,
+			source: fromNullable(element.videoTypeData?.source),
+			sourceDomain: fromNullable(element.videoTypeData?.sourceDomain),
+			tracking:
+				element.tracking?.tracks ?? EmbedTracksType.DOES_NOT_TRACK,
 		})),
 	);
 
@@ -161,9 +161,10 @@ const parseSpotifyAudio = (parser: DocParser) => (
 			src,
 			width,
 			height,
-			source: some('spotify'),
-			sourceDomain: some('spotify.com'),
-			tracking: EmbedTracksType.TRACKS,
+			source: fromNullable(element.audioTypeData?.source),
+			sourceDomain: fromNullable(element.audioTypeData?.sourceDomain),
+			tracking:
+				element.tracking?.tracks ?? EmbedTracksType.DOES_NOT_TRACK,
 		})),
 	);
 
