@@ -116,6 +116,9 @@ const resultMap2 = <A, B, C>(f: (a: A, b: B) => C) => <E>(
 	return ok(f(resultA.value, resultB.value));
 };
 
+const fold = <A, B>(f: (value: A) => B, ifNone: B) => (opt: Option<A>): B => {
+	return withDefault(ifNone)(map(f)(opt));
+};
 // ----- Exports ----- //
 
 export {
@@ -136,4 +139,5 @@ export {
 	parseIntOpt,
 	resultMap2,
 	resultMap3,
+	fold,
 };

@@ -3,7 +3,10 @@ import { remSpace } from '@guardian/src-foundations';
 import { background, border } from '@guardian/src-foundations/palette';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { SvgCheckmark } from '@guardian/src-icons';
+import type { Option } from '@guardian/types';
+import { OptionKind, withDefault } from '@guardian/types';
 import { css } from 'emotion';
+import { fold } from 'lib';
 import React, { useState } from 'react';
 
 type RoleType =
@@ -16,10 +19,10 @@ type RoleType =
 
 export type ClickToViewProps = {
 	children: React.ReactNode;
-	role?: RoleType;
-	onAccept?: () => void;
-	source?: string;
-	sourceDomain?: string;
+	role: Option<RoleType>;
+	onAccept: Option<() => void>;
+	source: Option<string>;
+	sourceDomain: Option<string>;
 };
 
 const roleTextSize = (role: RoleType): string => {
@@ -84,21 +87,23 @@ const roleButtonText = (role: RoleType): string => {
 
 export const ClickToView = ({
 	children,
-	role = 'inline',
+	role,
 	onAccept,
 	source,
-	sourceDomain = 'unknown',
+	sourceDomain,
 }: ClickToViewProps): JSX.Element => {
 	const [isOverlayClicked, setIsOverlayClicked] = useState<boolean>(false);
 
 	const handleClick = (): void => {
 		setIsOverlayClicked(true);
-		if (onAccept) {
-			setTimeout(() => onAccept());
+		if (onAccept.kind === OptionKind.Some) {
+			setTimeout(() => onAccept.value());
 		}
 	};
 
-	const textSize = roleTextSize(role);
+	const roleWithDefault = withDefault('inline' as RoleType)(role);
+
+	const textSize = roleTextSize(roleWithDefault);
 
 	if (!isOverlayClicked) {
 		return (
@@ -116,13 +121,14 @@ export const ClickToView = ({
 			>
 				<div
 					css={css`
-						${roleHeadlineSize(role)}
+						${roleHeadlineSize(roleWithDefault)}
 						margin-bottom: ${remSpace[2]};
 					`}
 				>
-					{source
-						? `Allow ${source} content?`
-						: 'Allow content provided by a third party?'}
+					{fold(
+						(source: string) => `Allow ${source} content?`,
+						'Allow content provided by a third party?',
+					)(source)}
 				</div>
 				<div
 					css={css`
@@ -132,20 +138,21 @@ export const ClickToView = ({
 						}
 					`}
 				>
-					{source ? (
-						<>
-							<p>
-								This article includes content provided by{' '}
-								{source}. We ask for your permission before
-								anything is loaded, as they may be using cookies
-								and other technologies.
-							</p>
-							<p>
-								To view this content, click &apos;Allow and
-								continue&apos;.
-							</p>
-						</>
-					) : (
+					{fold(
+						(source) => (
+							<>
+								<p>
+									This article includes content provided by{' '}
+									{source}. We ask for your permission before
+									anything is loaded, as they may be using
+									cookies and other technologies.
+								</p>
+								<p>
+									To view this content, click &apos;Allow and
+									continue&apos;.
+								</p>
+							</>
+						),
 						<>
 							<p>
 								This article includes content hosted on{' '}
@@ -157,18 +164,18 @@ export const ClickToView = ({
 								To view this content, click &apos;Allow and
 								continue&apos;.
 							</p>
-						</>
-					)}
+						</>,
+					)(source)}
 				</div>
 				<div>
 					<Button
 						priority="primary"
-						size={roleButtonSize(role)}
+						size={roleButtonSize(roleWithDefault)}
 						icon={<SvgCheckmark />}
 						iconSide="left"
 						onClick={handleClick}
 					>
-						{roleButtonText(role)}
+						{roleButtonText(roleWithDefault)}
 					</Button>
 				</div>
 			</div>

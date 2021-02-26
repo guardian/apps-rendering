@@ -442,7 +442,7 @@ function hydrateClickToView(): void {
 	document.querySelectorAll('.click-to-view-container').forEach((container) =>
 		either(
 			(error: string) => {
-				logger.error(error);
+				logger.error(`Failed to create Embed for hydration: ${error}`);
 			},
 			(embedComponent: ReactElement) => {
 				ReactDOM.hydrate(embedComponent, container);

@@ -2,7 +2,7 @@
 
 import { EmbedTracksType } from '@guardian/content-api-models/v1/embedTracksType';
 import type { Result } from '@guardian/types';
-import { err, fromNullable, map, ok, withDefault } from '@guardian/types';
+import { err, fromNullable, map, none, ok, withDefault } from '@guardian/types';
 import { andThen } from '@guardian/types/dist/result';
 import { ClickToView } from 'components/ClickToView';
 import EmbedComponent from 'components/embed';
@@ -65,6 +65,7 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 					})(embed.alt),
 				),
 				html: embed.html,
+				height: embed.height.toString(),
 				...(embed.mandatory && { mandatory: 'true' }),
 				...withDefault<Record<string, string>>({})(
 					map<string, Record<string, string>>((source) => {
@@ -109,9 +110,15 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 		container: Element,
 		parameterName: string,
 	): Result<string, number> => {
-		return andThen((value: string) =>
-			Number.isInteger(value) ? ok(Number.parseInt(value)) : err(''),
-		)(requiredStringParam(container, parameterName));
+		return andThen((value: string) => {
+			const parsedValue = Number.parseInt(value);
+
+			if (Number.isNaN(parsedValue)) {
+				return err(`${value} is not a integer`);
+			}
+
+			return ok(parsedValue);
+		})(requiredStringParam(container, parameterName));
 	};
 
 	switch (container.getAttribute('kind') as EmbedKind) {
@@ -186,11 +193,11 @@ const createEmbedComponentFromProps = (
 
 const EmbedComponentInClickToView: FC<Props> = ({ embed }: Props) => {
 	return h(ClickToView, {
-		source: withDefault<string | undefined>(undefined)(embed.source),
-		sourceDomain: withDefault<string | undefined>(undefined)(
-			embed.sourceDomain,
-		),
+		source: embed.source,
+		sourceDomain: embed.sourceDomain,
 		children: h(EmbedComponent, { embed }),
+		role: none,
+		onAccept: none,
 	});
 };
 
