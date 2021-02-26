@@ -712,7 +712,7 @@ const render = (format: Format, excludeStyles = false) => (
 		}
 
 		case ElementKind.Embed:
-			return h(EmbedComponent, { embed: element.embed });
+			return h(EmbedComponentWrapper, { embed: element.embed });
 
 		case ElementKind.Instagram:
 			return instagramRenderer(element);
@@ -781,7 +781,7 @@ const renderEditions = (format: Format, excludeStyles = false) => (
 		}
 
 		case ElementKind.Embed:
-			return h(EmbedComponent, { embed: element.embed });
+			return h(EmbedComponentWrapper, { embed: element.embed });
 
 		case ElementKind.Instagram:
 			return instagramRenderer(element);

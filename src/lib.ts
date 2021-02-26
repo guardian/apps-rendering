@@ -7,6 +7,7 @@ import {
 	map,
 	none,
 	ok,
+	ResultKind,
 	some,
 	withDefault,
 } from '@guardian/types';
@@ -101,6 +102,20 @@ const resultMap3 = <A, B, C, D>(f: (a: A, b: B, c: C) => D) => <E>(
 	return ok(f(resultA.value, resultB.value, resultC.value));
 };
 
+const resultMap2 = <A, B, C>(f: (a: A, b: B) => C) => <E>(
+	resultA: Result<E, A>,
+) => (resultB: Result<E, B>): Result<E, C> => {
+	if (resultA.kind === ResultKind.Err) {
+		return resultA;
+	}
+
+	if (resultB.kind === ResultKind.Err) {
+		return resultB;
+	}
+
+	return ok(f(resultA.value, resultB.value));
+};
+
 // ----- Exports ----- //
 
 export {
@@ -119,5 +134,6 @@ export {
 	index,
 	resultFromNullable,
 	parseIntOpt,
+	resultMap2,
 	resultMap3,
 };

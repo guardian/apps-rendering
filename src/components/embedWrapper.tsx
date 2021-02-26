@@ -2,20 +2,13 @@
 
 import { EmbedTracksType } from '@guardian/content-api-models/v1/embedTracksType';
 import type { Result } from '@guardian/types';
-import {
-	err,
-	fromNullable,
-	map,
-	ok,
-	resultMap,
-	withDefault,
-} from '@guardian/types';
+import { err, fromNullable, map, ok, withDefault } from '@guardian/types';
 import { andThen } from '@guardian/types/dist/result';
 import { ClickToView } from 'components/ClickToView';
 import EmbedComponent from 'components/embed';
 import { EmbedKind } from 'embed';
 import type { Embed, Generic, Spotify, YouTube } from 'embed';
-import { resultFromNullable, resultMap3 } from 'lib';
+import { resultFromNullable, resultMap2, resultMap3 } from 'lib';
 import { createElement as h } from 'react';
 import type { FC, ReactElement } from 'react';
 
@@ -159,11 +152,12 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 				requiredNumberParam(container, 'width'),
 			)(requiredNumberParam(container, 'height'));
 		case EmbedKind.Generic: {
-			return resultMap(
-				(html: string): Generic => ({
+			return resultMap2<string, number, Generic>(
+				(html: string, height: number): Generic => ({
 					kind: EmbedKind.Generic,
 					alt: fromNullable(container.getAttribute('alt')),
 					html,
+					height,
 					mandatory: container.getAttribute('mandatory') === 'true',
 					source: fromNullable(container.getAttribute('source')),
 					sourceDomain: fromNullable(
@@ -173,7 +167,9 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 						container.getAttribute('tracking') ?? undefined,
 					),
 				}),
-			)(requiredStringParam(container, 'html'));
+			)(requiredStringParam(container, 'html'))(
+				requiredNumberParam(container, 'height'),
+			);
 		}
 	}
 };
