@@ -2,7 +2,7 @@
 
 import type { SerializedStyles } from '@emotion/react';
 import { css, ThemeProvider } from '@emotion/react';
-import { FrictionScreenReason } from '@guardian/bridget/FrictionScreenReason';
+import { PurchaseScreenReason } from '@guardian/bridget/PurchaseScreenReason';
 import { Button, buttonReaderRevenue } from '@guardian/src-button';
 import { remSpace } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
@@ -139,14 +139,14 @@ function Epic({
 			<div className="button-container">
 				<ThemeProvider theme={buttonReaderRevenue}>
 					{epicButton(firstButton, () =>
-						acquisitionsClient.launchFrictionScreen(
-							FrictionScreenReason.epic,
+						acquisitionsClient.launchPurchaseScreen(
+							PurchaseScreenReason.epic,
 						),
 					)}
 					{secondButton
 						? epicButton(secondButton, () =>
-								acquisitionsClient.launchFrictionScreen(
-									FrictionScreenReason.epic,
+								acquisitionsClient.launchPurchaseScreen(
+									PurchaseScreenReason.epic,
 								),
 						  )
 						: null}

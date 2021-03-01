@@ -286,13 +286,13 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-3 {
     width: 545px;
   }
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-3 {
     padding-right: 0.75rem;
     border-right: 1px solid #DCDCDC;
@@ -305,7 +305,7 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-3 {
     margin-left: 144px;
   }
@@ -328,19 +328,9 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   position: relative;
 }
 
-@media (min-width:740px) {
-  .emotion-5 {
-    width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-5 {
     width: 750px;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 
@@ -352,7 +342,6 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   display: block;
   display: block;
   width: 100%;
-  height: calc(100vw * 0.6);
 }
 
 @media (min-width:740px) {
@@ -377,12 +366,12 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
 
 @media (min-width:740px) {
   .emotion-6 {
-    width: 720px;
-    height: 432px;
+    width: calc(100vw - 3.75rem);
+    height: calc((100vw - 3.75rem) * height / width);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-6 {
     width: 750px;
     height: 450px;
@@ -436,7 +425,7 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-7 details[open] {
     padding-left: 9rem;
   }
@@ -444,11 +433,11 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
 
 @media (min-width:740px) {
   .emotion-7 {
-    width: 720px;
+    width: calc(100vw - 3.75rem);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-7 {
     width: 750px;
   }
@@ -573,7 +562,7 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-12 {
     font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
     font-size: 2.125rem;
@@ -602,7 +591,7 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-13 {
     font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
     font-size: 2.125rem;
@@ -622,7 +611,7 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-14 {
     width: 558px;
   }
@@ -664,7 +653,7 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-16 {
     width: 545px;
   }
@@ -705,20 +694,22 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   height: 2.5rem;
 }
 
-.emotion-18 {
-  padding-right: 0.75rem;
-  border-right: 1px solid #DCDCDC;
-}
-
 @media (min-width:740px) {
   .emotion-18 {
     width: 526px;
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-18 {
     width: 545px;
+  }
+}
+
+@media (min-width:740px) {
+  .emotion-18 {
+    padding-right: 0.75rem;
+    border-right: 1px solid #DCDCDC;
   }
 }
 
@@ -728,7 +719,7 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-18 {
     margin-left: 144px;
   }
@@ -749,7 +740,7 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   padding-bottom: 0.5rem;
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-19 p {
     margin: 0;
     padding-top: 0.5rem;
@@ -1090,7 +1081,7 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   clear: left;
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-42 {
     float: right;
     clear: right;
@@ -1176,7 +1167,7 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
                 srcSet="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=140&quality=85&fit=bounds&s=d0c466d24ac750ce4b1c9fe8a40fbdd3 140w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f 500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1000&quality=85&fit=bounds&s=8f38bcd742d1ae10a3f01508e31c7f5f 1000w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1500&quality=85&fit=bounds&s=45e33e51a33abe2b327882eb9de69d04 1500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=2000&quality=85&fit=bounds&s=5bc078a6facde21b41d2c649ac36e01b 2000w"
               />
               <img
-                alt=""
+                alt="image"
                 className="js-launch-slideshow js-main-image emotion-6"
                 data-ratio={0.6}
                 src="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f"
@@ -1498,13 +1489,13 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-3 {
     width: 545px;
   }
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-3 {
     padding-right: 0.75rem;
     border-right: 1px solid #DCDCDC;
@@ -1517,7 +1508,7 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-3 {
     margin-left: 144px;
   }
@@ -1540,19 +1531,9 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   position: relative;
 }
 
-@media (min-width:740px) {
-  .emotion-5 {
-    width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-5 {
     width: 750px;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 
@@ -1564,7 +1545,6 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   display: block;
   display: block;
   width: 100%;
-  height: calc(100vw * 0.6);
 }
 
 @media (min-width:740px) {
@@ -1589,12 +1569,12 @@ exports[`Storyshots Editions/Article Comment 1`] = `
 
 @media (min-width:740px) {
   .emotion-6 {
-    width: 720px;
-    height: 432px;
+    width: calc(100vw - 3.75rem);
+    height: calc((100vw - 3.75rem) * height / width);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-6 {
     width: 750px;
     height: 450px;
@@ -1648,7 +1628,7 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-7 details[open] {
     padding-left: 9rem;
   }
@@ -1656,11 +1636,11 @@ exports[`Storyshots Editions/Article Comment 1`] = `
 
 @media (min-width:740px) {
   .emotion-7 {
-    width: 720px;
+    width: calc(100vw - 3.75rem);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-7 {
     width: 750px;
   }
@@ -1799,7 +1779,7 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-13 {
     font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
     font-size: 2.125rem;
@@ -1828,7 +1808,7 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-14 {
     font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
     font-size: 2.125rem;
@@ -1864,7 +1844,7 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-17 {
     width: 558px;
   }
@@ -1906,7 +1886,7 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-19 {
     width: 545px;
   }
@@ -1947,20 +1927,22 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   height: 2.5rem;
 }
 
-.emotion-21 {
-  padding-right: 0.75rem;
-  border-right: 1px solid #DCDCDC;
-}
-
 @media (min-width:740px) {
   .emotion-21 {
     width: 526px;
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-21 {
     width: 545px;
+  }
+}
+
+@media (min-width:740px) {
+  .emotion-21 {
+    padding-right: 0.75rem;
+    border-right: 1px solid #DCDCDC;
   }
 }
 
@@ -1970,7 +1952,7 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-21 {
     margin-left: 144px;
   }
@@ -1991,7 +1973,7 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   padding-bottom: 0.5rem;
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-22 p {
     margin: 0;
     padding-top: 0.5rem;
@@ -2332,7 +2314,7 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   clear: left;
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-45 {
     float: right;
     clear: right;
@@ -2418,7 +2400,7 @@ exports[`Storyshots Editions/Article Comment 1`] = `
                 srcSet="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=140&quality=85&fit=bounds&s=d0c466d24ac750ce4b1c9fe8a40fbdd3 140w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f 500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1000&quality=85&fit=bounds&s=8f38bcd742d1ae10a3f01508e31c7f5f 1000w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1500&quality=85&fit=bounds&s=45e33e51a33abe2b327882eb9de69d04 1500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=2000&quality=85&fit=bounds&s=5bc078a6facde21b41d2c649ac36e01b 2000w"
               />
               <img
-                alt=""
+                alt="image"
                 className="js-launch-slideshow js-main-image emotion-6"
                 data-ratio={0.6}
                 src="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f"
@@ -2775,13 +2757,13 @@ exports[`Storyshots Editions/Article Default 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-3 {
     width: 545px;
   }
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-3 {
     padding-right: 0.75rem;
     border-right: 1px solid #DCDCDC;
@@ -2794,7 +2776,7 @@ exports[`Storyshots Editions/Article Default 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-3 {
     margin-left: 144px;
   }
@@ -2817,19 +2799,9 @@ exports[`Storyshots Editions/Article Default 1`] = `
   position: relative;
 }
 
-@media (min-width:740px) {
-  .emotion-5 {
-    width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-5 {
     width: 750px;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 
@@ -2841,7 +2813,6 @@ exports[`Storyshots Editions/Article Default 1`] = `
   display: block;
   display: block;
   width: 100%;
-  height: calc(100vw * 0.6);
 }
 
 @media (min-width:740px) {
@@ -2866,12 +2837,12 @@ exports[`Storyshots Editions/Article Default 1`] = `
 
 @media (min-width:740px) {
   .emotion-6 {
-    width: 720px;
-    height: 432px;
+    width: calc(100vw - 3.75rem);
+    height: calc((100vw - 3.75rem) * height / width);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-6 {
     width: 750px;
     height: 450px;
@@ -2925,7 +2896,7 @@ exports[`Storyshots Editions/Article Default 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-7 details[open] {
     padding-left: 9rem;
   }
@@ -2933,11 +2904,11 @@ exports[`Storyshots Editions/Article Default 1`] = `
 
 @media (min-width:740px) {
   .emotion-7 {
-    width: 720px;
+    width: calc(100vw - 3.75rem);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-7 {
     width: 750px;
   }
@@ -3022,7 +2993,7 @@ exports[`Storyshots Editions/Article Default 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-11 {
     width: 545px;
   }
@@ -3066,7 +3037,7 @@ exports[`Storyshots Editions/Article Default 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-12 {
     width: 558px;
   }
@@ -3140,20 +3111,22 @@ exports[`Storyshots Editions/Article Default 1`] = `
   height: 2.5rem;
 }
 
-.emotion-18 {
-  padding-right: 0.75rem;
-  border-right: 1px solid #DCDCDC;
-}
-
 @media (min-width:740px) {
   .emotion-18 {
     width: 526px;
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-18 {
     width: 545px;
+  }
+}
+
+@media (min-width:740px) {
+  .emotion-18 {
+    padding-right: 0.75rem;
+    border-right: 1px solid #DCDCDC;
   }
 }
 
@@ -3163,7 +3136,7 @@ exports[`Storyshots Editions/Article Default 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-18 {
     margin-left: 144px;
   }
@@ -3184,7 +3157,7 @@ exports[`Storyshots Editions/Article Default 1`] = `
   padding-bottom: 0.5rem;
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-19 p {
     margin: 0;
     padding-top: 0.5rem;
@@ -3525,7 +3498,7 @@ exports[`Storyshots Editions/Article Default 1`] = `
   clear: left;
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-42 {
     float: right;
     clear: right;
@@ -3611,7 +3584,7 @@ exports[`Storyshots Editions/Article Default 1`] = `
                 srcSet="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=140&quality=85&fit=bounds&s=d0c466d24ac750ce4b1c9fe8a40fbdd3 140w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f 500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1000&quality=85&fit=bounds&s=8f38bcd742d1ae10a3f01508e31c7f5f 1000w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1500&quality=85&fit=bounds&s=45e33e51a33abe2b327882eb9de69d04 1500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=2000&quality=85&fit=bounds&s=5bc078a6facde21b41d2c649ac36e01b 2000w"
               />
               <img
-                alt=""
+                alt="image"
                 className="js-launch-slideshow js-main-image emotion-6"
                 data-ratio={0.6}
                 src="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f"
@@ -3933,13 +3906,13 @@ exports[`Storyshots Editions/Article Feature 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-3 {
     width: 545px;
   }
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-3 {
     padding-right: 0.75rem;
     border-right: 1px solid #DCDCDC;
@@ -3952,7 +3925,7 @@ exports[`Storyshots Editions/Article Feature 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-3 {
     margin-left: 144px;
   }
@@ -3975,19 +3948,9 @@ exports[`Storyshots Editions/Article Feature 1`] = `
   position: relative;
 }
 
-@media (min-width:740px) {
-  .emotion-5 {
-    width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-5 {
     width: 750px;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 
@@ -3999,7 +3962,6 @@ exports[`Storyshots Editions/Article Feature 1`] = `
   display: block;
   display: block;
   width: 100%;
-  height: calc(100vw * 0.6);
 }
 
 @media (min-width:740px) {
@@ -4024,12 +3986,12 @@ exports[`Storyshots Editions/Article Feature 1`] = `
 
 @media (min-width:740px) {
   .emotion-6 {
-    width: 720px;
-    height: 432px;
+    width: calc(100vw - 3.75rem);
+    height: calc((100vw - 3.75rem) * height / width);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-6 {
     width: 750px;
     height: 450px;
@@ -4083,7 +4045,7 @@ exports[`Storyshots Editions/Article Feature 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-7 details[open] {
     padding-left: 9rem;
   }
@@ -4091,11 +4053,11 @@ exports[`Storyshots Editions/Article Feature 1`] = `
 
 @media (min-width:740px) {
   .emotion-7 {
-    width: 720px;
+    width: calc(100vw - 3.75rem);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-7 {
     width: 750px;
   }
@@ -4180,7 +4142,7 @@ exports[`Storyshots Editions/Article Feature 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-11 {
     width: 545px;
   }
@@ -4224,7 +4186,7 @@ exports[`Storyshots Editions/Article Feature 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-12 {
     width: 558px;
   }
@@ -4298,20 +4260,22 @@ exports[`Storyshots Editions/Article Feature 1`] = `
   height: 2.5rem;
 }
 
-.emotion-18 {
-  padding-right: 0.75rem;
-  border-right: 1px solid #DCDCDC;
-}
-
 @media (min-width:740px) {
   .emotion-18 {
     width: 526px;
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-18 {
     width: 545px;
+  }
+}
+
+@media (min-width:740px) {
+  .emotion-18 {
+    padding-right: 0.75rem;
+    border-right: 1px solid #DCDCDC;
   }
 }
 
@@ -4321,7 +4285,7 @@ exports[`Storyshots Editions/Article Feature 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-18 {
     margin-left: 144px;
   }
@@ -4342,7 +4306,7 @@ exports[`Storyshots Editions/Article Feature 1`] = `
   padding-bottom: 0.5rem;
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-19 p {
     margin: 0;
     padding-top: 0.5rem;
@@ -4683,7 +4647,7 @@ exports[`Storyshots Editions/Article Feature 1`] = `
   clear: left;
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-42 {
     float: right;
     clear: right;
@@ -4769,7 +4733,7 @@ exports[`Storyshots Editions/Article Feature 1`] = `
                 srcSet="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=140&quality=85&fit=bounds&s=d0c466d24ac750ce4b1c9fe8a40fbdd3 140w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f 500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1000&quality=85&fit=bounds&s=8f38bcd742d1ae10a3f01508e31c7f5f 1000w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1500&quality=85&fit=bounds&s=45e33e51a33abe2b327882eb9de69d04 1500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=2000&quality=85&fit=bounds&s=5bc078a6facde21b41d2c649ac36e01b 2000w"
               />
               <img
-                alt=""
+                alt="image"
                 className="js-launch-slideshow js-main-image emotion-6"
                 data-ratio={0.6}
                 src="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f"
@@ -5153,15 +5117,9 @@ exports[`Storyshots Editions/Article Interview 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-6 details[open] {
     padding-left: 9rem;
-  }
-}
-
-@media (min-width:740px) {
-  .emotion-6 {
-    width: 100%;
   }
 }
 
@@ -5190,7 +5148,7 @@ exports[`Storyshots Editions/Article Interview 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-8 {
     padding-left: 144px;
   }
@@ -5252,7 +5210,7 @@ exports[`Storyshots Editions/Article Interview 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-11 {
     width: 545px;
   }
@@ -5318,7 +5276,7 @@ exports[`Storyshots Editions/Article Interview 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-13 {
     width: 545px;
   }
@@ -5361,7 +5319,6 @@ exports[`Storyshots Editions/Article Interview 1`] = `
 
 .emotion-14 {
   box-sizing: border-box;
-  border-right: 1px solid #DCDCDC;
 }
 
 @media (min-width:740px) {
@@ -5370,7 +5327,7 @@ exports[`Storyshots Editions/Article Interview 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-14 {
     width: 558px;
   }
@@ -5382,9 +5339,15 @@ exports[`Storyshots Editions/Article Interview 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-14 {
     margin-left: 144px;
+  }
+}
+
+@media (min-width:740px) {
+  .emotion-14 {
+    border-right: 1px solid #DCDCDC;
   }
 }
 
@@ -5411,7 +5374,6 @@ exports[`Storyshots Editions/Article Interview 1`] = `
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   border-bottom: 1px solid #DCDCDC;
-  border-right: 1px solid #DCDCDC;
 }
 
 .emotion-16 svg {
@@ -5443,10 +5405,11 @@ exports[`Storyshots Editions/Article Interview 1`] = `
     margin-left: 1.5rem;
     padding-left: 0.75rem;
     padding-right: 0.75rem;
+    border-right: 1px solid #DCDCDC;
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-16 {
     margin-left: 144px;
   }
@@ -5458,7 +5421,7 @@ exports[`Storyshots Editions/Article Interview 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-16 {
     width: 558px;
   }
@@ -5487,20 +5450,22 @@ exports[`Storyshots Editions/Article Interview 1`] = `
   height: 2.5rem;
 }
 
-.emotion-20 {
-  padding-right: 0.75rem;
-  border-right: 1px solid #DCDCDC;
-}
-
 @media (min-width:740px) {
   .emotion-20 {
     width: 526px;
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-20 {
     width: 545px;
+  }
+}
+
+@media (min-width:740px) {
+  .emotion-20 {
+    padding-right: 0.75rem;
+    border-right: 1px solid #DCDCDC;
   }
 }
 
@@ -5510,7 +5475,7 @@ exports[`Storyshots Editions/Article Interview 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-20 {
     margin-left: 144px;
   }
@@ -5531,7 +5496,7 @@ exports[`Storyshots Editions/Article Interview 1`] = `
   padding-bottom: 0.5rem;
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-21 p {
     margin: 0;
     padding-top: 0.5rem;
@@ -5872,7 +5837,7 @@ exports[`Storyshots Editions/Article Interview 1`] = `
   clear: left;
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-44 {
     float: right;
     clear: right;
@@ -5956,7 +5921,7 @@ exports[`Storyshots Editions/Article Interview 1`] = `
                 srcSet="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=140&quality=85&fit=bounds&s=d0c466d24ac750ce4b1c9fe8a40fbdd3 140w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f 500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1000&quality=85&fit=bounds&s=8f38bcd742d1ae10a3f01508e31c7f5f 1000w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1500&quality=85&fit=bounds&s=45e33e51a33abe2b327882eb9de69d04 1500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=2000&quality=85&fit=bounds&s=5bc078a6facde21b41d2c649ac36e01b 2000w"
               />
               <img
-                alt=""
+                alt="image"
                 className="js-launch-slideshow js-main-image emotion-5"
                 data-ratio={0.6}
                 src="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f"
@@ -6361,15 +6326,9 @@ exports[`Storyshots Editions/Article Media 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-7 details[open] {
     padding-left: 9rem;
-  }
-}
-
-@media (min-width:740px) {
-  .emotion-7 {
-    width: 100%;
   }
 }
 
@@ -6406,7 +6365,7 @@ exports[`Storyshots Editions/Article Media 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-9 {
     padding-left: 144px;
   }
@@ -6446,7 +6405,7 @@ exports[`Storyshots Editions/Article Media 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-11 {
     width: 545px;
   }
@@ -6460,7 +6419,7 @@ exports[`Storyshots Editions/Article Media 1`] = `
     width: 538px;
   }
 
-  @media (min-width:1300px) {
+  @media (min-width:980px) {
     .emotion-12 {
       width: 557px;
     }
@@ -6494,7 +6453,7 @@ exports[`Storyshots Editions/Article Media 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-13 {
     width: 545px;
   }
@@ -6538,7 +6497,7 @@ exports[`Storyshots Editions/Article Media 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-14 {
     width: 558px;
   }
@@ -6550,7 +6509,7 @@ exports[`Storyshots Editions/Article Media 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-14 {
     margin-left: 0;
   }
@@ -6607,7 +6566,7 @@ exports[`Storyshots Editions/Article Media 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-16 {
     width: 545px;
   }
@@ -6637,8 +6596,6 @@ exports[`Storyshots Editions/Article Media 1`] = `
 }
 
 .emotion-20 {
-  padding-right: 0.75rem;
-  border-right: 1px solid #DCDCDC;
   box-sizing: border-box;
   padding-top: 0.75rem;
   padding-right: 0;
@@ -6652,9 +6609,16 @@ exports[`Storyshots Editions/Article Media 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-20 {
     width: 545px;
+  }
+}
+
+@media (min-width:740px) {
+  .emotion-20 {
+    padding-right: 0.75rem;
+    border-right: 1px solid #DCDCDC;
   }
 }
 
@@ -6664,7 +6628,7 @@ exports[`Storyshots Editions/Article Media 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-20 {
     margin-left: 144px;
   }
@@ -6678,7 +6642,7 @@ exports[`Storyshots Editions/Article Media 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-20 {
     width: 557px;
   }
@@ -6699,7 +6663,7 @@ exports[`Storyshots Editions/Article Media 1`] = `
   padding-bottom: 0.5rem;
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-21 p {
     margin: 0;
     padding-top: 0.5rem;
@@ -6744,7 +6708,7 @@ exports[`Storyshots Editions/Article Media 1`] = `
                 srcSet="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=140&quality=85&fit=bounds&s=d0c466d24ac750ce4b1c9fe8a40fbdd3 140w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f 500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1000&quality=85&fit=bounds&s=8f38bcd742d1ae10a3f01508e31c7f5f 1000w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1500&quality=85&fit=bounds&s=45e33e51a33abe2b327882eb9de69d04 1500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=2000&quality=85&fit=bounds&s=5bc078a6facde21b41d2c649ac36e01b 2000w"
               />
               <img
-                alt=""
+                alt="image"
                 className="js-launch-slideshow js-main-image emotion-6"
                 data-ratio={0.6}
                 src="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f"
@@ -6890,13 +6854,13 @@ exports[`Storyshots Editions/Article Review 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-3 {
     width: 545px;
   }
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-3 {
     padding-right: 0.75rem;
     border-right: 1px solid #DCDCDC;
@@ -6909,7 +6873,7 @@ exports[`Storyshots Editions/Article Review 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-3 {
     margin-left: 144px;
   }
@@ -6932,19 +6896,9 @@ exports[`Storyshots Editions/Article Review 1`] = `
   position: relative;
 }
 
-@media (min-width:740px) {
-  .emotion-5 {
-    width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-5 {
     width: 750px;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 
@@ -6956,7 +6910,6 @@ exports[`Storyshots Editions/Article Review 1`] = `
   display: block;
   display: block;
   width: 100%;
-  height: calc(100vw * 0.6);
 }
 
 @media (min-width:740px) {
@@ -6981,12 +6934,12 @@ exports[`Storyshots Editions/Article Review 1`] = `
 
 @media (min-width:740px) {
   .emotion-6 {
-    width: 720px;
-    height: 432px;
+    width: calc(100vw - 3.75rem);
+    height: calc((100vw - 3.75rem) * height / width);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-6 {
     width: 750px;
     height: 450px;
@@ -7040,7 +6993,7 @@ exports[`Storyshots Editions/Article Review 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-7 details[open] {
     padding-left: 9rem;
   }
@@ -7048,11 +7001,11 @@ exports[`Storyshots Editions/Article Review 1`] = `
 
 @media (min-width:740px) {
   .emotion-7 {
-    width: 720px;
+    width: calc(100vw - 3.75rem);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-7 {
     width: 750px;
   }
@@ -7173,7 +7126,7 @@ exports[`Storyshots Editions/Article Review 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-17 {
     width: 545px;
   }
@@ -7217,7 +7170,7 @@ exports[`Storyshots Editions/Article Review 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-18 {
     width: 558px;
   }
@@ -7291,20 +7244,22 @@ exports[`Storyshots Editions/Article Review 1`] = `
   height: 2.5rem;
 }
 
-.emotion-24 {
-  padding-right: 0.75rem;
-  border-right: 1px solid #DCDCDC;
-}
-
 @media (min-width:740px) {
   .emotion-24 {
     width: 526px;
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-24 {
     width: 545px;
+  }
+}
+
+@media (min-width:740px) {
+  .emotion-24 {
+    padding-right: 0.75rem;
+    border-right: 1px solid #DCDCDC;
   }
 }
 
@@ -7314,7 +7269,7 @@ exports[`Storyshots Editions/Article Review 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-24 {
     margin-left: 144px;
   }
@@ -7335,7 +7290,7 @@ exports[`Storyshots Editions/Article Review 1`] = `
   padding-bottom: 0.5rem;
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-25 p {
     margin: 0;
     padding-top: 0.5rem;
@@ -7676,7 +7631,7 @@ exports[`Storyshots Editions/Article Review 1`] = `
   clear: left;
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-48 {
     float: right;
     clear: right;
@@ -7762,7 +7717,7 @@ exports[`Storyshots Editions/Article Review 1`] = `
                 srcSet="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=140&quality=85&fit=bounds&s=d0c466d24ac750ce4b1c9fe8a40fbdd3 140w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f 500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1000&quality=85&fit=bounds&s=8f38bcd742d1ae10a3f01508e31c7f5f 1000w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1500&quality=85&fit=bounds&s=45e33e51a33abe2b327882eb9de69d04 1500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=2000&quality=85&fit=bounds&s=5bc078a6facde21b41d2c649ac36e01b 2000w"
               />
               <img
-                alt=""
+                alt="image"
                 className="js-launch-slideshow js-main-image emotion-6"
                 data-ratio={0.6}
                 src="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f"
@@ -8158,13 +8113,13 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-3 {
     width: 545px;
   }
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-3 {
     padding-right: 0.75rem;
     border-right: 1px solid #DCDCDC;
@@ -8177,7 +8132,7 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-3 {
     margin-left: 144px;
   }
@@ -8196,27 +8151,58 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
 }
 
 .emotion-5 {
+  position: relative;
+}
+
+.emotion-6 {
+  color: #121212;
+  box-sizing: border-box;
+  border-top: 1px solid #DCDCDC;
+  padding-bottom: 1rem;
+  padding-right: 0.5rem;
+  margin: 0;
+  font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+@media (prefers-color-scheme:dark) {
+  .emotion-6 {
+    color: #DCDCDC;
+  }
+}
+
+@media (min-width:375px) {
+  .emotion-6 {
+    font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
+    font-size: 1.75rem;
+    line-height: 1.15;
+    font-weight: 700;
+  }
+}
+
+@media (min-width:740px) {
+  .emotion-6 {
+    font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
+    font-size: 2.125rem;
+    line-height: 1.15;
+    font-weight: 700;
+  }
+}
+
+.emotion-7 {
   margin: 0;
   position: relative;
 }
 
-@media (min-width:740px) {
-  .emotion-5 {
-    width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media (min-width:1300px) {
-  .emotion-5 {
+@media (min-width:980px) {
+  .emotion-7 {
     width: 750px;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 
-.emotion-6 {
+.emotion-8 {
   width: 100vw;
   height: calc(100vw * 0.6);
   background-color: #F6F6F6;
@@ -8224,44 +8210,43 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   display: block;
   display: block;
   width: 100%;
-  height: calc(100vw * 0.6);
 }
 
 @media (min-width:740px) {
-  .emotion-6 {
+  .emotion-8 {
     width: 740px;
     height: calc(740px * 0.6);
   }
 }
 
 @media (min-width:1300px) {
-  .emotion-6 {
+  .emotion-8 {
     width: 980px;
     height: calc(980px * 0.6);
   }
 }
 
 @media (prefers-color-scheme:dark) {
-  .emotion-6 {
+  .emotion-8 {
     background-color: #333333;
   }
 }
 
 @media (min-width:740px) {
-  .emotion-6 {
-    width: 720px;
-    height: 432px;
+  .emotion-8 {
+    width: calc(100vw - 3.75rem);
+    height: calc((100vw - 3.75rem) * height / width);
   }
 }
 
-@media (min-width:1300px) {
-  .emotion-6 {
+@media (min-width:980px) {
+  .emotion-8 {
     width: 750px;
     height: 450px;
   }
 }
 
-.emotion-7 {
+.emotion-9 {
   position: absolute;
   left: 0;
   right: 0;
@@ -8269,7 +8254,7 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   top: 0;
 }
 
-.emotion-7 summary {
+.emotion-9 summary {
   text-align: center;
   background-color: #C70000;
   width: 34px;
@@ -8281,11 +8266,11 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   outline: none;
 }
 
-.emotion-7 summary::-webkit-details-marker {
+.emotion-9 summary::-webkit-details-marker {
   display: none;
 }
 
-.emotion-7 details[open] {
+.emotion-9 details[open] {
   min-height: 44px;
   max-height: 999px;
   height: 100%;
@@ -8303,83 +8288,42 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
 }
 
 @media (min-width:740px) {
-  .emotion-7 details[open] {
+  .emotion-9 details[open] {
     padding-left: 1.5rem;
   }
 }
 
-@media (min-width:1300px) {
-  .emotion-7 details[open] {
+@media (min-width:980px) {
+  .emotion-9 details[open] {
     padding-left: 9rem;
   }
 }
 
 @media (min-width:740px) {
-  .emotion-7 {
-    width: 720px;
+  .emotion-9 {
+    width: calc(100vw - 3.75rem);
   }
 }
 
-@media (min-width:1300px) {
-  .emotion-7 {
+@media (min-width:980px) {
+  .emotion-9 {
     width: 750px;
   }
 }
 
-.emotion-8 {
+.emotion-10 {
   line-height: 32px;
   font-size: 0;
 }
 
-.emotion-8 svg {
+.emotion-10 svg {
   width: 75%;
   height: 75%;
   margin: 12.5%;
 }
 
-.emotion-8 path {
+.emotion-10 path {
   fill: #FFF4F2;
-}
-
-.emotion-9 {
-  position: relative;
-}
-
-.emotion-10 {
-  color: #121212;
-  box-sizing: border-box;
-  border-top: 1px solid #DCDCDC;
-  padding-bottom: 1rem;
-  padding-right: 0.5rem;
-  margin: 0;
-  font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
-  font-size: 1.5rem;
-  line-height: 1.15;
-  font-weight: 500;
-}
-
-@media (prefers-color-scheme:dark) {
-  .emotion-10 {
-    color: #DCDCDC;
-  }
-}
-
-@media (min-width:375px) {
-  .emotion-10 {
-    font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
-    font-size: 1.75rem;
-    line-height: 1.15;
-    font-weight: 500;
-  }
-}
-
-@media (min-width:740px) {
-  .emotion-10 {
-    font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
-    font-size: 2.125rem;
-    line-height: 1.15;
-    font-weight: 500;
-  }
 }
 
 .emotion-11 {
@@ -8397,6 +8341,11 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   justify-content: space-between;
   padding-bottom: 1rem;
   color: #121212;
+  font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
+  font-size: 1.25rem;
+  line-height: 1.15;
+  font-weight: 500;
+  color: #333333;
 }
 
 @media (min-width:740px) {
@@ -8405,7 +8354,7 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-11 {
     width: 545px;
   }
@@ -8449,7 +8398,7 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-12 {
     width: 558px;
   }
@@ -8475,6 +8424,7 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   justify-content: space-between;
   padding-bottom: 1rem;
   margin: 0;
+  padding-bottom: 1.5rem;
 }
 
 .emotion-14 svg {
@@ -8523,20 +8473,22 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   height: 2.5rem;
 }
 
-.emotion-18 {
-  padding-right: 0.75rem;
-  border-right: 1px solid #DCDCDC;
-}
-
 @media (min-width:740px) {
   .emotion-18 {
     width: 526px;
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-18 {
     width: 545px;
+  }
+}
+
+@media (min-width:740px) {
+  .emotion-18 {
+    padding-right: 0.75rem;
+    border-right: 1px solid #DCDCDC;
   }
 }
 
@@ -8546,7 +8498,7 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-18 {
     margin-left: 144px;
   }
@@ -8567,7 +8519,7 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   padding-bottom: 0.5rem;
 }
 
-@media (min-width:660px) {
+@media (min-width:740px) {
   .emotion-19 p {
     margin: 0;
     padding-top: 0.5rem;
@@ -8908,7 +8860,7 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   clear: left;
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-42 {
     float: right;
     clear: right;
@@ -8979,9 +8931,18 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
         <header
           className="emotion-4"
         >
+          <div
+            className="emotion-5"
+          >
+            <h1
+              className="emotion-6"
+            >
+              Reclaimed lakes and giant airports: how Mexico City might have looked
+            </h1>
+          </div>
           <figure
             aria-labelledby="header-image-caption"
-            className="emotion-5"
+            className="emotion-7"
           >
             <picture>
               <source
@@ -8994,19 +8955,19 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
                 srcSet="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=140&quality=85&fit=bounds&s=d0c466d24ac750ce4b1c9fe8a40fbdd3 140w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f 500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1000&quality=85&fit=bounds&s=8f38bcd742d1ae10a3f01508e31c7f5f 1000w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1500&quality=85&fit=bounds&s=45e33e51a33abe2b327882eb9de69d04 1500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=2000&quality=85&fit=bounds&s=5bc078a6facde21b41d2c649ac36e01b 2000w"
               />
               <img
-                alt=""
-                className="js-launch-slideshow js-main-image emotion-6"
+                alt="image"
+                className="js-launch-slideshow js-main-image emotion-8"
                 data-ratio={0.6}
                 src="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f"
               />
             </picture>
             <figcaption
-              className="emotion-7"
+              className="emotion-9"
             >
               <details>
                 <summary>
                   <span
-                    className="emotion-8"
+                    className="emotion-10"
                   >
                     <svg
                       viewBox="0 0 30 30"
@@ -9031,15 +8992,6 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
               </details>
             </figcaption>
           </figure>
-          <div
-            className="emotion-9"
-          >
-            <h1
-              className="emotion-10"
-            >
-              Reclaimed lakes and giant airports: how Mexico City might have looked
-            </h1>
-          </div>
           <div
             className="emotion-11"
           >
@@ -9379,7 +9331,7 @@ exports[`Storyshots Editions/Byline Analysis 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-1 {
     font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
     font-size: 2.125rem;
@@ -9408,7 +9360,7 @@ exports[`Storyshots Editions/Byline Analysis 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-2 {
     font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
     font-size: 2.125rem;
@@ -9494,7 +9446,7 @@ exports[`Storyshots Editions/Byline Comment 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-1 {
     font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
     font-size: 2.125rem;
@@ -9523,7 +9475,7 @@ exports[`Storyshots Editions/Byline Comment 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-2 {
     font-family: GH Guardian Headline,Guardian Egyptian Web,Georgia,serif;
     font-size: 2.125rem;
@@ -9818,7 +9770,6 @@ exports[`Storyshots Editions/Byline Interview 1`] = `
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   border-bottom: 1px solid #DCDCDC;
-  border-right: 1px solid #DCDCDC;
 }
 
 .emotion-0 svg {
@@ -9850,10 +9801,11 @@ exports[`Storyshots Editions/Byline Interview 1`] = `
     margin-left: 1.5rem;
     padding-left: 0.75rem;
     padding-right: 0.75rem;
+    border-right: 1px solid #DCDCDC;
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-0 {
     margin-left: 144px;
   }
@@ -9865,7 +9817,7 @@ exports[`Storyshots Editions/Byline Interview 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-0 {
     width: 558px;
   }
@@ -10160,7 +10112,7 @@ exports[`Storyshots Editions/GalleryImage Default 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-0 {
     width: 557px;
   }
@@ -10315,15 +10267,9 @@ exports[`Storyshots Editions/HeaderMedia Full Screen 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-2 details[open] {
     padding-left: 9rem;
-  }
-}
-
-@media (min-width:740px) {
-  .emotion-2 {
-    width: 100%;
   }
 }
 
@@ -10357,7 +10303,7 @@ exports[`Storyshots Editions/HeaderMedia Full Screen 1`] = `
       srcSet="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=140&quality=85&fit=bounds&s=d0c466d24ac750ce4b1c9fe8a40fbdd3 140w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f 500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1000&quality=85&fit=bounds&s=8f38bcd742d1ae10a3f01508e31c7f5f 1000w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1500&quality=85&fit=bounds&s=45e33e51a33abe2b327882eb9de69d04 1500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=2000&quality=85&fit=bounds&s=5bc078a6facde21b41d2c649ac36e01b 2000w"
     />
     <img
-      alt=""
+      alt="image"
       className="js-launch-slideshow js-main-image emotion-1"
       data-ratio={0.6}
       src="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f"
@@ -10402,19 +10348,9 @@ exports[`Storyshots Editions/HeaderMedia Image 1`] = `
   position: relative;
 }
 
-@media (min-width:740px) {
-  .emotion-0 {
-    width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-0 {
     width: 750px;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 
@@ -10426,7 +10362,6 @@ exports[`Storyshots Editions/HeaderMedia Image 1`] = `
   display: block;
   display: block;
   width: 100%;
-  height: calc(100vw * 0.6);
 }
 
 @media (min-width:740px) {
@@ -10451,12 +10386,12 @@ exports[`Storyshots Editions/HeaderMedia Image 1`] = `
 
 @media (min-width:740px) {
   .emotion-1 {
-    width: 720px;
-    height: 432px;
+    width: calc(100vw - 3.75rem);
+    height: calc((100vw - 3.75rem) * height / width);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-1 {
     width: 750px;
     height: 450px;
@@ -10510,7 +10445,7 @@ exports[`Storyshots Editions/HeaderMedia Image 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-2 details[open] {
     padding-left: 9rem;
   }
@@ -10518,11 +10453,11 @@ exports[`Storyshots Editions/HeaderMedia Image 1`] = `
 
 @media (min-width:740px) {
   .emotion-2 {
-    width: 720px;
+    width: calc(100vw - 3.75rem);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-2 {
     width: 750px;
   }
@@ -10558,7 +10493,7 @@ exports[`Storyshots Editions/HeaderMedia Image 1`] = `
       srcSet="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=140&quality=85&fit=bounds&s=d0c466d24ac750ce4b1c9fe8a40fbdd3 140w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f 500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1000&quality=85&fit=bounds&s=8f38bcd742d1ae10a3f01508e31c7f5f 1000w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1500&quality=85&fit=bounds&s=45e33e51a33abe2b327882eb9de69d04 1500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=2000&quality=85&fit=bounds&s=5bc078a6facde21b41d2c649ac36e01b 2000w"
     />
     <img
-      alt=""
+      alt="image"
       className="js-launch-slideshow js-main-image emotion-1"
       data-ratio={0.6}
       src="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f"
@@ -10632,19 +10567,9 @@ exports[`Storyshots Editions/HeaderMedia With Star Rating 1`] = `
   position: relative;
 }
 
-@media (min-width:740px) {
-  .emotion-0 {
-    width: 720px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-0 {
     width: 750px;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 
@@ -10656,7 +10581,6 @@ exports[`Storyshots Editions/HeaderMedia With Star Rating 1`] = `
   display: block;
   display: block;
   width: 100%;
-  height: calc(100vw * 0.6);
 }
 
 @media (min-width:740px) {
@@ -10681,12 +10605,12 @@ exports[`Storyshots Editions/HeaderMedia With Star Rating 1`] = `
 
 @media (min-width:740px) {
   .emotion-1 {
-    width: 720px;
-    height: 432px;
+    width: calc(100vw - 3.75rem);
+    height: calc((100vw - 3.75rem) * height / width);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-1 {
     width: 750px;
     height: 450px;
@@ -10740,7 +10664,7 @@ exports[`Storyshots Editions/HeaderMedia With Star Rating 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-2 details[open] {
     padding-left: 9rem;
   }
@@ -10748,11 +10672,11 @@ exports[`Storyshots Editions/HeaderMedia With Star Rating 1`] = `
 
 @media (min-width:740px) {
   .emotion-2 {
-    width: 720px;
+    width: calc(100vw - 3.75rem);
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-2 {
     width: 750px;
   }
@@ -10824,7 +10748,7 @@ exports[`Storyshots Editions/HeaderMedia With Star Rating 1`] = `
       srcSet="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=140&quality=85&fit=bounds&s=d0c466d24ac750ce4b1c9fe8a40fbdd3 140w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f 500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1000&quality=85&fit=bounds&s=8f38bcd742d1ae10a3f01508e31c7f5f 1000w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=1500&quality=85&fit=bounds&s=45e33e51a33abe2b327882eb9de69d04 1500w, https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=2000&quality=85&fit=bounds&s=5bc078a6facde21b41d2c649ac36e01b 2000w"
     />
     <img
-      alt=""
+      alt="image"
       className="js-launch-slideshow js-main-image emotion-1"
       data-ratio={0.6}
       src="https://i.guim.co.uk/img/media/305593466a8bbd045d233b207b368a5dbcfd08f4/0_101_3000_1800/master/3000.jpg?width=500&quality=85&fit=bounds&s=6d0b66dcc9233754f89c07e74c44158f"
@@ -11247,7 +11171,7 @@ exports[`Storyshots Editions/Headline Interview 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-2 {
     width: 545px;
   }
@@ -11341,7 +11265,7 @@ exports[`Storyshots Editions/Headline Media 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-1 {
     width: 545px;
   }
@@ -11479,7 +11403,7 @@ exports[`Storyshots Editions/PullQuote Default 1`] = `
   clear: left;
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-0 {
     float: right;
     clear: right;
@@ -11745,7 +11669,7 @@ exports[`Storyshots Editions/Standfirst Analysis 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-0 {
     width: 545px;
   }
@@ -11817,7 +11741,7 @@ exports[`Storyshots Editions/Standfirst Comment 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-0 {
     width: 545px;
   }
@@ -11884,7 +11808,7 @@ exports[`Storyshots Editions/Standfirst Default 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-0 {
     width: 545px;
   }
@@ -11955,7 +11879,7 @@ exports[`Storyshots Editions/Standfirst Media 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-0 {
     width: 545px;
   }
@@ -12035,7 +11959,7 @@ exports[`Storyshots Editions/Standfirst Showcase 1`] = `
   }
 }
 
-@media (min-width:1300px) {
+@media (min-width:980px) {
   .emotion-0 {
     width: 545px;
   }
