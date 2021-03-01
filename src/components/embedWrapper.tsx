@@ -28,12 +28,12 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 				height: embed.height.toString(),
 				...withDefault<Record<string, string>>({})(
 					map<string, Record<string, string>>((source) => {
-						return { source: source };
+						return { source };
 					})(embed.source),
 				),
 				...withDefault<Record<string, string>>({})(
 					map<string, Record<string, string>>((sourceDomain) => {
-						return { 'source-domain': sourceDomain };
+						return { sourceDomain };
 					})(embed.sourceDomain),
 				),
 				...(embed.tracking && { tracking: embed.tracking.toString() }),
@@ -51,7 +51,7 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 				),
 				...withDefault<Record<string, string>>({})(
 					map<string, Record<string, string>>((sourceDomain) => {
-						return { 'source-domain': sourceDomain };
+						return { sourceDomain };
 					})(embed.sourceDomain),
 				),
 				...(embed.tracking && { tracking: embed.tracking.toString() }),
@@ -69,12 +69,12 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 				...(embed.mandatory && { mandatory: 'true' }),
 				...withDefault<Record<string, string>>({})(
 					map<string, Record<string, string>>((source) => {
-						return { source: source };
+						return { source };
 					})(embed.source),
 				),
 				...withDefault<Record<string, string>>({})(
 					map<string, Record<string, string>>((sourceDomain) => {
-						return { 'source-domain': sourceDomain };
+						return { sourceDomain };
 					})(embed.sourceDomain),
 				),
 				...(embed.tracking && { tracking: embed.tracking.toString() }),
@@ -98,16 +98,16 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 	};
 
 	const requiredStringParam = (
-		container: Element,
+		container: Record<string, string>,
 		parameterName: string,
 	): Result<string, string> => {
 		return resultFromNullable(
 			`I can't find a '${parameterName}' field for this embed`,
-		)(container.getAttribute(parameterName));
+		)(container[parameterName]);
 	};
 
 	const requiredNumberParam = (
-		container: Element,
+		container: Record<string, string>,
 		parameterName: string,
 	): Result<string, number> => {
 		return andThen((value: string) => {
@@ -121,7 +121,24 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 		})(requiredStringParam(container, parameterName));
 	};
 
-	switch (container.getAttribute('kind') as EmbedKind) {
+	const parseDataAttributesFromElement = (
+		container: Element,
+	): Record<string, string> => {
+		return container
+			.getAttributeNames()
+			.filter((currentKey) => currentKey.startsWith('data-'))
+			.reduce((acc, currentKey) => {
+				const newKey = currentKey
+					.replace(/^data-/g, '')
+					.replace(/-./g, (x) => x.toUpperCase()[1]);
+				const currentValue = container.getAttribute(currentKey);
+				return { ...acc, [newKey]: currentValue };
+			}, {});
+	};
+
+	const elementProps = parseDataAttributesFromElement(container);
+
+	switch (elementProps['kind'] as EmbedKind) {
 		case EmbedKind.Spotify:
 			return resultMap3(
 				(src: string, width: number, height: number): Spotify => ({
@@ -129,17 +146,13 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 					src,
 					width,
 					height,
-					source: fromNullable(container.getAttribute('source')),
-					sourceDomain: fromNullable(
-						container.getAttribute('source-domain'),
-					),
-					tracking: parseTrackingParam(
-						container.getAttribute('tracking') ?? undefined,
-					),
+					source: fromNullable(elementProps['source']),
+					sourceDomain: fromNullable(elementProps['sourceDomain']),
+					tracking: parseTrackingParam(elementProps['tracking']),
 				}),
-			)(requiredStringParam(container, 'src'))(
-				requiredNumberParam(container, 'width'),
-			)(requiredNumberParam(container, 'height'));
+			)(requiredStringParam(elementProps, 'src'))(
+				requiredNumberParam(elementProps, 'width'),
+			)(requiredNumberParam(elementProps, 'height'));
 		case EmbedKind.YouTube:
 			return resultMap3(
 				(id: string, width: number, height: number): YouTube => ({
@@ -147,35 +160,27 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 					id,
 					width,
 					height,
-					source: fromNullable(container.getAttribute('source')),
-					sourceDomain: fromNullable(
-						container.getAttribute('source-domain'),
-					),
-					tracking: parseTrackingParam(
-						container.getAttribute('tracking') ?? undefined,
-					),
+					source: fromNullable(elementProps['source']),
+					sourceDomain: fromNullable(elementProps['sourceDomain']),
+					tracking: parseTrackingParam(elementProps['tracking']),
 				}),
-			)(requiredStringParam(container, 'id'))(
-				requiredNumberParam(container, 'width'),
-			)(requiredNumberParam(container, 'height'));
+			)(requiredStringParam(elementProps, 'id'))(
+				requiredNumberParam(elementProps, 'width'),
+			)(requiredNumberParam(elementProps, 'height'));
 		case EmbedKind.Generic: {
 			return resultMap2<string, number, Generic>(
 				(html: string, height: number): Generic => ({
 					kind: EmbedKind.Generic,
-					alt: fromNullable(container.getAttribute('alt')),
+					alt: fromNullable(elementProps['alt']),
 					html,
 					height,
-					mandatory: container.getAttribute('mandatory') === 'true',
-					source: fromNullable(container.getAttribute('source')),
-					sourceDomain: fromNullable(
-						container.getAttribute('source-domain'),
-					),
-					tracking: parseTrackingParam(
-						container.getAttribute('tracking') ?? undefined,
-					),
+					mandatory: elementProps['mandatory'] === 'true',
+					source: fromNullable(elementProps['source']),
+					sourceDomain: fromNullable(elementProps['sourceDomain']),
+					tracking: parseTrackingParam(elementProps['tracking']),
 				}),
-			)(requiredStringParam(container, 'html'))(
-				requiredNumberParam(container, 'height'),
+			)(requiredStringParam(elementProps, 'html'))(
+				requiredNumberParam(elementProps, 'height'),
 			);
 		}
 	}
@@ -201,6 +206,17 @@ const EmbedComponentInClickToView: FC<Props> = ({ embed }: Props) => {
 	});
 };
 
+const withDatasetKeyFormat = (
+	dataSet: Record<string, string>,
+): Record<string, string> => {
+	return Object.keys(dataSet).reduce((accumulatedObject, currentKey) => {
+		const newKey =
+			'data-' +
+			currentKey.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+		return { ...accumulatedObject, [newKey]: dataSet[currentKey] };
+	}, {});
+};
+
 const EmbedComponentWrapper: FC<Props> = ({ embed }: Props) => {
 	if (
 		embed.tracking === EmbedTracksType.TRACKS ||
@@ -208,7 +224,10 @@ const EmbedComponentWrapper: FC<Props> = ({ embed }: Props) => {
 	) {
 		return h(
 			'div',
-			{ ...embedToDivProps(embed), className: 'click-to-view-container' },
+			{
+				...withDatasetKeyFormat(embedToDivProps(embed)),
+				className: 'click-to-view-container',
+			},
 			EmbedComponentInClickToView({ embed }),
 		);
 	} else {
