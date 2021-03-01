@@ -126,6 +126,8 @@
     "is-ci": "^2.0.0",
     "jest": "^26.6.1",
     "pinst": "^2.1.1",
+    "preact": "^10.5.7",
+    "preact-render-to-string": "^5.1.12",
     "prettier": "^2.2.0",
     "ts-jest": "^26.4.4",
     "ts-loader": "^8.0.11",
