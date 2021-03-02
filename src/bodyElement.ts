@@ -1,7 +1,7 @@
 // ----- Imports ----- //
 
 import type { Campaign } from '@guardian/apps-rendering-api-models/campaign';
-import type { QuestionType } from '@guardian/atoms-rendering/dist/QuizAtom';
+// import type { QuestionType } from '@guardian/atoms-rendering/dist/QuizAtom';
 import type { TimelineEvent } from '@guardian/atoms-rendering/dist/types';
 import type { Atoms } from '@guardian/content-api-models/v1/atoms';
 import type { BlockElement } from '@guardian/content-api-models/v1/blockElement';
@@ -135,11 +135,11 @@ interface AudioAtom {
 	title: string;
 }
 
-interface QuizAtom {
-	kind: ElementKind.QuizAtom;
-	id: string;
-	questions: QuestionType[];
-}
+// interface QuizAtom {
+// 	kind: ElementKind.QuizAtom;
+// 	id: string;
+// 	questions: QuestionType[];
+// }
 
 type BodyElement =
 	| Text
@@ -187,8 +187,8 @@ type BodyElement =
 	| ProfileAtom
 	| TimelineAtom
 	| ChartAtom
-	| AudioAtom
-	| QuizAtom;
+	| AudioAtom;
+// | QuizAtom;
 
 type Elements = BlockElement[] | undefined;
 
@@ -427,6 +427,6 @@ export {
 	ProfileAtom,
 	TimelineAtom,
 	AudioAtom,
-	QuizAtom,
+	// QuizAtom,
 	parseElements,
 };

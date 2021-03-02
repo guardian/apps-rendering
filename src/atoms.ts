@@ -1,3 +1,4 @@
+import type { TimelineEvent } from '@guardian/atoms-rendering/dist/types';
 import type { Atoms } from '@guardian/content-api-models/v1/atoms';
 import type { BlockElement } from '@guardian/content-api-models/v1/blockElement';
 import { err, fromNullable, ok } from '@guardian/types';
@@ -175,12 +176,15 @@ function parseAtom(
 			}
 
 			const { title } = atom;
-			const events = atom.data.timeline.events.map((event) => ({
-				title: event.title,
-				date: formatOptionalDate(event.date) ?? '',
-				body: event.body,
-				toDate: formatOptionalDate(event.toDate),
-			}));
+			const events: TimelineEvent[] = atom.data.timeline.events.map(
+				(event) => ({
+					title: event.title,
+					date: formatOptionalDate(event.date) ?? '',
+					body: event.body,
+					toDate: formatOptionalDate(event.toDate),
+					unixDate: event.date.toNumber(),
+				}),
+			);
 
 			const description = atom.data.timeline.description;
 
@@ -282,34 +286,34 @@ function parseAtom(
 			});
 		}
 
-		case 'quiz': {
-			const atom = atoms.quizzes?.find((quiz) => quiz.id === id);
-			if (atom?.data.kind !== 'quiz' || !id) {
-				return err(`No atom matched this id: ${id}`);
-			}
+		// case 'quiz': {
+		// 	const atom = atoms.quizzes?.find((quiz) => quiz.id === id);
+		// 	if (atom?.data.kind !== 'quiz' || !id) {
+		// 		return err(`No atom matched this id: ${id}`);
+		// 	}
 
-			const { content } = atom.data.quiz;
+		// 	const { content } = atom.data.quiz;
 
-			if (content.questions.length === 0) {
-				return err(`No content for atom: ${id}`);
-			}
+		// 	if (content.questions.length === 0) {
+		// 		return err(`No content for atom: ${id}`);
+		// 	}
 
-			const questions = content.questions.map((question) => {
-				return {
-					text: question.questionText,
-					...question,
-					answers: question.answers.map((answer) => {
-						return {
-							text: answer.answerText,
-							isCorrect: !!answer.weight,
-							...answer,
-						};
-					}),
-				};
-			});
+		// 	const questions = content.questions.map((question) => {
+		// 		return {
+		// 			text: question.questionText,
+		// 			...question,
+		// 			answers: question.answers.map((answer) => {
+		// 				return {
+		// 					text: answer.answerText,
+		// 					isCorrect: !!answer.weight,
+		// 					...answer,
+		// 				};
+		// 			}),
+		// 		};
+		// 	});
 
-			return ok({ kind: ElementKind.QuizAtom, id, questions });
-		}
+		// 	return ok({ kind: ElementKind.QuizAtom, id, questions });
+		// }
 
 		default: {
 			return err(

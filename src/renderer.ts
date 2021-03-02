@@ -9,7 +9,7 @@ import {
 	GuideAtom,
 	ProfileAtom,
 	QandaAtom,
-	QuizAtom,
+	// QuizAtom,
 	TimelineAtom,
 } from '@guardian/atoms-rendering';
 import { BodyImage, FigCaption } from '@guardian/image-rendering';
@@ -41,7 +41,7 @@ import type {
 	MediaAtom as MediaAtomElement,
 	ProfileAtom as ProfileAtomElement,
 	QandaAtom as QandaAtomElement,
-	QuizAtom as QuizAtomElement,
+	// QuizAtom as QuizAtomElement,
 	Text,
 	TimelineAtom as TimelineAtomElement,
 } from 'bodyElement';
@@ -655,21 +655,21 @@ const audioAtomRenderer = (
 	);
 };
 
-const quizAtomRenderer = (
-	format: Format,
-	element: QuizAtomElement,
-): ReactNode => {
-	const props = JSON.stringify(element);
-	const hydrationParams = h(
-		'script',
-		{ className: 'js-quiz-params', type: 'application/json' },
-		props,
-	);
-	return h('div', { className: 'js-quiz' }, [
-		hydrationParams,
-		h(QuizAtom, { ...element }),
-	]);
-};
+// const quizAtomRenderer = (
+// 	format: Format,
+// 	element: QuizAtomElement,
+// ): ReactNode => {
+// 	const props = JSON.stringify(element);
+// 	const hydrationParams = h(
+// 		'script',
+// 		{ className: 'js-quiz-params', type: 'application/json' },
+// 		props,
+// 	);
+// 	return h('div', { className: 'js-quiz' }, [
+// 		hydrationParams,
+// 		h(QuizAtom, { ...element }),
+// 	]);
+// };
 
 const render = (format: Format, excludeStyles = false) => (
 	element: BodyElement,
@@ -746,8 +746,8 @@ const render = (format: Format, excludeStyles = false) => (
 		case ElementKind.AudioAtom:
 			return audioAtomRenderer(format, element);
 
-		case ElementKind.QuizAtom:
-			return quizAtomRenderer(format, element);
+		// case ElementKind.QuizAtom:
+		// 	return quizAtomRenderer(format, element);
 	}
 };
 
@@ -813,8 +813,8 @@ const renderEditions = (format: Format, excludeStyles = false) => (
 		case ElementKind.AudioAtom:
 			return audioAtomRenderer(format, element);
 
-		case ElementKind.QuizAtom:
-			return quizAtomRenderer(format, element);
+		// case ElementKind.QuizAtom:
+		// 	return quizAtomRenderer(format, element);
 
 		default:
 			return null;
