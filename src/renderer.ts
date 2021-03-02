@@ -490,7 +490,7 @@ const guideAtomRenderer = (
 ): ReactNode => {
 	return h(GuideAtom, {
 		...element,
-		pillar: themeToPillar(format.theme),
+		pillar: format.theme,
 		likeHandler: () => {
 			console.log('like clicked');
 		},
@@ -509,7 +509,7 @@ const qandaAtomRenderer = (
 ): ReactNode => {
 	return h(QandaAtom, {
 		...element,
-		pillar: themeToPillar(format.theme),
+		pillar: format.theme,
 		likeHandler: () => {
 			console.log('like clicked');
 		},
@@ -528,7 +528,7 @@ const profileAtomRenderer = (
 ): ReactNode => {
 	return h(ProfileAtom, {
 		...element,
-		pillar: themeToPillar(format.theme),
+		pillar: format.theme,
 		likeHandler: () => {
 			console.log('like clicked');
 		},
@@ -547,7 +547,7 @@ const timelineAtomRenderer = (
 ): ReactNode => {
 	return h(TimelineAtom, {
 		...element,
-		pillar: themeToPillar(format.theme),
+		pillar: format.theme,
 		likeHandler: () => {
 			console.log('like clicked');
 		},
