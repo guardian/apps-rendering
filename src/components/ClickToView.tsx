@@ -156,9 +156,10 @@ export const ClickToView = ({
 						<>
 							<p>
 								This article includes content hosted on{' '}
-								{sourceDomain}. We ask for your permission
-								before anything is loaded, as the provider may
-								be using cookies and other technologies.
+								{withDefault('unknown')(sourceDomain)}. We ask
+								for your permission before anything is loaded,
+								as the provider may be using cookies and other
+								technologies.
 							</p>
 							<p>
 								To view this content, click &apos;Allow and

@@ -192,7 +192,7 @@ const createEmbedComponentFromProps = (
 	return andThen((embed: Embed) => {
 		return resultFromNullable(
 			`I can't construct a Component for embed of type ${embed.kind}`,
-		)(EmbedComponentInClickToView({ embed }));
+		)(h(EmbedComponentInClickToView, { embed }));
 	})(divElementPropsToEmbed(container));
 };
 
@@ -236,4 +236,8 @@ const EmbedComponentWrapper: FC<Props> = ({ embed }: Props) => {
 };
 
 // ----- Exports ----- //
-export { EmbedComponentWrapper, createEmbedComponentFromProps };
+export {
+	EmbedComponentWrapper,
+	createEmbedComponentFromProps,
+	EmbedComponentInClickToView,
+};
