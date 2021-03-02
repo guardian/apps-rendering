@@ -2,12 +2,12 @@
 
 import Audio from 'components/audio';
 import GenericEmbed from 'components/genericEmbed';
+import Instagram from 'components/instagram';
 import Video from 'components/video';
 import { EmbedKind, youtubeUrl } from 'embed';
 import type { Embed } from 'embed';
 import React from 'react';
 import type { FC } from 'react';
-import Instagram from 'components/instagram';
 
 // ----- Component ----- //
 
@@ -38,7 +38,7 @@ const EmbedComponent: FC<Props> = ({ embed }) => {
 					height={embed.height}
 				/>
 			);
-		
+
 		case EmbedKind.Instagram:
 			return <Instagram id={embed.id} />;
 

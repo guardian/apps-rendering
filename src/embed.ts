@@ -145,9 +145,9 @@ const getYoutubeIdParam = (url: URL): Result<string, string> =>
 	)(url.searchParams.get('v'));
 
 const extractInstagramUrl = (element: BlockElement): Result<string, string> =>
-	resultFromNullable("I can't find an 'originalUrl' field for this instagram embed")(
-		element.instagramTypeData?.originalUrl,
-	);
+	resultFromNullable(
+		"I can't find an 'originalUrl' field for this Instagram embed",
+	)(element.instagramTypeData?.originalUrl);
 
 const getInstagramPostId = (url: URL): Result<string, string> =>
 	resultFromNullable(
@@ -234,8 +234,8 @@ const parseInstagram = (element: BlockElement): Result<string, Embed> => {
 			kind: EmbedKind.Instagram,
 			id,
 		})),
-	)
-}
+	);
+};
 
 const parseGeneric = (parser: DocParser) => (
 	element: BlockElement,
