@@ -17,7 +17,7 @@ import {
 } from '@guardian/types';
 import { parseAtom } from 'atoms';
 import { formatDate } from 'date';
-import { parseAudio, parseGeneric, parseVideo } from 'embed';
+import { parseAudio, parseGeneric, parseInstagram, parseVideo } from 'embed';
 import type { Embed } from 'embed';
 import type { Image as ImageData } from 'image';
 import { parseImage } from 'image';
@@ -33,7 +33,6 @@ const enum ElementKind {
 	Interactive,
 	RichLink,
 	Tweet,
-	Instagram,
 	Embed,
 	Callout,
 	LiveEvent,
@@ -61,11 +60,6 @@ type Image = ImageData & {
 type EmbedElement = {
 	kind: ElementKind.Embed;
 	embed: Embed;
-};
-
-type Instagram = {
-	kind: ElementKind.Instagram;
-	html: string;
 };
 
 interface InteractiveAtom {
@@ -163,7 +157,6 @@ type BodyElement =
 			kind: ElementKind.Tweet;
 			content: NodeList;
 	  }
-	| Instagram
 	| EmbedElement
 	| {
 			kind: ElementKind.Callout;
@@ -365,15 +358,8 @@ const parse = (context: Context, atoms?: Atoms, campaigns?: Campaign[]) => (
 			});
 		}
 
-		case ElementType.INSTAGRAM: {
-			const { html: instagramHtml } = element.instagramTypeData ?? {};
-
-			if (!instagramHtml) {
-				return err('No html field on instagramTypeData');
-			}
-
-			return ok({ kind: ElementKind.Instagram, html: instagramHtml });
-		}
+		case ElementType.INSTAGRAM:
+			return compose(toEmbedElement, parseInstagram)(element);
 
 		case ElementType.AUDIO:
 			return compose(
@@ -419,7 +405,6 @@ export {
 	Image,
 	Text,
 	Embed,
-	Instagram,
 	GuideAtom,
 	InteractiveAtom,
 	MediaAtom,
