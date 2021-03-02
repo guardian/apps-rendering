@@ -42,6 +42,7 @@ interface Spotify {
 interface Instagram {
 	kind: EmbedKind.Instagram;
 	id: string;
+	caption: Option<string>;
 }
 
 interface Generic {
@@ -233,6 +234,10 @@ const parseInstagram = (element: BlockElement): Result<string, Embed> => {
 		resultMap((id) => ({
 			kind: EmbedKind.Instagram,
 			id,
+			caption: fromNullable(
+				element.instagramTypeData?.caption ??
+					element.instagramTypeData?.alt,
+			),
 		})),
 	);
 };

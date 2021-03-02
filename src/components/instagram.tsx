@@ -1,5 +1,7 @@
 // ----- Imports ----- //
 
+import type { Option } from '@guardian/types';
+import { withDefault } from '@guardian/types';
 import type { FC } from 'react';
 
 // ----- Functions ----- //
@@ -11,10 +13,15 @@ const instagramUrl = (id: string): string =>
 
 interface Props {
 	id: string;
+	caption: Option<string>;
 }
 
-const Instagram: FC<Props> = ({ id }) => (
-	<iframe src={instagramUrl(id)} height="830" />
+const Instagram: FC<Props> = ({ id, caption }) => (
+	<iframe
+		src={instagramUrl(id)}
+		height="830"
+		title={withDefault('Instagram embed')(caption)}
+	/>
 );
 
 // ----- Exports ----- //
