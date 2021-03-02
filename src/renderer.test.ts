@@ -99,7 +99,7 @@ const embedElement: BodyElement = {
 		source: some('mockSource'),
 		sourceDomain: some('mockSourceDomain'),
 		tracking: EmbedTracksType.DOES_NOT_TRACK,
-	}
+	},
 };
 
 const videoElement: BodyElement = {
@@ -109,7 +109,7 @@ const videoElement: BodyElement = {
 		id: 'mockYoutubeId',
 		height: 300,
 		width: 500,
-	}
+	},
 };
 
 const audioElement: BodyElement = {
@@ -119,7 +119,7 @@ const audioElement: BodyElement = {
 		src: 'https://www.spotify.com/',
 		height: 300,
 		width: 500,
-	}
+	},
 };
 
 const liveEventElement = (): BodyElement => ({
@@ -169,6 +169,7 @@ const timelineElement = (): BodyElement => ({
 	id: '',
 	events: [
 		{
+			unixDate: 1556713588,
 			title: ' ',
 			date: '1 May 2019',
 			body:
@@ -176,6 +177,7 @@ const timelineElement = (): BodyElement => ({
 		},
 		{
 			title: ' ',
+			unixDate: 1557750388,
 			date: '13 May 2019',
 			body:
 				'<p>Swedish prosecutors announce they are <a href="https://www.theguardian.com/media/2019/may/13/sweden-reopens-case-against-julian-assange">reopening an investigation into a rape allegation</a> against Julian Assange.</p><p><br></p>',
@@ -192,11 +194,11 @@ const chartElement = (): BodyElement => ({
 	js: [],
 });
 
-const quizAtom = (): BodyElement => ({
-	kind: ElementKind.QuizAtom,
-	id: '',
-	questions: [],
-});
+// const quizAtom = (): BodyElement => ({
+// 	kind: ElementKind.QuizAtom,
+// 	id: '',
+// 	questions: [],
+// });
 
 const audioAtom = (): BodyElement => ({
 	kind: ElementKind.AudioAtom,
@@ -349,7 +351,9 @@ describe('Renders different types of elements', () => {
 	test('ElementKind.Embed', () => {
 		const nodes = render(embedElement);
 		const embed = nodes.flat()[0];
-		expect(getHtml(embed)).toContain('<iframe srcDoc=\"&lt;section&gt;Embed&lt;/section&gt;\" title=\"Embed\" height=\"322\"></iframe>');
+		expect(getHtml(embed)).toContain(
+			'<iframe srcDoc="&lt;section&gt;Embed&lt;/section&gt;" title="Embed" height="322"></iframe>',
+		);
 	});
 
 	test('ElementKind.Audio', () => {
@@ -428,15 +432,15 @@ describe('Renders different types of elements', () => {
 		);
 	});
 
-	test('ElementKind.QuizAtom', () => {
-		const nodes = render(quizAtom());
-		const quiz = nodes.flat()[0];
-		const html = getHtml(quiz);
-		expect(html).toContain('<div class="js-quiz">');
-		expect(html).toContain(
-			'<script class="js-quiz-params" type="application/json">',
-		);
-	});
+	// test('ElementKind.QuizAtom', () => {
+	// 	const nodes = render(quizAtom());
+	// 	const quiz = nodes.flat()[0];
+	// 	const html = getHtml(quiz);
+	// 	expect(html).toContain('<div class="js-quiz">');
+	// 	expect(html).toContain(
+	// 		'<script class="js-quiz-params" type="application/json">',
+	// 	);
+	// });
 
 	test('ElementKind.AudioAtom', () => {
 		const nodes = render(audioAtom());
@@ -529,7 +533,9 @@ describe('Renders different types of Editions elements', () => {
 	test('ElementKind.Embed', () => {
 		const nodes = renderEditions(embedElement);
 		const embed = nodes.flat()[0];
-		expect(getHtml(embed)).toContain('<iframe srcDoc=\"&lt;section&gt;Embed&lt;/section&gt;\" title=\"Embed\" height=\"322\"></iframe>');
+		expect(getHtml(embed)).toContain(
+			'<iframe srcDoc="&lt;section&gt;Embed&lt;/section&gt;" title="Embed" height="322"></iframe>',
+		);
 	});
 
 	test('ElementKind.Audio', () => {
@@ -608,15 +614,15 @@ describe('Renders different types of Editions elements', () => {
 		);
 	});
 
-	test('ElementKind.QuizAtom', () => {
-		const nodes = renderEditions(quizAtom());
-		const quiz = nodes.flat()[0];
-		const html = getHtml(quiz);
-		expect(html).toContain('<div class="js-quiz">');
-		expect(html).toContain(
-			'<script class="js-quiz-params" type="application/json">',
-		);
-	});
+	// test('ElementKind.QuizAtom', () => {
+	// 	const nodes = renderEditions(quizAtom());
+	// 	const quiz = nodes.flat()[0];
+	// 	const html = getHtml(quiz);
+	// 	expect(html).toContain('<div class="js-quiz">');
+	// 	expect(html).toContain(
+	// 		'<script class="js-quiz-params" type="application/json">',
+	// 	);
+	// });
 
 	test('ElementKind.AudioAtom', () => {
 		const nodes = renderEditions(audioAtom());
