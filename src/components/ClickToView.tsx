@@ -113,6 +113,7 @@ export const ClickToView = ({
 					justify-content: space-between;
 					padding: ${remSpace[3]};
 					margin-bottom: ${remSpace[2]};
+					box-sizing: border-box;
 				`}
 			>
 				<div
