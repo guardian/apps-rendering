@@ -4,82 +4,78 @@ import { background, border } from '@guardian/src-foundations/palette';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { SvgCheckmark } from '@guardian/src-icons';
 import type { Option } from '@guardian/types';
-import { OptionKind, withDefault } from '@guardian/types';
+import { OptionKind, Role, withDefault } from '@guardian/types';
 import { css } from 'emotion';
 import { fold } from 'lib';
 import React, { useState } from 'react';
 
-type RoleType =
-	| 'immersive'
-	| 'supporting'
-	| 'showcase'
-	| 'inline'
-	| 'thumbnail'
-	| 'halfWidth';
-
 export type ClickToViewProps = {
 	children: React.ReactNode;
-	role: Option<RoleType>;
+	role: Option<Role>;
 	onAccept: Option<() => void>;
 	source: Option<string>;
 	sourceDomain: Option<string>;
 };
 
-const roleTextSize = (role: RoleType): string => {
+const roleTextSize = (role: Role): string => {
 	switch (role) {
-		case 'immersive':
-		case 'inline':
-		case 'showcase': {
+		case Role.Standard:
+		case Role.Immersive:
+		case Role.Inline:
+		case Role.Showcase: {
 			return textSans.medium();
 		}
-		case 'halfWidth':
-		case 'supporting':
-		case 'thumbnail': {
+		case Role.HalfWidth:
+		case Role.Supporting:
+		case Role.Thumbnail: {
 			return textSans.small();
 		}
 	}
 };
 
-const roleHeadlineSize = (role: RoleType): string => {
+const roleHeadlineSize = (role: Role): string => {
 	switch (role) {
-		case 'immersive':
-		case 'inline':
-		case 'showcase': {
+		case Role.Standard:
+		case Role.Immersive:
+		case Role.Inline:
+		case Role.Showcase: {
 			return headline.xsmall();
 		}
-		case 'halfWidth':
-		case 'supporting':
-		case 'thumbnail': {
+		case Role.HalfWidth:
+		case Role.Supporting:
+		case Role.Thumbnail: {
 			return headline.xxsmall();
 		}
 	}
 };
 
-const roleButtonSize = (role: RoleType): 'default' | 'small' | 'xsmall' => {
+const roleButtonSize = (role: Role): 'default' | 'small' | 'xsmall' => {
 	switch (role) {
-		case 'immersive':
-		case 'inline':
-		case 'showcase': {
+		case Role.Standard:
+		case Role.Immersive:
+		case Role.Inline:
+		case Role.Showcase: {
 			return 'small';
 		}
-		case 'halfWidth':
-		case 'supporting':
-		case 'thumbnail': {
+		case Role.HalfWidth:
+		case Role.Supporting:
+		case Role.Thumbnail: {
 			return 'xsmall';
 		}
 	}
 };
 
-const roleButtonText = (role: RoleType): string => {
+const roleButtonText = (role: Role): string => {
 	switch (role) {
-		case 'immersive':
-		case 'inline':
-		case 'showcase':
-		case 'halfWidth':
-		case 'supporting': {
+		case Role.Standard:
+		case Role.Immersive:
+		case Role.Inline:
+		case Role.Showcase:
+		case Role.HalfWidth:
+		case Role.Supporting: {
 			return 'Allow and continue';
 		}
-		case 'thumbnail': {
+		case Role.Thumbnail: {
 			return 'Allow';
 		}
 	}
@@ -101,7 +97,7 @@ export const ClickToView = ({
 		}
 	};
 
-	const roleWithDefault = withDefault('inline' as RoleType)(role);
+	const roleWithDefault = withDefault(Role.Inline)(role);
 
 	const textSize = roleTextSize(roleWithDefault);
 
