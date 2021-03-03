@@ -769,53 +769,6 @@ const renderEditions = (format: Format, excludeStyles = false) => (
 			return h(EditionsPullquote, { quote, attribution, format, key });
 		}
 
-		case ElementKind.LiveEvent:
-			return h(LiveEventLink, { ...element, key });
-
-		case ElementKind.Tweet:
-			return h(Tweet, { content: element.content, format, key });
-
-		case ElementKind.Callout: {
-			const { campaign, description } = element;
-			return h(CalloutForm, { campaign, format, description });
-		}
-
-		case ElementKind.Embed:
-			return h(EmbedComponent, { embed: element.embed });
-
-		case ElementKind.Instagram:
-			return instagramRenderer(element);
-
-		case ElementKind.ExplainerAtom:
-			return h(ExplainerAtom, { ...element });
-
-		case ElementKind.GuideAtom:
-			return guideAtomRenderer(format, element);
-
-		case ElementKind.QandaAtom:
-			return qandaAtomRenderer(format, element);
-
-		case ElementKind.ProfileAtom:
-			return profileAtomRenderer(format, element);
-
-		case ElementKind.TimelineAtom:
-			return timelineAtomRenderer(format, element);
-
-		case ElementKind.ChartAtom:
-			return h(ChartAtom, { ...element });
-
-		case ElementKind.InteractiveAtom:
-			return interactiveAtomRenderer(format, element);
-
-		case ElementKind.MediaAtom:
-			return mediaAtomRenderer(format, element);
-
-		case ElementKind.AudioAtom:
-			return audioAtomRenderer(format, element);
-
-		case ElementKind.QuizAtom:
-			return quizAtomRenderer(format, element);
-
 		default:
 			return null;
 	}
