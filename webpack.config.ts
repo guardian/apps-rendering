@@ -6,7 +6,7 @@ import { createHash } from 'crypto';
 import path from 'path';
 import CleanCSS from 'clean-css';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-import type { Compiler, Configuration, Resolve } from 'webpack';
+import type { Compiler, Configuration, ResolveOptions } from 'webpack';
 import webpack from 'webpack';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import nodeExternals from 'webpack-node-externals';
@@ -33,7 +33,7 @@ class LaunchServerPlugin {
 
 // ----- Shared Config ----- //
 
-function resolve(loggerName: string): Resolve {
+function resolve(loggerName: string): ResolveOptions {
 	return {
 		extensions: ['.ts', '.tsx', '.js'],
 		modules: [path.resolve(__dirname, 'src'), 'node_modules'],
