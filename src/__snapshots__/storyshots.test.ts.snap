@@ -12117,6 +12117,493 @@ exports[`Storyshots Editions/Star Rating Default 1`] = `
 
 exports[`Storyshots Editions/Star Rating Not Review 1`] = `null`;
 
+exports[`Storyshots EmbedComponentWrapper Generic 1`] = `
+.emotion-3 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-transition: .3s ease-in-out;
+  transition: .3s ease-in-out;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  font-weight: 700;
+  height: 36px;
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: 36px;
+  padding-bottom: 2px;
+  background-color: #052962;
+  color: #FFFFFF;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+}
+
+.emotion-3:focus {
+  outline: 0;
+}
+
+html:not(.src-focus-disabled) .emotion-3:focus {
+  box-shadow: 0 0 0 5px #00B2FF;
+}
+
+.emotion-3:hover {
+  background-color: #234B8A;
+}
+
+.emotion-3 svg {
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  display: block;
+  fill: currentColor;
+  position: relative;
+  width: 26px;
+  height: auto;
+}
+
+.emotion-3 .src-button-space {
+  width: 8px;
+}
+
+.emotion-3 svg {
+  margin-left: -4px;
+}
+
+.emotion-4 {
+  margin: 1rem 0;
+}
+
+@media (prefers-color-scheme:dark) {
+  .emotion-4 {
+    background: white;
+    padding: 0.5rem;
+  }
+}
+
+.emotion-5 {
+  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #767676;
+}
+
+<div>
+  <p>
+    This is an example of the embed wrapper rendering a spotify 'Generic' embed overlay.
+  </p>
+  <div
+    className="click-to-view-container"
+    data-alt="Lemmy"
+    data-height="480"
+    data-html="<iframe src=\\"https://embed.spotify.com/?uri=spotify:user:guardianmusic:playlist:00lXay2hDczhstNhC7D1sl\\" width=\\"460\\" height=\\"480\\" frameborder=\\"0\\" allowtransparency=\\"true\\">"
+    data-kind="Generic"
+    data-mandatory="true"
+    data-source="Spotify"
+    data-source-domain="embed.spotify.com"
+    data-tracking="1"
+  >
+    <div
+      className="emotion-0"
+    >
+      <div
+        className="emotion-1"
+      >
+        Allow Spotify content?
+      </div>
+      <div
+        className="emotion-2"
+      >
+        <p>
+          This article includes content provided by
+           
+          Spotify
+          . We ask for your permission before anything is loaded, as they may be using cookies and other technologies.
+        </p>
+        <p>
+          To view this content, click 'Allow and continue'.
+        </p>
+      </div>
+      <div>
+        <button
+          className="emotion-3"
+          onClick={[Function]}
+          type="button"
+        >
+          Allow and continue
+          <div
+            className="src-button-space"
+          />
+          <svg
+            viewBox="0 0 30 30"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clipRule="evenodd"
+              d="M6 14.775l-1 1 5 7h.475l14.3-14.8-1-.975-13.3 12.05L6 14.775z"
+              fillRule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    This is an example of the embed wrapper rendering a spotify 'Generic' embed.
+  </p>
+  <figure
+    className="emotion-4"
+  >
+    <iframe
+      height={502}
+      srcDoc="<iframe src=\\"https://embed.spotify.com/?uri=spotify:user:guardianmusic:playlist:00lXay2hDczhstNhC7D1sl\\" width=\\"460\\" height=\\"480\\" frameborder=\\"0\\" allowtransparency=\\"true\\">"
+      title="Lemmy"
+    />
+    <figcaption
+      className="emotion-5"
+    >
+      Lemmy
+    </figcaption>
+  </figure>
+</div>
+`;
+
+exports[`Storyshots EmbedComponentWrapper Spotify 1`] = `
+.emotion-3 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-transition: .3s ease-in-out;
+  transition: .3s ease-in-out;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  font-weight: 700;
+  height: 36px;
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: 36px;
+  padding-bottom: 2px;
+  background-color: #052962;
+  color: #FFFFFF;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+}
+
+.emotion-3:focus {
+  outline: 0;
+}
+
+html:not(.src-focus-disabled) .emotion-3:focus {
+  box-shadow: 0 0 0 5px #00B2FF;
+}
+
+.emotion-3:hover {
+  background-color: #234B8A;
+}
+
+.emotion-3 svg {
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  display: block;
+  fill: currentColor;
+  position: relative;
+  width: 26px;
+  height: auto;
+}
+
+.emotion-3 .src-button-space {
+  width: 8px;
+}
+
+.emotion-3 svg {
+  margin-left: -4px;
+}
+
+.emotion-4 {
+  border: none;
+}
+
+<div>
+  <p>
+    This is an example of the embed wrapper rendering a spotify 'Generic' embed overlay.
+  </p>
+  <div
+    className="click-to-view-container"
+    data-height="380"
+    data-kind="Spotify"
+    data-source="Spotify"
+    data-source-domain="embed.spotify.com"
+    data-src="https://embed.spotify.com/?uri=spotify:album:1PULmKbHeOqlkIwcDMNwD4"
+    data-tracking="1"
+    data-width="300"
+  >
+    <div
+      className="emotion-0"
+    >
+      <div
+        className="emotion-1"
+      >
+        Allow Spotify content?
+      </div>
+      <div
+        className="emotion-2"
+      >
+        <p>
+          This article includes content provided by
+           
+          Spotify
+          . We ask for your permission before anything is loaded, as they may be using cookies and other technologies.
+        </p>
+        <p>
+          To view this content, click 'Allow and continue'.
+        </p>
+      </div>
+      <div>
+        <button
+          className="emotion-3"
+          onClick={[Function]}
+          type="button"
+        >
+          Allow and continue
+          <div
+            className="src-button-space"
+          />
+          <svg
+            viewBox="0 0 30 30"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clipRule="evenodd"
+              d="M6 14.775l-1 1 5 7h.475l14.3-14.8-1-.975-13.3 12.05L6 14.775z"
+              fillRule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    This is an example of the embed wrapper rendering a spotify 'Generic' embed.
+  </p>
+  <iframe
+    className="emotion-4"
+    height={380}
+    sandbox="allow-scripts"
+    src="https://embed.spotify.com/?uri=spotify:user:juderogers:playlist:5FTUcQhfk54BZwcdiwE1QY"
+    title="Audio element"
+    width={300}
+  />
+</div>
+`;
+
+exports[`Storyshots EmbedComponentWrapper Youtube 1`] = `
+.emotion-3 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-transition: .3s ease-in-out;
+  transition: .3s ease-in-out;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  font-weight: 700;
+  height: 36px;
+  min-height: 36px;
+  padding: 0 16px;
+  border-radius: 36px;
+  padding-bottom: 2px;
+  background-color: #052962;
+  color: #FFFFFF;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+}
+
+.emotion-3:focus {
+  outline: 0;
+}
+
+html:not(.src-focus-disabled) .emotion-3:focus {
+  box-shadow: 0 0 0 5px #00B2FF;
+}
+
+.emotion-3:hover {
+  background-color: #234B8A;
+}
+
+.emotion-3 svg {
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  display: block;
+  fill: currentColor;
+  position: relative;
+  width: 26px;
+  height: auto;
+}
+
+.emotion-3 .src-button-space {
+  width: 8px;
+}
+
+.emotion-3 svg {
+  margin-left: -4px;
+}
+
+.emotion-4 {
+  background: #F6F6F6;
+  padding-bottom: 56.25%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.emotion-4 iframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@media (prefers-color-scheme:dark) {
+  .emotion-4 {
+    color: #999999;
+    background-color: #333333;
+  }
+}
+
+<div>
+  <p>
+    This is an example of the embed wrapper rendering a spotify 'Generic' embed overlay.
+  </p>
+  <div
+    className="click-to-view-container"
+    data-height="259"
+    data-id="iAIXqcHQTD0"
+    data-kind="YouTube"
+    data-source="YouTube"
+    data-source-domain="youtube.com"
+    data-tracking="1"
+    data-width="460"
+  >
+    <div
+      className="emotion-0"
+    >
+      <div
+        className="emotion-1"
+      >
+        Allow YouTube content?
+      </div>
+      <div
+        className="emotion-2"
+      >
+        <p>
+          This article includes content provided by
+           
+          YouTube
+          . We ask for your permission before anything is loaded, as they may be using cookies and other technologies.
+        </p>
+        <p>
+          To view this content, click 'Allow and continue'.
+        </p>
+      </div>
+      <div>
+        <button
+          className="emotion-3"
+          onClick={[Function]}
+          type="button"
+        >
+          Allow and continue
+          <div
+            className="src-button-space"
+          />
+          <svg
+            viewBox="0 0 30 30"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clipRule="evenodd"
+              d="M6 14.775l-1 1 5 7h.475l14.3-14.8-1-.975-13.3 12.05L6 14.775z"
+              fillRule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    This is an example of the embed wrapper rendering a spotify 'Generic' embed.
+  </p>
+  <div
+    className="emotion-4"
+  >
+    <iframe
+      allowFullScreen={true}
+      height={259}
+      src="https://www.youtube-nocookie.com/embed/iAIXqcHQTD0?wmode=opaque&feature=oembed"
+      title="Video element"
+      width={460}
+    />
+  </div>
+</div>
+`;
+
 exports[`Storyshots Follow Default 1`] = `
 .emotion-0 {
   font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
