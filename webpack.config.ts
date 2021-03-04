@@ -11,6 +11,7 @@ import webpack from 'webpack';
 import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import nodeExternals from 'webpack-node-externals';
 import { renederedItemsAssetsCss } from './config/rendered-items-assets-styles';
+import { WebpackPluginInstance } from 'webpack';
 
 // ----- Plugins ----- //
 
@@ -53,7 +54,9 @@ const serverConfig = (
 	const isWatch = env?.watch;
 	// Does not try to require the 'canvas' package,
 	// an optional dependency of jsdom that we aren't using.
-	const plugins = [new webpack.IgnorePlugin(/^canvas$/)];
+	const plugins: WebpackPluginInstance[] = [
+		new webpack.IgnorePlugin({ resourceRegExp: /^canvas$/ }),
+	];
 	if (isWatch) {
 		plugins.push(new LaunchServerPlugin());
 	}
@@ -184,7 +187,6 @@ export const clientConfig: Configuration = {
 						options: { configFile: 'config/tsconfig.client.json' },
 					},
 				],
-				type: 'javascript/auto',
 			},
 		],
 	},
