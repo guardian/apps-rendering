@@ -4,7 +4,7 @@ import type { SerializedStyles } from '@emotion/core';
 import { css } from '@emotion/core';
 import type { Sizes } from '@guardian/image-rendering';
 import { Img } from '@guardian/image-rendering';
-import { from } from '@guardian/src-foundations/mq';
+import { breakpoints, from } from '@guardian/src-foundations/mq';
 import type { Format } from '@guardian/types';
 import { Design, Display, none, some } from '@guardian/types';
 import HeaderImageCaption, {
@@ -26,6 +26,11 @@ const styles = css`
 	margin: 0;
 	position: relative;
 
+	img {
+		width: 100%;
+		height: 100%;
+	}
+
 	${from.desktop} {
 		width: ${wideImageWidth}px;
 	}
@@ -38,13 +43,7 @@ const fullWidthStyles = css`
 `;
 
 const captionStyles = css`
-	${from.tablet} {
-		width: calc(100vw - 3.75rem);
-	}
-
-	${from.desktop} {
-		width: ${wideImageWidth}px;
-	}
+	width: 100%;
 `;
 
 const videoWrapperStyles = css`
@@ -83,12 +82,10 @@ const getImageStyle = (
 
 		${from.tablet} {
 			width: calc(100vw - 3.75rem);
-			height: calc((100vw - 3.75rem) * height / width);
 		}
 
 		${from.desktop} {
 			width: ${wideImageWidth}px;
-			height: ${(wideImageWidth * height) / width}px;
 		}
 	`;
 };
@@ -118,8 +115,16 @@ interface Props {
 
 const sizes: Sizes = {
 	mediaQueries: [
-		{ breakpoint: 'tablet', size: '740px' },
-		{ breakpoint: 'wide', size: '980px' },
+		{ breakpoint: 'wide', size: `${breakpoints.wide}px` },
+		{ breakpoint: 'tablet', size: `${breakpoints.tablet}px` },
+		{ breakpoint: 'desktop', size: `${breakpoints.desktop}px` },
+		{ breakpoint: 'phablet', size: `${breakpoints.phablet}px` },
+		{
+			breakpoint: 'mobileLandscape',
+			size: `${breakpoints.mobileLandscape}px`,
+		},
+		{ breakpoint: 'mobileMedium', size: `${breakpoints.mobileMedium}px` },
+		{ breakpoint: 'mobile', size: `${breakpoints.mobile}px` },
 	],
 	default: '100vw',
 };
