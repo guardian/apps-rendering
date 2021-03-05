@@ -3,15 +3,15 @@
 import { EmbedTracksType } from '@guardian/content-api-models/v1/embedTracksType';
 import { some } from '@guardian/types';
 import { withKnobs } from '@storybook/addon-knobs';
+import { EmbedKind } from 'embed';
 import type { FC } from 'react';
-import { EmbedKind } from '../embed';
 import { EmbedComponentWrapper } from './embedWrapper';
 
 // ----- Stories ----- //
 const Generic: FC = () => (
 	<div>
 		<p>
-			This is an example of the embed wrapper rendering a spotify
+			This is an example of the embed wrapper rendering a Spotify
 			&apos;Generic&apos; embed overlay.
 		</p>
 		<EmbedComponentWrapper
@@ -28,7 +28,7 @@ const Generic: FC = () => (
 			}}
 		/>
 		<p>
-			This is an example of the embed wrapper rendering a spotify
+			This is an example of the embed wrapper rendering a Spotify
 			&apos;Generic&apos; embed.
 		</p>
 		<EmbedComponentWrapper
@@ -50,8 +50,8 @@ const Generic: FC = () => (
 const Youtube: FC = () => (
 	<div>
 		<p>
-			This is an example of the embed wrapper rendering a spotify
-			&apos;Generic&apos; embed overlay.
+			This is an example of the embed wrapper rendering a YouTube
+			&apos;YouTube&apos; embed overlay.
 		</p>
 		<EmbedComponentWrapper
 			embed={{
@@ -65,8 +65,8 @@ const Youtube: FC = () => (
 			}}
 		/>
 		<p>
-			This is an example of the embed wrapper rendering a spotify
-			&apos;Generic&apos; embed.
+			This is an example of the embed wrapper rendering a YouTube
+			&apos;YouTube&apos; embed.
 		</p>
 		<EmbedComponentWrapper
 			embed={{
@@ -86,7 +86,7 @@ const Spotify: FC = () => (
 	<div>
 		<p>
 			This is an example of the embed wrapper rendering a spotify
-			&apos;Generic&apos; embed overlay.
+			&apos;Spotify&apos; embed overlay.
 		</p>
 		<EmbedComponentWrapper
 			embed={{
@@ -102,7 +102,7 @@ const Spotify: FC = () => (
 		/>
 		<p>
 			This is an example of the embed wrapper rendering a spotify
-			&apos;Generic&apos; embed.
+			&apos;Spotify&apos; embed.
 		</p>
 		<EmbedComponentWrapper
 			embed={{

@@ -2,13 +2,20 @@
 
 import { EmbedTracksType } from '@guardian/content-api-models/v1/embedTracksType';
 import type { Result } from '@guardian/types';
-import { err, fromNullable, map, none, ok, withDefault } from '@guardian/types';
-import { andThen } from '@guardian/types/dist/result';
+import {
+	err,
+	fromNullable,
+	map,
+	none,
+	ok,
+	resultAndThen,
+	withDefault,
+} from '@guardian/types';
 import { ClickToView } from 'components/ClickToView';
 import EmbedComponent from 'components/embed';
 import { EmbedKind } from 'embed';
 import type { Embed, Generic, Spotify, YouTube } from 'embed';
-import { resultFromNullable, resultMap2, resultMap3 } from 'lib';
+import { pipe, pipe2, resultFromNullable, resultMap2, resultMap3 } from 'lib';
 import { createElement as h } from 'react';
 import type { FC, ReactElement } from 'react';
 
@@ -26,15 +33,15 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 				src: embed.src,
 				width: embed.width.toString(),
 				height: embed.height.toString(),
-				...withDefault<Record<string, string>>({})(
-					map<string, Record<string, string>>((source) => {
-						return { source };
-					})(embed.source),
+				...pipe2(
+					embed.source,
+					map((source) => ({ source })),
+					withDefault<Record<string, string>>({}),
 				),
-				...withDefault<Record<string, string>>({})(
-					map<string, Record<string, string>>((sourceDomain) => {
-						return { sourceDomain };
-					})(embed.sourceDomain),
+				...pipe2(
+					embed.sourceDomain,
+					map((sourceDomain) => ({ sourceDomain })),
+					withDefault<Record<string, string>>({}),
 				),
 				...(embed.tracking && { tracking: embed.tracking.toString() }),
 			};
@@ -44,15 +51,15 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 				id: embed.id,
 				width: embed.width.toString(),
 				height: embed.height.toString(),
-				...withDefault<Record<string, string>>({})(
-					map<string, Record<string, string>>((source) => {
-						return { source: source };
-					})(embed.source),
+				...pipe2(
+					embed.source,
+					map((source) => ({ source })),
+					withDefault<Record<string, string>>({}),
 				),
-				...withDefault<Record<string, string>>({})(
-					map<string, Record<string, string>>((sourceDomain) => {
-						return { sourceDomain };
-					})(embed.sourceDomain),
+				...pipe2(
+					embed.sourceDomain,
+					map((sourceDomain) => ({ sourceDomain })),
+					withDefault<Record<string, string>>({}),
 				),
 				...(embed.tracking && { tracking: embed.tracking.toString() }),
 			};
@@ -67,15 +74,15 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 				html: embed.html,
 				height: embed.height.toString(),
 				...(embed.mandatory && { mandatory: 'true' }),
-				...withDefault<Record<string, string>>({})(
-					map<string, Record<string, string>>((source) => {
-						return { source };
-					})(embed.source),
+				...pipe2(
+					embed.source,
+					map((source) => ({ source })),
+					withDefault<Record<string, string>>({}),
 				),
-				...withDefault<Record<string, string>>({})(
-					map<string, Record<string, string>>((sourceDomain) => {
-						return { sourceDomain };
-					})(embed.sourceDomain),
+				...pipe2(
+					embed.sourceDomain,
+					map((sourceDomain) => ({ sourceDomain })),
+					withDefault<Record<string, string>>({}),
 				),
 				...(embed.tracking && { tracking: embed.tracking.toString() }),
 			};
@@ -110,15 +117,18 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 		container: Record<string, string>,
 		parameterName: string,
 	): Result<string, number> => {
-		return andThen((value: string) => {
-			const parsedValue = Number.parseInt(value);
+		return pipe(
+			requiredStringParam(container, parameterName),
+			resultAndThen((value: string) => {
+				const parsedValue = Number.parseInt(value);
 
-			if (Number.isNaN(parsedValue)) {
-				return err(`${value} is not a integer`);
-			}
+				if (Number.isNaN(parsedValue)) {
+					return err(`${value} is not a integer`);
+				}
 
-			return ok(parsedValue);
-		})(requiredStringParam(container, parameterName));
+				return ok(parsedValue);
+			}),
+		);
 	};
 
 	const parseDataAttributesFromElement = (
@@ -189,7 +199,7 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 const createEmbedComponentFromProps = (
 	container: Element,
 ): Result<string, ReactElement> => {
-	return andThen((embed: Embed) => {
+	return resultAndThen((embed: Embed) => {
 		return resultFromNullable(
 			`I can't construct a Component for embed of type ${embed.kind}`,
 		)(h(EmbedComponentInClickToView, { embed }));
@@ -226,7 +236,7 @@ const EmbedComponentWrapper: FC<Props> = ({ embed }: Props) => {
 			'div',
 			{
 				...withDatasetKeyFormat(embedToDivProps(embed)),
-				className: 'click-to-view-container',
+				className: 'js-click-to-view-container',
 			},
 			EmbedComponentInClickToView({ embed }),
 		);

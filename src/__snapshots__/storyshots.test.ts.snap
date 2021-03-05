@@ -13535,10 +13535,10 @@ html:not(.src-focus-disabled) .emotion-3:focus {
 
 <div>
   <p>
-    This is an example of the embed wrapper rendering a spotify 'Generic' embed overlay.
+    This is an example of the embed wrapper rendering a Spotify 'Generic' embed overlay.
   </p>
   <div
-    className="click-to-view-container"
+    className="js-click-to-view-container"
     data-alt="Lemmy"
     data-height="480"
     data-html="<iframe src=\\"https://embed.spotify.com/?uri=spotify:user:guardianmusic:playlist:00lXay2hDczhstNhC7D1sl\\" width=\\"460\\" height=\\"480\\" frameborder=\\"0\\" allowtransparency=\\"true\\">"
@@ -13594,7 +13594,7 @@ html:not(.src-focus-disabled) .emotion-3:focus {
     </div>
   </div>
   <p>
-    This is an example of the embed wrapper rendering a spotify 'Generic' embed.
+    This is an example of the embed wrapper rendering a Spotify 'Generic' embed.
   </p>
   <figure
     className="emotion-4"
@@ -13689,10 +13689,10 @@ html:not(.src-focus-disabled) .emotion-3:focus {
 
 <div>
   <p>
-    This is an example of the embed wrapper rendering a spotify 'Generic' embed overlay.
+    This is an example of the embed wrapper rendering a spotify 'Spotify' embed overlay.
   </p>
   <div
-    className="click-to-view-container"
+    className="js-click-to-view-container"
     data-height="380"
     data-kind="Spotify"
     data-source="Spotify"
@@ -13747,7 +13747,7 @@ html:not(.src-focus-disabled) .emotion-3:focus {
     </div>
   </div>
   <p>
-    This is an example of the embed wrapper rendering a spotify 'Generic' embed.
+    This is an example of the embed wrapper rendering a spotify 'Spotify' embed.
   </p>
   <iframe
     className="emotion-4"
@@ -13857,10 +13857,10 @@ html:not(.src-focus-disabled) .emotion-3:focus {
 
 <div>
   <p>
-    This is an example of the embed wrapper rendering a spotify 'Generic' embed overlay.
+    This is an example of the embed wrapper rendering a YouTube 'YouTube' embed overlay.
   </p>
   <div
-    className="click-to-view-container"
+    className="js-click-to-view-container"
     data-height="259"
     data-id="iAIXqcHQTD0"
     data-kind="YouTube"
@@ -13915,7 +13915,7 @@ html:not(.src-focus-disabled) .emotion-3:focus {
     </div>
   </div>
   <p>
-    This is an example of the embed wrapper rendering a spotify 'Generic' embed.
+    This is an example of the embed wrapper rendering a YouTube 'YouTube' embed.
   </p>
   <div
     className="emotion-4"

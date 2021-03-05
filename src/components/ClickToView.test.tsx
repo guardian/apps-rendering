@@ -5,7 +5,7 @@ import renderer from 'react-test-renderer';
 import { ClickToView } from './ClickToView';
 
 describe('ClickToView', () => {
-	it('It should render a provider specific overlay if a source is present', () => {
+	it('should render a provider specific overlay if a source is present', () => {
 		const component = renderer.create(
 			<ClickToView
 				source={some('A Third Party')}
@@ -26,7 +26,7 @@ describe('ClickToView', () => {
 		).toContain('This article includes content provided by A Third Party');
 	});
 
-	it('It should render a provider domain specific overlay if a source is not present', () => {
+	it('should render a provider domain specific overlay if a source is not present', () => {
 		const component = renderer.create(
 			<ClickToView
 				source={none}
@@ -47,7 +47,7 @@ describe('ClickToView', () => {
 		).toContain('This article includes content hosted on athirdparty.com');
 	});
 
-	it('It should render a generic overlay if a source is not present', () => {
+	it('should render the third party content once the accept button is clicked', () => {
 		const component = renderer.create(
 			<ClickToView
 				source={some('A Third Party')}
