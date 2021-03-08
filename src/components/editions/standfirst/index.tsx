@@ -3,6 +3,7 @@
 import type { SerializedStyles } from '@emotion/core';
 import { css } from '@emotion/core';
 import { neutral, remSpace, text } from '@guardian/src-foundations';
+import { from } from '@guardian/src-foundations/mq';
 import { body, headline } from '@guardian/src-foundations/typography';
 import type { Format } from '@guardian/types';
 import { Design, Display } from '@guardian/types';
@@ -12,13 +13,19 @@ import type { FC } from 'react';
 import { renderStandfirstText } from 'renderer';
 import { getThemeStyles } from 'themeStyles';
 import ShareIcon from '../shareIcon';
-import { articleWidthStyles, sidePadding } from '../styles';
 
 // ----- Template Format Specific Styles ----- //
 
 const interviewStyles = css`
-	${sidePadding}
+	padding-left: ${remSpace[2]};
+	padding-right: ${remSpace[2]};
+
+	${from.tablet} {
+		padding-left: ${remSpace[3]};
+		padding-right: ${remSpace[3]};
+	}
 `;
+
 const showcaseStyles = css`
 	${headline.xxsmall({ lineHeight: 'tight' })}
 	color: ${neutral[20]}
@@ -47,8 +54,8 @@ const styles = (kickerColor: string): SerializedStyles => css`
 	justify-content: space-between;
 	padding-bottom: ${remSpace[4]};
 	color: ${text.primary};
-
-	${articleWidthStyles}
+	position: relative;
+	z-index: 1;
 
 	p,
 	ul {

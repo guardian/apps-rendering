@@ -4,7 +4,7 @@ import { css } from '@emotion/core';
 import type { SerializedStyles } from '@emotion/core';
 import { remSpace } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
-import { border, neutral } from '@guardian/src-foundations/palette';
+import { neutral } from '@guardian/src-foundations/palette';
 import { headline, titlepiece } from '@guardian/src-foundations/typography';
 import type {
 	FontWeight,
@@ -19,7 +19,6 @@ import { getFormat } from 'item';
 import type { FC } from 'react';
 import { getThemeStyles } from 'themeStyles';
 import Series from '../series';
-import { articleWidthStyles } from '../styles';
 
 // ----- Template Format Specific Styles ----- //
 
@@ -42,12 +41,11 @@ const galleryStyles = css`
 	padding-bottom: ${remSpace[6]};
 	background-color: ${neutral[7]};
 	border: 0;
-
-	${articleWidthStyles}
 `;
 
 const headlineWrapperStyles = css`
 	position: relative;
+	z-index: 1;
 `;
 
 const immersiveStyles = css`
@@ -65,8 +63,6 @@ const immersiveStyles = css`
 const interviewStyles = css`
 	margin-left: ${remSpace[3]};
 	border: 0;
-
-	${articleWidthStyles}
 `;
 
 const interviewFontStyles = css`
@@ -120,10 +116,8 @@ const getFontStyles = (
 const getSharedStyles = (format: Format): SerializedStyles => css`
 	${editionsHeadlineTextColour(format)}
 	box-sizing: border-box;
-	border-top: 1px solid ${border.secondary};
 	padding-bottom: ${remSpace[4]};
-	padding-right: ${remSpace[2]};
-	margin: 0;
+	margin: 0 ${remSpace[4]} 0 0;
 `;
 
 const getQuoteStyles = (format: Format): SerializedStyles => {

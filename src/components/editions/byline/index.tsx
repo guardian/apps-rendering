@@ -20,8 +20,6 @@ import { getThemeStyles } from 'themeStyles';
 import EditionsAvatar from '../avatar';
 import ShareIcon from '../shareIcon';
 import {
-	articleWidthStyles,
-	borderWidthStyles,
 	tabletImmersiveWidth,
 	wideArticleMargin,
 	wideImmersiveWidth,
@@ -31,20 +29,13 @@ import {
 
 const interviewStyles = css`
 	padding-left: ${remSpace[2]};
-	padding-right: ${remSpace[2]};
 
 	${from.tablet} {
-		box-sizing: border-box;
-		margin-left: ${remSpace[6]};
-		padding-left: ${remSpace[3]};
-		padding-right: ${remSpace[3]};
-		border-right: 1px solid ${border.secondary};
+		padding-right: ${remSpace[4]};
+		padding-left: ${remSpace[4]};
+		margin-right: ${remSpace[4]};
 	}
 
-	${from.desktop} {
-		margin-left: ${wideArticleMargin}px;
-	}
-	${borderWidthStyles}
 	border-bottom: 1px solid ${border.secondary};
 `;
 
@@ -67,9 +58,7 @@ const immersiveStyles = css`
 	}
 `;
 
-const galleryStyles = css`
-	${articleWidthStyles}
-`;
+const galleryStyles = css``;
 
 const showcaseStyles = css`
 	padding-bottom: ${remSpace[6]};
@@ -92,6 +81,7 @@ const styles = (kickerColor: string): SerializedStyles => {
 		position: relative;
 		display: flex;
 		justify-content: space-between;
+
 		svg {
 			flex: 0 0 1.875rem;
 			padding-top: 0.375rem;

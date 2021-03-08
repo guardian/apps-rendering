@@ -10,12 +10,12 @@ import { Design, Display, partition } from '@guardian/types';
 import type { Item } from 'item';
 import type { FC } from 'react';
 import { renderEditionsAll } from 'renderer';
+import { Column } from '../grid/Column';
+import Container from '../grid/Container';
+import Grid from '../grid/Grid';
 import Header from '../header';
 import {
-	articleMarginStyles,
-	articleWidthStyles,
 	headerBackgroundColour,
-	sidePadding,
 	tabletContentWidth,
 	wideContentWidth,
 } from '../styles';
@@ -38,19 +38,9 @@ const articleWrapperStyles = (item: Format): SerializedStyles => css`
 	background-color: ${item.design === Design.Media ? neutral[7] : 'inherit'};
 `;
 
-const articleStyles = css`
-	${articleMarginStyles}
-`;
+const articleStyles = css``;
 
-const headerStyles = css`
-	${articleWidthStyles}
-	border-bottom: 1px solid ${border.secondary};
-
-	${from.tablet} {
-		padding-right: ${remSpace[3]};
-		border-right: 1px solid ${border.secondary};
-	}
-`;
+const headerStyles = css``;
 
 const bodyStyles = css`
 	iframe {
@@ -68,18 +58,9 @@ const bodyStyles = css`
 			margin: 0;
 			padding-top: ${remSpace[2]};
 			padding-bottom: ${remSpace[2]};
+			border-right: 1px solid ${border.secondary};
+			padding-right: 16px;
 		}
-	}
-
-	${sidePadding}
-`;
-
-const bodyWrapperStyles = css`
-	${articleWidthStyles}
-
-	${from.tablet} {
-		padding-right: ${remSpace[3]};
-		border-right: 1px solid ${border.secondary};
 	}
 `;
 
@@ -89,6 +70,7 @@ export const galleryWrapperStyles = css`
 	padding-right: 0;
 	padding-left: 0;
 	border: none;
+
 	${from.tablet} {
 		width: ${tablet}px;
 		padding-right: ${remSpace[4]};
@@ -136,16 +118,23 @@ const Article: FC<Props> = ({ item }) => {
 					</div>
 					<div
 						css={[
-							bodyWrapperStyles,
-							articleStyles,
 							item.design === Design.Media
 								? galleryWrapperStyles
 								: null,
 						]}
 					>
-						<section css={bodyStyles}>
-							{renderEditionsAll(item, partition(item.body).oks)}
-						</section>
+						<Container>
+							<Grid smCols={12} mdCols={12} lgCols={12}>
+								<Column smSpan={12} mdSpan={8} lgSpan={6}>
+									<section css={bodyStyles}>
+										{renderEditionsAll(
+											item,
+											partition(item.body).oks,
+										)}
+									</section>
+								</Column>
+							</Grid>
+						</Container>
 					</div>
 				</article>
 			</main>

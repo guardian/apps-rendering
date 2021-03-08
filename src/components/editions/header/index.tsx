@@ -2,7 +2,7 @@
 
 import { css } from '@emotion/core';
 import type { SerializedStyles } from '@emotion/core';
-import { border, neutral, remSpace } from '@guardian/src-foundations';
+import { border, remSpace } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { Design, Display } from '@guardian/types';
 import Byline from 'components/editions/byline';
@@ -14,21 +14,20 @@ import Standfirst from 'components/editions/standfirst';
 import type { Item } from 'item';
 import { isPicture } from 'item';
 import type { FC, ReactElement } from 'react';
+import { Column } from '../grid/Column';
+import Container from '../grid/Container';
+import Grid from '../grid/Grid';
 import {
-	articleMarginStyles,
 	headerBackgroundColour,
 	interviewBackgroundColour,
-	sidePadding,
 	tabletArticleMargin,
-	tabletContentWidth,
 	tabletImmersiveWidth,
 	wideArticleMargin,
-	wideContentWidth,
 	wideImmersiveWidth,
 } from '../styles';
 
-const wide = wideContentWidth + 12;
-const tablet = tabletContentWidth + 12;
+// const wide = wideContentWidth + 12;
+// const tablet = tabletContentWidth + 12;
 
 // ----- Component ----- //
 
@@ -36,66 +35,47 @@ interface HeaderProps {
 	item: Item;
 }
 
-const headerStyles = css`
-	${sidePadding}
-`;
+// const galleryHeaderStyles = css`
+// 	border-bottom: 1px solid ${neutral[100]};
+// 	${from.tablet} {
+// 		border: none;
+// 	}
+// `;
 
-const galleryInnerHeaderStyles = css`
-	${sidePadding}
-	${from.tablet} {
-		padding-left: ${tabletArticleMargin}px;
-	}
+// const pictureHeaderStyles = css`
+// 	border: none;
+// `;
 
-	${from.desktop} {
-		padding-left: ${wideArticleMargin}px;
-	}
-`;
+// const galleryLinesStyles = css`
+// 	${from.tablet} {
+// 		margin-left: 0;
+// 	}
 
-const galleryHeaderStyles = css`
-	border-bottom: 1px solid ${neutral[100]};
-	${from.tablet} {
-		border: none;
-	}
-`;
+// 	${from.desktop} {
+// 		margin-left: 0;
+// 	}
+// `;
 
-const pictureHeaderStyles = css`
-	border: none;
-`;
+// const galleryHeaderBorderStyles = css`
+// 	${from.tablet} {
+// 		border-bottom: 1px solid ${neutral[100]};
+// 		border-right: 1px solid ${neutral[100]};
 
-const galleryLinesStyles = css`
-	${from.tablet} {
-		margin-left: 0;
-	}
+// 	}
+// `;
 
-	${from.desktop} {
-		margin-left: 0;
-	}
-`;
-
-const galleryHeaderBorderStyles = css`
-	${from.tablet} {
-		border-bottom: 1px solid ${neutral[100]};
-		border-right: 1px solid ${neutral[100]};
-		box-sizing: border-box;
-		width: ${tablet}px;
-		${from.desktop} {
-			width: ${wide}px;
-		}
-	}
-`;
-
-const interviewStyles = (item: Item): SerializedStyles => {
+const interviewBackgroundStyles = (item: Item): SerializedStyles => {
 	const backgroundColour = interviewBackgroundColour(item);
 
 	return css`
-		${from.tablet} {
-			padding-left: ${tabletArticleMargin}px;
-		}
-
-		${from.desktop} {
-			padding-left: ${wideArticleMargin}px;
-		}
-
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: red;
+		width: 100vw;
+		margin-left: -16px;
 		background-color: ${backgroundColour};
 	`;
 };
@@ -137,94 +117,146 @@ const immersiveStandfirstStyles = css`
 	}
 `;
 
-const linesBorderStyles = css`
-	${articleMarginStyles}
-
+const borderStyles = css`
 	${from.tablet} {
 		border-right: 1px solid ${border.secondary};
+		padding-right: 16px;
 	}
 `;
 
 const StandardHeader: FC<HeaderProps> = ({ item }) => (
-	<header css={headerStyles}>
-		<HeaderMedia item={item} />
-		<Series item={item} />
-		<Headline item={item} />
-		<Standfirst item={item} />
-		<Lines />
-		<Byline item={item} />
-	</header>
+	<Container>
+		<Grid smCols={12} mdCols={12} lgCols={12}>
+			<Column smSpan={12} mdSpan={12} lgSpan={12}>
+				<HeaderMedia item={item} />
+			</Column>
+			<Column smSpan={12} mdSpan={8} lgSpan={6} className={borderStyles}>
+				<Series item={item} />
+				<Headline item={item} />
+				<Standfirst item={item} />
+				<Lines />
+				<Byline item={item} />
+			</Column>
+		</Grid>
+	</Container>
 );
 
 const ShowcaseHeader: FC<HeaderProps> = ({ item }) => (
-	<header css={headerStyles}>
-		<Series item={item} />
-		<Headline item={item} />
-		<HeaderMedia item={item} />
-		<Standfirst item={item} />
-		<Lines />
-		<Byline item={item} />
-	</header>
+	<Container>
+		<Grid smCols={12} mdCols={12} lgCols={12}>
+			<Column smSpan={12} mdSpan={8} lgSpan={6} className={borderStyles}>
+				<Series item={item} />
+				<Headline item={item} />
+			</Column>
+			<Column smSpan={12} mdSpan={12} lgSpan={12}>
+				<HeaderMedia item={item} />
+			</Column>
+			<Column smSpan={12} mdSpan={8} lgSpan={6} className={borderStyles}>
+				<Standfirst item={item} />
+				<Lines />
+				<Byline item={item} />
+			</Column>
+		</Grid>
+	</Container>
 );
 
 const AnalysisHeader: FC<HeaderProps> = ({ item }) => (
-	<header css={headerStyles}>
-		<HeaderMedia item={item} />
-		<Headline item={item} />
-		<Byline item={item} />
-		<Lines />
-		<Standfirst item={item} shareIcon />
-	</header>
+	<Container>
+		<Grid smCols={12} mdCols={12} lgCols={12}>
+			<Column smSpan={12} mdSpan={12} lgSpan={12}>
+				<HeaderMedia item={item} />
+			</Column>
+			<Column smSpan={12} mdSpan={8} lgSpan={6} className={borderStyles}>
+				<Headline item={item} />
+				<Byline item={item} />
+				<Lines />
+				<Standfirst item={item} shareIcon />
+			</Column>
+		</Grid>
+	</Container>
 );
 
 const CommentHeader: FC<HeaderProps> = ({ item }) => (
-	<header css={headerStyles}>
-		<HeaderMedia item={item} />
-		<Headline item={item} />
-		<Byline item={item} />
-		<Lines />
-		<Standfirst item={item} shareIcon />
-	</header>
+	<Container>
+		<Grid smCols={12} mdCols={12} lgCols={12}>
+			<Column smSpan={12} mdSpan={12} lgSpan={12}>
+				<HeaderMedia item={item} />
+			</Column>
+			<Column smSpan={12} mdSpan={8} lgSpan={6} className={borderStyles}>
+				<Headline item={item} />
+				<Byline item={item} />
+				<Lines />
+				<Standfirst item={item} shareIcon />
+			</Column>
+		</Grid>
+	</Container>
 );
 
 const InterviewHeader: FC<HeaderProps> = ({ item }) => (
-	<header>
-		<HeaderMedia item={item} />
-		<div css={interviewStyles(item)}>
-			<Headline item={item} />
-			<Standfirst item={item} />
-		</div>
-		<Lines className={linesBorderStyles} />
-		<Byline item={item} />
-	</header>
+	<>
+		<Grid smCols={12} mdCols={12} lgCols={12}>
+			<Column smSpan={12} mdSpan={12} lgSpan={12}>
+				<HeaderMedia item={item} />
+			</Column>
+		</Grid>
+		<Container>
+			<Grid smCols={12} mdCols={12} lgCols={12}>
+				<Column
+					smSpan={12}
+					mdSpan={8}
+					lgSpan={6}
+					className={borderStyles}
+				>
+					<Headline item={item} />
+					<Standfirst item={item} />
+					<div css={interviewBackgroundStyles(item)}></div>
+				</Column>
+				<Column
+					smSpan={12}
+					mdSpan={8}
+					lgSpan={6}
+					className={borderStyles}
+				>
+					<Lines />
+					<Byline item={item} />
+				</Column>
+			</Grid>
+		</Container>
+	</>
 );
 
 const GalleryHeader: FC<HeaderProps> = ({ item }) => (
-	<header css={galleryHeaderStyles}>
-		<HeaderMedia item={item} />
-		<div css={galleryInnerHeaderStyles}>
-			<Headline item={item} />
-			<div css={galleryHeaderBorderStyles}>
+	<Container>
+		<Grid smCols={12} mdCols={12} lgCols={12}>
+			<Column smSpan={12} mdSpan={12} lgSpan={12}>
+				<HeaderMedia item={item} />
+			</Column>
+			<Column smSpan={12} mdSpan={8} lgSpan={6}>
+				<Headline item={item} />
+			</Column>
+			<Column smSpan={12} mdSpan={8} lgSpan={6}>
 				<Standfirst item={item} />
-				<Lines className={galleryLinesStyles} />
+				<Lines />
 				<Byline item={item} />
-			</div>
-		</div>
-	</header>
+			</Column>
+		</Grid>
+	</Container>
 );
 
 const PictureHeader: FC<HeaderProps> = ({ item }) => (
-	<header css={pictureHeaderStyles}>
-		<div css={galleryInnerHeaderStyles}>
-			<div css={galleryHeaderBorderStyles}>
+	<Container>
+		<Grid smCols={12} mdCols={12} lgCols={12}>
+			<Column smSpan={12} mdSpan={8} lgSpan={6}>
 				<Headline item={item} />
 				<Standfirst item={item} />
-				<Lines className={galleryLinesStyles} />
+				<Lines />
 				<Byline item={item} />
-			</div>
-		</div>
-		<HeaderMedia item={item} />
-	</header>
+			</Column>
+			<Column smSpan={12} mdSpan={12} lgSpan={12}>
+				<HeaderMedia item={item} />
+			</Column>
+		</Grid>
+	</Container>
 );
 
 const ImmersiveHeader: FC<HeaderProps> = ({ item }) => (
@@ -266,10 +298,10 @@ const renderArticleHeader = (item: Item): ReactElement<HeaderProps> => {
 	}
 };
 
-const Container: FC<HeaderProps> = ({ item }) => {
+const Header: FC<HeaderProps> = ({ item }) => {
 	return <>{renderArticleHeader(item)}</>;
 };
 
 // ----- Exports ----- //
 
-export default Container;
+export default Header;
