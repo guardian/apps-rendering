@@ -105,7 +105,7 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 	};
 
 	const requiredStringParam = (
-		container: Record<string, string>,
+		container: Record<string, string | undefined>,
 		parameterName: string,
 	): Result<string, string> => {
 		return resultFromNullable(
@@ -114,7 +114,7 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 	};
 
 	const requiredNumberParam = (
-		container: Record<string, string>,
+		container: Record<string, string | undefined>,
 		parameterName: string,
 	): Result<string, number> => {
 		return pipe(
@@ -131,69 +131,77 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 		);
 	};
 
-	const parseDataAttributesFromElement = (
+	const getDataAttributesFromElement = (
 		container: Element,
-	): Record<string, string> => {
-		return container
-			.getAttributeNames()
-			.filter((currentKey) => currentKey.startsWith('data-'))
-			.reduce((acc, currentKey) => {
-				const newKey = currentKey
-					.replace(/^data-/g, '')
-					.replace(/-./g, (x) => x.toUpperCase()[1]);
-				const currentValue = container.getAttribute(currentKey);
-				return { ...acc, [newKey]: currentValue };
-			}, {});
+	): Result<string, Record<string, string | undefined>> => {
+		if (container instanceof HTMLElement) {
+			return ok({ ...container.dataset });
+		} else {
+			return err('Embed wrapper Element does not have a dataset field');
+		}
 	};
 
-	const elementProps = parseDataAttributesFromElement(container);
-
-	switch (elementProps['kind'] as EmbedKind) {
-		case EmbedKind.Spotify:
-			return resultMap3(
-				(src: string, width: number, height: number): Spotify => ({
-					kind: EmbedKind.Spotify,
-					src,
-					width,
-					height,
-					source: fromNullable(elementProps['source']),
-					sourceDomain: fromNullable(elementProps['sourceDomain']),
-					tracking: parseTrackingParam(elementProps['tracking']),
-				}),
-			)(requiredStringParam(elementProps, 'src'))(
-				requiredNumberParam(elementProps, 'width'),
-			)(requiredNumberParam(elementProps, 'height'));
-		case EmbedKind.YouTube:
-			return resultMap3(
-				(id: string, width: number, height: number): YouTube => ({
-					kind: EmbedKind.YouTube,
-					id,
-					width,
-					height,
-					source: fromNullable(elementProps['source']),
-					sourceDomain: fromNullable(elementProps['sourceDomain']),
-					tracking: parseTrackingParam(elementProps['tracking']),
-				}),
-			)(requiredStringParam(elementProps, 'id'))(
-				requiredNumberParam(elementProps, 'width'),
-			)(requiredNumberParam(elementProps, 'height'));
-		case EmbedKind.Generic: {
-			return resultMap2<string, number, Generic>(
-				(html: string, height: number): Generic => ({
-					kind: EmbedKind.Generic,
-					alt: fromNullable(elementProps['alt']),
-					html,
-					height,
-					mandatory: elementProps['mandatory'] === 'true',
-					source: fromNullable(elementProps['source']),
-					sourceDomain: fromNullable(elementProps['sourceDomain']),
-					tracking: parseTrackingParam(elementProps['tracking']),
-				}),
-			)(requiredStringParam(elementProps, 'html'))(
-				requiredNumberParam(elementProps, 'height'),
-			);
+	const dataAttributesToEmbed = (
+		elementProps: Record<string, string | undefined>,
+	): Result<string, Embed> => {
+		switch (elementProps['kind'] as EmbedKind) {
+			case EmbedKind.Spotify:
+				return resultMap3(
+					(src: string, width: number, height: number): Spotify => ({
+						kind: EmbedKind.Spotify,
+						src,
+						width,
+						height,
+						source: fromNullable(elementProps['source']),
+						sourceDomain: fromNullable(
+							elementProps['sourceDomain'],
+						),
+						tracking: parseTrackingParam(elementProps['tracking']),
+					}),
+				)(requiredStringParam(elementProps, 'src'))(
+					requiredNumberParam(elementProps, 'width'),
+				)(requiredNumberParam(elementProps, 'height'));
+			case EmbedKind.YouTube:
+				return resultMap3(
+					(id: string, width: number, height: number): YouTube => ({
+						kind: EmbedKind.YouTube,
+						id,
+						width,
+						height,
+						source: fromNullable(elementProps['source']),
+						sourceDomain: fromNullable(
+							elementProps['sourceDomain'],
+						),
+						tracking: parseTrackingParam(elementProps['tracking']),
+					}),
+				)(requiredStringParam(elementProps, 'id'))(
+					requiredNumberParam(elementProps, 'width'),
+				)(requiredNumberParam(elementProps, 'height'));
+			case EmbedKind.Generic: {
+				return resultMap2<string, number, Generic>(
+					(html: string, height: number): Generic => ({
+						kind: EmbedKind.Generic,
+						alt: fromNullable(elementProps['alt']),
+						html,
+						height,
+						mandatory: elementProps['mandatory'] === 'true',
+						source: fromNullable(elementProps['source']),
+						sourceDomain: fromNullable(
+							elementProps['sourceDomain'],
+						),
+						tracking: parseTrackingParam(elementProps['tracking']),
+					}),
+				)(requiredStringParam(elementProps, 'html'))(
+					requiredNumberParam(elementProps, 'height'),
+				);
+			}
 		}
-	}
+	};
+
+	return pipe(
+		getDataAttributesFromElement(container),
+		resultAndThen(dataAttributesToEmbed),
+	);
 };
 
 const createEmbedComponentFromProps = (
