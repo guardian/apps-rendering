@@ -18,7 +18,7 @@ import type { DocParser } from 'types/parserContext';
 
 // ----- Types ----- //
 
-const enum EmbedKind {
+enum EmbedKind {
 	Generic = 'Generic',
 	Spotify = 'Spotify',
 	YouTube = 'YouTube',

@@ -141,61 +141,99 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 		}
 	};
 
+	const parseEmbedKind = (
+		kindValue: string | undefined,
+	): Result<string, EmbedKind> => {
+		if (kindValue && kindValue in EmbedKind) {
+			return ok(kindValue as EmbedKind);
+		}
+
+		return err(`'${kindValue ?? 'undefined'}' is not an EmbedKind`);
+	};
+
 	const dataAttributesToEmbed = (
 		elementProps: Record<string, string | undefined>,
 	): Result<string, Embed> => {
-		switch (elementProps['kind'] as EmbedKind) {
-			case EmbedKind.Spotify:
-				return resultMap3(
-					(src: string, width: number, height: number): Spotify => ({
-						kind: EmbedKind.Spotify,
-						src,
-						width,
-						height,
-						source: fromNullable(elementProps['source']),
-						sourceDomain: fromNullable(
-							elementProps['sourceDomain'],
-						),
-						tracking: parseTrackingParam(elementProps['tracking']),
-					}),
-				)(requiredStringParam(elementProps, 'src'))(
-					requiredNumberParam(elementProps, 'width'),
-				)(requiredNumberParam(elementProps, 'height'));
-			case EmbedKind.YouTube:
-				return resultMap3(
-					(id: string, width: number, height: number): YouTube => ({
-						kind: EmbedKind.YouTube,
-						id,
-						width,
-						height,
-						source: fromNullable(elementProps['source']),
-						sourceDomain: fromNullable(
-							elementProps['sourceDomain'],
-						),
-						tracking: parseTrackingParam(elementProps['tracking']),
-					}),
-				)(requiredStringParam(elementProps, 'id'))(
-					requiredNumberParam(elementProps, 'width'),
-				)(requiredNumberParam(elementProps, 'height'));
-			case EmbedKind.Generic: {
-				return resultMap2<string, number, Generic>(
-					(html: string, height: number): Generic => ({
-						kind: EmbedKind.Generic,
-						alt: fromNullable(elementProps['alt']),
-						html,
-						height,
-						mandatory: elementProps['mandatory'] === 'true',
-						source: fromNullable(elementProps['source']),
-						sourceDomain: fromNullable(
-							elementProps['sourceDomain'],
-						),
-						tracking: parseTrackingParam(elementProps['tracking']),
-					}),
-				)(requiredStringParam(elementProps, 'html'))(
-					requiredNumberParam(elementProps, 'height'),
-				);
-			}
-		}
+		return pipe(
+			parseEmbedKind(elementProps['kind']),
+			resultAndThen(
+				(embedKind: EmbedKind): Result<string, Embed> => {
+					switch (embedKind) {
+						case EmbedKind.Spotify:
+							return resultMap3(
+								(
+									src: string,
+									width: number,
+									height: number,
+								): Spotify => ({
+									kind: EmbedKind.Spotify,
+									src,
+									width,
+									height,
+									source: fromNullable(
+										elementProps['source'],
+									),
+									sourceDomain: fromNullable(
+										elementProps['sourceDomain'],
+									),
+									tracking: parseTrackingParam(
+										elementProps['tracking'],
+									),
+								}),
+							)(requiredStringParam(elementProps, 'src'))(
+								requiredNumberParam(elementProps, 'width'),
+							)(requiredNumberParam(elementProps, 'height'));
+						case EmbedKind.YouTube:
+							return resultMap3(
+								(
+									id: string,
+									width: number,
+									height: number,
+								): YouTube => ({
+									kind: EmbedKind.YouTube,
+									id,
+									width,
+									height,
+									source: fromNullable(
+										elementProps['source'],
+									),
+									sourceDomain: fromNullable(
+										elementProps['sourceDomain'],
+									),
+									tracking: parseTrackingParam(
+										elementProps['tracking'],
+									),
+								}),
+							)(requiredStringParam(elementProps, 'id'))(
+								requiredNumberParam(elementProps, 'width'),
+							)(requiredNumberParam(elementProps, 'height'));
+						case EmbedKind.Generic: {
+							return resultMap2<string, number, Generic>(
+								(html: string, height: number): Generic => ({
+									kind: EmbedKind.Generic,
+									alt: fromNullable(elementProps['alt']),
+									html,
+									height,
+									mandatory:
+										elementProps['mandatory'] === 'true',
+									source: fromNullable(
+										elementProps['source'],
+									),
+									sourceDomain: fromNullable(
+										elementProps['sourceDomain'],
+									),
+									tracking: parseTrackingParam(
+										elementProps['tracking'],
+									),
+								}),
+							)(requiredStringParam(elementProps, 'html'))(
+								requiredNumberParam(elementProps, 'height'),
+							);
+						}
+					}
+				},
+			),
+		);
 	};
 
 	return pipe(
