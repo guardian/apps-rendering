@@ -262,6 +262,16 @@ const EmbedComponentInClickToView: FC<Props> = ({ embed }: Props) => {
 	});
 };
 
+/**
+ * This converts the key values of an object into keys appropriate to be
+ * used as the dataset of an element.
+ *
+ * The converted fields can be added as attributes to an element and
+ * can then be read in their pre-converted form using the element.dataset
+ * attribute.
+ *
+ * For more details see: https://docs.w3cub.com/dom/htmlelement/dataset
+ */
 const withDatasetKeyFormat = (
 	dataSet: Record<string, string>,
 ): Record<string, string> => {

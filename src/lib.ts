@@ -62,8 +62,7 @@ const isObject = (a: unknown): a is Record<string, unknown> =>
 const maybeRender = <A>(
 	oa: Option<A>,
 	f: (a: A) => ReactElement | null,
-): ReactElement | null =>
-	pipe2(oa, map(f), withDefault<ReactElement | null>(null));
+): ReactElement | null => fold(f, null)(oa);
 
 function handleErrors(response: Response): Response | never {
 	if (!response.ok) {
