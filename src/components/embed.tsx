@@ -40,7 +40,7 @@ const EmbedComponent: FC<Props> = ({ embed }) => {
 			);
 
 		case EmbedKind.Instagram:
-			return <Instagram id={embed.id} />;
+			return <Instagram id={embed.id} caption={embed.caption} />;
 
 		case EmbedKind.Generic:
 			return <GenericEmbed embed={embed} />;
