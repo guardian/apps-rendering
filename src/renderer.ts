@@ -7,9 +7,10 @@ import {
 	ChartAtom,
 	ExplainerAtom,
 	GuideAtom,
+	KnowledgeQuizAtom,
+	PersonalityQuizAtom,
 	ProfileAtom,
 	QandaAtom,
-	QuizAtom,
 	TimelineAtom,
 } from '@guardian/atoms-rendering';
 import { BodyImage, FigCaption } from '@guardian/image-rendering';
@@ -37,10 +38,11 @@ import type {
 	GuideAtom as GuideAtomElement,
 	Image,
 	InteractiveAtom as InteractiveAtomElement,
+	KnowledgeQuizAtom as KnowledgeQuizAtomElement,
 	MediaAtom as MediaAtomElement,
+	PersonalityQuizAtom as PersonalityQuizAtomElement,
 	ProfileAtom as ProfileAtomElement,
 	QandaAtom as QandaAtomElement,
-	QuizAtom as QuizAtomElement,
 	Text,
 	TimelineAtom as TimelineAtomElement,
 } from 'bodyElement';
@@ -66,7 +68,12 @@ import { isElement, pipe, pipe2 } from 'lib';
 import { createElement as h } from 'react';
 import type { ReactElement, ReactNode } from 'react';
 import { darkModeCss } from 'styles';
-import { getThemeStyles, themeFromString, themeToPillar } from 'themeStyles';
+import {
+	getThemeStyles,
+	themeFromString,
+	themeToPillar,
+	themeToPillarString,
+} from 'themeStyles';
 
 // ----- Renderer ----- //
 
@@ -241,12 +248,14 @@ const plainTextElement = (node: Node, key: number): ReactNode => {
 	}
 };
 
-const textElement = (format: Format) => (
+const textElement = (format: Format, supportsDarkMode = true) => (
 	node: Node,
 	key: number,
 ): ReactNode => {
 	const text = node.textContent ?? '';
-	const children = Array.from(node.childNodes).map(textElement(format));
+	const children = Array.from(node.childNodes).map(
+		textElement(format, supportsDarkMode),
+	);
 	switch (node.nodeName) {
 		case 'P':
 			return h(Paragraph, { key, format }, children);
@@ -261,6 +270,7 @@ const textElement = (format: Format) => (
 					href: withDefault('')(getHref(node)),
 					format,
 					key,
+					supportsDarkMode,
 				},
 				transform(text, format),
 			);
@@ -352,9 +362,12 @@ const noLinksStandfirstTextElement = (format: Format) => (
 	}
 };
 
-const text = (doc: DocumentFragment, format: Format): ReactNode[] =>
-	Array.from(doc.childNodes).map(textElement(format));
-
+const text = (
+	doc: DocumentFragment,
+	format: Format,
+	supportsDarkMode = true,
+): ReactNode[] =>
+	Array.from(doc.childNodes).map(textElement(format, supportsDarkMode));
 const standfirstText = (
 	doc: DocumentFragment,
 	format: Format,
@@ -467,10 +480,11 @@ const textRenderer = (
 	format: Format,
 	excludeStyles: boolean,
 	element: Text,
+	supportsDarkMode?: boolean,
 ): ReactNode => {
 	return excludeStyles
 		? Array.from(element.doc.childNodes).map(plainTextElement)
-		: text(element.doc, format);
+		: text(element.doc, format, supportsDarkMode);
 };
 
 const guideAtomRenderer = (
@@ -626,7 +640,7 @@ const audioAtomRenderer = (
 	element: AudioAtomElement,
 ): ReactNode => {
 	const { theme } = format;
-	const pillar = themeFromString('pillar/' + themeToPillar(theme));
+	const pillar = themeFromString('pillar/' + themeToPillarString(theme));
 	const audioAtomStyles = css`
 		figure {
 			margin: 0;
@@ -646,7 +660,7 @@ const audioAtomRenderer = (
 
 const quizAtomRenderer = (
 	format: Format,
-	element: QuizAtomElement,
+	element: KnowledgeQuizAtomElement | PersonalityQuizAtomElement,
 ): ReactNode => {
 	const props = JSON.stringify(element);
 	const hydrationParams = h(
@@ -654,9 +668,15 @@ const quizAtomRenderer = (
 		{ className: 'js-quiz-params', type: 'application/json' },
 		props,
 	);
+	if (element.kind === ElementKind.KnowledgeQuizAtom) {
+		return h('div', { className: 'js-quiz' }, [
+			hydrationParams,
+			h(KnowledgeQuizAtom, { ...element }),
+		]);
+	}
 	return h('div', { className: 'js-quiz' }, [
 		hydrationParams,
-		h(QuizAtom, { ...element }),
+		h(PersonalityQuizAtom, { ...element }),
 	]);
 };
 
@@ -732,7 +752,8 @@ const render = (format: Format, excludeStyles = false) => (
 		case ElementKind.AudioAtom:
 			return audioAtomRenderer(format, element);
 
-		case ElementKind.QuizAtom:
+		case ElementKind.KnowledgeQuizAtom:
+		case ElementKind.PersonalityQuizAtom:
 			return quizAtomRenderer(format, element);
 	}
 };
@@ -743,7 +764,7 @@ const renderEditions = (format: Format, excludeStyles = false) => (
 ): ReactNode => {
 	switch (element.kind) {
 		case ElementKind.Text:
-			return textRenderer(format, excludeStyles, element);
+			return textRenderer(format, excludeStyles, element, false);
 
 		case ElementKind.Image:
 			return format.design === Design.Media
@@ -796,7 +817,8 @@ const renderEditions = (format: Format, excludeStyles = false) => (
 		case ElementKind.AudioAtom:
 			return audioAtomRenderer(format, element);
 
-		case ElementKind.QuizAtom:
+		case ElementKind.KnowledgeQuizAtom:
+		case ElementKind.PersonalityQuizAtom:
 			return quizAtomRenderer(format, element);
 
 		default:
