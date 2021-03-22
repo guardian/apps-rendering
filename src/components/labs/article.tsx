@@ -9,7 +9,7 @@ import Headline from 'components/headline';
 import Metadata from 'components/metadata';
 import Series from 'components/series';
 import Body from 'components/shared/articleBody';
-import FooterCcpa from 'components/shared/footer';
+import Footer from 'components/footer';
 import RelatedContent from 'components/shared/relatedContent';
 import Standfirst from 'components/standfirst';
 import HeaderMedia from 'headerMedia';
@@ -83,9 +83,7 @@ const Labs: FC<Props> = ({ item, children }) => {
 			<section css={onwardStyles}>
 				<RelatedContent content={item.relatedContent} />
 			</section>
-			<div id="articleFooter">
-				<FooterCcpa isCcpa={false} />
-			</div>
+			<Footer isCcpa={false} />
 		</main>
 	);
 };

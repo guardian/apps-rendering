@@ -13,7 +13,7 @@ import Metadata from 'components/metadata';
 import Series from 'components/series';
 import Body from 'components/shared/articleBody';
 import Epic from 'components/shared/epic';
-import FooterCcpa from 'components/shared/footer';
+import Footer from 'components/footer';
 import OptionalLogo from 'components/shared/logo';
 import RelatedContent from 'components/shared/relatedContent';
 import Tags from 'components/shared/tags';
@@ -147,9 +147,7 @@ const Standard: FC<Props> = ({ item, children }) => {
 				<RelatedContent content={item.relatedContent} />
 			</section>
 			{commentContainer}
-			<div id="articleFooter">
-				<FooterCcpa isCcpa={false} />
-			</div>
+			<Footer isCcpa={false} />
 		</main>
 	);
 };

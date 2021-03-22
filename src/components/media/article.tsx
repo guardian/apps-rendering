@@ -8,7 +8,7 @@ import Body from 'components/media/articleBody';
 import Series from 'components/media/articleSeries';
 import Byline from 'components/media/byline';
 import Tags from 'components/media/tags';
-import FooterCcpa from 'components/shared/footer';
+import Footer from 'components/footer';
 import RelatedContent from 'components/shared/relatedContent';
 import Standfirst from 'components/standfirst';
 import HeaderMedia from 'headerMedia';
@@ -71,9 +71,7 @@ const Media: FC<Props> = ({ item, children }) => (
 		<section css={onwardStyles}>
 			<RelatedContent content={item.relatedContent} />
 		</section>
-		<div id="articleFooter">
-			<FooterCcpa isCcpa={false} />
-		</div>
+		<Footer isCcpa={false} />
 	</main>
 );
 

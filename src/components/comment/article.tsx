@@ -15,7 +15,7 @@ import Headline from 'components/headline';
 import Metadata from 'components/metadata';
 import Series from 'components/series';
 import ArticleBody from 'components/shared/articleBody';
-import FooterCcpa from 'components/shared/footer';
+import Footer from 'components/footer';
 import OptionalLogo from 'components/shared/logo';
 import RelatedContent from 'components/shared/relatedContent';
 import Tags from 'components/shared/tags';
@@ -111,9 +111,7 @@ const Comment: FC<Props> = ({ item, children }) => (
 		<section css={onwardStyles}>
 			<RelatedContent content={item.relatedContent} />
 		</section>
-		<div id="articleFooter">
-			<FooterCcpa isCcpa={false} />
-		</div>
+		<Footer isCcpa={false} />
 	</main>
 );
 
