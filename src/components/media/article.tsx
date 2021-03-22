@@ -3,12 +3,12 @@
 import { css } from '@emotion/react';
 import { breakpoints, from } from '@guardian/src-foundations/mq';
 import { background } from '@guardian/src-foundations/palette';
+import Footer from 'components/footer';
 import Headline from 'components/headline';
 import Body from 'components/media/articleBody';
 import Series from 'components/media/articleSeries';
 import Byline from 'components/media/byline';
 import Tags from 'components/media/tags';
-import Footer from 'components/footer';
 import RelatedContent from 'components/shared/relatedContent';
 import Standfirst from 'components/standfirst';
 import HeaderMedia from 'headerMedia';

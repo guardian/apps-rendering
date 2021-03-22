@@ -11,11 +11,11 @@ import {
 } from '@guardian/src-foundations/palette';
 import Byline from 'components/byline';
 import Cutout from 'components/comment/cutout';
+import Footer from 'components/footer';
 import Headline from 'components/headline';
 import Metadata from 'components/metadata';
 import Series from 'components/series';
 import ArticleBody from 'components/shared/articleBody';
-import Footer from 'components/footer';
 import OptionalLogo from 'components/shared/logo';
 import RelatedContent from 'components/shared/relatedContent';
 import Tags from 'components/shared/tags';

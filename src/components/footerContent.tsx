@@ -33,7 +33,7 @@ interface Props {
 }
 
 const FooterContent: FC<Props> = ({ isCcpa }) => {
-    const currentYear = new Date().getFullYear();
+	const currentYear = new Date().getFullYear();
 
 	return (
 		<div id="js-footer">
@@ -46,7 +46,7 @@ const FooterContent: FC<Props> = ({ isCcpa }) => {
 			</a>
 		</div>
 	);
-}
+};
 
 // ----- Exports ----- //
 

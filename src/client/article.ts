@@ -16,8 +16,8 @@ import {
 	videos,
 } from 'client/nativeCommunication';
 import setup from 'client/setup';
-import Epic from 'components/shared/epic';
 import FooterContent from 'components/footerContent';
+import Epic from 'components/shared/epic';
 import { formatDate, formatLocal, isValidDate } from 'date';
 import { handleErrors, isObject } from 'lib';
 import {

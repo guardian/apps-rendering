@@ -2,12 +2,12 @@
 
 import { css } from '@emotion/react';
 import { remSpace } from '@guardian/src-foundations';
-import { neutral } from '@guardian/src-foundations/palette';
 import { breakpoints, from } from '@guardian/src-foundations/mq';
+import { neutral } from '@guardian/src-foundations/palette';
 import { textSans } from '@guardian/src-foundations/typography';
+import FooterContent from 'components/footerContent';
 import type { FC } from 'react';
 import { darkModeCss } from 'styles';
-import FooterContent from 'components/footerContent';
 
 // ----- Component ----- //
 
@@ -24,11 +24,11 @@ const styles = css`
 		margin: 0 auto;
 	}
 
-    a {
-        ${textSans.small({ lineHeight: 'regular' })};
-        color: ${neutral[7]};
-        text-decoration: underline;
-    }
+	a {
+		${textSans.small({ lineHeight: 'regular' })};
+		color: ${neutral[7]};
+		text-decoration: underline;
+	}
 
 	${darkModeCss`
         color: ${neutral[60]};
@@ -43,11 +43,11 @@ interface Props {
 	isCcpa: boolean;
 }
 
-const Footer: FC<Props> = ({ isCcpa }) =>
+const Footer: FC<Props> = ({ isCcpa }) => (
 	<footer css={styles}>
 		<FooterContent isCcpa={isCcpa} />
 	</footer>
-
+);
 
 // ----- Exports ----- //
 
