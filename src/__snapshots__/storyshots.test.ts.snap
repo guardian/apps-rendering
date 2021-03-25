@@ -13642,7 +13642,6 @@ exports[`Storyshots EmbedComponentWrapper Generic 1`] = `
   display: inline-flex;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -13708,7 +13707,7 @@ html:not(.src-focus-disabled) .emotion-3:focus {
   margin: 1rem 0;
 }
 
-@media (prefers-color-scheme:dark) {
+@media (prefers-color-scheme: dark) {
   .emotion-4 {
     background: white;
     padding: 0.5rem;
@@ -13717,7 +13716,7 @@ html:not(.src-focus-disabled) .emotion-3:focus {
 
 .emotion-5 {
   font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   line-height: 1.5;
   font-weight: 400;
   color: #767676;
@@ -13811,7 +13810,6 @@ exports[`Storyshots EmbedComponentWrapper Spotify 1`] = `
   display: inline-flex;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -13958,7 +13956,6 @@ exports[`Storyshots EmbedComponentWrapper Youtube 1`] = `
   display: inline-flex;
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
   justify-content: space-between;
   -webkit-align-items: center;
   -webkit-box-align: center;
@@ -14038,7 +14035,7 @@ html:not(.src-focus-disabled) .emotion-3:focus {
   left: 0;
 }
 
-@media (prefers-color-scheme:dark) {
+@media (prefers-color-scheme: dark) {
   .emotion-4 {
     color: #999999;
     background-color: #333333;
