@@ -1,8 +1,7 @@
 // ----- Imports ----- //
 
 import type { Campaign } from '@guardian/apps-rendering-api-models/campaign';
-import type { QuestionType } from '@guardian/atoms-rendering/dist/QuizAtom';
-import type { TimelineEvent } from '@guardian/atoms-rendering/dist/types';
+import type { TimelineEvent } from '@guardian/atoms-rendering/dist/types/types';
 import type { Atoms } from '@guardian/content-api-models/v1/atoms';
 import type { BlockElement } from '@guardian/content-api-models/v1/blockElement';
 import { ElementType } from '@guardian/content-api-models/v1/elementType';
@@ -46,7 +45,8 @@ const enum ElementKind {
 	TimelineAtom,
 	ChartAtom,
 	AudioAtom,
-	QuizAtom,
+	KnowledgeQuizAtom,
+	PersonalityQuizAtom,
 }
 
 type Text = {
@@ -135,11 +135,47 @@ interface AudioAtom {
 	title: string;
 }
 
-interface QuizAtom {
-	kind: ElementKind.QuizAtom;
+interface KnowledgeQuizAtom {
+	kind: ElementKind.KnowledgeQuizAtom;
 	id: string;
 	questions: QuestionType[];
+	resultGroups: ResultGroupsType[];
 }
+
+interface PersonalityQuizAtom {
+	kind: ElementKind.PersonalityQuizAtom;
+	id: string;
+	questions: QuestionType[];
+	resultBuckets: ResultBucket[];
+}
+
+type AnswerType = {
+	id: string;
+	text: string;
+	revealText?: string;
+	isCorrect: boolean;
+	answerBuckets: string[];
+};
+
+type ResultBucket = {
+	id: string;
+	title: string;
+	description: string;
+};
+
+type QuestionType = {
+	id: string;
+	text: string;
+	answers: AnswerType[];
+	imageUrl?: string;
+};
+
+type ResultGroupsType = {
+	title: string;
+	shareText: string;
+	minScore: number;
+	id: string;
+};
 
 type BodyElement =
 	| Text
@@ -188,7 +224,8 @@ type BodyElement =
 	| TimelineAtom
 	| ChartAtom
 	| AudioAtom
-	| QuizAtom;
+	| KnowledgeQuizAtom
+	| PersonalityQuizAtom;
 
 type Elements = BlockElement[] | undefined;
 
@@ -314,7 +351,11 @@ const parse = (context: Context, atoms?: Atoms, campaigns?: Campaign[]) => (
 				.querySelector('[data-callout-tagname]')
 				?.getAttribute('data-callout-tagname');
 
-			if (id && campaigns) {
+			if (id) {
+				if (!campaigns) {
+					return err('No campaign data for this callout');
+				}
+
 				const campaign = campaigns.find(
 					(campaign) => campaign.fields.tagName === id,
 				);
@@ -427,6 +468,7 @@ export {
 	ProfileAtom,
 	TimelineAtom,
 	AudioAtom,
-	QuizAtom,
+	KnowledgeQuizAtom,
+	PersonalityQuizAtom,
 	parseElements,
 };

@@ -1,7 +1,7 @@
 // ----- Imports ----- //
 
-import type { SerializedStyles } from '@emotion/core';
-import { css } from '@emotion/core';
+import type { SerializedStyles } from '@emotion/react';
+import { css } from '@emotion/react';
 import type { Sizes } from '@guardian/image-rendering';
 import { Img } from '@guardian/image-rendering';
 import { from } from '@guardian/src-foundations/mq';
@@ -150,7 +150,7 @@ const HeaderMedia: FC<Props> = ({ item }) => {
 						sizes={getImageSizes(format)}
 						format={item}
 						className={some(getImageStyle(image, format))}
-						supportsDarkMode
+						supportsDarkMode={false}
 						lightbox={some({
 							className: 'js-launch-slideshow js-main-image',
 							caption: none,
@@ -163,6 +163,7 @@ const HeaderMedia: FC<Props> = ({ item }) => {
 						styles={getCaptionStyles(format)}
 						iconColor={iconColor}
 						iconBackgroundColor={iconBackgroundColor}
+						isFullWidthImage={isFullWidthImage(format)}
 					/>
 					<StarRating item={item} />
 				</figure>

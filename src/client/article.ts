@@ -1,7 +1,10 @@
 // ----- Imports ----- //
 import 'regenerator-runtime/runtime.js';
-import { AudioAtom, QuizAtom } from '@guardian/atoms-rendering';
-import type { QuizAtomType } from '@guardian/atoms-rendering/dist/QuizAtom';
+import {
+	AudioAtom,
+	KnowledgeQuizAtom,
+	PersonalityQuizAtom,
+} from '@guardian/atoms-rendering';
 import type { ICommentResponse as CommentResponse } from '@guardian/bridget';
 import { Topic } from '@guardian/bridget/Topic';
 import { App } from '@guardian/discussion-rendering/build/App';
@@ -27,6 +30,7 @@ import {
 import type { ReactElement } from 'react';
 import { createElement as h } from 'react';
 import ReactDOM from 'react-dom';
+import { stringToPillar } from 'themeStyles';
 import { logger } from '../logger';
 
 // ----- Run ----- //
@@ -174,7 +178,7 @@ function renderComments(): void {
 		const props = {
 			shortUrl,
 			baseUrl: 'https://discussion.theguardian.com/discussion-api',
-			pillar,
+			pillar: stringToPillar(pillar),
 			user,
 			isClosedForComments,
 			additionalHeaders,
@@ -225,8 +229,8 @@ function footerInit(): void {
 function isCCPA(): void {
 	userClient
 		.doesCcpaApply()
-		.then((isOptedIn) => {
-			const comp = h(FooterCcpa, { isCcpa: isOptedIn });
+		.then((isCcpa) => {
+			const comp = h(FooterCcpa, { isCcpa });
 			ReactDOM.render(comp, document.getElementById('articleFooter'));
 		})
 		.catch((error) => {
@@ -371,10 +375,30 @@ function hydrateQuizAtoms(): void {
 		const props = atom.querySelector('.js-quiz-params')?.innerHTML;
 		try {
 			if (props) {
-				const quizProps: unknown = JSON.parse(
+				const quizProps = (JSON.parse(
 					props.replace(/&quot;/g, '"'),
-				);
-				ReactDOM.hydrate(h(QuizAtom, quizProps as QuizAtomType), atom);
+				) as unknown) as { quizType: string };
+				if (quizProps.quizType === 'personality') {
+					ReactDOM.hydrate(
+						h(
+							PersonalityQuizAtom,
+							(quizProps as unknown) as React.ComponentProps<
+								typeof PersonalityQuizAtom
+							>,
+						),
+						atom,
+					);
+				} else if (quizProps.quizType === 'knowledge') {
+					ReactDOM.hydrate(
+						h(
+							KnowledgeQuizAtom,
+							(quizProps as unknown) as React.ComponentProps<
+								typeof KnowledgeQuizAtom
+							>,
+						),
+						atom,
+					);
+				}
 			}
 		} catch (e) {
 			console.error(e);
@@ -462,13 +486,13 @@ reportNativeElementPositionChanges();
 topics();
 slideshow();
 formatDates();
+footerInit();
 insertEpic();
 callouts();
 renderComments();
 hasSeenCards();
 initAudioAtoms();
 hydrateQuizAtoms();
-footerInit();
 localDates();
 richLinks();
 hydrateClickToView();

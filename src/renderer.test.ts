@@ -99,7 +99,7 @@ const embedElement: BodyElement = {
 		source: some('mockSource'),
 		sourceDomain: some('mockSourceDomain'),
 		tracking: EmbedTracksType.DOES_NOT_TRACK,
-	}
+	},
 };
 
 const videoElement: BodyElement = {
@@ -179,12 +179,14 @@ const timelineElement = (): BodyElement => ({
 			date: '1 May 2019',
 			body:
 				'<p><a href="https://www.theguardian.com/media/2019/may/01/julian-assange-jailed-for-50-weeks-for-breaching-bail-in-2012">He is jailed for 50 weeks</a>&nbsp;in the UK for breaching his bail conditions back in 2012. An apology letter from Assange is read out in court, but the judge rules that he had engaged in a \'deliberate attempt to evade justice\'. On the following day <a href="https://www.theguardian.com/media/2019/may/02/us-begins-extradition-case-against-julian-assange-in-london">the US extradition proceedings were formally started</a>.&nbsp;</p>',
+			unixDate: 1556732925,
 		},
 		{
 			title: ' ',
 			date: '13 May 2019',
 			body:
 				'<p>Swedish prosecutors announce they are <a href="https://www.theguardian.com/media/2019/may/13/sweden-reopens-case-against-julian-assange">reopening an investigation into a rape allegation</a> against Julian Assange.</p><p><br></p>',
+			unixDate: 1557769725,
 		},
 	],
 });
@@ -198,10 +200,11 @@ const chartElement = (): BodyElement => ({
 	js: [],
 });
 
-const quizAtom = (): BodyElement => ({
-	kind: ElementKind.QuizAtom,
+const knowledgeQuizAtom = (): BodyElement => ({
+	kind: ElementKind.KnowledgeQuizAtom,
 	id: '',
 	questions: [],
+	resultGroups: [],
 });
 
 const audioAtom = (): BodyElement => ({
@@ -355,7 +358,9 @@ describe('Renders different types of elements', () => {
 	test('ElementKind.Embed', () => {
 		const nodes = render(embedElement);
 		const embed = nodes.flat()[0];
-		expect(getHtml(embed)).toContain('<iframe srcDoc=\"&lt;section&gt;Embed&lt;/section&gt;\" title=\"Embed\" height=\"322\"></iframe>');
+		expect(getHtml(embed)).toContain(
+			'<iframe srcDoc="&lt;section&gt;Embed&lt;/section&gt;" title="Embed" height="322"></iframe>',
+		);
 	});
 
 	test('ElementKind.Audio', () => {
@@ -434,8 +439,8 @@ describe('Renders different types of elements', () => {
 		);
 	});
 
-	test('ElementKind.QuizAtom', () => {
-		const nodes = render(quizAtom());
+	test('ElementKind.KnowledgeQuizAtom', () => {
+		const nodes = render(knowledgeQuizAtom());
 		const quiz = nodes.flat()[0];
 		const html = getHtml(quiz);
 		expect(html).toContain('<div class="js-quiz">');
@@ -535,7 +540,9 @@ describe('Renders different types of Editions elements', () => {
 	test('ElementKind.Embed', () => {
 		const nodes = renderEditions(embedElement);
 		const embed = nodes.flat()[0];
-		expect(getHtml(embed)).toContain('<iframe srcDoc=\"&lt;section&gt;Embed&lt;/section&gt;\" title=\"Embed\" height=\"322\"></iframe>');
+		expect(getHtml(embed)).toContain(
+			'<iframe srcDoc="&lt;section&gt;Embed&lt;/section&gt;" title="Embed" height="322"></iframe>',
+		);
 	});
 
 	test('ElementKind.Audio', () => {
@@ -614,8 +621,8 @@ describe('Renders different types of Editions elements', () => {
 		);
 	});
 
-	test('ElementKind.QuizAtom', () => {
-		const nodes = renderEditions(quizAtom());
+	test('ElementKind.KnowledgeQuizAtom', () => {
+		const nodes = renderEditions(knowledgeQuizAtom());
 		const quiz = nodes.flat()[0];
 		const html = getHtml(quiz);
 		expect(html).toContain('<div class="js-quiz">');
