@@ -13843,6 +13843,185 @@ html:not(.src-focus-disabled) .emotion-4:focus {
 </div>
 `;
 
+exports[`Storyshots EmbedComponentWrapper Instagram 1`] = `
+.emotion-0 {
+  width: 100%;
+  background: #F6F6F6;
+  border: 1px solid #DCDCDC;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  padding: 0.25rem 1.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+  box-sizing: border-box;
+}
+
+.emotion-1 {
+  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.emotion-2 {
+  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  font-weight: 400;
+  margin: 0px;
+}
+
+.emotion-3 {
+  margin-top: 1.25rem;
+}
+
+.emotion-4 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-transition: .3s ease-in-out;
+  transition: .3s ease-in-out;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  white-space: nowrap;
+  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+  font-weight: 700;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 44px;
+  padding-bottom: 2px;
+  background-color: #052962;
+  color: #FFFFFF;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+}
+
+.emotion-4:focus {
+  outline: 0;
+}
+
+html:not(.src-focus-disabled) .emotion-4:focus {
+  box-shadow: 0 0 0 5px #00B2FF;
+}
+
+.emotion-4:hover {
+  background-color: #234B8A;
+}
+
+.emotion-4 svg {
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  display: block;
+  fill: currentColor;
+  position: relative;
+  width: 30px;
+  height: auto;
+}
+
+.emotion-4 .src-button-space {
+  width: 12px;
+}
+
+.emotion-4 svg {
+  margin-left: -4px;
+}
+
+<div>
+  <p>
+    This is an example of the embed wrapper rendering a instagram 'Instagram' embed overlay.
+  </p>
+  <div
+    className="js-click-to-view-container"
+    data-caption="a caption"
+    data-id="BwwONCplEyj"
+    data-kind="Instagram"
+    data-source="Instagram"
+    data-source-domain="instagram.com"
+    data-tracking="1"
+  >
+    <div
+      className="emotion-0"
+    >
+      <div
+        className="emotion-1"
+      >
+        Allow Instagram content?
+      </div>
+      <p
+        className="emotion-2"
+      >
+        This article includes content provided by
+         
+        Instagram
+        . We ask for your permission before anything is loaded, as they may be using cookies and other technologies. To view this content,
+         
+        <strong>
+          click 'Allow and continue'
+        </strong>
+        .
+      </p>
+      <div
+        className="emotion-3"
+      >
+        <button
+          className="emotion-4"
+          onClick={[Function]}
+          type="button"
+        >
+          Allow and continue
+          <div
+            className="src-button-space"
+          />
+          <svg
+            viewBox="0 0 30 30"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clipRule="evenodd"
+              d="M6 14.775l-1 1 5 7h.475l14.3-14.8-1-.975-13.3 12.05L6 14.775z"
+              fillRule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <p>
+    This is an example of the embed wrapper rendering a instagram 'Instagram' embed overlay.
+  </p>
+  <iframe
+    height="830"
+    src="https://www.instagram.com/p/BwwONCplEyj/embed"
+    title="a caption"
+  />
+</div>
+`;
+
 exports[`Storyshots EmbedComponentWrapper Spotify 1`] = `
 .emotion-0 {
   width: 100%;

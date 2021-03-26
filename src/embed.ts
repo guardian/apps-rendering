@@ -49,6 +49,9 @@ interface Instagram {
 	kind: EmbedKind.Instagram;
 	id: string;
 	caption: Option<string>;
+	source: Option<string>;
+	sourceDomain: Option<string>;
+	tracking: EmbedTracksType;
 }
 
 interface Generic {
@@ -252,6 +255,10 @@ const parseInstagram = (element: BlockElement): Result<string, Embed> => {
 				element.instagramTypeData?.caption ??
 					element.instagramTypeData?.alt,
 			),
+			source: fromNullable(element.instagramTypeData?.source),
+			sourceDomain: fromNullable(element.instagramTypeData?.sourceDomain),
+			tracking:
+				element.tracking?.tracks ?? EmbedTracksType.DOES_NOT_TRACK,
 		})),
 	);
 };
@@ -283,7 +290,7 @@ const parseGeneric = (parser: DocParser) => (
 
 // ----- Exports ----- //
 
-export type { Embed, Generic, Spotify, YouTube };
+export type { Embed, Generic, Spotify, YouTube, Instagram };
 
 export {
 	EmbedKind,

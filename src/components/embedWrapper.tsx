@@ -9,12 +9,13 @@ import {
 	none,
 	ok,
 	resultAndThen,
+	resultMap,
 	withDefault,
 } from '@guardian/types';
 import { ClickToView } from 'components/ClickToView';
 import EmbedComponent from 'components/embed';
 import { EmbedKind } from 'embed';
-import type { Embed, Generic, Spotify, YouTube } from 'embed';
+import type { Embed, Generic, Instagram, Spotify, YouTube } from 'embed';
 import { pipe, pipe2, resultFromNullable, resultMap2, resultMap3 } from 'lib';
 import { createElement as h } from 'react';
 import type { FC, ReactElement } from 'react';
@@ -74,6 +75,28 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 				html: embed.html,
 				height: embed.height.toString(),
 				...(embed.mandatory && { mandatory: 'true' }),
+				...pipe2(
+					embed.source,
+					map((source) => ({ source })),
+					withDefault<Record<string, string>>({}),
+				),
+				...pipe2(
+					embed.sourceDomain,
+					map((sourceDomain) => ({ sourceDomain })),
+					withDefault<Record<string, string>>({}),
+				),
+				...(embed.tracking && { tracking: embed.tracking.toString() }),
+			};
+		}
+		case EmbedKind.Instagram: {
+			return {
+				kind: EmbedKind.Instagram,
+				id: embed.id,
+				...pipe2(
+					embed.caption,
+					map((caption) => ({ caption: caption })),
+					withDefault<Record<string, string>>({}),
+				),
 				...pipe2(
 					embed.source,
 					map((source) => ({ source })),
@@ -229,6 +252,26 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 							)(requiredStringParam(elementProps, 'html'))(
 								requiredNumberParam(elementProps, 'height'),
 							);
+						}
+						case EmbedKind.Instagram: {
+							return resultMap<string, Instagram>(
+								(id: string): Instagram => ({
+									kind: EmbedKind.Instagram,
+									id,
+									caption: fromNullable(
+										elementProps['caption'],
+									),
+									source: fromNullable(
+										elementProps['source'],
+									),
+									sourceDomain: fromNullable(
+										elementProps['sourceDomain'],
+									),
+									tracking: parseTrackingParam(
+										elementProps['tracking'],
+									),
+								}),
+							)(requiredStringParam(elementProps, 'id'));
 						}
 					}
 				},

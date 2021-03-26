@@ -119,6 +119,39 @@ const Spotify: FC = () => (
 	</div>
 );
 
+const Instagram: FC = () => (
+	<div>
+		<p>
+			This is an example of the embed wrapper rendering a instagram
+			&apos;Instagram&apos; embed overlay.
+		</p>
+		<EmbedComponentWrapper
+			embed={{
+				kind: EmbedKind.Instagram,
+				id: 'BwwONCplEyj',
+				caption: some('a caption'),
+				source: some('Instagram'),
+				sourceDomain: some('instagram.com'),
+				tracking: EmbedTracksType.TRACKS,
+			}}
+		/>
+		<p>
+			This is an example of the embed wrapper rendering a instagram
+			&apos;Instagram&apos; embed overlay.
+		</p>
+		<EmbedComponentWrapper
+			embed={{
+				kind: EmbedKind.Instagram,
+				id: 'BwwONCplEyj',
+				caption: some('a caption'),
+				source: some('Instagram'),
+				sourceDomain: some('instagram.com'),
+				tracking: EmbedTracksType.DOES_NOT_TRACK,
+			}}
+		/>
+	</div>
+);
+
 // ----- Exports ----- //
 
 export default {
@@ -127,4 +160,4 @@ export default {
 	decorators: [withKnobs],
 };
 
-export { Generic, Youtube, Spotify };
+export { Generic, Youtube, Spotify, Instagram };

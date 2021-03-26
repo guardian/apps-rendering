@@ -1,6 +1,6 @@
 import { EmbedTracksType } from '@guardian/content-api-models/v1/embedTracksType';
 import { none, some } from '@guardian/types';
-import type { Embed, Generic, Spotify, YouTube } from 'embed';
+import type { Embed, Generic, Instagram, Spotify, YouTube } from 'embed';
 import { EmbedKind } from 'embed';
 import { matchers } from 'jest-emotion';
 import { render, unmountComponentAtNode } from 'react-dom';
@@ -106,5 +106,18 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 		};
 
 		testCreateContentFromProps(youTubeEmbed);
+	});
+
+	it('should recreate contents of wrapper from wrapper data props for Instagram embed', () => {
+		const instagramEmbed: Instagram = {
+			kind: EmbedKind.Instagram,
+			id: 'instagramid',
+			caption: some('An Instagram Caption'),
+			source: some('An Embed Provider'),
+			sourceDomain: some('anembedprovider.com'),
+			tracking: EmbedTracksType.TRACKS,
+		};
+
+		testCreateContentFromProps(instagramEmbed);
 	});
 });

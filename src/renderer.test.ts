@@ -89,6 +89,9 @@ const instagramElement = (): BodyElement => ({
 		kind: EmbedKind.Instagram,
 		id: 'embedId',
 		caption: some('<blockquote>Instagram</blockquote>'),
+		source: some('mockSource'),
+		sourceDomain: some('mockSourceDomain'),
+		tracking: EmbedTracksType.DOES_NOT_TRACK,
 	},
 });
 
