@@ -17,8 +17,8 @@ import {
 } from 'client/nativeCommunication';
 import setup from 'client/setup';
 import { createEmbedComponentFromProps } from 'components/embedWrapper';
+import FooterContent from 'components/footerContent';
 import Epic from 'components/shared/epic';
-import FooterCcpa from 'components/shared/footer';
 import { formatDate, formatLocal, isValidDate } from 'date';
 import { handleErrors, isObject } from 'lib';
 import {
@@ -217,24 +217,14 @@ function renderComments(): void {
 }
 
 function footerInit(): void {
-	const isAndroid = /(android)/i.test(navigator.userAgent);
-	const footer = document.getElementById('articleFooter');
-	if (footer && isAndroid) {
-		footer.innerHTML = '';
-	} else {
-		isCCPA();
-	}
-}
-
-function isCCPA(): void {
 	userClient
 		.doesCcpaApply()
 		.then((isCcpa) => {
-			const comp = h(FooterCcpa, { isCcpa });
-			ReactDOM.render(comp, document.getElementById('articleFooter'));
+			const comp = h(FooterContent, { isCcpa });
+			ReactDOM.render(comp, document.getElementById('js-footer'));
 		})
 		.catch((error) => {
-			console.log(error);
+			logger.error(error);
 		});
 }
 
