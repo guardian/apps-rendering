@@ -1,12 +1,13 @@
+import { css } from '@emotion/react';
 import { Button } from '@guardian/src-button';
 import { remSpace } from '@guardian/src-foundations';
 import { background, border } from '@guardian/src-foundations/palette';
-import { headline, textSans } from '@guardian/src-foundations/typography';
+import { textSans } from '@guardian/src-foundations/typography';
 import { SvgCheckmark } from '@guardian/src-icons';
 import type { Option } from '@guardian/types';
 import { OptionKind, Role, withDefault } from '@guardian/types';
-import { css } from 'emotion';
 import { fold } from 'lib';
+import type { FC } from 'react';
 import React, { useState } from 'react';
 
 export type ClickToViewProps = {
@@ -23,12 +24,12 @@ const roleTextSize = (role: Role): string => {
 		case Role.Immersive:
 		case Role.Inline:
 		case Role.Showcase: {
-			return textSans.medium();
+			return textSans.medium({ lineHeight: 'regular' });
 		}
 		case Role.HalfWidth:
 		case Role.Supporting:
 		case Role.Thumbnail: {
-			return textSans.small();
+			return textSans.small({ lineHeight: 'regular' });
 		}
 	}
 };
@@ -39,12 +40,18 @@ const roleHeadlineSize = (role: Role): string => {
 		case Role.Immersive:
 		case Role.Inline:
 		case Role.Showcase: {
-			return headline.xsmall();
+			return textSans.large({
+				fontWeight: 'bold',
+				lineHeight: 'regular',
+			});
 		}
 		case Role.HalfWidth:
 		case Role.Supporting:
 		case Role.Thumbnail: {
-			return headline.xxsmall();
+			return textSans.medium({
+				fontWeight: 'bold',
+				lineHeight: 'regular',
+			});
 		}
 	}
 };
@@ -55,10 +62,11 @@ const roleButtonSize = (role: Role): 'default' | 'small' | 'xsmall' => {
 		case Role.Immersive:
 		case Role.Inline:
 		case Role.Showcase: {
-			return 'small';
+			return 'default';
 		}
 		case Role.HalfWidth:
 		case Role.Supporting:
+			return 'small';
 		case Role.Thumbnail: {
 			return 'xsmall';
 		}
@@ -81,13 +89,13 @@ const roleButtonText = (role: Role): string => {
 	}
 };
 
-export const ClickToView = ({
+export const ClickToView: FC<ClickToViewProps> = ({
 	children,
 	role,
 	onAccept,
 	source,
 	sourceDomain,
-}: ClickToViewProps): JSX.Element => {
+}) => {
 	const [isOverlayClicked, setIsOverlayClicked] = useState<boolean>(false);
 
 	const handleClick = (): void => {
@@ -107,19 +115,19 @@ export const ClickToView = ({
 				css={css`
 					width: 100%;
 					background: ${background.secondary};
-					border: 1px solid ${border.primary};
+					border: 1px solid ${border.secondary};
 					display: flex;
 					flex-direction: column;
 					justify-content: space-between;
-					padding: ${remSpace[3]};
-					margin-bottom: ${remSpace[2]};
+					padding: ${remSpace[1]} ${remSpace[6]} ${remSpace[3]};
+					margin-bottom: ${remSpace[3]};
 					box-sizing: border-box;
 				`}
 			>
 				<div
 					css={css`
 						${roleHeadlineSize(roleWithDefault)}
-						margin-bottom: ${remSpace[2]};
+						margin-bottom: ${remSpace[1]};
 					`}
 				>
 					{fold(
@@ -127,45 +135,43 @@ export const ClickToView = ({
 						'Allow content provided by a third party?',
 					)(source)}
 				</div>
-				<div
+				<p
 					css={css`
 						${textSize}
-						p {
-							margin-bottom: ${remSpace[2]};
-						}
+						margin: 0px;
 					`}
 				>
 					{fold(
 						(source) => (
 							<>
-								<p>
-									This article includes content provided by{' '}
-									{source}. We ask for your permission before
-									anything is loaded, as they may be using
-									cookies and other technologies.
-								</p>
-								<p>
-									To view this content, click &apos;Allow and
-									continue&apos;.
-								</p>
+								This article includes content provided by{' '}
+								{source}. We ask for your permission before
+								anything is loaded, as they may be using cookies
+								and other technologies. To view this content,{' '}
+								<strong>
+									click &apos;Allow and continue&apos;
+								</strong>
+								.
 							</>
 						),
 						<>
-							<p>
-								This article includes content hosted on{' '}
-								{withDefault('unknown')(sourceDomain)}. We ask
-								for your permission before anything is loaded,
-								as the provider may be using cookies and other
-								technologies.
-							</p>
-							<p>
-								To view this content, click &apos;Allow and
-								continue&apos;.
-							</p>
+							This article includes content hosted on{' '}
+							{withDefault('unknown')(sourceDomain)}. We ask for
+							your permission before anything is loaded, as the
+							provider may be using cookies and other
+							technologies. To view this content,{' '}
+							<strong>
+								click &apos;Allow and continue&apos;
+							</strong>
+							.
 						</>,
 					)(source)}
-				</div>
-				<div>
+				</p>
+				<div
+					css={css`
+						margin-top: ${remSpace[5]};
+					`}
+				>
 					<Button
 						priority="primary"
 						size={roleButtonSize(roleWithDefault)}

@@ -13635,7 +13635,46 @@ exports[`Storyshots Editions/Star Rating Default 1`] = `
 exports[`Storyshots Editions/Star Rating Not Review 1`] = `null`;
 
 exports[`Storyshots EmbedComponentWrapper Generic 1`] = `
+.emotion-0 {
+  width: 100%;
+  background: #F6F6F6;
+  border: 1px solid #DCDCDC;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  padding: 0.25rem 1.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+  box-sizing: border-box;
+}
+
+.emotion-1 {
+  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.emotion-2 {
+  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  font-weight: 400;
+  margin: 0px;
+}
+
 .emotion-3 {
+  margin-top: 1.25rem;
+}
+
+.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -13660,10 +13699,10 @@ exports[`Storyshots EmbedComponentWrapper Generic 1`] = `
   font-size: 1.0625rem;
   line-height: 1.5;
   font-weight: 700;
-  height: 36px;
-  min-height: 36px;
-  padding: 0 16px;
-  border-radius: 36px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 44px;
   padding-bottom: 2px;
   background-color: #052962;
   color: #FFFFFF;
@@ -13672,49 +13711,49 @@ exports[`Storyshots EmbedComponentWrapper Generic 1`] = `
   flex-direction: row-reverse;
 }
 
-.emotion-3:focus {
+.emotion-4:focus {
   outline: 0;
 }
 
-html:not(.src-focus-disabled) .emotion-3:focus {
+html:not(.src-focus-disabled) .emotion-4:focus {
   box-shadow: 0 0 0 5px #00B2FF;
 }
 
-.emotion-3:hover {
+.emotion-4:hover {
   background-color: #234B8A;
 }
 
-.emotion-3 svg {
+.emotion-4 svg {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   display: block;
   fill: currentColor;
   position: relative;
-  width: 26px;
+  width: 30px;
   height: auto;
 }
 
-.emotion-3 .src-button-space {
-  width: 8px;
+.emotion-4 .src-button-space {
+  width: 12px;
 }
 
-.emotion-3 svg {
+.emotion-4 svg {
   margin-left: -4px;
 }
 
-.emotion-4 {
+.emotion-5 {
   margin: 1rem 0;
 }
 
 @media (prefers-color-scheme: dark) {
-  .emotion-4 {
+  .emotion-5 {
     background: white;
     padding: 0.5rem;
   }
 }
 
-.emotion-5 {
+.emotion-6 {
   font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
   font-size: 0.875rem;
   line-height: 1.5;
@@ -13745,22 +13784,24 @@ html:not(.src-focus-disabled) .emotion-3:focus {
       >
         Allow Spotify content?
       </div>
-      <div
+      <p
         className="emotion-2"
       >
-        <p>
-          This article includes content provided by
-           
-          Spotify
-          . We ask for your permission before anything is loaded, as they may be using cookies and other technologies.
-        </p>
-        <p>
-          To view this content, click 'Allow and continue'.
-        </p>
-      </div>
-      <div>
+        This article includes content provided by
+         
+        Spotify
+        . We ask for your permission before anything is loaded, as they may be using cookies and other technologies. To view this content,
+         
+        <strong>
+          click 'Allow and continue'
+        </strong>
+        .
+      </p>
+      <div
+        className="emotion-3"
+      >
         <button
-          className="emotion-3"
+          className="emotion-4"
           onClick={[Function]}
           type="button"
         >
@@ -13786,7 +13827,7 @@ html:not(.src-focus-disabled) .emotion-3:focus {
     This is an example of the embed wrapper rendering a Spotify 'Generic' embed.
   </p>
   <figure
-    className="emotion-4"
+    className="emotion-5"
   >
     <iframe
       height={502}
@@ -13794,7 +13835,7 @@ html:not(.src-focus-disabled) .emotion-3:focus {
       title="Lemmy"
     />
     <figcaption
-      className="emotion-5"
+      className="emotion-6"
     >
       Lemmy
     </figcaption>
@@ -13803,7 +13844,46 @@ html:not(.src-focus-disabled) .emotion-3:focus {
 `;
 
 exports[`Storyshots EmbedComponentWrapper Spotify 1`] = `
+.emotion-0 {
+  width: 100%;
+  background: #F6F6F6;
+  border: 1px solid #DCDCDC;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  padding: 0.25rem 1.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+  box-sizing: border-box;
+}
+
+.emotion-1 {
+  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.emotion-2 {
+  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  font-weight: 400;
+  margin: 0px;
+}
+
 .emotion-3 {
+  margin-top: 1.25rem;
+}
+
+.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -13828,10 +13908,10 @@ exports[`Storyshots EmbedComponentWrapper Spotify 1`] = `
   font-size: 1.0625rem;
   line-height: 1.5;
   font-weight: 700;
-  height: 36px;
-  min-height: 36px;
-  padding: 0 16px;
-  border-radius: 36px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 44px;
   padding-bottom: 2px;
   background-color: #052962;
   color: #FFFFFF;
@@ -13840,38 +13920,38 @@ exports[`Storyshots EmbedComponentWrapper Spotify 1`] = `
   flex-direction: row-reverse;
 }
 
-.emotion-3:focus {
+.emotion-4:focus {
   outline: 0;
 }
 
-html:not(.src-focus-disabled) .emotion-3:focus {
+html:not(.src-focus-disabled) .emotion-4:focus {
   box-shadow: 0 0 0 5px #00B2FF;
 }
 
-.emotion-3:hover {
+.emotion-4:hover {
   background-color: #234B8A;
 }
 
-.emotion-3 svg {
+.emotion-4 svg {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   display: block;
   fill: currentColor;
   position: relative;
-  width: 26px;
+  width: 30px;
   height: auto;
 }
 
-.emotion-3 .src-button-space {
-  width: 8px;
+.emotion-4 .src-button-space {
+  width: 12px;
 }
 
-.emotion-3 svg {
+.emotion-4 svg {
   margin-left: -4px;
 }
 
-.emotion-4 {
+.emotion-5 {
   border: none;
 }
 
@@ -13897,22 +13977,24 @@ html:not(.src-focus-disabled) .emotion-3:focus {
       >
         Allow Spotify content?
       </div>
-      <div
+      <p
         className="emotion-2"
       >
-        <p>
-          This article includes content provided by
-           
-          Spotify
-          . We ask for your permission before anything is loaded, as they may be using cookies and other technologies.
-        </p>
-        <p>
-          To view this content, click 'Allow and continue'.
-        </p>
-      </div>
-      <div>
+        This article includes content provided by
+         
+        Spotify
+        . We ask for your permission before anything is loaded, as they may be using cookies and other technologies. To view this content,
+         
+        <strong>
+          click 'Allow and continue'
+        </strong>
+        .
+      </p>
+      <div
+        className="emotion-3"
+      >
         <button
-          className="emotion-3"
+          className="emotion-4"
           onClick={[Function]}
           type="button"
         >
@@ -13938,7 +14020,7 @@ html:not(.src-focus-disabled) .emotion-3:focus {
     This is an example of the embed wrapper rendering a spotify 'Spotify' embed.
   </p>
   <iframe
-    className="emotion-4"
+    className="emotion-5"
     height={380}
     sandbox="allow-scripts"
     src="https://embed.spotify.com/?uri=spotify:user:juderogers:playlist:5FTUcQhfk54BZwcdiwE1QY"
@@ -13949,7 +14031,46 @@ html:not(.src-focus-disabled) .emotion-3:focus {
 `;
 
 exports[`Storyshots EmbedComponentWrapper Youtube 1`] = `
+.emotion-0 {
+  width: 100%;
+  background: #F6F6F6;
+  border: 1px solid #DCDCDC;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  padding: 0.25rem 1.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+  box-sizing: border-box;
+}
+
+.emotion-1 {
+  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.emotion-2 {
+  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.35;
+  font-weight: 400;
+  margin: 0px;
+}
+
 .emotion-3 {
+  margin-top: 1.25rem;
+}
+
+.emotion-4 {
   display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
@@ -13974,10 +14095,10 @@ exports[`Storyshots EmbedComponentWrapper Youtube 1`] = `
   font-size: 1.0625rem;
   line-height: 1.5;
   font-weight: 700;
-  height: 36px;
-  min-height: 36px;
-  padding: 0 16px;
-  border-radius: 36px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 20px;
+  border-radius: 44px;
   padding-bottom: 2px;
   background-color: #052962;
   color: #FFFFFF;
@@ -13986,38 +14107,38 @@ exports[`Storyshots EmbedComponentWrapper Youtube 1`] = `
   flex-direction: row-reverse;
 }
 
-.emotion-3:focus {
+.emotion-4:focus {
   outline: 0;
 }
 
-html:not(.src-focus-disabled) .emotion-3:focus {
+html:not(.src-focus-disabled) .emotion-4:focus {
   box-shadow: 0 0 0 5px #00B2FF;
 }
 
-.emotion-3:hover {
+.emotion-4:hover {
   background-color: #234B8A;
 }
 
-.emotion-3 svg {
+.emotion-4 svg {
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   display: block;
   fill: currentColor;
   position: relative;
-  width: 26px;
+  width: 30px;
   height: auto;
 }
 
-.emotion-3 .src-button-space {
-  width: 8px;
+.emotion-4 .src-button-space {
+  width: 12px;
 }
 
-.emotion-3 svg {
+.emotion-4 svg {
   margin-left: -4px;
 }
 
-.emotion-4 {
+.emotion-5 {
   background: #F6F6F6;
   padding-bottom: 56.25%;
   width: 100%;
@@ -14026,7 +14147,7 @@ html:not(.src-focus-disabled) .emotion-3:focus {
   margin: 1rem 0;
 }
 
-.emotion-4 iframe {
+.emotion-5 iframe {
   border: none;
   width: 100%;
   height: 100%;
@@ -14036,7 +14157,7 @@ html:not(.src-focus-disabled) .emotion-3:focus {
 }
 
 @media (prefers-color-scheme: dark) {
-  .emotion-4 {
+  .emotion-5 {
     color: #999999;
     background-color: #333333;
   }
@@ -14064,22 +14185,24 @@ html:not(.src-focus-disabled) .emotion-3:focus {
       >
         Allow YouTube content?
       </div>
-      <div
+      <p
         className="emotion-2"
       >
-        <p>
-          This article includes content provided by
-           
-          YouTube
-          . We ask for your permission before anything is loaded, as they may be using cookies and other technologies.
-        </p>
-        <p>
-          To view this content, click 'Allow and continue'.
-        </p>
-      </div>
-      <div>
+        This article includes content provided by
+         
+        YouTube
+        . We ask for your permission before anything is loaded, as they may be using cookies and other technologies. To view this content,
+         
+        <strong>
+          click 'Allow and continue'
+        </strong>
+        .
+      </p>
+      <div
+        className="emotion-3"
+      >
         <button
-          className="emotion-3"
+          className="emotion-4"
           onClick={[Function]}
           type="button"
         >
@@ -14105,7 +14228,7 @@ html:not(.src-focus-disabled) .emotion-3:focus {
     This is an example of the embed wrapper rendering a YouTube 'YouTube' embed.
   </p>
   <div
-    className="emotion-4"
+    className="emotion-5"
   >
     <iframe
       allowFullScreen={true}
