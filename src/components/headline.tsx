@@ -137,7 +137,7 @@ const getStyles = (format: Format): SerializedStyles => {
 
 const Headline = ({ item }: Props): ReactElement => (
 	<h1 css={getStyles(item)}>
-		<span>LOCAL {item.headline}</span>
+		<span>CODE 2 {item.headline}</span>
 		<StarRating item={item} />
 	</h1>
 );
