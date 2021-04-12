@@ -157,6 +157,7 @@ function launchSlideshow(src: string | null): void {
 	const clickedImageIndex = images.findIndex(
 		(image: Element) => image.getAttribute('src') === src,
 	);
+	console.log(galleryClient);
 	if (imagesWithCaptions.length && clickedImageIndex >= 0) {
 		void galleryClient.launchSlideshow(
 			imagesWithCaptions,
@@ -168,6 +169,7 @@ function launchSlideshow(src: string | null): void {
 
 function slideshow(): void {
 	const images = document.querySelectorAll('.js-launch-slideshow');
+	console.log(images);
 	Array.from(images).forEach((image: Element) =>
 		image.addEventListener('click', (e: Event) => {
 			launchSlideshow(image.getAttribute('src'));
