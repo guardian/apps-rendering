@@ -264,6 +264,7 @@ const clientConfigProduction = {
 	output: {
 		path: path.resolve(__dirname, 'dist/assets'),
 		filename: '[name].[contenthash].js',
+		publicPath: ""
 	},
 	resolve: clientResolveProd,
 };
