@@ -238,6 +238,9 @@ const clientConfigProduction = {
 	devtool: false,
 	plugins: [
 		new WebpackManifestPlugin(),
+		new webpack.ProvidePlugin({
+			Buffer: ['buffer', 'Buffer'],
+		}),
 		new HtmlWebpackPlugin({
 			meta: {
 				'Content-Security-Policy': {
