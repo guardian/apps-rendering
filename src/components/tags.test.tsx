@@ -47,13 +47,4 @@ describe('Tags component renders as expected', () => {
 		);
 		expect(tags.root.findAllByType('li').length).toBe(2);
 	});
-
-	it('Renders correct background color', () => {
-		const tags = renderer.create(
-			<Tags tags={[mockTag]} format={mockFormat} />,
-		);
-		expect(tags.toJSON()).toHaveStyleRule('background-color', '#DCDCDC', {
-			target: 'li a',
-		});
-	});
 });
