@@ -18,7 +18,7 @@ import Series from 'components/series';
 import ArticleBody from 'components/shared/articleBody';
 import OptionalLogo from 'components/shared/logo';
 import RelatedContent from 'components/shared/relatedContent';
-import Tags from 'components/shared/tags';
+import Tags from 'components/tags';
 import Standfirst from 'components/standfirst';
 import HeaderMedia from 'headerMedia';
 import type { Comment as CommentItem, Letter } from 'item';

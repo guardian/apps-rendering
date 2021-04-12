@@ -17,7 +17,7 @@ import Body from 'components/shared/articleBody';
 import Epic from 'components/shared/epic';
 import OptionalLogo from 'components/shared/logo';
 import RelatedContent from 'components/shared/relatedContent';
-import Tags from 'components/shared/tags';
+import Tags from 'components/tags';
 import Standfirst from 'components/standfirst';
 import HeaderMedia from 'headerMedia';
 import type {
