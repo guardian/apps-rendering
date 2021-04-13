@@ -183,7 +183,7 @@ const listItemStyles = (format: Format): SerializedStyles[] => {
 	switch (format.design) {
 		case Design.Media:
 			return [baseStyles, mediaStyles];
-		case Design.Live:
+		case Design.LiveBlog:
 			return [baseStyles, liveblogStyles];
 		default:
 			return [baseStyles];
@@ -722,7 +722,10 @@ const render = (format: Format, excludeStyles = false) => (
 		}
 
 		case ElementKind.Embed:
-			return h(EmbedComponentWrapper, { embed: element.embed });
+			return h(EmbedComponentWrapper, {
+				embed: element.embed,
+				editions: false,
+			});
 
 		case ElementKind.ExplainerAtom: {
 			return h(ExplainerAtom, { ...element });
@@ -783,13 +786,11 @@ const renderEditions = (format: Format, excludeStyles = false) => (
 		case ElementKind.Tweet:
 			return h(Tweet, { content: element.content, format, key });
 
-		case ElementKind.Callout: {
-			const { campaign, description } = element;
-			return h(CalloutForm, { campaign, format, description });
-		}
-
 		case ElementKind.Embed:
-			return h(EmbedComponentWrapper, { embed: element.embed });
+			return h(EmbedComponentWrapper, {
+				embed: element.embed,
+				editions: true,
+			});
 
 		case ElementKind.ExplainerAtom:
 			return h(ExplainerAtom, { ...element });
@@ -806,21 +807,11 @@ const renderEditions = (format: Format, excludeStyles = false) => (
 		case ElementKind.TimelineAtom:
 			return timelineAtomRenderer(format, element);
 
-		case ElementKind.ChartAtom:
-			return h(ChartAtom, { ...element });
-
 		case ElementKind.InteractiveAtom:
 			return interactiveAtomRenderer(format, element);
 
 		case ElementKind.MediaAtom:
 			return mediaAtomRenderer(format, element);
-
-		case ElementKind.AudioAtom:
-			return audioAtomRenderer(format, element);
-
-		case ElementKind.KnowledgeQuizAtom:
-		case ElementKind.PersonalityQuizAtom:
-			return quizAtomRenderer(format, element);
 
 		default:
 			return null;

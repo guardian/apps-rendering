@@ -28,14 +28,16 @@ afterEach(() => {
 
 describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 	const testCreateContentFromProps = (embed: Embed): void => {
-		const embedComponentWrapper = <EmbedComponentWrapper embed={embed} />;
+		const embedComponentWrapper = (
+			<EmbedComponentWrapper embed={embed} editions={false} />
+		);
 
 		act(() => {
 			render(embedComponentWrapper, container);
 		});
 
 		const expectedWrapperContents = (
-			<EmbedComponentInClickToView embed={embed} />
+			<EmbedComponentInClickToView embed={embed} editions={false} />
 		);
 
 		if (container.firstElementChild) {

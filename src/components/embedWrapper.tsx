@@ -24,6 +24,7 @@ import type { FC, ReactElement } from 'react';
 
 interface Props {
 	embed: Embed;
+	editions: boolean;
 }
 
 const embedToDivProps = (embed: Embed): Record<string, string> => {
@@ -291,15 +292,15 @@ const createEmbedComponentFromProps = (
 	return resultAndThen((embed: Embed) => {
 		return resultFromNullable(
 			`I can't construct a Component for embed of type ${embed.kind}`,
-		)(h(EmbedComponentInClickToView, { embed }));
+		)(h(EmbedComponentInClickToView, { embed, editions: false }));
 	})(divElementPropsToEmbed(container));
 };
 
-const EmbedComponentInClickToView: FC<Props> = ({ embed }: Props) => {
+const EmbedComponentInClickToView: FC<Props> = ({ embed, editions }: Props) => {
 	return h(ClickToView, {
 		source: embed.source,
 		sourceDomain: embed.sourceDomain,
-		children: h(EmbedComponent, { embed }),
+		children: h(EmbedComponent, { embed, editions }),
 		role: none,
 		onAccept: none,
 	});
@@ -326,7 +327,7 @@ const withDatasetKeyFormat = (
 	}, {});
 };
 
-const EmbedComponentWrapper: FC<Props> = ({ embed }: Props) => {
+const EmbedComponentWrapper: FC<Props> = ({ embed, editions }: Props) => {
 	if (
 		embed.tracking === EmbedTracksType.TRACKS ||
 		embed.tracking === EmbedTracksType.UNKNOWN
@@ -337,10 +338,10 @@ const EmbedComponentWrapper: FC<Props> = ({ embed }: Props) => {
 				...withDatasetKeyFormat(embedToDivProps(embed)),
 				className: 'js-click-to-view-container',
 			},
-			EmbedComponentInClickToView({ embed }),
+			EmbedComponentInClickToView({ embed, editions }),
 		);
 	} else {
-		return h(EmbedComponent, { embed });
+		return h(EmbedComponent, { embed, editions });
 	}
 };
 

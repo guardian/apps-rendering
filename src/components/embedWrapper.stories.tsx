@@ -26,6 +26,7 @@ const Generic: FC = () => (
 				sourceDomain: some('embed.spotify.com'),
 				tracking: EmbedTracksType.TRACKS,
 			}}
+			editions={false}
 		/>
 		<p>
 			This is an example of the embed wrapper rendering a Spotify
@@ -43,6 +44,7 @@ const Generic: FC = () => (
 				sourceDomain: some('embed.spotify.com'),
 				tracking: EmbedTracksType.DOES_NOT_TRACK,
 			}}
+			editions={false}
 		/>
 	</div>
 );
@@ -63,6 +65,7 @@ const Youtube: FC = () => (
 				sourceDomain: some('youtube.com'),
 				tracking: EmbedTracksType.TRACKS,
 			}}
+			editions={false}
 		/>
 		<p>
 			This is an example of the embed wrapper rendering a YouTube
@@ -78,6 +81,7 @@ const Youtube: FC = () => (
 				sourceDomain: some('youtube.com'),
 				tracking: EmbedTracksType.DOES_NOT_TRACK,
 			}}
+			editions={false}
 		/>
 	</div>
 );
@@ -99,6 +103,7 @@ const Spotify: FC = () => (
 				sourceDomain: some('embed.spotify.com'),
 				tracking: EmbedTracksType.TRACKS,
 			}}
+			editions={false}
 		/>
 		<p>
 			This is an example of the embed wrapper rendering a spotify
@@ -115,6 +120,7 @@ const Spotify: FC = () => (
 				sourceDomain: some('embed.spotify.com'),
 				tracking: EmbedTracksType.DOES_NOT_TRACK,
 			}}
+			editions={false}
 		/>
 	</div>
 );
@@ -134,6 +140,7 @@ const Instagram: FC = () => (
 				sourceDomain: some('instagram.com'),
 				tracking: EmbedTracksType.TRACKS,
 			}}
+			editions={false}
 		/>
 		<p>
 			This is an example of the embed wrapper rendering a instagram
@@ -148,6 +155,7 @@ const Instagram: FC = () => (
 				sourceDomain: some('instagram.com'),
 				tracking: EmbedTracksType.DOES_NOT_TRACK,
 			}}
+			editions={false}
 		/>
 	</div>
 );
