@@ -14877,6 +14877,7 @@ html:not(.src-focus-disabled) .emotion-4:focus {
   <div
     className="js-click-to-view-container"
     data-alt="Lemmy"
+    data-editions="false"
     data-height="480"
     data-html="<iframe src=\\"https://embed.spotify.com/?uri=spotify:user:guardianmusic:playlist:00lXay2hDczhstNhC7D1sl\\" width=\\"460\\" height=\\"480\\" frameborder=\\"0\\" allowtransparency=\\"true\\">"
     data-kind="Generic"
@@ -15067,6 +15068,7 @@ html:not(.src-focus-disabled) .emotion-4:focus {
   <div
     className="js-click-to-view-container"
     data-caption="a caption"
+    data-editions="false"
     data-id="BwwONCplEyj"
     data-kind="Instagram"
     data-source="Instagram"
@@ -15249,6 +15251,7 @@ html:not(.src-focus-disabled) .emotion-4:focus {
   </p>
   <div
     className="js-click-to-view-container"
+    data-editions="false"
     data-height="380"
     data-kind="Spotify"
     data-source="Spotify"
@@ -15457,6 +15460,7 @@ html:not(.src-focus-disabled) .emotion-4:focus {
   </p>
   <div
     className="js-click-to-view-container"
+    data-editions="false"
     data-height="259"
     data-id="iAIXqcHQTD0"
     data-kind="YouTube"

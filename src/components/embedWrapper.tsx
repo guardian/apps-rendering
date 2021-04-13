@@ -114,7 +114,9 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 	}
 };
 
-const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
+const divElementPropsToEmbedComponentProps = (
+	container: Element,
+): Result<string, Props> => {
 	const parseTrackingParam = (param?: string): EmbedTracksType => {
 		switch (param) {
 			case '0':
@@ -151,6 +153,25 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 				}
 
 				return ok(parsedValue);
+			}),
+		);
+	};
+
+	const requiredBooleanParam = (
+		container: Record<string, string | undefined>,
+		parameterName: string,
+	): Result<string, boolean> => {
+		return pipe(
+			requiredStringParam(container, parameterName),
+			resultAndThen((value: string) => {
+				if (value === 'true') {
+					return ok(true);
+				}
+				if (value === 'false') {
+					return ok(false);
+				}
+
+				return err(`${value} is not a valid boolean value`);
 			}),
 		);
 	};
@@ -282,18 +303,26 @@ const divElementPropsToEmbed = (container: Element): Result<string, Embed> => {
 
 	return pipe(
 		getDataAttributesFromElement(container),
-		resultAndThen(dataAttributesToEmbed),
+		resultAndThen((dataAttributes) => {
+			return resultMap2((editions: boolean, embed: Embed) => {
+				return { editions, embed };
+			})(requiredBooleanParam(dataAttributes, 'editions'))(
+				dataAttributesToEmbed(dataAttributes),
+			);
+		}),
 	);
 };
 
 const createEmbedComponentFromProps = (
 	container: Element,
 ): Result<string, ReactElement> => {
-	return resultAndThen((embed: Embed) => {
-		return resultFromNullable(
-			`I can't construct a Component for embed of type ${embed.kind}`,
-		)(h(EmbedComponentInClickToView, { embed, editions: false }));
-	})(divElementPropsToEmbed(container));
+	return resultAndThen(
+		(embedComponentProps: { editions: boolean; embed: Embed }) => {
+			return resultFromNullable(
+				`I can't construct a Component for embed of type ${embedComponentProps.embed.kind}`,
+			)(h(EmbedComponentInClickToView, embedComponentProps));
+		},
+	)(divElementPropsToEmbedComponentProps(container));
 };
 
 const EmbedComponentInClickToView: FC<Props> = ({ embed, editions }: Props) => {
@@ -336,6 +365,9 @@ const EmbedComponentWrapper: FC<Props> = ({ embed, editions }: Props) => {
 			'div',
 			{
 				...withDatasetKeyFormat(embedToDivProps(embed)),
+				...withDatasetKeyFormat({
+					editions: editions ? 'true' : 'false',
+				}),
 				className: 'js-click-to-view-container',
 			},
 			EmbedComponentInClickToView({ embed, editions }),

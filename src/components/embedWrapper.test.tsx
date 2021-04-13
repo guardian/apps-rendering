@@ -27,9 +27,12 @@ afterEach(() => {
 });
 
 describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
-	const testCreateContentFromProps = (embed: Embed): void => {
+	const testCreateContentFromProps = (
+		embed: Embed,
+		editions: boolean,
+	): void => {
 		const embedComponentWrapper = (
-			<EmbedComponentWrapper embed={embed} editions={false} />
+			<EmbedComponentWrapper embed={embed} editions={editions} />
 		);
 
 		act(() => {
@@ -37,7 +40,7 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 		});
 
 		const expectedWrapperContents = (
-			<EmbedComponentInClickToView embed={embed} editions={false} />
+			<EmbedComponentInClickToView embed={embed} editions={editions} />
 		);
 
 		if (container.firstElementChild) {
@@ -64,7 +67,7 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 			tracking: EmbedTracksType.TRACKS,
 		};
 
-		testCreateContentFromProps(genericEmbed);
+		testCreateContentFromProps(genericEmbed, false);
 	});
 
 	it('should recreate contents of wrapper from wrapper data props for generic embed without optional parameters', () => {
@@ -79,7 +82,7 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 			tracking: EmbedTracksType.TRACKS,
 		};
 
-		testCreateContentFromProps(genericEmbed);
+		testCreateContentFromProps(genericEmbed, false);
 	});
 
 	it('should recreate contents of wrapper from wrapper data props for spotify embed', () => {
@@ -93,7 +96,7 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 			tracking: EmbedTracksType.TRACKS,
 		};
 
-		testCreateContentFromProps(spotifyEmbed);
+		testCreateContentFromProps(spotifyEmbed, false);
 	});
 
 	it('should recreate contents of wrapper from wrapper data props for Youtube embed', () => {
@@ -107,7 +110,7 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 			tracking: EmbedTracksType.TRACKS,
 		};
 
-		testCreateContentFromProps(youTubeEmbed);
+		testCreateContentFromProps(youTubeEmbed, false);
 	});
 
 	it('should recreate contents of wrapper from wrapper data props for Instagram embed', () => {
@@ -120,6 +123,19 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 			tracking: EmbedTracksType.TRACKS,
 		};
 
-		testCreateContentFromProps(instagramEmbed);
+		testCreateContentFromProps(instagramEmbed, false);
+	});
+
+	it('should recreate contents of wrapper from wrapper data props with editions prop', () => {
+		const instagramEmbed: Instagram = {
+			kind: EmbedKind.Instagram,
+			id: 'instagramid',
+			caption: some('An Instagram Caption'),
+			source: some('An Embed Provider'),
+			sourceDomain: some('anembedprovider.com'),
+			tracking: EmbedTracksType.TRACKS,
+		};
+
+		testCreateContentFromProps(instagramEmbed, true);
 	});
 });
