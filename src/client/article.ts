@@ -12,6 +12,7 @@ import { either } from '@guardian/types';
 import {
 	ads,
 	reportNativeElementPositionChanges,
+	sendTargetingParams,
 	slideshow,
 	videos,
 } from 'client/nativeCommunication';
@@ -470,6 +471,7 @@ function hydrateClickToView(): void {
 }
 
 setup();
+sendTargetingParams();
 ads();
 videos();
 reportNativeElementPositionChanges();
