@@ -230,8 +230,13 @@ function footerInit(): void {
 type FormData = Record<string, string>;
 
 function submit(body: FormData, form: Element): void {
+	const calloutUrlProd =
+		'https://callouts.guardianapis.com/formstack-campaign/submit';
+	const calloutUrlCode =
+		'https://callouts.guardianapis.com/formstack-campaign/submit';
+
 	fetch(
-		'https://callouts.code.dev-guardianapis.com/formstack-campaign/submit',
+		process.env.NODE_ENV === 'production' ? calloutUrlProd : calloutUrlCode,
 		{
 			method: 'POST',
 			body: JSON.stringify(body),
