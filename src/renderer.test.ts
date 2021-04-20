@@ -16,8 +16,6 @@ import { Design, Display, Format } from '@guardian/types';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { act } from 'react-dom/test-utils';
 import { unmountComponentAtNode, render as renderDom } from 'react-dom';
-import { EmbedKind } from 'embed';
-import { EmbedTracksType } from '@guardian/content-api-models/v1/embedTracksType';
 
 const mockFormat: Format = {
 	theme: Pillar.News,
@@ -82,58 +80,6 @@ const tweetElement = (): BodyElement => ({
 		'span',
 	),
 });
-
-const instagramElement = (): BodyElement => ({
-	kind: ElementKind.Embed,
-	embed: {
-		kind: EmbedKind.Instagram,
-		id: 'embedId',
-		caption: some('<blockquote>Instagram</blockquote>'),
-		source: some('mockSource'),
-		sourceDomain: some('mockSourceDomain'),
-		tracking: EmbedTracksType.DOES_NOT_TRACK,
-	},
-});
-
-const embedElement: BodyElement = {
-	kind: ElementKind.Embed,
-	embed: {
-		kind: EmbedKind.Generic,
-		html: '<section>Embed</section>',
-		height: 300,
-		alt: none,
-		mandatory: false,
-		source: some('mockSource'),
-		sourceDomain: some('mockSourceDomain'),
-		tracking: EmbedTracksType.DOES_NOT_TRACK,
-	},
-};
-
-const videoElement: BodyElement = {
-	kind: ElementKind.Embed,
-	embed: {
-		kind: EmbedKind.YouTube,
-		id: 'mockYoutubeId',
-		height: 300,
-		width: 500,
-		source: some('mockSource'),
-		sourceDomain: some('mockSourceDomain'),
-		tracking: EmbedTracksType.DOES_NOT_TRACK,
-	}
-};
-
-const audioElement: BodyElement = {
-	kind: ElementKind.Embed,
-	embed: {
-		kind: EmbedKind.Spotify,
-		src: 'https://www.spotify.com/',
-		height: 300,
-		width: 500,
-		source: some('mockSource'),
-		sourceDomain: some('mockSourceDomain'),
-		tracking: EmbedTracksType.DOES_NOT_TRACK,
-	}
-};
 
 const liveEventElement = (): BodyElement => ({
 	kind: ElementKind.LiveEvent,
@@ -354,38 +300,6 @@ describe('Renders different types of elements', () => {
 		expect(getHtml(tweet)).toContain('twitter-tweet');
 	});
 
-	test('ElementKind.Instagram', () => {
-		const nodes = render(instagramElement());
-		const instagram = nodes.flat()[0];
-		expect(getHtml(instagram)).toBe(
-			'<iframe src="https://www.instagram.com/p/embedId/embed" height="830" title="&lt;blockquote&gt;Instagram&lt;/blockquote&gt;"></iframe>',
-		);
-	});
-
-	test('ElementKind.Embed', () => {
-		const nodes = render(embedElement);
-		const embed = nodes.flat()[0];
-		expect(getHtml(embed)).toContain(
-			'<iframe srcDoc="&lt;section&gt;Embed&lt;/section&gt;" title="Embed" height="322"></iframe>',
-		);
-	});
-
-	test('ElementKind.Audio', () => {
-		const nodes = render(audioElement);
-		const audio = nodes.flat()[0];
-		expect(getHtml(audio)).toContain(
-			'src="https://www.spotify.com/" sandbox="allow-scripts" height="300" width="500" title="Audio element"',
-		);
-	});
-
-	test('ElementKind.Video', () => {
-		const nodes = render(videoElement);
-		const video = nodes.flat()[0];
-		expect(getHtml(video)).toContain(
-			'src="https://www.youtube-nocookie.com/embed/mockYoutubeId?wmode=opaque&amp;feature=oembed" height="300" width="500" allowfullscreen="" title="Video element"',
-		);
-	});
-
 	test('ElementKind.LiveEvent', () => {
 		const nodes = render(liveEventElement());
 		const liveEvent = nodes.flat()[0];
@@ -534,22 +448,6 @@ describe('Renders different types of Editions elements', () => {
 		const nodes = renderEditions(tweetElement());
 		const tweet = nodes.flat()[0];
 		expect(getHtml(tweet)).toContain('twitter-tweet');
-	});
-
-	test('ElementKind.Embed', () => {
-		const nodes = renderEditions(embedElement);
-		const embed = nodes.flat()[0];
-		expect(getHtml(embed)).toContain(
-			'<iframe srcDoc="&lt;section&gt;Embed&lt;/section&gt;" title="Embed" height="322"></iframe>',
-		);
-	});
-
-	test('ElementKind.Video', () => {
-		const nodes = renderEditions(videoElement);
-		const video = nodes.flat()[0];
-		expect(getHtml(video)).toContain(
-			'src="https://www.youtube-nocookie.com/embed/mockYoutubeId?wmode=opaque&amp;feature=oembed" height="300" width="500" allowfullscreen="" title="Video element"',
-		);
 	});
 
 	test('ElementKind.LiveEvent', () => {

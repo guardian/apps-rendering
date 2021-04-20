@@ -14880,25 +14880,6 @@ html:not(.src-focus-disabled) .emotion-4:focus {
   margin-left: -4px;
 }
 
-.emotion-5 {
-  margin: 1rem 0;
-}
-
-@media (prefers-color-scheme: dark) {
-  .emotion-5 {
-    background: white;
-    padding: 0.5rem;
-  }
-}
-
-.emotion-6 {
-  font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  font-weight: 400;
-  color: #767676;
-}
-
 <div>
   <p>
     This is an example of the embed wrapper rendering a Spotify 'Generic' embed overlay.
@@ -14965,20 +14946,65 @@ html:not(.src-focus-disabled) .emotion-4:focus {
   <p>
     This is an example of the embed wrapper rendering a Spotify 'Generic' embed.
   </p>
-  <figure
-    className="emotion-5"
+  <div
+    className="js-click-to-view-container"
+    data-alt="Lemmy"
+    data-editions="false"
+    data-height="480"
+    data-html="<iframe src=\\"https://embed.spotify.com/?uri=spotify:user:guardianmusic:playlist:00lXay2hDczhstNhC7D1sl\\" width=\\"460\\" height=\\"480\\" frameborder=\\"0\\" allowtransparency=\\"true\\">"
+    data-kind="Generic"
+    data-mandatory="true"
+    data-source="Spotify"
+    data-source-domain="embed.spotify.com"
+    data-tracking="2"
   >
-    <iframe
-      height={502}
-      srcDoc="<iframe src=\\"https://embed.spotify.com/?uri=spotify:user:guardianmusic:playlist:00lXay2hDczhstNhC7D1sl\\" width=\\"460\\" height=\\"480\\" frameborder=\\"0\\" allowtransparency=\\"true\\">"
-      title="Lemmy"
-    />
-    <figcaption
-      className="emotion-6"
+    <div
+      className="emotion-0"
     >
-      Lemmy
-    </figcaption>
-  </figure>
+      <div
+        className="emotion-1"
+      >
+        Allow Spotify content?
+      </div>
+      <p
+        className="emotion-2"
+      >
+        This article includes content provided by
+         
+        Spotify
+        . We ask for your permission before anything is loaded, as they may be using cookies and other technologies. To view this content,
+         
+        <strong>
+          click 'Allow and continue'
+        </strong>
+        .
+      </p>
+      <div
+        className="emotion-3"
+      >
+        <button
+          className="emotion-4"
+          onClick={[Function]}
+          type="button"
+        >
+          Allow and continue
+          <div
+            className="src-button-space"
+          />
+          <svg
+            viewBox="0 0 30 30"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clipRule="evenodd"
+              d="M6 14.775l-1 1 5 7h.475l14.3-14.8-1-.975-13.3 12.05L6 14.775z"
+              fillRule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -15154,11 +15180,63 @@ html:not(.src-focus-disabled) .emotion-4:focus {
   <p>
     This is an example of the embed wrapper rendering a instagram 'Instagram' embed overlay.
   </p>
-  <iframe
-    height="830"
-    src="https://www.instagram.com/p/BwwONCplEyj/embed"
-    title="a caption"
-  />
+  <div
+    className="js-click-to-view-container"
+    data-caption="a caption"
+    data-editions="false"
+    data-id="BwwONCplEyj"
+    data-kind="Instagram"
+    data-source="Instagram"
+    data-source-domain="instagram.com"
+    data-tracking="2"
+  >
+    <div
+      className="emotion-0"
+    >
+      <div
+        className="emotion-1"
+      >
+        Allow Instagram content?
+      </div>
+      <p
+        className="emotion-2"
+      >
+        This article includes content provided by
+         
+        Instagram
+        . We ask for your permission before anything is loaded, as they may be using cookies and other technologies. To view this content,
+         
+        <strong>
+          click 'Allow and continue'
+        </strong>
+        .
+      </p>
+      <div
+        className="emotion-3"
+      >
+        <button
+          className="emotion-4"
+          onClick={[Function]}
+          type="button"
+        >
+          Allow and continue
+          <div
+            className="src-button-space"
+          />
+          <svg
+            viewBox="0 0 30 30"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clipRule="evenodd"
+              d="M6 14.775l-1 1 5 7h.475l14.3-14.8-1-.975-13.3 12.05L6 14.775z"
+              fillRule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -15270,10 +15348,6 @@ html:not(.src-focus-disabled) .emotion-4:focus {
   margin-left: -4px;
 }
 
-.emotion-5 {
-  border: none;
-}
-
 <div>
   <p>
     This is an example of the embed wrapper rendering a spotify 'Spotify' embed overlay.
@@ -15339,14 +15413,64 @@ html:not(.src-focus-disabled) .emotion-4:focus {
   <p>
     This is an example of the embed wrapper rendering a spotify 'Spotify' embed.
   </p>
-  <iframe
-    className="emotion-5"
-    height={380}
-    sandbox="allow-scripts"
-    src="https://embed.spotify.com/?uri=spotify:user:juderogers:playlist:5FTUcQhfk54BZwcdiwE1QY"
-    title="Audio element"
-    width={300}
-  />
+  <div
+    className="js-click-to-view-container"
+    data-editions="false"
+    data-height="380"
+    data-kind="Spotify"
+    data-source="Spotify"
+    data-source-domain="embed.spotify.com"
+    data-src="https://embed.spotify.com/?uri=spotify:user:juderogers:playlist:5FTUcQhfk54BZwcdiwE1QY"
+    data-tracking="2"
+    data-width="300"
+  >
+    <div
+      className="emotion-0"
+    >
+      <div
+        className="emotion-1"
+      >
+        Allow Spotify content?
+      </div>
+      <p
+        className="emotion-2"
+      >
+        This article includes content provided by
+         
+        Spotify
+        . We ask for your permission before anything is loaded, as they may be using cookies and other technologies. To view this content,
+         
+        <strong>
+          click 'Allow and continue'
+        </strong>
+        .
+      </p>
+      <div
+        className="emotion-3"
+      >
+        <button
+          className="emotion-4"
+          onClick={[Function]}
+          type="button"
+        >
+          Allow and continue
+          <div
+            className="src-button-space"
+          />
+          <svg
+            viewBox="0 0 30 30"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clipRule="evenodd"
+              d="M6 14.775l-1 1 5 7h.475l14.3-14.8-1-.975-13.3 12.05L6 14.775z"
+              fillRule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 `;
 
@@ -15458,31 +15582,6 @@ html:not(.src-focus-disabled) .emotion-4:focus {
   margin-left: -4px;
 }
 
-.emotion-5 {
-  background: #F6F6F6;
-  padding-bottom: 56.25%;
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  margin: 1rem 0;
-}
-
-.emotion-5 iframe {
-  border: none;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-@media (prefers-color-scheme: dark) {
-  .emotion-5 {
-    color: #999999;
-    background-color: #333333;
-  }
-}
-
 <div>
   <p>
     This is an example of the embed wrapper rendering a YouTube 'YouTube' embed overlay.
@@ -15549,15 +15648,62 @@ html:not(.src-focus-disabled) .emotion-4:focus {
     This is an example of the embed wrapper rendering a YouTube 'YouTube' embed.
   </p>
   <div
-    className="emotion-5"
+    className="js-click-to-view-container"
+    data-editions="false"
+    data-height="259"
+    data-id="iAIXqcHQTD0"
+    data-kind="YouTube"
+    data-source="YouTube"
+    data-source-domain="youtube.com"
+    data-tracking="2"
+    data-width="460"
   >
-    <iframe
-      allowFullScreen={true}
-      height={259}
-      src="https://www.youtube-nocookie.com/embed/iAIXqcHQTD0?wmode=opaque&feature=oembed"
-      title="Video element"
-      width={460}
-    />
+    <div
+      className="emotion-0"
+    >
+      <div
+        className="emotion-1"
+      >
+        Allow YouTube content?
+      </div>
+      <p
+        className="emotion-2"
+      >
+        This article includes content provided by
+         
+        YouTube
+        . We ask for your permission before anything is loaded, as they may be using cookies and other technologies. To view this content,
+         
+        <strong>
+          click 'Allow and continue'
+        </strong>
+        .
+      </p>
+      <div
+        className="emotion-3"
+      >
+        <button
+          className="emotion-4"
+          onClick={[Function]}
+          type="button"
+        >
+          Allow and continue
+          <div
+            className="src-button-space"
+          />
+          <svg
+            viewBox="0 0 30 30"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              clipRule="evenodd"
+              d="M6 14.775l-1 1 5 7h.475l14.3-14.8-1-.975-13.3 12.05L6 14.775z"
+              fillRule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 `;

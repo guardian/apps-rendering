@@ -357,24 +357,17 @@ const withDatasetKeyFormat = (
 };
 
 const EmbedComponentWrapper: FC<Props> = ({ embed, editions }: Props) => {
-	if (
-		embed.tracking === EmbedTracksType.TRACKS ||
-		embed.tracking === EmbedTracksType.UNKNOWN
-	) {
-		return h(
-			'div',
-			{
-				...withDatasetKeyFormat(embedToDivProps(embed)),
-				...withDatasetKeyFormat({
-					editions: editions ? 'true' : 'false',
-				}),
-				className: 'js-click-to-view-container',
-			},
-			EmbedComponentInClickToView({ embed, editions }),
-		);
-	} else {
-		return h(EmbedComponent, { embed, editions });
-	}
+	return h(
+		'div',
+		{
+			...withDatasetKeyFormat(embedToDivProps(embed)),
+			...withDatasetKeyFormat({
+				editions: editions ? 'true' : 'false',
+			}),
+			className: 'js-click-to-view-container',
+		},
+		EmbedComponentInClickToView({ embed, editions }),
+	);
 };
 
 // ----- Exports ----- //
