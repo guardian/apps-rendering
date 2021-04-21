@@ -61,8 +61,6 @@ const Youtube: FC = () => (
 				id: 'iAIXqcHQTD0',
 				width: 460,
 				height: 259,
-				source: some('YouTube'),
-				sourceDomain: some('youtube.com'),
 				tracking: EmbedTracksType.TRACKS,
 			}}
 			editions={false}
@@ -77,8 +75,6 @@ const Youtube: FC = () => (
 				id: 'iAIXqcHQTD0',
 				width: 460,
 				height: 259,
-				source: some('YouTube'),
-				sourceDomain: some('youtube.com'),
 				tracking: EmbedTracksType.DOES_NOT_TRACK,
 			}}
 			editions={false}
@@ -99,8 +95,6 @@ const Spotify: FC = () => (
 					'https://embed.spotify.com/?uri=spotify:album:1PULmKbHeOqlkIwcDMNwD4',
 				width: 300,
 				height: 380,
-				source: some('Spotify'),
-				sourceDomain: some('embed.spotify.com'),
 				tracking: EmbedTracksType.TRACKS,
 			}}
 			editions={false}
@@ -116,8 +110,6 @@ const Spotify: FC = () => (
 					'https://embed.spotify.com/?uri=spotify:user:juderogers:playlist:5FTUcQhfk54BZwcdiwE1QY',
 				width: 300,
 				height: 380,
-				source: some('Spotify'),
-				sourceDomain: some('embed.spotify.com'),
 				tracking: EmbedTracksType.DOES_NOT_TRACK,
 			}}
 			editions={false}
@@ -136,8 +128,6 @@ const Instagram: FC = () => (
 				kind: EmbedKind.Instagram,
 				id: 'BwwONCplEyj',
 				caption: some('a caption'),
-				source: some('Instagram'),
-				sourceDomain: some('instagram.com'),
 				tracking: EmbedTracksType.TRACKS,
 			}}
 			editions={false}
@@ -151,8 +141,6 @@ const Instagram: FC = () => (
 				kind: EmbedKind.Instagram,
 				id: 'BwwONCplEyj',
 				caption: some('a caption'),
-				source: some('Instagram'),
-				sourceDomain: some('instagram.com'),
 				tracking: EmbedTracksType.DOES_NOT_TRACK,
 			}}
 			editions={false}

@@ -89,8 +89,6 @@ const instagramElement = (): BodyElement => ({
 		kind: EmbedKind.Instagram,
 		id: 'embedId',
 		caption: some('<blockquote>Instagram</blockquote>'),
-		source: some('mockSource'),
-		sourceDomain: some('mockSourceDomain'),
 		tracking: EmbedTracksType.DOES_NOT_TRACK,
 	},
 });
@@ -116,8 +114,6 @@ const videoElement: BodyElement = {
 		id: 'mockYoutubeId',
 		height: 300,
 		width: 500,
-		source: some('mockSource'),
-		sourceDomain: some('mockSourceDomain'),
 		tracking: EmbedTracksType.DOES_NOT_TRACK,
 	}
 };
@@ -129,8 +125,6 @@ const audioElement: BodyElement = {
 		src: 'https://www.spotify.com/',
 		height: 300,
 		width: 500,
-		source: some('mockSource'),
-		sourceDomain: some('mockSourceDomain'),
 		tracking: EmbedTracksType.DOES_NOT_TRACK,
 	}
 };

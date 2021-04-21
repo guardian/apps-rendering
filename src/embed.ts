@@ -30,8 +30,6 @@ interface YouTube {
 	id: string;
 	width: number;
 	height: number;
-	source: Option<string>;
-	sourceDomain: Option<string>;
 	tracking: EmbedTracksType;
 }
 
@@ -40,8 +38,6 @@ interface Spotify {
 	src: string;
 	width: number;
 	height: number;
-	source: Option<string>;
-	sourceDomain: Option<string>;
 	tracking: EmbedTracksType;
 }
 
@@ -49,8 +45,6 @@ interface Instagram {
 	kind: EmbedKind.Instagram;
 	id: string;
 	caption: Option<string>;
-	source: Option<string>;
-	sourceDomain: Option<string>;
 	tracking: EmbedTracksType;
 }
 

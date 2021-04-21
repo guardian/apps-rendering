@@ -15100,8 +15100,6 @@ html:not(.src-focus-disabled) .emotion-4:focus {
     data-editions="false"
     data-id="BwwONCplEyj"
     data-kind="Instagram"
-    data-source="Instagram"
-    data-source-domain="instagram.com"
     data-tracking="1"
   >
     <div
@@ -15283,8 +15281,6 @@ html:not(.src-focus-disabled) .emotion-4:focus {
     data-editions="false"
     data-height="380"
     data-kind="Spotify"
-    data-source="Spotify"
-    data-source-domain="embed.spotify.com"
     data-src="https://embed.spotify.com/?uri=spotify:album:1PULmKbHeOqlkIwcDMNwD4"
     data-tracking="1"
     data-width="300"
@@ -15493,8 +15489,6 @@ html:not(.src-focus-disabled) .emotion-4:focus {
     data-height="259"
     data-id="iAIXqcHQTD0"
     data-kind="YouTube"
-    data-source="YouTube"
-    data-source-domain="youtube.com"
     data-tracking="1"
     data-width="460"
   >
