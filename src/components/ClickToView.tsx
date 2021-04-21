@@ -131,7 +131,8 @@ export const ClickToView: FC<ClickToViewProps> = ({
 					`}
 				>
 					{fold(
-						(source: string) => `Allow ${source} content?`,
+						(sourceValue: string) =>
+							`Allow ${sourceValue} content?`,
 						'Allow content provided by a third party?',
 					)(source)}
 				</div>
@@ -142,10 +143,10 @@ export const ClickToView: FC<ClickToViewProps> = ({
 					`}
 				>
 					{fold(
-						(source) => (
+						(sourceValue) => (
 							<>
 								This article includes content provided by{' '}
-								{source}. We ask for your permission before
+								{sourceValue}. We ask for your permission before
 								anything is loaded, as they may be using cookies
 								and other technologies. To view this content,{' '}
 								<strong>
