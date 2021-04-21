@@ -5,6 +5,7 @@ import { EmbedKind } from 'embed';
 import { matchers } from 'jest-emotion';
 import { render, unmountComponentAtNode } from 'react-dom';
 import { act } from 'react-dom/test-utils';
+import type { SourceDetails } from './embedWrapper';
 import {
 	createEmbedComponentFromProps,
 	EmbedComponentInClickToView,
@@ -30,6 +31,7 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 	const testCreateContentFromProps = (
 		embed: Embed,
 		editions: boolean,
+		sourceDetails: SourceDetails,
 	): void => {
 		const embedComponentWrapper = (
 			<EmbedComponentWrapper embed={embed} editions={editions} />
@@ -40,7 +42,11 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 		});
 
 		const expectedWrapperContents = (
-			<EmbedComponentInClickToView embed={embed} editions={editions} />
+			<EmbedComponentInClickToView
+				embed={embed}
+				editions={editions}
+				sourceDetails={sourceDetails}
+			/>
 		);
 
 		if (container.firstElementChild) {
@@ -67,7 +73,10 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 			tracking: EmbedTracksType.TRACKS,
 		};
 
-		testCreateContentFromProps(genericEmbed, false);
+		testCreateContentFromProps(genericEmbed, false, {
+			source: genericEmbed.source,
+			sourceDomain: genericEmbed.sourceDomain,
+		});
 	});
 
 	it('should recreate contents of wrapper from wrapper data props for generic embed without optional parameters', () => {
@@ -82,7 +91,10 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 			tracking: EmbedTracksType.TRACKS,
 		};
 
-		testCreateContentFromProps(genericEmbed, false);
+		testCreateContentFromProps(genericEmbed, false, {
+			source: genericEmbed.source,
+			sourceDomain: genericEmbed.sourceDomain,
+		});
 	});
 
 	it('should recreate contents of wrapper from wrapper data props for spotify embed', () => {
@@ -91,12 +103,13 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 			src: 'https://spotify.com/someembed',
 			width: 200,
 			height: 300,
-			source: some('An Embed Provider'),
-			sourceDomain: some('anembedprovider.com'),
 			tracking: EmbedTracksType.TRACKS,
 		};
 
-		testCreateContentFromProps(spotifyEmbed, false);
+		testCreateContentFromProps(spotifyEmbed, false, {
+			source: some('Spotify'),
+			sourceDomain: some('www.spotify.com'),
+		});
 	});
 
 	it('should recreate contents of wrapper from wrapper data props for Youtube embed', () => {
@@ -105,12 +118,13 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 			id: 'videoid',
 			height: 300,
 			width: 200,
-			source: some('An Embed Provider'),
-			sourceDomain: some('anembedprovider.com'),
 			tracking: EmbedTracksType.TRACKS,
 		};
 
-		testCreateContentFromProps(youTubeEmbed, false);
+		testCreateContentFromProps(youTubeEmbed, false, {
+			source: some('YouTube'),
+			sourceDomain: some('www.youtube.com'),
+		});
 	});
 
 	it('should recreate contents of wrapper from wrapper data props for Instagram embed', () => {
@@ -118,12 +132,13 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 			kind: EmbedKind.Instagram,
 			id: 'instagramid',
 			caption: some('An Instagram Caption'),
-			source: some('An Embed Provider'),
-			sourceDomain: some('anembedprovider.com'),
 			tracking: EmbedTracksType.TRACKS,
 		};
 
-		testCreateContentFromProps(instagramEmbed, false);
+		testCreateContentFromProps(instagramEmbed, false, {
+			source: some('Instagram'),
+			sourceDomain: some('www.instagram.com'),
+		});
 	});
 
 	it('should recreate contents of wrapper from wrapper data props with editions prop', () => {
@@ -131,11 +146,12 @@ describe('EmbedComponentWrapper.embedComponentFromWrapperProps', () => {
 			kind: EmbedKind.Instagram,
 			id: 'instagramid',
 			caption: some('An Instagram Caption'),
-			source: some('An Embed Provider'),
-			sourceDomain: some('anembedprovider.com'),
 			tracking: EmbedTracksType.TRACKS,
 		};
 
-		testCreateContentFromProps(instagramEmbed, true);
+		testCreateContentFromProps(instagramEmbed, true, {
+			source: some('Instagram'),
+			sourceDomain: some('www.instagram.com'),
+		});
 	});
 });

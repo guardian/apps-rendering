@@ -1,7 +1,7 @@
 // ----- Imports ----- //
 
 import { EmbedTracksType } from '@guardian/content-api-models/v1/embedTracksType';
-import type { Result } from '@guardian/types';
+import type { Option, Result } from '@guardian/types';
 import {
 	err,
 	fromNullable,
@@ -10,6 +10,7 @@ import {
 	ok,
 	resultAndThen,
 	resultMap,
+	some,
 	withDefault,
 } from '@guardian/types';
 import { ClickToView } from 'components/ClickToView';
@@ -35,16 +36,6 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 				src: embed.src,
 				width: embed.width.toString(),
 				height: embed.height.toString(),
-				...pipe2(
-					embed.source,
-					map((source) => ({ source })),
-					withDefault<Record<string, string>>({}),
-				),
-				...pipe2(
-					embed.sourceDomain,
-					map((sourceDomain) => ({ sourceDomain })),
-					withDefault<Record<string, string>>({}),
-				),
 				...(embed.tracking && { tracking: embed.tracking.toString() }),
 			};
 		case EmbedKind.YouTube:
@@ -53,16 +44,6 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 				id: embed.id,
 				width: embed.width.toString(),
 				height: embed.height.toString(),
-				...pipe2(
-					embed.source,
-					map((source) => ({ source })),
-					withDefault<Record<string, string>>({}),
-				),
-				...pipe2(
-					embed.sourceDomain,
-					map((sourceDomain) => ({ sourceDomain })),
-					withDefault<Record<string, string>>({}),
-				),
 				...(embed.tracking && { tracking: embed.tracking.toString() }),
 			};
 		case EmbedKind.Generic: {
@@ -98,16 +79,6 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 					map((caption) => ({ caption: caption })),
 					withDefault<Record<string, string>>({}),
 				),
-				...pipe2(
-					embed.source,
-					map((source) => ({ source })),
-					withDefault<Record<string, string>>({}),
-				),
-				...pipe2(
-					embed.sourceDomain,
-					map((sourceDomain) => ({ sourceDomain })),
-					withDefault<Record<string, string>>({}),
-				),
 				...(embed.tracking && { tracking: embed.tracking.toString() }),
 			};
 		}
@@ -116,7 +87,7 @@ const embedToDivProps = (embed: Embed): Record<string, string> => {
 
 const divElementPropsToEmbedComponentProps = (
 	container: Element,
-): Result<string, Props> => {
+): Result<string, EmbedComponentInClickToViewProps> => {
 	const parseTrackingParam = (param?: string): EmbedTracksType => {
 		switch (param) {
 			case '0':
@@ -215,12 +186,6 @@ const divElementPropsToEmbedComponentProps = (
 									src,
 									width,
 									height,
-									source: fromNullable(
-										elementProps['source'],
-									),
-									sourceDomain: fromNullable(
-										elementProps['sourceDomain'],
-									),
 									tracking: parseTrackingParam(
 										elementProps['tracking'],
 									),
@@ -239,12 +204,6 @@ const divElementPropsToEmbedComponentProps = (
 									id,
 									width,
 									height,
-									source: fromNullable(
-										elementProps['source'],
-									),
-									sourceDomain: fromNullable(
-										elementProps['sourceDomain'],
-									),
 									tracking: parseTrackingParam(
 										elementProps['tracking'],
 									),
@@ -283,12 +242,6 @@ const divElementPropsToEmbedComponentProps = (
 									caption: fromNullable(
 										elementProps['caption'],
 									),
-									source: fromNullable(
-										elementProps['source'],
-									),
-									sourceDomain: fromNullable(
-										elementProps['sourceDomain'],
-									),
 									tracking: parseTrackingParam(
 										elementProps['tracking'],
 									),
@@ -305,7 +258,8 @@ const divElementPropsToEmbedComponentProps = (
 		getDataAttributesFromElement(container),
 		resultAndThen((dataAttributes) => {
 			return resultMap2((editions: boolean, embed: Embed) => {
-				return { editions, embed };
+				const sourceDetails = getSourceDetailsForEmbed(embed);
+				return { editions, embed, sourceDetails };
 			})(requiredBooleanParam(dataAttributes, 'editions'))(
 				dataAttributesToEmbed(dataAttributes),
 			);
@@ -317,7 +271,7 @@ const createEmbedComponentFromProps = (
 	container: Element,
 ): Result<string, ReactElement> => {
 	return resultAndThen(
-		(embedComponentProps: { editions: boolean; embed: Embed }) => {
+		(embedComponentProps: EmbedComponentInClickToViewProps) => {
 			return resultFromNullable(
 				`I can't construct a Component for embed of type ${embedComponentProps.embed.kind}`,
 			)(h(EmbedComponentInClickToView, embedComponentProps));
@@ -325,10 +279,47 @@ const createEmbedComponentFromProps = (
 	)(divElementPropsToEmbedComponentProps(container));
 };
 
-const EmbedComponentInClickToView: FC<Props> = ({ embed, editions }: Props) => {
+type SourceDetails = { source: Option<string>; sourceDomain: Option<string> };
+
+const getSourceDetailsForEmbed = (embed: Embed): SourceDetails => {
+	switch (embed.kind) {
+		case EmbedKind.YouTube:
+			return {
+				source: some('YouTube'),
+				sourceDomain: some('www.youtube.com'),
+			};
+		case EmbedKind.Instagram:
+			return {
+				source: some('Instagram'),
+				sourceDomain: some('www.instagram.com'),
+			};
+		case EmbedKind.Spotify:
+			return {
+				source: some('Spotify'),
+				sourceDomain: some('www.spotify.com'),
+			};
+		case EmbedKind.Generic:
+			return {
+				source: embed.source,
+				sourceDomain: embed.sourceDomain,
+			};
+	}
+};
+
+interface EmbedComponentInClickToViewProps {
+	embed: Embed;
+	editions: boolean;
+	sourceDetails: SourceDetails;
+}
+
+const EmbedComponentInClickToView: FC<EmbedComponentInClickToViewProps> = ({
+	embed,
+	editions,
+	sourceDetails,
+}) => {
 	return h(ClickToView, {
-		source: embed.source,
-		sourceDomain: embed.sourceDomain,
+		source: sourceDetails.source,
+		sourceDomain: sourceDetails.source,
 		children: h(EmbedComponent, { embed, editions }),
 		role: none,
 		onAccept: none,
@@ -361,6 +352,8 @@ const EmbedComponentWrapper: FC<Props> = ({ embed, editions }: Props) => {
 		embed.tracking === EmbedTracksType.TRACKS ||
 		embed.tracking === EmbedTracksType.UNKNOWN
 	) {
+		const sourceDetails = getSourceDetailsForEmbed(embed);
+
 		return h(
 			'div',
 			{
@@ -370,7 +363,7 @@ const EmbedComponentWrapper: FC<Props> = ({ embed, editions }: Props) => {
 				}),
 				className: 'js-click-to-view-container',
 			},
-			EmbedComponentInClickToView({ embed, editions }),
+			EmbedComponentInClickToView({ embed, editions, sourceDetails }),
 		);
 	} else {
 		return h(EmbedComponent, { embed, editions });
@@ -382,4 +375,5 @@ export {
 	EmbedComponentWrapper,
 	createEmbedComponentFromProps,
 	EmbedComponentInClickToView,
+	SourceDetails,
 };
