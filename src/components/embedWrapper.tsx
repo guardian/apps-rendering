@@ -319,7 +319,7 @@ const EmbedComponentInClickToView: FC<EmbedComponentInClickToViewProps> = ({
 }) => {
 	return h(ClickToView, {
 		source: sourceDetails.source,
-		sourceDomain: sourceDetails.source,
+		sourceDomain: sourceDetails.sourceDomain,
 		children: h(EmbedComponent, { embed, editions }),
 		role: none,
 		onAccept: none,
