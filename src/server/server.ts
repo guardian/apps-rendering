@@ -35,6 +35,7 @@ import { render } from 'server/page';
 import { getConfigValue } from 'server/ssmConfig';
 import { App, Stack, Stage } from './appIdentity';
 import { getMappedAssetLocation } from './assets';
+import notFound from '../notFound';
 
 // ----- Setup ----- //
 
@@ -189,6 +190,20 @@ async function serveArticlePost(
 	}
 }
 
+async function serveNotFound(
+	req: Request,
+	res: ExpressResponse,
+	next: NextFunction,
+): Promise<void> {
+	try {
+		res.write(notFound);
+		res.end();
+	} catch (e) {
+		logger.error('This error occurred', e);
+		next(e);
+	}
+}
+
 async function serveEditionsArticlePost(
 	req: Request,
 	res: ExpressResponse,
@@ -279,6 +294,7 @@ app.get('/healthcheck', (_req, res) => res.send('Ok'));
 
 app.get('/favicon.ico', (_, res) => res.status(404).end());
 app.get('/fontSize.css', (_, res) => res.status(404).end());
+app.get('/not-found', bodyParser.raw(), serveNotFound);
 
 app.get('/rendered-items/*', bodyParser.raw(), serveArticleGet);
 app.get('/*', bodyParser.raw(), serveArticleGet);
