@@ -421,7 +421,7 @@ const Card: FC<Props> = ({ relatedItem, image }) => {
 			data-article-id={link}
 			css={[listStyles(type, format), cardStyles(type, format)]}
 		>
-			<a css={anchorStyles} href={`https://theguardian.com/{link}`}>
+			<a css={anchorStyles} href={`https://theguardian.com/${link}`}>
 				<section css={headingWrapperStyles}>
 					<h3 css={headingStyles(type)}>
 						{quotationComment(type, format)}
