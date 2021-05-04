@@ -463,7 +463,9 @@ function richLinks(): void {
 								const img = document.createElement('img');
 								img.addEventListener('load', (_) => {
 									const currentAdSlots = getAdSlots();
-									void commercialClient.updateAdverts(currentAdSlots);
+									void commercialClient.updateAdverts(
+										currentAdSlots,
+									);
 								});
 								img.setAttribute('alt', 'Related article');
 								img.setAttribute('src', image);
