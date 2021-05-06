@@ -92,7 +92,8 @@ const TeamScore: FC<Props> = ({ team, location }) => (
 				<span css={scoreInlineStyles}>{team.score}</span>
 			</div>
 		</div>
-		{team.scorers.length > 0 && (
+		{/* eslint-disable-next-line -- value can be null */}
+		{team.scorers?.length > 0 && (
 			<ul css={scorerStyles(location)}>
 				{team.scorers.map((scorer) => (
 					<li key={`${scorer.player}`}>

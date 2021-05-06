@@ -95,7 +95,8 @@ const TeamScore: FC<Props> = ({ team, location }) => (
 		</div>
 		<div css={infoStyles(location)}>
 			<h3 css={teamNameStyles}>{team.name}</h3>
-			{team.scorers.length > 0 && (
+			{/* eslint-disable-next-line -- value can be null */}
+			{team.scorers?.length > 0 && (
 				<ul css={scorerStyles(location)}>
 					{team.scorers.map((scorer) => (
 						<li key={`${scorer.player}`}>
