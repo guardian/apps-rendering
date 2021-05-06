@@ -2,6 +2,7 @@ import type { SerializedStyles } from '@emotion/react';
 import { css } from '@emotion/react';
 import type { RelatedItem } from '@guardian/apps-rendering-api-models/relatedItem';
 import { RelatedItemType } from '@guardian/apps-rendering-api-models/relatedItemType';
+import { Img } from '@guardian/image-rendering';
 import { palette, remSpace } from '@guardian/src-foundations';
 import {
 	background,
@@ -21,7 +22,6 @@ import {
 	withDefault,
 } from '@guardian/types';
 import type { Format, Option } from '@guardian/types';
-import { Img } from '@guardian/image-rendering';
 import { stars } from 'components/starRating';
 import { formatSeconds, makeRelativeDate } from 'date';
 import { border } from 'editorialPalette';
@@ -387,7 +387,9 @@ const cardImage = (
 					<Img
 						image={img}
 						sizes={{
-							mediaQueries: [{ breakpoint: 'phablet', size: '620px' }],
+							mediaQueries: [
+								{ breakpoint: 'phablet', size: '620px' },
+							],
 							default: '100%',
 						}}
 						format={format}
