@@ -25,7 +25,7 @@ function pipe<A, B, C, D>(
 	f: (_a: A) => B,
 	g: (_b: B) => C,
 	h: (_c: C) => D,
-): D
+): D;
 function pipe<A, B, C, D>(
 	a: A,
 	f: (_a: A) => B,
