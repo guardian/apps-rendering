@@ -16677,6 +16677,7 @@ html:not(.src-focus-disabled) .emotion-4:focus {
     height="830"
     src="https://www.instagram.com/p/BwwONCplEyj/embed"
     title="a caption"
+    [data-chromatic="ignore"]
   />
 </div>
 `;
