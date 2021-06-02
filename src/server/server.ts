@@ -130,12 +130,20 @@ async function serveArticle(
 	if (imageSalt === undefined) {
 		throw new Error('Could not get image salt');
 	}
+	let clientJS = '';
+	if (isEditions) {
+		const response = await fetch(
+			`https://mobile.guardianapis.com/assets/editions.85f38e7a42ef77cfc2a0.js`,
+		);
+		clientJS = await response.text();
+	}
 
 	const renderer = isEditions ? renderEditions : render;
 	const { html, clientScript } = renderer(
 		imageSalt,
 		request,
 		getAssetLocation,
+		clientJS,
 	);
 
 	res.set('Link', getPrefetchHeader(resourceList(clientScript)));

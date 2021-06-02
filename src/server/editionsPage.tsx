@@ -57,14 +57,15 @@ function renderHead(
 	itemStyles: string,
 	emotionIds: string[],
 	inlineStyles: boolean,
+	clientJS: string,
 ): string {
 	const generalStyles = styles;
 	const isEditions = true;
 	const cspString = csp(
 		item,
 		{
-			scripts: [atomScript],
-			styles: [generalStyles, itemStyles, atomCss],
+			scripts: [atomScript, clientJS],
+			styles: [itemStyles, atomCss],
 		},
 		thirdPartyEmbeds,
 		inlineStyles,
@@ -93,6 +94,7 @@ const buildHtml = (
 	head: string,
 	body: string,
 	scripts: ReactElement,
+	clientJS: string,
 ): string => `
     <!DOCTYPE html>
     <html lang="en">
@@ -103,6 +105,7 @@ const buildHtml = (
         <body>
 			${body}
 			${renderToString(scripts)}
+			<script>${clientJS}</script>
         </body>
     </html>
 `;
@@ -111,6 +114,7 @@ function render(
 	imageSalt: string,
 	request: RenderingRequest,
 	getAssetLocation: (assetName: string) => string,
+	clientJS: string,
 ): Page {
 	const item = fromCapi({ docParser, salt: imageSalt })(request);
 	const body = renderBody(item);
@@ -123,6 +127,7 @@ function render(
 		body.css,
 		body.ids,
 		false,
+		clientJS,
 	);
 
 	const clientScript = map(getAssetLocation)(some('editions.js'));
@@ -135,7 +140,7 @@ function render(
 	);
 
 	return {
-		html: buildHtml(head, body.html, scripts),
+		html: buildHtml(head, body.html, scripts, clientJS),
 		clientScript: none,
 	};
 }
