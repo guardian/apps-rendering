@@ -12,6 +12,7 @@ import { WebpackManifestPlugin } from 'webpack-manifest-plugin';
 import nodeExternals from 'webpack-node-externals';
 import { renederedItemsAssetsCss } from './config/rendered-items-assets-styles';
 import { WebpackPluginInstance } from 'webpack';
+const { StatsWriterPlugin } = require("webpack-stats-plugin");
 
 // ----- Plugins ----- //
 
@@ -99,10 +100,10 @@ const serverConfig = (
 		externals: isProd
 			? []
 			: [
-					nodeExternals({
-						allowlist: [/@guardian/],
-					}),
-			  ],
+				nodeExternals({
+					allowlist: [/@guardian/],
+				}),
+			],
 
 		node: {
 			__dirname: false,
@@ -234,6 +235,15 @@ const clientConfigProduction = {
 		}),
 		new webpack.ProvidePlugin({
 			Buffer: ['buffer', 'Buffer'],
+		}),
+		new StatsWriterPlugin({
+			filename: "hashed-names.json",
+			transform: function (data: { assetsByChunkName: { editions: any; }; }) {
+				console.log('StatsWriterPlugin:: ', data)
+				return JSON.stringify({
+					jsBundleName: data.assetsByChunkName.editions,
+				});
+			},
 		}),
 	],
 	output: {
