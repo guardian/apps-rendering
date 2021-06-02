@@ -22,6 +22,7 @@ import type { ReactElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { csp } from 'server/csp';
 import { pageFonts } from 'styles';
+import { overideFormatValues } from './formatOverride';
 
 // ----- Types ----- //
 
@@ -156,8 +157,10 @@ function render(
 	imageSalt: string,
 	request: RenderingRequest,
 	getAssetLocation: (assetName: string) => string,
+	formatParams?: string[],
 ): Page {
-	const item = fromCapi({ docParser, salt: imageSalt })(request);
+	const capiResponse = fromCapi({ docParser, salt: imageSalt })(request);
+	const item = overideFormatValues(capiResponse, formatParams);
 	const clientScript = map(getAssetLocation)(scriptName(item));
 	const thirdPartyEmbeds = getThirdPartyEmbeds(request.content);
 	const body = renderBody(item, request);

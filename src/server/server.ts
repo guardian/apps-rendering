@@ -124,6 +124,7 @@ async function serveArticle(
 	request: RenderingRequest,
 	res: ExpressResponse,
 	isEditions = false,
+	formatParams?: string[],
 ): Promise<void> {
 	const imageSalt = await getConfigValue('apis.img.salt');
 
@@ -136,6 +137,7 @@ async function serveArticle(
 		imageSalt,
 		request,
 		getAssetLocation,
+		formatParams,
 	);
 
 	res.set('Link', getPrefetchHeader(resourceList(clientScript)));
@@ -178,11 +180,12 @@ async function serveArticlePost(
 		const renderingRequest = await mapiDecoder(req.body);
 		const richLinkDetails = req.query.richlink === '';
 		const isEditions = req.query.editions === '';
+		const formatParams = req.query.format as string[] | undefined;
 
 		if (richLinkDetails) {
 			void serveRichLinkDetails(renderingRequest, res);
 		} else {
-			void serveArticle(renderingRequest, res, isEditions);
+			void serveArticle(renderingRequest, res, isEditions, formatParams);
 		}
 	} catch (e) {
 		logger.error(`This error occurred`, e);
@@ -202,6 +205,7 @@ async function serveEditionsArticlePost(
 		const renderingRequest: RenderingRequest = {
 			content,
 		};
+
 		void serveArticle(renderingRequest, res, true);
 	} catch (e) {
 		logger.error('This error occurred', e);
@@ -237,11 +241,17 @@ async function serveArticleGet(
 				};
 
 				const richLinkDetails = req.query.richlink === '';
+				const formatParams = req.query.format as string[] | undefined;
 
 				if (richLinkDetails) {
 					void serveRichLinkDetails(mockedRenderingRequest, res);
 				} else {
-					void serveArticle(mockedRenderingRequest, res, isEditions);
+					void serveArticle(
+						mockedRenderingRequest,
+						res,
+						isEditions,
+						formatParams,
+					);
 				}
 			},
 		)(capiContent);
