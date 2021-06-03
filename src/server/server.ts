@@ -135,7 +135,7 @@ async function serveArticle(
 		throw new Error('Could not get image salt');
 	}
 
-	let clientJS = '';
+	let inlineJS = '';
 	if (isEditions) {
 		const hashResponse = await fetch(
 			`https://mobile.code.dev-guardianapis.com/assets/hashed-names.json`,
@@ -145,7 +145,7 @@ async function serveArticle(
 		const response = await fetch(
 			`https://mobile.guardianapis.com/assets/${hashedNames.jsBundleName}`,
 		);
-		clientJS = await response.text();
+		inlineJS = await response.text();
 	}
 
 	const renderer = isEditions ? renderEditions : render;
@@ -153,7 +153,7 @@ async function serveArticle(
 		imageSalt,
 		request,
 		getAssetLocation,
-		clientJS,
+		inlineJS,
 	);
 
 	res.set('Link', getPrefetchHeader(resourceList(clientScript)));
@@ -176,10 +176,10 @@ async function serveRichLinkDetails(
 
 	const image =
 		item.mainMedia.kind === OptionKind.Some &&
-		item.mainMedia.value.kind === MainMediaKind.Image
+			item.mainMedia.value.kind === MainMediaKind.Image
 			? {
-					image: item.mainMedia.value.image.src,
-			  }
+				image: item.mainMedia.value.image.src,
+			}
 			: {};
 
 	const response = { pillar: renderingRequest.content.pillarName, ...image };
