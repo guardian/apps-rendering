@@ -23,14 +23,16 @@ const ClientJs: FC<ClientJsProps> = ({ src }) =>
 interface Props {
 	clientScript: Option<string>;
 	twitter: boolean;
+	inlineClientJS?: string;
 }
 
-const Scripts: FC<Props> = ({ clientScript, twitter }) => (
+const Scripts: FC<Props> = ({ clientScript, twitter, inlineClientJS }) => (
 	<>
 		<ClientJs src={clientScript} />
-		{twitter ? (
+		{twitter && (
 			<script src="https://platform.twitter.com/widgets.js"></script>
-		) : null}
+		)}
+		{inlineClientJS && <script>${inlineClientJS}</script>}
 	</>
 );
 

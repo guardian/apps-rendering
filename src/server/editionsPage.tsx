@@ -94,7 +94,6 @@ const buildHtml = (
 	head: string,
 	body: string,
 	scripts: ReactElement,
-	inlineJS: string,
 ): string => `
     <!DOCTYPE html>
     <html lang="en">
@@ -105,7 +104,6 @@ const buildHtml = (
         <body>
 			${body}
 			${renderToString(scripts)}
-			<script>${inlineJS}</script>
         </body>
     </html>
 `;
@@ -136,11 +134,12 @@ function render(
 		<Scripts
 			clientScript={clientScript}
 			twitter={thirdPartyEmbeds.twitter}
+			inlineClientJS={inlineJS}
 		/>
 	);
 
 	return {
-		html: buildHtml(head, body.html, scripts, inlineJS),
+		html: buildHtml(head, body.html, scripts),
 		clientScript: none,
 	};
 }

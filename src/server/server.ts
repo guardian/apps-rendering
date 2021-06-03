@@ -138,7 +138,7 @@ async function serveArticle(
 	let inlineJS = '';
 	if (isEditions) {
 		const hashResponse = await fetch(
-			`https://mobile.code.dev-guardianapis.com/assets/hashed-names.json`,
+			`https://mobile.guardianapis.com/assets/hashed-names.json`,
 		);
 
 		const hashedNames = (await hashResponse.json()) as HashNames;
