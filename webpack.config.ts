@@ -239,7 +239,6 @@ const clientConfigProduction = {
 		new StatsWriterPlugin({
 			filename: "hashed-names.json",
 			transform: function (data: { assetsByChunkName: { editions: any; }; }) {
-				console.log('StatsWriterPlugin:: ', data)
 				return JSON.stringify({
 					jsBundleName: data.assetsByChunkName.editions,
 				});
@@ -250,6 +249,7 @@ const clientConfigProduction = {
 		path: path.resolve(__dirname, 'dist/assets'),
 		publicPath: '',
 		filename: '[name].[contenthash].js',
+
 	},
 	resolve: clientResolveProd,
 };

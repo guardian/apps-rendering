@@ -130,10 +130,13 @@ async function serveArticle(
 	if (imageSalt === undefined) {
 		throw new Error('Could not get image salt');
 	}
+
 	let clientJS = '';
 	if (isEditions) {
+		const hashResponse = await fetch(`https://mobile.code.dev-guardianapis.com/assets/hashed-names.json`);
+		const hashedNames = await hashResponse.json()
 		const response = await fetch(
-			`https://mobile.guardianapis.com/assets/editions.85f38e7a42ef77cfc2a0.js`,
+			`https://mobile.guardianapis.com/assets/${hashedNames.jsBundleName}`,
 		);
 		clientJS = await response.text();
 	}
