@@ -65,7 +65,7 @@ function renderHead(
 		item,
 		{
 			scripts: [atomScript, inlineJS],
-			styles: [itemStyles, atomCss],
+			styles: [generalStyles, itemStyles, atomCss],
 		},
 		thirdPartyEmbeds,
 		inlineStyles,
