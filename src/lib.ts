@@ -133,6 +133,10 @@ const resultMap2 = <A, B, C>(f: (a: A, b: B) => C) => <E>(
 const fold = <A, B>(f: (value: A) => B, ifNone: B) => (opt: Option<A>): B => {
 	return withDefault(ifNone)(map(f)(opt));
 };
+
+const optionToUndefined = <A>(optA: Option<A>): A | undefined =>
+	withDefault<A | undefined>(undefined)(optA);
+
 // ----- Exports ----- //
 
 export {
@@ -152,4 +156,5 @@ export {
 	resultMap2,
 	resultMap3,
 	fold,
+	optionToUndefined,
 };

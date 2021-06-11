@@ -1,13 +1,107 @@
+// ----- Imports ----- //
+
 import type { FootballContent } from '@guardian/apps-rendering-api-models/footballContent';
 import type { Content } from '@guardian/content-api-models/v1/content';
 import type { Tag } from '@guardian/content-api-models/v1/tag';
-import { err, none, ok, OptionKind, ResultKind, some } from '@guardian/types';
+import { err, none, OptionKind, resultAndThen, ResultKind, some } from '@guardian/types';
 import type { Option, Result } from '@guardian/types';
 import { padZero } from 'date';
 import fetch from 'node-fetch';
 import type { Response } from 'node-fetch';
+import type { Parser } from 'parser';
+import { arrayParser, fieldParser, map, map3, map6, map7, maybe, numberParser, parse, stringParser } from 'parser';
+import { FootballTeam } from '@guardian/apps-rendering-api-models/footballTeam';
+import { optionToUndefined, pipe } from 'lib';
+import { Scorer } from '@guardian/apps-rendering-api-models/scorer';
+
+// ----- Types ----- //
 
 type Teams = [string, string];
+
+const makeFootballContent = (
+	id: string,
+	status: string,
+	kickOff: string,
+	competitionDisplayName: string,
+	homeTeam: FootballTeam,
+	awayTeam: FootballTeam,
+	venue: string | undefined
+): FootballContent => ({
+	id,
+	status,
+	kickOff,
+	competitionDisplayName,
+	homeTeam,
+	awayTeam,
+	venue,
+});
+
+const makeFootballTeam = (
+	id: string,
+    name: string,
+    shortCode: string,
+    crestUri: string,
+    score: number,
+    scorers: Scorer[],
+): FootballTeam => ({
+	id,
+    name,
+    shortCode,
+    crestUri,
+    score,
+    scorers,
+});
+
+const makeScorer = (
+	player: string,
+	timeInMinutes: number,
+	additionalInfo: string | undefined,
+): Scorer => ({
+	player,
+	timeInMinutes,
+	additionalInfo,
+});
+
+// ----- Parsers ----- //
+
+const stringOrUndefinedParser: Parser<string | undefined> =
+	pipe(stringParser, maybe, map(optionToUndefined));
+
+const scorerParser: Parser<Scorer> =
+	map3(makeScorer)(
+		fieldParser('player', stringParser),
+		fieldParser('timeInMinutes', numberParser),
+		fieldParser('additionalInfo', stringOrUndefinedParser)
+	);
+
+const footballTeamParser: Parser<FootballTeam> =
+	map6(makeFootballTeam)(
+		fieldParser('id', stringParser),
+		fieldParser('name', stringParser),
+		fieldParser('shortCode', stringParser),
+		fieldParser('crestUri', stringParser),
+		fieldParser('score', numberParser),
+		fieldParser('scorers', arrayParser(scorerParser)),
+	);
+
+const footballContentParser: Parser<FootballContent> =
+	map7(makeFootballContent)(
+		fieldParser('id', stringParser),
+		fieldParser('status', stringParser),
+		fieldParser('kickOff', stringParser),
+		fieldParser('competitionDisplayName', stringParser),
+		fieldParser('homeTeam', footballTeamParser),
+		fieldParser('awayTeam', footballTeamParser),
+		fieldParser('venue', stringOrUndefinedParser),
+	);
+
+const footballContentParserFor = (selectorId: string): Parser<FootballContent> =>
+	fieldParser(selectorId, footballContentParser);
+
+const footballErrorParser: Parser<string> =
+	fieldParser('errorMessage', stringParser);
+
+// ----- Functions ----- //
 
 const getFootballSelector = (
 	date: Option<Date>,
@@ -45,24 +139,26 @@ const getFootballEndpoint = (selectorId: Option<string>): Option<string> => {
 	return none;
 };
 
-type FootballResponse = Record<string, FootballContent>;
-
-interface FootballError {
-	errorMessage: string;
-}
-
 const parseFootballResponse = async (
 	response: Response,
 	selectorId: string,
 ): Promise<Result<string, FootballContent>> => {
-	if (response.status === 200) {
-		const json = (await response.json()) as FootballResponse;
-		return ok(json[selectorId]);
-	} else if (response.status === 400) {
-		const json = (await response.json()) as FootballError;
-		return err(json.errorMessage);
-	} else {
-		return err('Problem accessing PA API');
+	switch(response.status) {
+		case 200:
+			return pipe(
+				await response.json(),
+				parse(footballContentParserFor(selectorId)),
+			);
+
+		case 400:
+			return pipe(
+				await response.json(),
+				parse(footballErrorParser),
+				resultAndThen<string, string, FootballContent>(err),
+			);
+
+		default:
+			return err('Problem accessing PA API');
 	}
 };
 
@@ -129,5 +225,7 @@ const getFootballContent = async (
 	}
 	return undefined;
 };
+
+// ----- Exports ----- //
 
 export { getFootballContent };
