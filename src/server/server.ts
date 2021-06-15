@@ -178,11 +178,25 @@ async function serveArticlePost(
 		const renderingRequest = await mapiDecoder(req.body);
 		const richLinkDetails = req.query.richlink === '';
 		const isEditions = req.query.editions === '';
+		const frontName = req.query.frontName;
+		const pillarFront = `pillar/${frontName}`;
+
+		const renderingRquestWithFront = {
+			...renderingRequest,
+			content: {
+				...renderingRequest.content,
+				pillarId: pillarFront,
+			},
+		};
 
 		if (richLinkDetails) {
 			void serveRichLinkDetails(renderingRequest, res);
 		} else {
-			void serveArticle(renderingRequest, res, isEditions);
+			void serveArticle(
+				frontName ? renderingRquestWithFront : renderingRequest,
+				res,
+				isEditions,
+			);
 		}
 	} catch (e) {
 		logger.error(`This error occurred`, e);
@@ -217,6 +231,8 @@ async function serveArticleGet(
 		const articleId = req.params[0] || defaultId;
 		const isEditions = req.query.editions === '';
 		const capiContent = await askCapiFor(articleId);
+		const frontName = req.query.frontName;
+		const pillarFront = `pillar/${frontName}`;
 
 		either(
 			(errorStatus: number) => {
@@ -225,8 +241,13 @@ async function serveArticleGet(
 			async ([content, relatedContent]: [Content, RelatedContent]) => {
 				const footballContent = await getFootballContent(content);
 
+				const contentWithFront = {
+					...content,
+					pillarId: pillarFront,
+				};
+
 				const mockedRenderingRequest: RenderingRequest = {
-					content,
+					content: frontName ? contentWithFront : content,
 					targetingParams: {
 						co: 'Jane Smith',
 						k: 'potato,tomato,avocado',

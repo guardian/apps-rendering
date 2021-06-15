@@ -223,7 +223,6 @@ interface Props {
 const Headline: FC<Props> = ({ item }) => {
 	const format = getFormat(item);
 	const { kicker: kickerColor } = getThemeStyles(format.theme);
-
 	return (
 		<div css={headlineWrapperStyles}>
 			{hasSeriesKicker(format) && (

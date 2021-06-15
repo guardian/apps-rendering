@@ -45,6 +45,11 @@ import type { Context } from 'types/parserContext';
 
 // ----- Item Type ----- //
 
+enum FrontOverride {
+	Standard = 0,
+	Neutral = 1,
+}
+
 interface Fields extends Format {
 	headline: string;
 	standfirst: Option<DocumentFragment>;
@@ -62,6 +67,7 @@ interface Fields extends Format {
 	commentCount: Option<number>;
 	relatedContent: Option<ResizedRelatedContent>;
 	logo: Option<Logo>;
+	frontOverride: FrontOverride;
 }
 
 interface MatchReport extends Fields {
@@ -157,6 +163,9 @@ const isShowcaseEmbed = (content: Content): boolean =>
 		(elem) => isMainEmbed(elem) && hasShowcaseAsset(elem.assets),
 	) ?? false;
 
+const isTopStories = (content: Content): boolean =>
+	content?.pillarId === 'pillar/top-stories';
+
 function getDisplay(content: Content): Display {
 	if (isImmersive(content) || isPhotoEssay(content)) {
 		return Display.Immersive;
@@ -169,11 +178,19 @@ function getDisplay(content: Content): Display {
 	return Display.Standard;
 }
 
+const getFrontOverride = (content: Content): FrontOverride => {
+	if (isTopStories(content)) {
+		return FrontOverride.Neutral;
+	}
+	return FrontOverride.Standard;
+};
+
 const itemFields = (
 	context: Context,
 	request: RenderingRequest,
 ): ItemFields => {
 	const { content, branding, commentCount, relatedContent } = request;
+
 	return {
 		theme: themeFromString(content.pillarId),
 		display: getDisplay(content),
@@ -211,6 +228,7 @@ const itemFields = (
 			})),
 		),
 		logo: paidContentLogo(content.tags),
+		frontOverride: getFrontOverride(content),
 	};
 };
 
