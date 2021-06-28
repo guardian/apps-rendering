@@ -8501,7 +8501,7 @@ exports[`Storyshots Editions/Article Letter 1`] = `
 .emotion-6 {
   width: 100vw;
   height: calc(100vw * 0.6);
-  background-color: #F6F6F6;
+  background-color: #DCDCDC;
   color: #999999;
   display: block;
   display: block;
@@ -8863,7 +8863,7 @@ exports[`Storyshots Editions/Article Letter 1`] = `
 .emotion-21 {
   width: 100%;
   height: calc(100% * 1.25);
-  background-color: #F6F6F6;
+  background-color: #DCDCDC;
   color: #999999;
   display: block;
 }
@@ -10273,11 +10273,17 @@ exports[`Storyshots Editions/Article Match Report 1`] = `
 
 .emotion-45 {
   font-family: GuardianTextSans,Guardian Text Sans Web,Helvetica Neue,Helvetica,Arial,Lucida Grande,sans-serif;
-  font-size: 0.875rem;
-  line-height: 1.5;
+  font-size: 0.75rem;
+  line-height: 1.35;
   font-weight: 400;
   padding-top: 0.5rem;
   color: #767676;
+}
+
+@media (prefers-color-scheme: dark) {
+  .emotion-45 {
+    color: #999999;
+  }
 }
 
 .emotion-46 {
