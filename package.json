@@ -43,7 +43,7 @@
     "@guardian/content-api-models": "^17.0.0",
     "@guardian/content-atom-model": "^3.2.4",
     "@guardian/discussion-rendering": "^4.6.1",
-    "@guardian/image-rendering": "github:guardian/image-rendering#58ab596e61a027f05fafe20425c3b4366644094a",
+    "@guardian/image-rendering": "git+https://github.com/guardian/image-rendering.git#v7.0.0",
     "@guardian/node-riffraff-artifact": "^0.2.0",
     "@guardian/renditions": "^0.1.4",
     "@guardian/src-brand": "^3.3.0",
