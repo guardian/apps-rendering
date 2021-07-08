@@ -132,12 +132,9 @@ async function serveArticle(
 	}
 
 	const renderer = isEditions ? renderEditions : render;
-	const { html, clientScript } = renderer(
-		imageSalt,
-		request,
-		getAssetLocation,
-	);
+	let { html, clientScript } = renderer(imageSalt, request, getAssetLocation);
 
+	html = '<b>This is test</b>';
 	res.set('Link', getPrefetchHeader(resourceList(clientScript)));
 	res.write(html);
 	res.end();
