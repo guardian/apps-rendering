@@ -18699,6 +18699,27 @@ exports[`Storyshots Rich Link Default 1`] = `
   }
 }
 
+@media (max-width: 739px) {
+  [data-font-size='110%'] .emotion-1,
+  [data-font-size='120%'] .emotion-1,
+  [data-font-size='130%'] .emotion-1,
+  [data-font-size='140%'] .emotion-1,
+  [data-font-size='150%'] .emotion-1,
+  [data-font-size='160%'] .emotion-1 {
+    width: calc(100% - 0.75rem - 0.75rem);
+    margin-right: 0;
+  }
+
+  [data-font-size='110%'] .emotion-1 .js-image,
+  [data-font-size='120%'] .emotion-1 .js-image,
+  [data-font-size='130%'] .emotion-1 .js-image,
+  [data-font-size='140%'] .emotion-1 .js-image,
+  [data-font-size='150%'] .emotion-1 .js-image,
+  [data-font-size='160%'] .emotion-1 .js-image {
+    display: none;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   .emotion-1 {
     background-color: #333333;
