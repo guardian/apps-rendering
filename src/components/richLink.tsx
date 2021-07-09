@@ -1,7 +1,7 @@
 import type { SerializedStyles } from '@emotion/react';
 import { css, jsx as styledH } from '@emotion/react';
 import { remSpace } from '@guardian/src-foundations';
-import { from, until } from '@guardian/src-foundations/mq';
+import { from } from '@guardian/src-foundations/mq';
 import { neutral } from '@guardian/src-foundations/palette';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
@@ -136,7 +136,7 @@ const richLinkStyles = (format: Format): SerializedStyles => {
 		margin: 0.375rem ${remSpace[4]} ${remSpace[3]} 0;
 
 		width: ${richLinkWidth};
-		${until.mobileMedium} {
+		@media (max-width: 23.4rem) {
 			width: 100%;
 			box-sizing: border-box;
 		}
