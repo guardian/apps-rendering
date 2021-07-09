@@ -149,7 +149,11 @@ const richLinkStyles = (format: Format): SerializedStyles => {
 			[data-font-size='140%'] &,
 			[data-font-size='150%'] &,
 			[data-font-size='160%'] & {
-				width: 100%;
+				width: calc(100% - ${remSpace[3]} - ${remSpace[3]});
+				margin-right: 0;
+				.js-image {
+					display: none;
+				}
 			}
 		}
 
