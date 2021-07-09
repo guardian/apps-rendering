@@ -521,7 +521,25 @@ function resizeEmailSignups(): void {
 	});
 }
 
+function fontSize(): void {
+	const config: MutationObserverInit = {
+		attributeFilter: ['style'],
+	};
+	const target = document.querySelector('html');
+
+	if (target === null) return;
+
+	const callback = (): void => {
+		target.dataset.fontSize = target.style.fontSize;
+	};
+
+	const observer = new MutationObserver(callback);
+
+	observer.observe(target, config);
+}
+
 setup();
+fontSize();
 sendTargetingParams();
 ads();
 videos();

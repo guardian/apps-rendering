@@ -1,7 +1,7 @@
 import type { SerializedStyles } from '@emotion/react';
 import { css, jsx as styledH } from '@emotion/react';
 import { remSpace } from '@guardian/src-foundations';
-import { from } from '@guardian/src-foundations/mq';
+import { from, until } from '@guardian/src-foundations/mq';
 import { neutral } from '@guardian/src-foundations/palette';
 import { headline, textSans } from '@guardian/src-foundations/typography';
 import { SvgArrowRightStraight } from '@guardian/src-icons';
@@ -140,6 +140,17 @@ const richLinkStyles = (format: Format): SerializedStyles => {
 			margin-left: calc(
 				-${richLinkWidth} - ${remSpace[4]} - ${remSpace[6]}
 			);
+		}
+
+		${until.tablet} {
+			[data-font-size='110%'] &,
+			[data-font-size='120%'] &,
+			[data-font-size='130%'] &,
+			[data-font-size='140%'] &,
+			[data-font-size='150%'] &,
+			[data-font-size='160%'] & {
+				width: 100%;
+			}
 		}
 
 		${darkModeCss`
