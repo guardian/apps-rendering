@@ -703,21 +703,17 @@ const map8 = <A, B, C, D, E, F, G, H, I>(
 const andThen = <A, B>(f: (a: A) => Parser<B>) => (pa: Parser<A>): Parser<B> =>
 	parser((a) => resultAndThen<string, A, B>((x) => f(x).run(a))(pa.run(a)));
 
-const oneOf = <A>(pas: Array<Parser<A>>): Parser<A> =>
+const oneOf = <A>(parsers: Array<Parser<A>>): Parser<A> =>
 	parser((a) => {
 		const f = (
-			remPas: Array<Parser<A>>,
+			remainingParsers: Array<Parser<A>>,
 			errs: string[],
 		): Result<string, A> => {
-			if (pas.length === 0) {
+			if (remainingParsers.length === 0) {
 				return err(errs.join(' '));
 			}
 
-			if (pas.length === 1) {
-				return pas[0].run(a);
-			}
-
-			const [head, ...tail] = remPas;
+			const [head, ...tail] = remainingParsers;
 			const result = head.run(a);
 
 			if (result.kind === ResultKind.Ok) {
@@ -727,7 +723,11 @@ const oneOf = <A>(pas: Array<Parser<A>>): Parser<A> =>
 			return f(tail, [...errs, result.err]);
 		};
 
-		return f(pas, []);
+		if (parsers.length === 0) {
+			return err("The list of parsers passed to 'oneOf' was empty");
+		}
+
+		return f(parsers, []);
 	});
 
 // ----- Exports ----- //
