@@ -18691,6 +18691,13 @@ exports[`Storyshots Rich Link Default 1`] = `
   }
 }
 
+@media (max-width: 23.4rem) {
+  .emotion-1 {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
 @media (min-width: 1300px) {
   .emotion-1 {
     margin-left: calc(
