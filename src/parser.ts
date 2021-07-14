@@ -213,14 +213,11 @@ const locationParser = <A>(location: string[], pa: Parser<A>): Parser<A> => {
 	}
 
 	if (location.length > 1) {
-		return fieldParser(
-			location[0],
-			locationParser(location.slice(1), pa),
-		);
+		return fieldParser(location[0], locationParser(location.slice(1), pa));
 	}
 
 	return pa;
-}
+};
 
 /**
  * Parses an array containing values of type `A`.
