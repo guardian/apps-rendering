@@ -11,6 +11,7 @@ import {
 	stringParser,
 	parse,
 	succeed,
+	locationParser,
 } from './parser';
 
 // ----- Tests ----- //
@@ -205,6 +206,39 @@ describe('parser', () => {
 			const result = parse(parser)(json);
 
 			expect(result.kind).toBe(ResultKind.Err);
+		});
+	});
+
+	describe('locationParser', () => {
+		const json: unknown = JSON.parse('{ "foo": { "bar": 42 } }');
+
+		it('provides a successful parse result if the location exists and the value parses', () => {
+			const parser = locationParser(['foo', 'bar'], numberParser);
+			const result = parse(parser)(json);
+
+			expect(result).toStrictEqual(ok(42));
+		});
+
+		it('provides a failed parse result if the location does not exist', () => {
+			const parser = locationParser(['foo', 'baz'], numberParser);
+			const result = parse(parser)(json);
+
+			expect(result.kind).toBe(ResultKind.Err);
+		});
+
+		it('provides a failed parse result if the location is empty and the value is nested', () => {
+			const parser = locationParser([], numberParser);
+			const result = parse(parser)(json);
+
+			expect(result.kind).toBe(ResultKind.Err);
+		});
+
+		it('provides a successful parse result if the location is empty and the value is not nested', () => {
+			const jsonB = 42;
+			const parser = locationParser([], numberParser);
+			const result = parse(parser)(jsonB);
+
+			expect(result).toStrictEqual(ok(42));
 		});
 	});
 });

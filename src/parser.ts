@@ -207,25 +207,20 @@ const indexParser = <A>(index: number, pa: Parser<A>): Parser<A> =>
  * const parser = locationParser(['foo', 'bar'], numberParser); // Parser<number>
  * const result = parse(parser)(json); // Ok<number>, with value 42
  */
-const locationParser = <A>(location: string[], pa: Parser<A>): Parser<A> =>
-	parser((a) => {
-		if (location.length === 1) {
-			return fieldParser(location[0], pa).run(a);
-		}
+const locationParser = <A>(location: string[], pa: Parser<A>): Parser<A> => {
+	if (location.length === 1) {
+		return fieldParser(location[0], pa);
+	}
 
-		if (location.length > 1) {
-			return fieldParser(
-				location[0],
-				locationParser(location.slice(1), pa),
-			).run(a);
-		}
-
-		return err(
-			`I need a list of fields to lookup a location in object ${String(
-				a,
-			)}`,
+	if (location.length > 1) {
+		return fieldParser(
+			location[0],
+			locationParser(location.slice(1), pa),
 		);
-	});
+	}
+
+	return pa;
+}
 
 /**
  * Parses an array containing values of type `A`.
