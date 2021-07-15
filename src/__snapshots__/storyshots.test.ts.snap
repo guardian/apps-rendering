@@ -18696,6 +18696,10 @@ exports[`Storyshots Rich Link Default 1`] = `
     width: 100%;
     box-sizing: border-box;
   }
+
+  .emotion-1 .js-image {
+    display: none;
+  }
 }
 
 @media (min-width: 1300px) {
