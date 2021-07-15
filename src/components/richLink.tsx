@@ -139,6 +139,10 @@ const richLinkStyles = (format: Format): SerializedStyles => {
 		@media (max-width: 23.4rem) {
 			width: 100%;
 			box-sizing: border-box;
+
+			.js-image {
+				display: none;
+			}
 		}
 		${from.wide} {
 			margin-left: calc(
