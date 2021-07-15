@@ -208,15 +208,13 @@ const indexParser = <A>(index: number, pa: Parser<A>): Parser<A> =>
  * const result = parse(parser)(json); // Ok<number>, with value 42
  */
 const locationParser = <A>(location: string[], pa: Parser<A>): Parser<A> => {
-	if (location.length === 1) {
-		return fieldParser(location[0], pa);
+	if (location.length === 0) {
+		return pa;
 	}
 
-	if (location.length > 1) {
-		return fieldParser(location[0], locationParser(location.slice(1), pa));
-	}
+	const [head, ...tail] = location;
 
-	return pa;
+	return fieldParser(head, locationParser(tail, pa));
 };
 
 /**
