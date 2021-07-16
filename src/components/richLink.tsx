@@ -89,7 +89,7 @@ const richLinkStyles = (format: Format): SerializedStyles => {
 			${richLinkPillarStyles(lifestyleKicker, lifestyleInverted)}
 		}
 
-		.js-image img {
+		img {
 			width: calc(100% + ${remSpace[6]});
 			margin: -${remSpace[3]} 0 0 -${remSpace[3]};
 		}
@@ -140,7 +140,7 @@ const richLinkStyles = (format: Format): SerializedStyles => {
 			width: 100%;
 			box-sizing: border-box;
 
-			.js-image {
+			img {
 				display: none;
 			}
 		}
