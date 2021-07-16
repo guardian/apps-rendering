@@ -89,11 +89,6 @@ const richLinkStyles = (format: Format): SerializedStyles => {
 			${richLinkPillarStyles(lifestyleKicker, lifestyleInverted)}
 		}
 
-		img {
-			width: calc(100% + ${remSpace[6]});
-			margin: -${remSpace[3]} 0 0 -${remSpace[3]};
-		}
-
 		button {
 			background: none;
 			border: none;
@@ -139,10 +134,6 @@ const richLinkStyles = (format: Format): SerializedStyles => {
 		@media (max-width: 23.4rem) {
 			width: 100%;
 			box-sizing: border-box;
-
-			img {
-				display: none;
-			}
 		}
 		${from.wide} {
 			margin-left: calc(
@@ -160,6 +151,15 @@ const richLinkStyles = (format: Format): SerializedStyles => {
 	`;
 };
 
+const imageStyles: SerializedStyles = css`
+	img {
+		width: calc(100% + ${remSpace[6]});
+		margin: -${remSpace[3]} 0 0 -${remSpace[3]};
+	}
+	@media (max-width: 23.4rem) {
+		display: none;
+	}
+`;
 const RichLink = (props: {
 	url: string;
 	linkText: string;
@@ -182,7 +182,15 @@ const RichLink = (props: {
 		'aside',
 		{ ...attributes },
 		styledH('a', { href: url }, [
-			h('div', { className: 'js-image', key: `${url}-div` }, null),
+			styledH(
+				'div',
+				{
+					css: imageStyles,
+					className: 'js-image',
+					key: `${url}-div`,
+				},
+				null,
+			),
 			h('h1', { key: `${url}-h1` }, linkText),
 			h('button', { key: `${url}-button` }, [
 				h(SvgArrowRightStraight, { key: `${url}-svg` }),
