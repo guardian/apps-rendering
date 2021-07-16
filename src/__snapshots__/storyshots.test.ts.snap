@@ -18631,11 +18631,6 @@ exports[`Storyshots Rich Link Default 1`] = `
   }
 }
 
-.emotion-1 img {
-  width: calc(100% + 1.5rem);
-  margin: -0.75rem 0 0 -0.75rem;
-}
-
 .emotion-1 button {
   background: none;
   border: none;
@@ -18696,10 +18691,6 @@ exports[`Storyshots Rich Link Default 1`] = `
     width: 100%;
     box-sizing: border-box;
   }
-
-  .emotion-1 img {
-    display: none;
-  }
 }
 
 @media (min-width: 1300px) {
@@ -18721,6 +18712,17 @@ exports[`Storyshots Rich Link Default 1`] = `
   }
 }
 
+.emotion-2 img {
+  width: calc(100% + 1.5rem);
+  margin: -0.75rem 0 0 -0.75rem;
+}
+
+@media (max-width: 23.4rem) {
+  .emotion-2 {
+    display: none;
+  }
+}
+
 <section
   className="emotion-0"
 >
@@ -18731,7 +18733,7 @@ exports[`Storyshots Rich Link Default 1`] = `
       href="https://theguardian.com"
     >
       <div
-        className="js-image"
+        className="js-image emotion-2"
       />
       <h1>
         Axolotls in crisis: the fight to save the water monster of Mexico City.
