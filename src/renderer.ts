@@ -68,6 +68,7 @@ import LiveEventLink from 'components/liveEventLink';
 import Paragraph from 'components/paragraph';
 import Pullquote from 'components/pullquote';
 import RichLink from 'components/richLink';
+import Span from 'components/span';
 import { isElement, pipe } from 'lib';
 import { createElement as h } from 'react';
 import type { ReactElement, ReactNode } from 'react';
@@ -124,11 +125,18 @@ const getHref = (node: Node): Option<string> =>
 		),
 	);
 
-const transform = (text: string, format: Format): ReactElement | string => {
+const transform = (
+	text: string,
+	format: Format,
+	key: number,
+	isStandfirst: boolean,
+): ReactElement | string => {
 	if (text.includes('•')) {
 		return h(Bullet, { format, text });
 	} else if (text.includes('* * *')) {
 		return h(HorizontalRule, null, null);
+	} else if (!isStandfirst) {
+		return h(Span, { format, text, key });
 	}
 	return text;
 };
@@ -192,19 +200,21 @@ const plainTextElement = (node: Node, key: number): ReactNode => {
 	}
 };
 
-const textElement = (format: Format, supportsDarkMode = true) => (
-	node: Node,
-	key: number,
-): ReactNode => {
+const textElement = (
+	format: Format,
+	supportsDarkMode = true,
+	isStandfirst: boolean,
+) => (node: Node, key: number): ReactNode => {
 	const text = node.textContent ?? '';
 	const children = Array.from(node.childNodes).map(
-		textElement(format, supportsDarkMode),
+		textElement(format, supportsDarkMode, isStandfirst),
 	);
+
 	switch (node.nodeName) {
 		case 'P':
 			return h(Paragraph, { key, format }, children);
 		case '#text':
-			return transform(text, format);
+			return transform(text, format, key, isStandfirst);
 		case 'SPAN':
 			return text;
 		case 'A':
@@ -216,7 +226,7 @@ const textElement = (format: Format, supportsDarkMode = true) => (
 					key,
 					supportsDarkMode,
 				},
-				transform(text, format),
+				transform(text, format, key, isStandfirst),
 			);
 		case 'H2':
 			return text.includes('* * *')
@@ -285,7 +295,7 @@ const standfirstTextElement = (format: Format) => (
 			return styledH('a', { key, href, css: styles }, children);
 		}
 		default:
-			return textElement(format)(node, key);
+			return textElement(format, undefined, true)(node, key);
 	}
 };
 
@@ -294,7 +304,9 @@ const text = (
 	format: Format,
 	supportsDarkMode = true,
 ): ReactNode[] =>
-	Array.from(doc.childNodes).map(textElement(format, supportsDarkMode));
+	Array.from(doc.childNodes).map(
+		textElement(format, supportsDarkMode, false),
+	);
 
 const editionsStandfirstFilter = (node: Node): boolean =>
 	!['UL', 'LI', 'A'].includes(node.nodeName);
@@ -320,7 +332,9 @@ const Tweet = (props: {
 	styledH(
 		'blockquote',
 		{ key: props.key, className: 'twitter-tweet', css: TweetStyles },
-		...Array.from(props.content).map(textElement(props.format)),
+		...Array.from(props.content).map(
+			textElement(props.format, undefined, false),
+		),
 	);
 
 const captionHeadingStyles = css`
@@ -385,7 +399,7 @@ const captionElement = (format: Format) => (
 				text,
 			);
 		default:
-			return textElement(format)(node, key);
+			return textElement(format, undefined, false)(node, key);
 	}
 };
 
