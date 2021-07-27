@@ -13,6 +13,7 @@ import { atomCss, atomScript } from 'components/atoms/interactiveAtom';
 import Article from 'components/editions/article';
 import Meta from 'components/meta';
 import Scripts from 'components/scripts';
+import type { Response } from 'express';
 import type { Item } from 'item';
 import { fromCapi } from 'item';
 import { JSDOM } from 'jsdom';
@@ -30,14 +31,36 @@ interface Page {
 	clientScript: Option<string>;
 }
 
+enum EditionsEnv {
+	Dev,
+	Prod,
+	Browser,
+}
+
 // ----- Setup ----- //
 
 const docParser = JSDOM.fragment.bind(null);
 
 // ----- Functions ----- //
 
-const styles = `
-	${process.env.NODE_ENV === 'production' ? editionsPageFonts : pageFonts}
+const getEditionsEnv = (path?: string): EditionsEnv => {
+	console.log('PATH:', path);
+	console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
+	if (process.env.NODE_ENV !== 'production') {
+		return EditionsEnv.Dev;
+	} else if (path === '/editions-article') {
+		return EditionsEnv.Prod;
+	} else {
+		return EditionsEnv.Browser;
+	}
+};
+
+const getStyles = (env: EditionsEnv): string => `
+	${
+		env === EditionsEnv.Dev || env === EditionsEnv.Browser
+			? pageFonts
+			: editionsPageFonts
+	}
 
 	html {
 		margin: 0;
@@ -57,8 +80,9 @@ function renderHead(
 	itemStyles: string,
 	emotionIds: string[],
 	inlineStyles: boolean,
+	enviroment: EditionsEnv,
 ): string {
-	const generalStyles = styles;
+	const generalStyles = getStyles(enviroment);
 	const isEditions = true;
 	const cspString = csp(
 		item,
@@ -109,9 +133,14 @@ const buildHtml = (
 function render(
 	imageSalt: string,
 	request: RenderingRequest,
+	res: Response,
 	getAssetLocation: (assetName: string) => string,
 	themeOverride: Option<Theme>,
 ): Page {
+	const path = res.req?.path;
+	console.log(path);
+	const environment = getEditionsEnv(path);
+
 	const item = fromCapi({ docParser, salt: imageSalt })(request);
 
 	const newItem = {
@@ -129,11 +158,12 @@ function render(
 		body.css,
 		body.ids,
 		false,
+		environment,
 	);
 
 	const clientScript =
-		process.env.NODE_ENV !== 'production'
-			? map(getAssetLocation)(some('editions.js'))
+		environment === EditionsEnv.Dev || environment === EditionsEnv.Browser
+			? some('/assets/js/editions.js')
 			: some('assets/js/editions.js');
 
 	const scripts = (
