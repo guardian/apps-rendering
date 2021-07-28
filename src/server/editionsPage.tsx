@@ -46,15 +46,12 @@ const docParser = JSDOM.fragment.bind(null);
 const getEditionsEnv = (path?: string): EditionsEnv => {
 	if (process.env.NODE_ENV !== 'production') {
 		return EditionsEnv.Dev;
-	} else if (path === '/editions-article') {
-		return EditionsEnv.Prod;
-	} else {
-		return EditionsEnv.Browser;
 	}
+	return EditionsEnv.Prod;
 };
 
 const getStyles = (env: EditionsEnv): string => `
-	${env === EditionsEnv.Dev || env === EditionsEnv.Browser ? devFonts : prodFonts}
+	${env === EditionsEnv.Dev ? devFonts : prodFonts}
 
 	html {
 		margin: 0;
@@ -159,9 +156,7 @@ function render(
 	const prodScript = some('assets/js/editions.js');
 
 	const clientScript =
-		environment === EditionsEnv.Dev || environment === EditionsEnv.Browser
-			? devScript
-			: prodScript;
+		environment === EditionsEnv.Dev ? devScript : prodScript;
 
 	const scripts = (
 		<Scripts
