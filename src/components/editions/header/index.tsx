@@ -12,7 +12,7 @@ import Lines from 'components/editions/lines';
 import Series from 'components/editions/series';
 import Standfirst from 'components/editions/standfirst';
 import type { Item } from 'item';
-import { isPicture } from 'item';
+import { isCorrection, isPicture } from 'item';
 import type { FC, ReactElement } from 'react';
 import {
 	articleMarginStyles,
@@ -252,6 +252,15 @@ const LetterHeader: FC<HeaderProps> = ({ item }) => (
 	</header>
 );
 
+const CorrectionsHeader: FC<HeaderProps> = ({ item }) => (
+	<header css={headerStyles}>
+		<HeaderMedia item={item} />
+		<Series item={item} />
+		<Headline item={item} />
+		<Standfirst item={item} />
+	</header>
+);
+
 const renderArticleHeader = (item: Item): ReactElement<HeaderProps> => {
 	// Display.Immersive needs to come before Design.Interview
 	if (item.display === Display.Immersive) {
@@ -274,6 +283,8 @@ const renderArticleHeader = (item: Item): ReactElement<HeaderProps> => {
 		) : (
 			<GalleryHeader item={item} />
 		);
+	} else if (isCorrection(item.tags)) {
+		return <CorrectionsHeader item={item} />;
 	} else {
 		return <StandardHeader item={item} />;
 	}

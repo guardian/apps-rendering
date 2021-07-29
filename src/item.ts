@@ -289,6 +289,8 @@ const isLabs = hasTag('tone/advertisement-features');
 const isMatchReport = hasTag('tone/matchreports');
 const isPicture = hasTag('type/picture');
 
+const isCorrection = hasTag('theguardian/series/correctionsandclarifications');
+
 const fromCapiLiveBlog = (context: Context) => (
 	request: RenderingRequest,
 ): Liveblog => {
@@ -417,4 +419,5 @@ export {
 	isPicture,
 	isLetter,
 	isObituary,
+	isCorrection,
 };
