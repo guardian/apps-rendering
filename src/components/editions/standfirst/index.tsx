@@ -138,7 +138,7 @@ const Standfirst: FC<Props> = ({ item, shareIcon }) => {
 			</div>
 			{showShareIcon && (
 				<span className="js-share-button" role="button">
-					<ShareIcon />
+					<ShareIcon item={item} />
 				</span>
 			)}
 		</div>

@@ -5,6 +5,7 @@ import {
 	pingEditionsNative,
 	Platform,
 } from '@guardian/renditions';
+import { Item } from 'item';
 import type { FC, ReactElement } from 'react';
 import { useEffect, useState } from 'react';
 
@@ -52,11 +53,33 @@ const buttonStyles = css`
 	height: 2.5rem;
 `;
 
-const ShareIcon: FC = () => {
+interface Props {
+	item: Item;
+}
+
+const isSuccessOrRedirect = (status: number) => [302, 200].includes(status);
+
+const ShareIcon: FC<Props> = ({ item }) => {
 	const platform = usePlatform(Platform.IOS);
+	const [articlePath, setArticlePath] = useState<string | null>();
+
 	useEffect(() => {
 		pingEditionsNative({ kind: MessageKind.PlatformQuery });
 	}, []);
+
+	useEffect(() => {
+		const checkPathExists = async (url: string) => {
+			const dotComResult = await fetch(`${url}`, {
+				method: 'HEAD',
+			}).catch(() => null);
+
+			return dotComResult && isSuccessOrRedirect(dotComResult.status)
+				? setArticlePath(url)
+				: setArticlePath(null);
+		};
+		checkPathExists(item.webUrl);
+	}, [item]);
+
 	return (
 		<button
 			css={buttonStyles}

@@ -245,7 +245,7 @@ const Byline: FC<Props> = ({ item }) => {
 			<address>{renderText(byline, format)}</address>
 			{showShareIcon && (
 				<span className="js-share-button" role="button">
-					<ShareIcon />
+					<ShareIcon item={item} />
 				</span>
 			)}
 			{hasAvatar(item) && (
