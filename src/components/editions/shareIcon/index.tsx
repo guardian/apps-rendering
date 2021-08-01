@@ -5,8 +5,10 @@ import {
 	pingEditionsNative,
 	Platform,
 } from '@guardian/renditions';
+import { Item } from 'item';
 import type { FC, ReactElement } from 'react';
 import { useEffect, useState } from 'react';
+import { useArticlePath } from './useArticlePath';
 
 const usePlatform = (defaultPlatform: Platform): Platform => {
 	const [platform, setPlatform] = useState(defaultPlatform);
@@ -52,12 +54,19 @@ const buttonStyles = css`
 	height: 2.5rem;
 `;
 
-const ShareIcon: FC = () => {
+interface Props {
+	item: Item;
+}
+
+const ShareIcon: FC<Props> = ({ item }) => {
 	const platform = usePlatform(Platform.IOS);
 	useEffect(() => {
 		pingEditionsNative({ kind: MessageKind.PlatformQuery });
 	}, []);
-	return (
+
+	const articlePath = item ? useArticlePath(item.webUrl) : null;
+
+	return articlePath ? (
 		<button
 			css={buttonStyles}
 			onClick={(): void =>
@@ -70,7 +79,7 @@ const ShareIcon: FC = () => {
 				<AndroidShareIcon />
 			)}
 		</button>
-	);
+	) : null;
 };
 
 export default ShareIcon;

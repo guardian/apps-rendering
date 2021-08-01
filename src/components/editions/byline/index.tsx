@@ -106,11 +106,13 @@ const styles = (iconColor: string): SerializedStyles => {
 				fill: ${iconColor};
 			}
 		}
+		min-height: ${remSpace[12]};
 
 		padding-bottom: ${remSpace[4]};
 		margin: 0;
 
 		${from.tablet} {
+			min-height: ${remSpace[9]};
 			padding-bottom: ${remSpace[9]};
 		}
 	`;
@@ -242,7 +244,7 @@ const Byline: FC<Props> = ({ item }) => {
 			<address>{renderText(byline, format)}</address>
 			{hasShareIcon(format) && (
 				<span className="js-share-button" role="button">
-					<ShareIcon />
+					<ShareIcon item={item} />
 				</span>
 			)}
 			{hasAvatar(item) && (
