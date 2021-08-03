@@ -22,12 +22,7 @@ import type { ReactElement } from 'react';
 import { createElement as h } from 'react';
 import { renderToString } from 'react-dom/server';
 import { csp } from 'server/csp';
-import {
-	pageFonts as devFonts,
-	editionsPreviewFonts as previewFonts,
-	editionsPageFonts as prodFonts,
-} from 'styles';
-import { Stage } from './appIdentity';
+import { editionsPageFonts, pageFonts } from 'styles';
 
 // ----- Types ----- //
 
@@ -36,44 +31,14 @@ interface Page {
 	clientScript: Option<string>;
 }
 
-enum EditionsEnv {
-	Dev,
-	Prod,
-	Preview,
-	Browser,
-}
-
 // ----- Setup ----- //
 
 const docParser = JSDOM.fragment.bind(null);
 
 // ----- Functions ----- //
 
-const getEditionsEnv = (isPreview: boolean, path?: string): EditionsEnv => {
-	if (isPreview) {
-		return EditionsEnv.Preview;
-	} else if (process.env.NODE_ENV !== 'production') {
-		return EditionsEnv.Dev;
-	} else if (path === '/editions-article') {
-		return EditionsEnv.Prod;
-	} else {
-		return EditionsEnv.Browser;
-	}
-};
-
-const getFonts = (env: EditionsEnv): string => {
-	switch (env) {
-		case EditionsEnv.Prod:
-			return prodFonts;
-		case EditionsEnv.Preview:
-			return previewFonts;
-		default:
-			return devFonts;
-	}
-};
-
-const getStyles = (fonts: string): string => `
-	${fonts}
+const styles = `
+ 	${process.env.NODE_ENV === 'production' ? editionsPageFonts : pageFonts}
 
 	html {
 		margin: 0;
@@ -93,10 +58,8 @@ function renderHead(
 	itemStyles: string,
 	emotionIds: string[],
 	inlineStyles: boolean,
-	enviroment: EditionsEnv,
 ): string {
-	const fonts = getFonts(enviroment);
-	const generalStyles = getStyles(fonts);
+	const generalStyles = styles;
 	const isEditions = true;
 	const cspString = csp(
 		item,
@@ -151,9 +114,6 @@ function render(
 	getAssetLocation: (assetName: string) => string,
 	themeOverride: Option<Theme>,
 ): Page {
-	const path = res.req?.path;
-	const isPreview = res.req?.query.isPreview === 'true';
-	const environment = getEditionsEnv(isPreview, path);
 	const item = fromCapi({ docParser, salt: imageSalt })(request);
 
 	const newItem = {
@@ -171,28 +131,12 @@ function render(
 		body.css,
 		body.ids,
 		false,
-		environment,
 	);
 
-	const devScript = map(getAssetLocation)(some('editions.js'));
-	const prodScript = some('assets/js/editions.js');
-
-	const stage = Stage === 'CODE' ? 'code' : 'prod';
-	const s3Path = `https://editions-published-${stage}.s3.eu-west-1.amazonaws.com`;
-	const previewScript = some(`${s3Path}/assets/js/editions.js`);
-
-	const getClientScript = (env: EditionsEnv): Option<string> => {
-		switch (env) {
-			case EditionsEnv.Prod:
-				return prodScript;
-			case EditionsEnv.Preview:
-				return previewScript;
-			default:
-				return devScript;
-		}
-	};
-
-	const clientScript = getClientScript(environment);
+	const clientScript =
+		process.env.NODE_ENV !== 'production'
+			? map(getAssetLocation)(some('editions.js'))
+			: some('assets/js/editions.js');
 
 	const scripts = (
 		<Scripts
