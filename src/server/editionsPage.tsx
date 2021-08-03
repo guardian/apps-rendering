@@ -28,6 +28,7 @@ import {
 	editionsPageFonts as prodFonts,
 } from 'styles';
 import { Stage } from './appIdentity';
+import { logger } from 'logger';
 
 // ----- Types ----- //
 
@@ -158,12 +159,13 @@ function render(
 	const item = fromCapi({ docParser, salt: imageSalt })(request);
 
 	// remove these once debuggin is complete
-	console.log('IS PREVIEW:', isPreview);
-	console.log('NODE ENV:', process.env.NODE_ENV);
-	console.log('PATH:', path);
-	console.log('stage:', Stage);
-	console.log('ENV:', environment);
-	console.log('ITEM ID:', item.internalShortId);
+	logger.info
+	logger.info('IS PREVIEW:' + isPreview);
+	logger.info('NODE ENV:' + process.env.NODE_ENV);
+	logger.info('PATH:' + path);
+	logger.info('stage:' + Stage);
+	logger.info('ENV:' + environment);
+	logger.info('ITEM ID:' + item.internalShortId);
 
 	const newItem = {
 		...item,
