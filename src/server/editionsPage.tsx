@@ -154,7 +154,16 @@ function render(
 	const path = res.req?.path;
 	const isPreview = res.req?.query.isPreview === 'true';
 	const environment = getEditionsEnv(isPreview, path);
+
 	const item = fromCapi({ docParser, salt: imageSalt })(request);
+
+	// remove these once debuggin is complete
+	console.log('IS PREVIEW:', isPreview);
+	console.log('NODE ENV:', process.env.NODE_ENV);
+	console.log('PATH:', path);
+	console.log('stage:', Stage);
+	console.log('ENV:', environment);
+	console.log('ITEM ID:', item.internalShortId);
 
 	const newItem = {
 		...item,
