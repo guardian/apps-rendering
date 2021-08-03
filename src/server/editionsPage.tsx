@@ -49,15 +49,11 @@ const docParser = JSDOM.fragment.bind(null);
 
 // ----- Functions ----- //
 
-const getEditionsEnv = (isPreview: boolean, path?: string): EditionsEnv => {
-	if (isPreview) {
-		return EditionsEnv.Preview;
-	} else if (process.env.NODE_ENV !== 'production') {
+const getEditionsEnv = (): EditionsEnv => {
+	if (process.env.NODE_ENV !== 'production') {
 		return EditionsEnv.Dev;
-	} else if (path === '/editions-article') {
-		return EditionsEnv.Prod;
 	} else {
-		return EditionsEnv.Browser;
+		return EditionsEnv.Prod;
 	}
 };
 
@@ -151,9 +147,7 @@ function render(
 	getAssetLocation: (assetName: string) => string,
 	themeOverride: Option<Theme>,
 ): Page {
-	const path = res.req?.path;
-	const isPreview = res.req?.query.isPreview === 'true';
-	const environment = getEditionsEnv(isPreview, path);
+	const environment = getEditionsEnv();
 	const item = fromCapi({ docParser, salt: imageSalt })(request);
 
 	const newItem = {
