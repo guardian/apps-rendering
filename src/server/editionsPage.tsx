@@ -1,5 +1,6 @@
 // ----- Imports ----- //
 
+import { logger } from 'logger';
 import { cache } from '@emotion/css';
 import { CacheProvider } from '@emotion/react';
 import { extractCritical } from '@emotion/server';
@@ -28,7 +29,6 @@ import {
 	editionsPageFonts as prodFonts,
 } from 'styles';
 import { Stage } from './appIdentity';
-import { logger } from 'logger';
 
 // ----- Types ----- //
 
