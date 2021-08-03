@@ -1,6 +1,5 @@
 // ----- Imports ----- //
 
-import { logger } from 'logger';
 import { cache } from '@emotion/css';
 import { CacheProvider } from '@emotion/react';
 import { extractCritical } from '@emotion/server';
@@ -19,6 +18,7 @@ import type { Item } from 'item';
 import { fromCapi } from 'item';
 import { JSDOM } from 'jsdom';
 import { compose } from 'lib';
+import { logger } from 'logger';
 import type { ReactElement } from 'react';
 import { createElement as h } from 'react';
 import { renderToString } from 'react-dom/server';
