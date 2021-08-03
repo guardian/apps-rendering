@@ -159,7 +159,6 @@ function render(
 	const item = fromCapi({ docParser, salt: imageSalt })(request);
 
 	// remove these once debuggin is complete
-	logger.info
 	logger.info('IS PREVIEW:' + isPreview);
 	logger.info('NODE ENV:' + process.env.NODE_ENV);
 	logger.info('PATH:' + path);
