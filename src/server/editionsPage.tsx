@@ -52,10 +52,10 @@ const docParser = JSDOM.fragment.bind(null);
 const getEditionsEnv = (isPreview: boolean, path?: string): EditionsEnv => {
 	if (isPreview) {
 		return EditionsEnv.Preview;
-	} else if (process.env.NODE_ENV !== 'production') {
-		return EditionsEnv.Dev;
 	} else if (path === '/editions-article') {
 		return EditionsEnv.Prod;
+	} else if (process.env.NODE_ENV !== 'production') {
+		return EditionsEnv.Dev;
 	} else {
 		return EditionsEnv.Browser;
 	}
