@@ -502,7 +502,6 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
 }
@@ -526,7 +525,6 @@ exports[`Storyshots Editions/Article Analysis 1`] = `
 
 @media (min-width: 740px) {
   .emotion-12 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -1739,7 +1737,6 @@ exports[`Storyshots Editions/Article Cartoon 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
 }
@@ -1763,7 +1760,6 @@ exports[`Storyshots Editions/Article Cartoon 1`] = `
 
 @media (min-width: 740px) {
   .emotion-13 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -2397,7 +2393,6 @@ exports[`Storyshots Editions/Article Comment 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
   padding-right: 6.5625rem;
@@ -2422,7 +2417,6 @@ exports[`Storyshots Editions/Article Comment 1`] = `
 
 @media (min-width: 740px) {
   .emotion-12 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -3757,7 +3751,6 @@ exports[`Storyshots Editions/Article Default 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
 }
@@ -3781,7 +3774,6 @@ exports[`Storyshots Editions/Article Default 1`] = `
 
 @media (min-width: 740px) {
   .emotion-15 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -4930,7 +4922,6 @@ exports[`Storyshots Editions/Article Editorial 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
 }
@@ -4954,7 +4945,6 @@ exports[`Storyshots Editions/Article Editorial 1`] = `
 
 @media (min-width: 740px) {
   .emotion-16 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -6091,7 +6081,6 @@ exports[`Storyshots Editions/Article Feature 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
 }
@@ -6115,7 +6104,6 @@ exports[`Storyshots Editions/Article Feature 1`] = `
 
 @media (min-width: 740px) {
   .emotion-15 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -7287,7 +7275,6 @@ width:@media (min-width: 320px) {
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
 }
@@ -7311,7 +7298,6 @@ width:@media (min-width: 320px) {
 
 @media (min-width: 740px) {
   .emotion-17 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -8216,7 +8202,6 @@ width:@media (min-width: 320px) {
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
   padding-left: 0.75rem;
@@ -8243,7 +8228,6 @@ width:@media (min-width: 320px) {
 
 @media (min-width: 740px) {
   .emotion-17 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -10789,7 +10773,6 @@ exports[`Storyshots Editions/Article Match Report 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
 }
@@ -10813,7 +10796,6 @@ exports[`Storyshots Editions/Article Match Report 1`] = `
 
 @media (min-width: 740px) {
   .emotion-37 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -11822,7 +11804,6 @@ exports[`Storyshots Editions/Article Review 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
 }
@@ -11846,7 +11827,6 @@ exports[`Storyshots Editions/Article Review 1`] = `
 
 @media (min-width: 740px) {
   .emotion-21 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -13064,7 +13044,6 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
   padding-bottom: 1.5rem;
@@ -13089,7 +13068,6 @@ exports[`Storyshots Editions/Article Showcase 1`] = `
 
 @media (min-width: 740px) {
   .emotion-15 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -13945,7 +13923,6 @@ exports[`Storyshots Editions/Byline Analysis 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
 }
@@ -13969,7 +13946,6 @@ exports[`Storyshots Editions/Byline Analysis 1`] = `
 
 @media (min-width: 740px) {
   .emotion-0 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -14060,7 +14036,6 @@ exports[`Storyshots Editions/Byline Comment 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
   padding-right: 6.5625rem;
@@ -14085,7 +14060,6 @@ exports[`Storyshots Editions/Byline Comment 1`] = `
 
 @media (min-width: 740px) {
   .emotion-0 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -14221,7 +14195,6 @@ exports[`Storyshots Editions/Byline Default 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
 }
@@ -14245,7 +14218,6 @@ exports[`Storyshots Editions/Byline Default 1`] = `
 
 @media (min-width: 740px) {
   .emotion-0 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -14325,7 +14297,6 @@ exports[`Storyshots Editions/Byline Feature 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
 }
@@ -14349,7 +14320,6 @@ exports[`Storyshots Editions/Byline Feature 1`] = `
 
 @media (min-width: 740px) {
   .emotion-0 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -14429,7 +14399,6 @@ exports[`Storyshots Editions/Byline Interview 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
   padding-left: 0.75rem;
@@ -14456,7 +14425,6 @@ exports[`Storyshots Editions/Byline Interview 1`] = `
 
 @media (min-width: 740px) {
   .emotion-0 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -14564,7 +14532,6 @@ exports[`Storyshots Editions/Byline Review 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
 }
@@ -14588,7 +14555,6 @@ exports[`Storyshots Editions/Byline Review 1`] = `
 
 @media (min-width: 740px) {
   .emotion-0 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -14668,7 +14634,6 @@ exports[`Storyshots Editions/Byline Showcase 1`] = `
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
   justify-content: space-between;
-  min-height: 3rem;
   padding-bottom: 1rem;
   margin: 0;
   padding-bottom: 1.5rem;
@@ -14693,7 +14658,6 @@ exports[`Storyshots Editions/Byline Showcase 1`] = `
 
 @media (min-width: 740px) {
   .emotion-0 {
-    min-height: 2.25rem;
     padding-bottom: 2.25rem;
   }
 }
@@ -16677,13 +16641,6 @@ exports[`Storyshots Editions/Standfirst Analysis 1`] = `
   flex-direction: column;
 }
 
-.emotion-2 {
-  background: none;
-  border: none;
-  padding: 0;
-  height: 2.5rem;
-}
-
 <div
   className="emotion-0"
 >
@@ -16694,30 +16651,6 @@ exports[`Storyshots Editions/Standfirst Analysis 1`] = `
       The Mexican capital was founded by Aztecs on an island in a vast lake. No wonder water flows through so many of its unbuilt projects
     </p>
   </div>
-  <span
-    className="js-share-button"
-    role="button"
-  >
-    <button
-      className="emotion-2"
-      onClick={[Function]}
-    >
-      <svg
-        fill="none"
-        viewBox="0 0 30 30"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle
-          cx="15"
-          cy="15"
-          r="14.5"
-        />
-        <path
-          d="M14.2727 8.83636V15.1818H15.7273V8.83636L18.3273 10.8182L18.9818 10.1818L15.2545 6.45455H14.7455L11.0364 10.1818L11.6727 10.8182L14.2727 8.83636ZM21.5455 13.7273V19.5455H8.45455V13.7273L7.72727 13H7V20.2545L7.70909 21H22.2545L23 20.2545V13H22.2727L21.5455 13.7273Z"
-        />
-      </svg>
-    </button>
-  </span>
 </div>
 `;
 
@@ -16800,13 +16733,6 @@ exports[`Storyshots Editions/Standfirst Comment 1`] = `
   flex-direction: column;
 }
 
-.emotion-2 {
-  background: none;
-  border: none;
-  padding: 0;
-  height: 2.5rem;
-}
-
 <div
   className="emotion-0"
 >
@@ -16817,30 +16743,6 @@ exports[`Storyshots Editions/Standfirst Comment 1`] = `
       The Mexican capital was founded by Aztecs on an island in a vast lake. No wonder water flows through so many of its unbuilt projects
     </p>
   </div>
-  <span
-    className="js-share-button"
-    role="button"
-  >
-    <button
-      className="emotion-2"
-      onClick={[Function]}
-    >
-      <svg
-        fill="none"
-        viewBox="0 0 30 30"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle
-          cx="15"
-          cy="15"
-          r="14.5"
-        />
-        <path
-          d="M14.2727 8.83636V15.1818H15.7273V8.83636L18.3273 10.8182L18.9818 10.1818L15.2545 6.45455H14.7455L11.0364 10.1818L11.6727 10.8182L14.2727 8.83636ZM21.5455 13.7273V19.5455H8.45455V13.7273L7.72727 13H7V20.2545L7.70909 21H22.2545L23 20.2545V13H22.2727L21.5455 13.7273Z"
-        />
-      </svg>
-    </button>
-  </span>
 </div>
 `;
 
@@ -16911,13 +16813,6 @@ exports[`Storyshots Editions/Standfirst Default 1`] = `
   flex-direction: column;
 }
 
-.emotion-2 {
-  background: none;
-  border: none;
-  padding: 0;
-  height: 2.5rem;
-}
-
 <div
   className="emotion-0"
 >
@@ -16928,30 +16823,6 @@ exports[`Storyshots Editions/Standfirst Default 1`] = `
       The Mexican capital was founded by Aztecs on an island in a vast lake. No wonder water flows through so many of its unbuilt projects
     </p>
   </div>
-  <span
-    className="js-share-button"
-    role="button"
-  >
-    <button
-      className="emotion-2"
-      onClick={[Function]}
-    >
-      <svg
-        fill="none"
-        viewBox="0 0 30 30"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle
-          cx="15"
-          cy="15"
-          r="14.5"
-        />
-        <path
-          d="M14.2727 8.83636V15.1818H15.7273V8.83636L18.3273 10.8182L18.9818 10.1818L15.2545 6.45455H14.7455L11.0364 10.1818L11.6727 10.8182L14.2727 8.83636ZM21.5455 13.7273V19.5455H8.45455V13.7273L7.72727 13H7V20.2545L7.70909 21H22.2545L23 20.2545V13H22.2727L21.5455 13.7273Z"
-        />
-      </svg>
-    </button>
-  </span>
 </div>
 `;
 
@@ -17036,13 +16907,6 @@ exports[`Storyshots Editions/Standfirst Media 1`] = `
   flex-direction: column;
 }
 
-.emotion-2 {
-  background: none;
-  border: none;
-  padding: 0;
-  height: 2.5rem;
-}
-
 <div
   style={
     Object {
@@ -17060,30 +16924,6 @@ exports[`Storyshots Editions/Standfirst Media 1`] = `
         The Mexican capital was founded by Aztecs on an island in a vast lake. No wonder water flows through so many of its unbuilt projects
       </p>
     </div>
-    <span
-      className="js-share-button"
-      role="button"
-    >
-      <button
-        className="emotion-2"
-        onClick={[Function]}
-      >
-        <svg
-          fill="none"
-          viewBox="0 0 30 30"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="15"
-            cy="15"
-            r="14.5"
-          />
-          <path
-            d="M14.2727 8.83636V15.1818H15.7273V8.83636L18.3273 10.8182L18.9818 10.1818L15.2545 6.45455H14.7455L11.0364 10.1818L11.6727 10.8182L14.2727 8.83636ZM21.5455 13.7273V19.5455H8.45455V13.7273L7.72727 13H7V20.2545L7.70909 21H22.2545L23 20.2545V13H22.2727L21.5455 13.7273Z"
-          />
-        </svg>
-      </button>
-    </span>
   </div>
 </div>
 `;
@@ -17167,13 +17007,6 @@ exports[`Storyshots Editions/Standfirst Showcase 1`] = `
   flex-direction: column;
 }
 
-.emotion-2 {
-  background: none;
-  border: none;
-  padding: 0;
-  height: 2.5rem;
-}
-
 <div
   className="emotion-0"
 >
@@ -17184,30 +17017,6 @@ exports[`Storyshots Editions/Standfirst Showcase 1`] = `
       The Mexican capital was founded by Aztecs on an island in a vast lake. No wonder water flows through so many of its unbuilt projects
     </p>
   </div>
-  <span
-    className="js-share-button"
-    role="button"
-  >
-    <button
-      className="emotion-2"
-      onClick={[Function]}
-    >
-      <svg
-        fill="none"
-        viewBox="0 0 30 30"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle
-          cx="15"
-          cy="15"
-          r="14.5"
-        />
-        <path
-          d="M14.2727 8.83636V15.1818H15.7273V8.83636L18.3273 10.8182L18.9818 10.1818L15.2545 6.45455H14.7455L11.0364 10.1818L11.6727 10.8182L14.2727 8.83636ZM21.5455 13.7273V19.5455H8.45455V13.7273L7.72727 13H7V20.2545L7.70909 21H22.2545L23 20.2545V13H22.2727L21.5455 13.7273Z"
-        />
-      </svg>
-    </button>
-  </span>
 </div>
 `;
 

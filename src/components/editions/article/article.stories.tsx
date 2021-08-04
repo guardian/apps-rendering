@@ -30,12 +30,6 @@ const isImmersive = (): { display: Display } => {
 	};
 };
 
-const hasShareIcon = (): { webUrl: string } => {
-	return {
-		webUrl: boolean('ShareIcon', true) ? 'www.guardian.com' : '',
-	};
-};
-
 const getTag = (id: string, webTitle: string): Tag => ({
 	id,
 	type: 6,
@@ -53,7 +47,6 @@ const Default = (): ReactElement => (
 		item={{
 			...article,
 			...isImmersive(),
-			...hasShareIcon(),
 			theme: selectPillar(Pillar.News),
 		}}
 	/>
@@ -64,8 +57,6 @@ const Analysis = (): ReactElement => (
 		item={{
 			...analysis,
 			...isImmersive(),
-			...hasShareIcon(),
-
 			tags: [getTag('tone/analysis', 'View from the Guardian ')],
 			theme: selectPillar(Pillar.Lifestyle),
 		}}
@@ -78,8 +69,6 @@ const Editorial = (): ReactElement => (
 			...editorial,
 			tags: [getTag('tone/editorials', 'View from the Guardian ')],
 			...isImmersive(),
-			...hasShareIcon(),
-
 			theme: selectPillar(Pillar.Opinion),
 		}}
 	/>
@@ -90,8 +79,6 @@ const Feature = (): ReactElement => (
 		item={{
 			...feature,
 			...isImmersive(),
-			...hasShareIcon(),
-
 			theme: selectPillar(Pillar.Sport),
 		}}
 	/>
@@ -101,8 +88,6 @@ const Review = (): ReactElement => (
 	<Article
 		item={{
 			...review,
-			...hasShareIcon(),
-
 			theme: selectPillar(Pillar.Culture),
 		}}
 	/>
@@ -112,8 +97,6 @@ const Showcase = (): ReactElement => (
 	<Article
 		item={{
 			...article,
-			...hasShareIcon(),
-
 			display: Display.Showcase,
 			theme: selectPillar(Pillar.News),
 		}}
@@ -124,8 +107,6 @@ const Interview = (): ReactElement => (
 	<Article
 		item={{
 			...interview,
-			...hasShareIcon(),
-
 			...isImmersive(),
 			theme: selectPillar(Pillar.Sport),
 		}}
@@ -136,8 +117,6 @@ const Comment = (): ReactElement => (
 	<Article
 		item={{
 			...comment,
-			...hasShareIcon(),
-
 			...isImmersive(),
 			theme: selectPillar(Pillar.News),
 		}}
@@ -148,7 +127,6 @@ const Letter = (): ReactElement => (
 	<Article
 		item={{
 			...letter,
-			...hasShareIcon(),
 			tags: [getTag('tone/letters', 'Letters ')],
 			theme: selectPillar(Pillar.Opinion),
 		}}
@@ -158,7 +136,6 @@ const MatchReport = (): ReactElement => (
 	<Article
 		item={{
 			...matchReport,
-			...hasShareIcon(),
 			tags: [getTag('tone/sport', 'Sport ')],
 			theme: selectPillar(Pillar.Sport),
 		}}
@@ -169,7 +146,6 @@ const Cartoon = (): ReactElement => (
 	<Article
 		item={{
 			...cartoon,
-			...hasShareIcon(),
 			tags: [getTag('type/picture', 'cartoon')],
 		}}
 	/>
@@ -179,7 +155,6 @@ const Gallery = (): ReactElement => (
 	<Article
 		item={{
 			...media,
-			...hasShareIcon(),
 			theme: selectPillar(Pillar.News),
 		}}
 	/>

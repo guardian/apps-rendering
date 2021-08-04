@@ -2,7 +2,7 @@
 import { neutral } from '@guardian/src-foundations/palette';
 import { Display, Pillar, toOption } from '@guardian/types';
 import type { Option } from '@guardian/types';
-import { boolean, withKnobs } from '@storybook/addon-knobs';
+import { withKnobs } from '@storybook/addon-knobs';
 import { parse } from 'client/parser';
 import { analysis, article, comment, media } from 'fixtures/item';
 import { pipe } from 'lib';
@@ -21,21 +21,13 @@ const standfirst: Option<DocumentFragment> = pipe(
 	toOption,
 );
 
-const hasShareIcon = (): { webUrl: string } => {
-	return {
-		webUrl: boolean('ShareIcon', true) ? 'www.guardian.com' : '',
-	};
-};
-
 // ----- Stories ----- //
 
 const Default = (): ReactElement => (
 	<Standfirst
-		shareIcon
 		item={{
 			...article,
 			standfirst,
-			...hasShareIcon(),
 			theme: selectPillar(Pillar.News),
 		}}
 	/>
@@ -43,11 +35,9 @@ const Default = (): ReactElement => (
 
 const Showcase = (): ReactElement => (
 	<Standfirst
-		shareIcon
 		item={{
 			...article,
 			standfirst,
-			...hasShareIcon(),
 			display: Display.Showcase,
 			theme: selectPillar(Pillar.News),
 		}}
@@ -56,11 +46,9 @@ const Showcase = (): ReactElement => (
 
 const Comment = (): ReactElement => (
 	<Standfirst
-		shareIcon
 		item={{
 			...comment,
 			standfirst,
-			...hasShareIcon(),
 			theme: selectPillar(Pillar.News),
 		}}
 	/>
@@ -68,11 +56,9 @@ const Comment = (): ReactElement => (
 
 const Analysis = (): ReactElement => (
 	<Standfirst
-		shareIcon
 		item={{
 			...analysis,
 			standfirst,
-			...hasShareIcon(),
 			theme: selectPillar(Pillar.News),
 		}}
 	/>
@@ -85,11 +71,9 @@ const Media = (): ReactElement => (
 		}}
 	>
 		<Standfirst
-			shareIcon
 			item={{
 				...media,
 				standfirst,
-				...hasShareIcon(),
 				theme: selectPillar(Pillar.News),
 			}}
 		/>
