@@ -295,8 +295,8 @@ async function serveArticleGet(
 		const isEditions = req.query.editions === '';
 		const capiContent = await askCapiFor(articleId);
 
-		either(
-			(errorStatus: number) => {
+		await either(
+			async (errorStatus: number) => {
 				res.sendStatus(errorStatus);
 			},
 			async ([content, relatedContent]: [Content, RelatedContent]) => {
@@ -317,9 +317,9 @@ async function serveArticleGet(
 				const themeOverride = themeFromUnknown(req.query.theme);
 
 				if (richLinkDetails) {
-					void serveRichLinkDetails(mockedRenderingRequest, res);
+					await serveRichLinkDetails(mockedRenderingRequest, res);
 				} else {
-					void serveArticleSwitch(
+					await serveArticleSwitch(
 						mockedRenderingRequest,
 						res,
 						isEditions,
