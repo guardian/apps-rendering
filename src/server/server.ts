@@ -296,8 +296,9 @@ async function serveArticleGet(
 		const capiContent = await askCapiFor(articleId);
 
 		await either(
-			async (errorStatus: number) => {
+			(errorStatus: number) => {
 				res.sendStatus(errorStatus);
+				return Promise.resolve();
 			},
 			async ([content, relatedContent]: [Content, RelatedContent]) => {
 				const footballContent = await getFootballContent(content);
