@@ -250,9 +250,9 @@ async function serveArticlePost(
 		const themeOverride = themeFromUnknown(req.query.theme);
 
 		if (richLinkDetails) {
-			void serveRichLinkDetails(renderingRequest, res);
+			await serveRichLinkDetails(renderingRequest, res);
 		} else {
-			void serveArticleSwitch(
+			await serveArticleSwitch(
 				renderingRequest,
 				res,
 				isEditions,
@@ -279,7 +279,7 @@ async function serveEditionsArticlePost(
 		};
 		const themeOverride = themeFromUnknown(req.query.theme);
 
-		void serveEditionsArticle(renderingRequest, res, themeOverride);
+		await serveEditionsArticle(renderingRequest, res, themeOverride);
 	} catch (e) {
 		logger.error('This error occurred', e);
 		next(e);
