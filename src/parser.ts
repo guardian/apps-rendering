@@ -718,7 +718,7 @@ const andThen = <A, B>(f: (a: A) => Parser<B>) => (pa: Parser<A>): Parser<B> =>
  * const resultB = parse(parser)(jsonB); // Ok<number>, 42
  * 
  * const jsonC: unknown = JSON.parse('null');
- * const resultC = parse(parser)(jsonC); // Err<string>, "null is not a valid number"
+ * const resultC = parse(parser)(jsonC); // Err<string>, "null is not a valid number. null is not a valid string"
  * 
  * const jsonD: unknown = JSON.parse('"foo"');
  * const resultD = parse(parser)(jsonD); // Err<string>, "'foo' is not a valid number. NaN is not a valid number"
