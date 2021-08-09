@@ -6,9 +6,6 @@ on:
     push:
         paths-ignore:
             - 'dotcom-rendering/**'
-    pull_request:
-        paths-ignore:
-            - 'dotcom-rendering/**'
     workflow_dispatch:
 
 jobs:
@@ -30,7 +27,7 @@ jobs:
                   SNYK_ORG: ${{ secrets.SNYK_ORG }}
               with:
                   command: test
-                  args: --org=${SNYK_ORG} --project-name=apps-rendering --file=package-lock.json
+                  args: --org=guardian-mobile --project-name=apps-rendering --file=package-lock.json
 
             - name: Run Snyk to check for vulnerabilities
               uses: snyk/actions/node@master
