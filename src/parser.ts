@@ -723,7 +723,7 @@ const andThen = <A, B>(f: (a: A) => Parser<B>) => (pa: Parser<A>): Parser<B> =>
  *
  * const jsonD: unknown = JSON.parse('"foo"');
  * // Err<string>, "'foo' is not a valid number. NaN is not a valid number"
- * const resultD = parse(parser)(jsonD); 
+ * const resultD = parse(parser)(jsonD);
  */
 const oneOf = <A>(parsers: Array<Parser<A>>): Parser<A> =>
 	parser((a) => {
