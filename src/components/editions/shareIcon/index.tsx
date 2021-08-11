@@ -34,7 +34,7 @@ const useShareIcon = (defaultShareIcon: boolean): boolean => {
 
 	const handleShare = (event: CustomEventInit<ShareIconMessage>): void => {
 		if (isShareIconMessageEvent(event)) {
-			setShowIcon(!!event.detail?.value);
+			setShowIcon(!event.detail?.value);
 		}
 	};
 
