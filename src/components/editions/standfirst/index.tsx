@@ -65,7 +65,7 @@ const styles = (kickerColor: string): SerializedStyles => css`
 		font-style: normal;
 	}
 
-	.js-share-icon {
+	.button-styles {
 		background: none;
 		border: none;
 		padding: 0;
