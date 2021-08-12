@@ -92,6 +92,7 @@ const styles = (iconColor: string): SerializedStyles => {
 		position: relative;
 		display: flex;
 		justify-content: space-between;
+
 		svg {
 			flex: 0 0 1.875rem;
 			padding-top: 0.375rem;
@@ -106,13 +107,13 @@ const styles = (iconColor: string): SerializedStyles => {
 				fill: ${iconColor};
 			}
 		}
-		min-height: ${remSpace[12]};
+		/* min-height: ${remSpace[12]}; */
 
 		padding-bottom: ${remSpace[4]};
 		margin: 0;
 
 		${from.tablet} {
-			min-height: ${remSpace[9]};
+			/* min-height: ${remSpace[9]}; */
 			padding-bottom: ${remSpace[9]};
 		}
 	`;
