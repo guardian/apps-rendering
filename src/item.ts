@@ -41,7 +41,7 @@ import { pipe } from 'lib';
 import type { LiveBlock } from 'liveBlock';
 import { parseMany as parseLiveBlocks } from 'liveBlock';
 import { themeFromString } from 'themeStyles';
-import type { Context } from 'types/parserContext';
+import type { Context } from 'parserContext';
 
 // ----- Item Type ----- //
 

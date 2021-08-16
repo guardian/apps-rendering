@@ -9,7 +9,7 @@ import type { Option, Theme } from '@guardian/types';
 import { map, none, some, withDefault } from '@guardian/types';
 import { getThirdPartyEmbeds } from 'capi';
 import type { ThirdPartyEmbeds } from 'capi';
-import { atomCss, atomScript } from 'components/atoms/interactiveAtom';
+import { atomCss, atomScript } from 'components/interactiveAtom';
 import Article from 'components/editions/article';
 import Meta from 'components/meta';
 import Scripts from 'components/scripts';

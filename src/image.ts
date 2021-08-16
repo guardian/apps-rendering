@@ -8,7 +8,7 @@ import type { Format, Option } from '@guardian/types';
 import { andThen, fromNullable, map, none, Role, some } from '@guardian/types';
 import { pipe } from 'lib';
 import type { ReactNode } from 'react';
-import type { Context } from 'types/parserContext';
+import type { Context } from 'parserContext';
 
 // ----- Types ----- //
 

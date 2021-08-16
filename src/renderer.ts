@@ -51,7 +51,7 @@ import Anchor from 'components/anchor';
 import InteractiveAtom, {
 	atomCss,
 	atomScript,
-} from 'components/atoms/interactiveAtom';
+} from 'components/interactiveAtom';
 import Blockquote from 'components/blockquote';
 import Bullet from 'components/bullet';
 import CalloutForm from 'components/calloutForm';

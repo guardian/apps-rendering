@@ -10,7 +10,7 @@ import { Design, Display, map, none, some } from '@guardian/types';
 import type { Format, Option } from '@guardian/types';
 import { getThirdPartyEmbeds, requiresInlineStyles } from 'capi';
 import type { ThirdPartyEmbeds } from 'capi';
-import { atomCss, atomScript } from 'components/atoms/interactiveAtom';
+import { atomCss, atomScript } from 'components/interactiveAtom';
 import Body from 'components/body';
 import Meta from 'components/meta';
 import Scripts from 'components/scripts';
