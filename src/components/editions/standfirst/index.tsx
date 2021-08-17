@@ -10,7 +10,7 @@ import type {
 import { from } from '@guardian/src-foundations/mq';
 import { body, headline } from '@guardian/src-foundations/typography';
 import type { Format } from '@guardian/types';
-import { Design, Display } from '@guardian/types';
+import { Design, Display, OptionKind } from '@guardian/types';
 import type { Item } from 'item';
 import { maybeRender } from 'lib';
 import type { FC } from 'react';
@@ -87,6 +87,17 @@ const textContainerStyles = css`
 	flex-direction: column;
 `;
 
+const shareIconStyles = (containsText: boolean): SerializedStyles => css`
+	display: flex;
+	justify-content: flex-end;
+	min-height: ${remSpace[12]};
+	${!containsText && `width: 100%`};
+
+	${from.tablet} {
+		min-height: ${remSpace[9]};
+	}
+`;
+
 const getStyles = (format: Format): SerializedStyles => {
 	const { kicker: kickerColor } = getThemeStyles(format.theme);
 
@@ -128,18 +139,23 @@ interface Props {
 const isEditions = true;
 
 const Standfirst: FC<Props> = ({ item, shareIcon }) => {
-	return maybeRender(item.standfirst, (standfirst) => (
+	const containsText = item.standfirst.kind === OptionKind.Some;
+	return (
 		<div css={getStyles(item)}>
-			<div css={textContainerStyles}>
-				{renderStandfirstText(standfirst, item, isEditions)}
-			</div>
+			{maybeRender(item.standfirst, (standfirst) => (
+				<div css={textContainerStyles}>
+					{renderStandfirstText(standfirst, item, isEditions)}
+				</div>
+			))}
 			{shareIcon && (
-				<span className="js-share-button" role="button">
-					<ShareIcon />
-				</span>
+				<div css={shareIconStyles(containsText)}>
+					<span className="js-share-button" role="button">
+						<ShareIcon />
+					</span>
+				</div>
 			)}
 		</div>
-	));
+	);
 };
 
 // ----- Exports ----- //
