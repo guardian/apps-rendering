@@ -40,8 +40,8 @@ import { parseCardImage } from 'image';
 import { pipe } from 'lib';
 import type { LiveBlock } from 'liveBlock';
 import { parseMany as parseLiveBlocks } from 'liveBlock';
-import { themeFromString } from 'themeStyles';
 import type { Context } from 'parserContext';
+import { themeFromString } from 'themeStyles';
 
 // ----- Item Type ----- //
 
