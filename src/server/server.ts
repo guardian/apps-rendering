@@ -274,8 +274,10 @@ async function serveEditionsArticlePost(
 		// The "req.body" should contain a 'Content' object which fetched by the
 		// Edition backend from the capi
 		const content = await capiContentDecoder(req.body);
+		const footballContent = await getFootballContent(content);
 		const renderingRequest: RenderingRequest = {
 			content,
+			footballContent,
 		};
 		const themeOverride = themeFromUnknown(req.query.theme);
 
