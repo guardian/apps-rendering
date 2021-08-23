@@ -5,6 +5,7 @@ import { remSpace } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { neutral } from '@guardian/src-foundations/palette';
 import { headline, textSans } from '@guardian/src-foundations/typography';
+import { fromNullable, OptionKind } from '@guardian/types';
 import { TeamLocation } from 'football';
 import type { FC } from 'react';
 
@@ -86,27 +87,30 @@ const scorerStyles = (location: TeamLocation): SerializedStyles => css`
 	}
 `;
 
-const TeamScore: FC<Props> = ({ team, location }) => (
-	<section css={styles(location)}>
-		<div css={scoreStyles(location)}>
-			<div css={scoreNumberStyles}>
-				<span css={scoreInlineStyles}>{team.score}</span>
+const TeamScore: FC<Props> = ({ team, location }) => {
+	const scorers = fromNullable(team.scorers);
+	return (
+		<section css={styles(location)}>
+			<div css={scoreStyles(location)}>
+				<div css={scoreNumberStyles}>
+					<span css={scoreInlineStyles}>{team.score}</span>
+				</div>
 			</div>
-		</div>
-		<div css={infoStyles(location)}>
-			<h3 css={teamNameStyles}>{team.name}</h3>
-			{team.scorers.length > 0 && (
-				<ul css={scorerStyles(location)}>
-					{team.scorers.map((scorer) => (
-						<li key={`${scorer.player}`}>
-							{scorer.player} {scorer.timeInMinutes}&apos;{' '}
-							{scorer.additionalInfo}
-						</li>
-					))}
-				</ul>
-			)}
-		</div>
-	</section>
-);
+			<div css={infoStyles(location)}>
+				<h3 css={teamNameStyles}>{team.name}</h3>
+				{scorers.kind === OptionKind.Some && (
+					<ul css={scorerStyles(location)}>
+						{scorers.value.map((scorer) => (
+							<li key={`${scorer.player}`}>
+								{scorer.player} {scorer.timeInMinutes}&apos;{' '}
+								{scorer.additionalInfo}
+							</li>
+						))}
+					</ul>
+				)}
+			</div>
+		</section>
+	);
+};
 
 export { TeamScore };
