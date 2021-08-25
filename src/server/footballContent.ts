@@ -19,7 +19,7 @@ import { padZero } from 'date';
 import { pipe } from 'lib';
 import fetch from 'node-fetch';
 import type { Response } from 'node-fetch';
-import type { Parser, succeed } from 'parser';
+import type { Parser } from 'parser';
 import {
 	arrayParser,
 	fieldParser,
@@ -32,6 +32,7 @@ import {
 	oneOf,
 	parse,
 	stringParser,
+	succeed,
 } from 'parser';
 
 type Teams = [string, string];
@@ -107,7 +108,10 @@ const makeFootballContent = (
 const scorerParser: Parser<Scorer> = map3(makeScorer)(
 	fieldParser('player', stringParser),
 	fieldParser('timeInMinutes', numberParser),
-	fieldParser('additionalInfo', stringOrUndefinedParser),
+	oneOf([
+		fieldParser('additionalInfo', stringOrUndefinedParser),
+		succeed(''),
+	]),
 );
 
 const footballTeamParser: Parser<FootballTeam> = map6(makeFootballTeam)(
@@ -128,7 +132,7 @@ const footballContentParser: Parser<FootballContent> = map7(
 	fieldParser('competitionDisplayName', stringParser),
 	fieldParser('homeTeam', footballTeamParser),
 	fieldParser('awayTeam', footballTeamParser),
-	fieldParser('venue', stringOrUndefinedParser),
+	oneOf([fieldParser('venue', stringOrUndefinedParser), succeed('')]),
 );
 
 const footballContentParserFor = (

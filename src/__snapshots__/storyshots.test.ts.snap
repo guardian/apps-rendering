@@ -11449,12 +11449,12 @@ exports[`Storyshots Editions/Article Match Report 1`] = `
   width: 1.5em;
   height: 1.5em;
   position: relative;
+  text-align: center;
 }
 
 .emotion-16 {
-  position: absolute;
+  position: relative;
   top: 7%;
-  left: 29%;
 }
 
 .emotion-18 {
@@ -15910,12 +15910,12 @@ exports[`Storyshots Editions/FootballScores Default 1`] = `
   width: 1.5em;
   height: 1.5em;
   position: relative;
+  text-align: center;
 }
 
 .emotion-9 {
-  position: absolute;
+  position: relative;
   top: 7%;
-  left: 29%;
 }
 
 .emotion-11 {

@@ -62,12 +62,12 @@ const scoreNumberStyles = css`
 	width: 1.5em;
 	height: 1.5em;
 	position: relative;
+	text-align: center;
 `;
 
 const scoreInlineStyles = css`
-	position: absolute;
+	position: relative;
 	top: 7%;
-	left: 29%;
 `;
 
 const infoStyles = (location: TeamLocation): SerializedStyles => css`
