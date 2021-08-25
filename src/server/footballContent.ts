@@ -132,7 +132,7 @@ const footballContentParser: Parser<FootballContent> = map7(
 	fieldParser('competitionDisplayName', stringParser),
 	fieldParser('homeTeam', footballTeamParser),
 	fieldParser('awayTeam', footballTeamParser),
-	oneOf([fieldParser('venue', stringOrUndefinedParser), succeed('')]),
+	oneOf([fieldParser('venue', stringParser), succeed(undefined)]),
 );
 
 const footballContentParserFor = (
