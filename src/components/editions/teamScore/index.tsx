@@ -1,12 +1,14 @@
 import type { SerializedStyles } from '@emotion/core';
 import { css } from '@emotion/core';
 import type { FootballTeam } from '@guardian/apps-rendering-api-models/footballTeam';
+import type { Scorer } from '@guardian/apps-rendering-api-models/scorer';
 import { remSpace } from '@guardian/src-foundations';
 import { from } from '@guardian/src-foundations/mq';
 import { neutral } from '@guardian/src-foundations/palette';
 import { headline, textSans } from '@guardian/src-foundations/typography';
-import { fromNullable, OptionKind } from '@guardian/types';
+import { fromNullable } from '@guardian/types';
 import { TeamLocation } from 'football';
+import { maybeRender } from 'lib';
 import type { FC } from 'react';
 
 interface Props {
@@ -98,16 +100,16 @@ const TeamScore: FC<Props> = ({ team, location }) => {
 			</div>
 			<div css={infoStyles(location)}>
 				<h3 css={teamNameStyles}>{team.name}</h3>
-				{scorers.kind === OptionKind.Some && (
+				{maybeRender(scorers, (s: Scorer[]) => (
 					<ul css={scorerStyles(location)}>
-						{scorers.value.map((scorer) => (
+						{s.map((scorer: Scorer) => (
 							<li key={`${scorer.player}`}>
 								{scorer.player} {scorer.timeInMinutes}&apos;{' '}
 								{scorer.additionalInfo}
 							</li>
 						))}
 					</ul>
-				)}
+				))}
 			</div>
 		</section>
 	);
