@@ -1,5 +1,7 @@
 ## apps-rendering
 
+**This repository has been archived** and is not active any more since the content has been moved to the mono repo https://github.com/guardian/dotcom-rendering 
+
 ### Install
 
 1. Clone the repo
